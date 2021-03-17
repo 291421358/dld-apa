@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.QCMapper">
+
+    <resultMap type="com.laola.apa.entity.QC" id="QCMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectParamNum" column="project_param_num" jdbcType="VARCHAR"/>
+        <result property="staQuality" column="sta_quality" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QCMap">
+        select
+          id, project_param_num, sta_quality
+        from laola.q_c
+        where project_param_num = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QCMap">
+        select
+          id, project_param_num, sta_quality
+        from laola.q_c
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QCMap">
+        select
+          id, project_param_num, sta_quality
+        from laola.q_c
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectParamNum != null and projectParamNum != ''">
+                and project_param_num = #{projectParamNum}
+            </if>
+            <if test="staQuality != null and staQuality != ''">
+                and sta_quality = #{staQuality}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.q_c(project_param_num, sta_quality)
+        values (#{projectParamNum}, #{staQuality})
+    </insert>
+
+    <!--通过项目号修改数据-->
+    <update id="update">
+        update laola.q_c
+        <set>
+            <if test="staQuality != null and staQuality != ''">
+                sta_quality = #{staQuality},
+            </if>
+        </set>
+        where project_param_num = #{projectParamNum}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.q_c where id = #{id}
+    </delete>
+
+</mapper>

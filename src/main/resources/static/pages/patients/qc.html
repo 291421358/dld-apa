@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <title>定标项目</title>
+    <link rel="stylesheet" href="./../../css/jquery-ui.min.css">
+</head>
+<script src="./../../js/jquery2.1.4/jquery.min.js"></script>
+<script src="./../../js/jquery-ui.min.js"></script>
+<script src="../../js/properties.js"></script>
+<link rel="stylesheet" href="../../css/scaling/qc.css">
+<script src="../../js/patients/qc.js"></script>
+<script src="../../js/webSocket.js"></script>
+<style>
+
+
+    .ui-menu .ui-menu-item a {
+        text-decoration: none;
+        display: block;
+        padding: 0;
+        line-height: 1;
+        zoom: 2;
+        font-size: 12px;
+        font-family: 宋体;
+        text-align: left;
+    }
+
+    #top {
+        width: 856px;
+        height: 32px;
+        opacity: 1;
+        background: #6d97f7;
+    }
+
+    #close {
+        width: 19px;
+        height: 18px;
+        opacity: 1;
+        float: right;
+        background-image: url("../../css/images/scaling/cuo.png");
+        background-size: 19px 18px;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+
+    #juxing {
+        width: 4px;
+        height: 17px;
+        opacity: 1;
+        background: #6d97f7;
+        border-radius: 2px;
+        float: left;
+        margin: 13px 0 0 13px;
+    }
+
+    #qc_t {
+        width: 110px;
+        height: 13px;
+        opacity: 1;
+        font-size: 13px;
+        font-family: Source Han Sans CN Bold, Source Han Sans CN Bold-Bold, serif;
+        font-weight: 700;
+        text-align: left;
+        color: #333333;
+        line-height: 15px;
+        float: left;
+        margin: 16px 628px 0 13px;
+    }
+
+    #p_li {
+        width: 217px;
+        height: 17px;
+        opacity: 1;
+        background: #dfe6f7;
+        border: 1px solid #adc3f7;
+        padding-top: 5px;
+        font-size: 12px;
+        color: #333333;
+        text-align: center;
+        margin-bottom: -1px;
+    }
+
+    .tb_1tr {
+
+        opacity: 1;
+        background: #dfe6f7;
+        border: 1px solid #adc3f7;
+        font-size: 12px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
+        font-weight: 400;
+        text-align: center;
+        color: #333333;
+        line-height: 15px;
+    }
+
+    #qc_t1 {
+        margin-top: 50px;
+        margin-left: 13px;
+        width: 826px;
+        height: 580px
+    }
+
+    #keyword {
+        width: 150px;
+        height: 19px;
+        opacity: 1;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+        background: none;
+        float: left;
+        margin-top: 13px;
+    }
+
+    #select_time {
+        height: 23px;
+        width: 422px;
+        float: left;
+        margin-top: 13px;
+        margin-right: 130px;
+    }
+
+    #select_time input {
+        width: 140px;
+        height: 19px;
+        opacity: 1;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+    }
+
+    #select_b {
+        width: 67px;
+        height: 21px;
+        opacity: 1;
+        background: #6bb3b3;
+        float: left;
+        margin-top: 15px;
+        color: white;
+        margin-bottom: 26px;
+        cursor: pointer;
+    }
+
+    #qc_save {
+        width: 67px;
+        height: 21px;
+        opacity: 1;
+        background: #6bb3b3;
+        float: right;
+        margin-top: 15px;
+        color: white;
+
+    }
+
+    #test {
+        float: left;
+        width: 67px;
+        height: 17px;
+        opacity: 1;
+        background: #6d97f7;
+        font-size: 9px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        line-height: 15px;
+        margin-top: 26px;
+        padding-top: 3px;
+        cursor: pointer;
+    }
+</style>
+
+<body onload="irload();getOneProjectsScalingTime(1);">
+<form>
+    <div style="height: 627px;width: 856px  ;background: white;color: #333333;">
+        <div id="top">
+            <div id="close" onclick="iclose()"></div>
+        </div>
+        <div id="juxing"></div>
+        <div id="qc_t">质控显示区</div>
+        <div id="test">开始测试</div>
+        <div id="qc_t1">
+            <div style="float: left">
+                <div id="p_li">项目列表</div>
+                <div class="SC_projectList" id="SC_projectList">
+                    <div>
+                        <input type="checkbox" value="" name="nothing" title="nothing">
+                    </div>
+                </div>
+            </div>
+            <div id="qc_deal">
+                <table>
+                    <tr>
+                        <td class="tb_1tr">预设浓度</td>
+                        <td class="tb_1tr">架号</td>
+                        <td class="tb_1tr">位号</td>
+                        <td class="tb_1tr">检测结果</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <label style="float: left;margin-top: 13px" for="keyword">查询条件</label><input id="keyword">
+            </div>
+            <div id="select_time">
+                开始时间<input id="QCBeginDate" title="date" type="date">
+                结束时间<input id="QCEndDate" title="date" type="date">
+            </div>
+            <div id="select_b"> 查询</div>
+            <div style=" width: 30px;font-size: 11px;float: left">
+                +3SD<br>
+                <span>+2SD</span>
+                <span>+1SD</span>
+                <span> AVG</span>
+                <span>-1SD</span>
+                <span>-2SD</span>
+                <span>-3SD</span>
+            </div>
+            <div style=";float: left;width: 750px;overflow:scroll">
+                <canvas id="qcCanvas" height="112" width="10280px"></canvas>
+                <div id="dates" style="font-size: 11px;padding-left: 19px;height:13px">
+                    <div style="width: 12px">&nbsp</div>
+                </div>
+            </div>
+
+            <div id="avg" style="float: left;width: 30px;font-size: 11px " title="单击修改项目质控标准值">
+                <span>30%</span>
+                <span>20%</span>
+                <span>10%</span>
+                <span> 0</span>
+                <span>-10%</span>
+                <span>-20%</span>
+                <span>-30%</span>
+            </div>
+            <div id="qc_save">保存</div>
+        </div>
+
+    </div>
+</form>
+<div id="updateQC">
+    <div>修改质控值<a title="关闭窗口" class="close_btn" id="closeQCBox">×</a></div>
+    <div id="updateValue"></div>
+    <div id="doUpdateQC">确认修改</div>
+</div>
+<div id="updateQCSta">
+    <div>修改质控标准值<a title="关闭窗口" class="close_btn" id="closeQCStaBox">×</a></div>
+    <div id="updateStaValue"></div>
+    <div id="doUpdateQCSta">确认修改</div>
+</div>
+
+<!--<script src="../../layui/layui.js"></script>-->
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>

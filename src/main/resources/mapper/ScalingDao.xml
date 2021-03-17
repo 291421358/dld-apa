@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.ScalingMapper">
+
+    <resultMap type="com.laola.apa.entity.Scaling" id="ScalingMap">
+        <result property="dateid" column="dateId" jdbcType="VARCHAR"/>
+        <result property="algorithm" column="algorithm" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScalingMap">
+        select
+          dateId, algorithm
+        from laola.scaling
+        where dateId = #{dateid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScalingMap">
+        select
+          dateId, algorithm
+        from laola.scaling
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ScalingMap">
+        select
+          dateId, algorithm
+        from laola.scaling
+        <where>
+            <if test="dateid != null and dateid != ''">
+                and dateId = #{dateid}
+            </if>
+            <if test="algorithm != null and algorithm != ''">
+                and algorithm = #{algorithm}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="dateid">
+        insert into laola.scaling(dateId,algorithm)
+        values (#{dateid},#{algorithm})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.scaling
+        <set>
+            <if test="algorithm != null and algorithm != ''">
+                algorithm = #{algorithm},
+            </if>
+        </set>
+        where dateId = #{dateid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.scaling where dateId = #{dateid}
+    </delete>
+
+</mapper>

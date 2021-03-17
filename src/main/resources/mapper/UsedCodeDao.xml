@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.UsedCodeMapper">
+
+    <resultMap type="com.laola.apa.entity.UsedCode" id="UsedCodeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="total" column="total" jdbcType="VARCHAR"/>
+        <result property="count1" column="count_1" jdbcType="VARCHAR"/>
+        <result property="total2" column="total_2" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UsedCodeMap">
+        select
+          id, code, count, total, count_1, total_2
+        from laola.used_code
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UsedCodeMap">
+        select
+          id, code, count, total, count_1, total_2
+        from laola.used_code
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UsedCodeMap">
+        select
+        id, code, count, total, count_1, total_2
+        from laola.used_code
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="count != null">
+                and count = #{count}
+            </if>
+            <if test="total != null and total != ''">
+                and total = #{total}
+            </if>
+            <if test="count1 != null and count1 != ''">
+                and count_1 = #{count1}
+            </if>
+            <if test="total2 != null and total2 != ''">
+                and total_2 = #{total2}
+            </if>
+        </where>
+    </select>
+    <select id="queryByCode" resultType="com.laola.apa.entity.UsedCode">
+          select * from laola.code where code = #{code}
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.used_code(code, count, total, count_1, total_2)
+        values (#{code}, #{count}, #{total}, #{count1}, #{total2})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.used_code
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="total != null and total != ''">
+                total = #{total},
+            </if>
+            <if test="count1 != null and count1 != ''">
+                count_1 = #{count1},
+            </if>
+            <if test="total2 != null and total2 != ''">
+                total_2 = #{total2},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.used_code where id = #{id}
+    </delete>
+
+
+    <update id="minusOneCopyReagentR1">
+       UPDATE used_code SET count=(count-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND count>0 ) as p LIMIT 1);
+    </update>
+
+    <update id="minusOneCopyReagentR2">
+       UPDATE used_code SET count_2=(count_2-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND count>0 ) as aa LIMIT 1);
+    </update>
+
+    <select id="getCopies" resultType="java.lang.Integer">
+          SELECT SUM(count) FROM used_code WHERE  code = (SELECT code FROM project WHERE id = #{projectId}) AND count>0;
+    </select>
+</mapper>

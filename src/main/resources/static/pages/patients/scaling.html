@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <title>定标项目</title>
+
+</head>
+<script src="../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../../js/properties.js"></script>
+<link rel="stylesheet" href="../../css/scaling/scaling.css">
+<script src="../../js/patients/scaling.js"></script>
+<script src="../../js/webSocket.js"></script>
+
+<style>
+    #top {
+        width: 856px;
+        height: 32px;
+        opacity: 1;
+        background: #6d97f7;
+    }
+
+    #close {
+        width: 19px;
+        height: 18px;
+        opacity: 1;
+        float: right;
+        background-image: url("../../css/images/scaling/cuo.png");
+        background-size: 19px 18px;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+
+    #juxing {
+        width: 4px;
+        height: 17px;
+        opacity: 1;
+        background: #6d97f7;
+        border-radius: 2px;
+        float: left;
+        margin: 13px 0 0 13px;
+    }
+
+    #qc_t {
+        width: 110px;
+        height: 13px;
+        opacity: 1;
+        font-size: 13px;
+        font-family: Source Han Sans CN Bold, Source Han Sans CN Bold-Bold, serif;
+        font-weight: 700;
+        text-align: left;
+        color: #333333;
+        line-height: 15px;
+        float: left;
+        margin: 16px 500px 0 13px;
+    }
+
+    #dj {
+        width: 13px;
+        height: 13px;
+        opacity: 1;
+        background-image: url("../../css/images/scaling/dj.png");
+        background-size: 13px 13px;
+        float: left;
+        margin-top: 33px;
+    }
+
+    #wdj {
+        width: 13px;
+        height: 13px;
+        opacity: 1;
+        background-image: url("../../css/images/scaling/wdj.png");
+        background-size: 13px 13px;
+        float: left;
+        margin-top: 33px;
+
+    }
+
+    #xiala {
+        width: 7px;
+        height: 4px;
+        opacity: 1;
+        background-image: url("../../css/images/scaling/xiala 2.png");
+        background-size: 7px 4px;
+        float: left;
+        margin-top: 38px;
+    }
+
+    #dj_t, #wdj_t, #xiala_t {
+        width: 47px;
+        height: 11px;
+        opacity: 1;
+        font-size: 11px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
+        font-weight: 400;
+        text-align: left;
+        color: #96a0be;
+        line-height: 15px;
+        float: left;
+        margin-top: 35px;
+        margin-left: 10px;
+
+    }
+
+    #scaling_n {
+        height: 209px;
+        width: 718px;
+        float: left;
+    }
+
+    #scalingAlgorithm {
+        width: 111px;
+        height: 23px;
+        opacity: 1;
+        background: #c6d5f7;
+        border: 1px solid #adc3f7;
+        float: left;
+        margin-left: -1px;
+        color: #333333;
+        font-size: 12px;
+        text-align: right;
+        padding-left: 15px;
+    }
+
+    #scaling_deal {
+        float: left;
+        width: 426px;
+    }
+
+    #scal_list {
+        float: left;
+        width: 292px
+    }
+
+    #chance_1 {
+        height: 18px;
+        background: #dfe6f7;
+        width: 111px;
+        border: 1px solid #adc3f7;
+        font-size: 12px;
+        color: #333333;
+        float: left;
+        padding-top: 3px;
+    }
+
+    #chance {
+        float: left;
+        height: 23px;
+        width: 250px;
+        margin-left: -1px;
+
+    }
+
+    #chance_sc {
+        background: #dfe6f7;
+    }
+
+    .line_1 {
+        background: #dfe6f7;
+    }
+
+    #scal_curve {
+        width: 817px;
+        height: 23px;
+        opacity: 1;
+        background: #f7f7f7;
+        border: 1px solid #c6d5f7;
+        margin-left: 13px;
+        margin-top: -2px;
+    }
+
+    .sc_save, #clear, .del {
+        width: 67px;
+        height: 21px;
+        opacity: 1;
+        background: #6bb3b3;
+        float: left;
+        font-size: 9px;
+        color: white;
+        padding-top: 2px;
+        margin-left: 20px;
+    }
+
+    .send, .update {
+        width: 67px;
+        height: 21px;
+        opacity: 1;
+        background: #6d97f7;
+        float: left;
+        font-size: 9px;
+        color: white;
+        padding-top: 2px;
+        margin-left: 20px;
+    }
+
+    #can_o {
+        background-color: #fbfffb;
+        width: 731px;
+        height: 231px;
+        float: left;
+        text-align: left;
+        padding-left: 86px;
+        padding-top: 11px;
+        margin-left: 13px;
+        margin-top: -1px;
+        opacity: 1;
+        border: 1px solid #c6d5f7;
+    }
+</style>
+<body onload="sc_irload();getOneProjectsScalingTime(1);setBEDate()">
+<form>
+    <div style="height: 627px;width: 856px  ;background: white">
+        <div>
+            <div id="top">
+                <div id="close" onclick="iclose()"></div>
+            </div>
+            <div id="juxing"></div>
+
+            <div id="qc_t">定标显示&操作区</div>
+            <div id="dj"></div>
+            <div id="dj_t">待选定</div>
+            <div id="wdj"></div>
+            <div id="wdj_t">选定</div>
+            <div id="xiala"></div>
+            <div id="xiala_t">下拉框</div>
+            <div style="height: 232px;width: 818px;margin-top: 50px;margin-left: 13px;border: 1px solid #c6d5f7;">
+                <div class="SC_projectList" id="SC_projectList">
+                    <div>
+                        <input type="checkbox" value="" name="11" title="111">
+                    </div>
+                </div>
+                <div style="float: left;width: 706px">
+                    <!--<div style="float: left;height: 20px"><label hidden>定标点数</label><input hidden title="scalingPoint">-->
+                    <!--</div>-->
+                    <!--<div style="float: left;height: 20px;width: 373px"><label>重复次数</label><input value="1次" disabled title="scalingPoint"></div>-->
+                    <div id="chance">
+                        <div id="chance_1">算法选择</div>
+                        <select id="scalingAlgorithm" title="scalingAlgorithm">
+                            <option value="三次样条函数">三次样条函数</option>
+                            <option value="一次曲线">一次曲线</option>
+                            <option value="二次曲线拟合">二次曲线拟合</option>
+                            <option value="RodBard">Logistic-4p</option>
+                            <option value="三次曲线拟合">三次曲线拟合</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="scaling_n" style="">
+                    <div id="scal_list">
+                        <li id="chance_sc">定标选择</li>
+                        <ul id="scaling_time" style="overflow: scroll;height: 235px;width: 100%">
+                            <li><input title="1" type="radio">-----------</li>
+                        </ul>
+                    </div>
+                    <div id="scaling_deal" style="">
+                        <table>
+                            <tr>
+                                <td class="line_1">序号</td>
+                                <td class="line_1">吸光度(y)</td>
+                                <td class="line_1">因子</td>
+                                <td class="line_1">浓度(x)</td>
+                                <td class="line_1">架号</td>
+                                <td class="line_1">位号</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="rack"></td>
+                                <td class="place"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div style="width:100%;height: 100%;float: left;">
+                <div id="scal_curve">定标曲线</div>
+                <div id="can_o">
+                    <canvas style="" id="canvas" height="234" width="234"></canvas>
+                </div>
+                <div style="float: right;margin-right: 23px;margin-top: 13px">
+                    <div id="clear" class="clear"> 清空</div>
+                    <div id="update" class="update"> 更新</div>
+                    <div id="sc_save" class="sc_save"> 保存</div>
+                    <div id="send" class="send"> 检测</div>
+                    <div id="del" class="del"> 删除</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

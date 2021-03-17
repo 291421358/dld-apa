@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样本结果</title>
+    <link rel="stylesheet" href="./../../css/query/sampleResult.css">
+</head>
+
+<script src="./../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="./../../js/properties.js"></script>
+<script src="./../../js/search/sampleResult.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="print">打印</a>
+</script>
+
+<style>
+
+</style>
+<body onload="getAllDoc();">
+<div class="layui-form">
+    <div class="item-top">
+        检测报告显示&操作区
+    </div>
+    <div class="layui-row layui-col-md12" id="details">
+        <div style="width: 28.3333333333%;height: 357px;float: left">
+            <div class="item-title">
+                <div>样本信息</div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">样本号</label>
+                <div class="noBorder-inline">
+                    <input type="text" id="id" name="id" placeholder="请输入样本号" class="layui-input">
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">条码号</label>
+                <div class="noBorder-inline">
+                    <input type="text" id="code" name="code" value="" lay-verify="required"
+                           autocomplete="off" placeholder="请输入条码号" class="layui-input">
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">姓名</label>
+                <div class=" noBorder-inline">
+                    <input type="text" id="name" name="sampleSize" value="" lay-verify="required|number"
+                           autocomplete="off" placeholder="请输入姓名" class="layui-input">
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">性别</label>
+                <div class="noBorder-inline">
+                    <select id="sex" name="inpatientArea">
+                        <option value=""></option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">病区</label>
+                <div class="layui-select-title noBorder-inline">
+                    <div class=" noBorder-inline">
+                        <input type="text" id="inpatientArea" name="sampleSize" value="" lay-verify="required|number"
+                               autocomplete="off" placeholder="请输入病区" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">床号</label>
+                <div class="noBorder-inline">
+                    <input type="text" id="bedNum" name="bedNum" value="" lay-verify="required|number"
+                           autocomplete="off" placeholder="请输入床号" class="layui-input">
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">样本类型</label>
+                <div class="noBorder-inline">
+                    <select id="sampleType" name="inpatientArea">
+                        <option value=""></option>
+                        <option class="doc-option" value="血清">血清</option>
+                        <option value="全血">全血</option>
+                        <option value="尿样">尿样</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">样本编号</label>
+                <div class="layui-select-title noBorder-inline">
+                    <input type="text" id="sampleNum" name="sampleNum" value="" lay-verify="required|number"
+                           autocomplete="off" placeholder="请输入样本编号" class="layui-input">
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">送检科室</label>
+                <div class="layui-select-title noBorder-inline">
+                    <div class="layui-select-title noBorder-inline">
+                        <input type="text" id="inspectionDept" name="inspectionDept" value=""
+                               lay-verify="required|number"
+                               autocomplete="off" placeholder="请输入送检科室" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">送检医生</label>
+                <div id="div-inspectionDoc" name="div-inspectionDoc" class="layui-select-title noBorder-inline">
+                    <select id="inspectionDoc" name="inspectionDoc" title="送检医生">
+                    </select>
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label for="inspectionDate" class="layui-form-label">送检日期</label>
+                <div class="layui-select-title noBorder-inline">
+                    <input id="inspectionDate" title="inspectionDate" type="date"
+                           style="width: 122px;height: 20px;padding-top: 0">
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label for="testDoctor" class="layui-form-label">检验医生</label>
+                <div id="div-testDoctor" name="div-examineDoctor" class="layui-select-title noBorder-inline">
+                    <select id="testDoctor" name="examineDoctor">
+                    </select>
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label for="testDate" class="layui-form-label">检验日期</label>
+                <div class="layui-select-title noBorder-inline">
+                    <input id="testDate" title="testDate" type="date" style="width: 122px; height: 20px;padding-top: 0">
+
+                </div>
+            </div>
+            <div class="bottom-white-item">
+                <label class="layui-form-label">审核医生</label>
+                <div id="div-examineDoctor" name="div-examineDoctor" class="layui-select-title noBorder-inline">
+                    <select id="examineDoctor" name="examineDoctor" ondblclick="select_examineDoctor()">
+                    </select>
+                </div>
+            </div>
+            <div class="bottom-white-item b8cce4">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-select-title noBorder-inline">
+                    <input type="text" id="remark" name="remark" value="" lay-verify="required|number"
+                           autocomplete="off" placeholder="请输入备注" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div id="projects" style="width: 71.6666666666%;height: 344px;float: left">
+            <div id="item-title" class="item-title">
+                <label class="menu-label">序号</label>
+                <div class="menu-label">项目名称</div>
+                <div class="menu-label">项目代码</div>
+                <div class="menu-label">结果</div>
+                <div class="menu-label">单位</div>
+                <div class="menu-label">标志</div>
+                <div>参考值</div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class="layui-input-inline"></div>
+                <div class=""></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md11">
+        <div class="bottom-item">
+            <div title="查询条件：样本号+条码号。" id="query"
+                 style="background: url('../../css/images/query/query.png') no-repeat;background-size: 80px"
+                 class="bottom-btn"></div>
+            <div id="printf" style="background: url('../../css/images/query/printf.png')no-repeat;background-size: 80px"
+                 class="bottom-btn"></div>
+            <div style="background: url('../../css/images/query/button.png')no-repeat;background-size: 80px"
+                 class="bottom-btn" id="deleteDoc"> 删除医生
+            </div>
+            <div style="background: url('../../css/images/query/button.png')no-repeat;background-size: 80px"
+                 class="bottom-btn" id="updatePatient"> 更新
+            </div>
+            <!--<div id="export" style="background: url('./../../images/query/export.png')no-repeat;background-size: 80px"-->
+            <!--class="bottom-btn"></div>-->
+
+        </div>
+    </div>
+</div>
+<div id="canvasDiv" style="width: 260px;height: 250px">
+    <canvas id="canvas" width="260" height="250">
+
+    </canvas>
+
+</div>
+<!--<input type="range" id="scale-range" value="1.0" min="0.5" max="3.0" step="0.01" style="display: block;margin: 20px auto; width: 800px;" />-->
+<div id="deleteDocBox">
+    <div class="doc" id="inspection"><label>送检医生</label><br></div>
+    <div class="doc" id="examine"><label>检查医生</label><br></div>
+    <div class="doc" id="test"><label>测试医生</label><br></div>
+    <div>
+        <a id="updateBox">确认删除</a>
+        <a style="padding-left: 50px" id="close_btn">取消</a>
+    </div>
+</div>
+</body>
+</html>

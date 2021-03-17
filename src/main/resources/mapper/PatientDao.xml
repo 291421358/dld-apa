@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.PatientMapper">
+
+    <resultMap type="com.laola.apa.entity.Patient" id="PatientMap">
+        <result property="pid" column="p_id" jdbcType="INTEGER"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="inpatientArea" column="Inpatient_area" jdbcType="VARCHAR"/>
+        <result property="bedNum" column="bed_num" jdbcType="INTEGER"/>
+        <result property="sampleNum" column="sample_num" jdbcType="INTEGER"/>
+        <result property="inspectionDept" column="Inspection_dept" jdbcType="VARCHAR"/>
+        <result property="inspectionDoc" column="inspection_doc" jdbcType="VARCHAR"/>
+        <result property="inspectionDate" column="inspection_date" jdbcType="VARCHAR"/>
+        <result property="testDoc" column="test_doc" jdbcType="VARCHAR"/>
+        <result property="testDate" column="test_date" jdbcType="VARCHAR"/>
+        <result property="examineDoc" column="examine_doc" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="sampleType" column="sample_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PatientMap">
+        select
+          id, code, name,sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc, test_date, examine_doc, remark,sample_type
+        from laola.patient
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PatientMap">
+        select
+          id, code, name,sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc, test_date, examine_doc, remark,sample_type
+        from laola.patient
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PatientMap">
+        select
+        id, code, name,sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc,
+        test_date, examine_doc, remark,sample_type
+        from laola.patient
+        <where>
+            1=1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="testDate != null and testDate != ''">
+                and  DATE_FORMAT(test_date,"%Y-%m-%d") = #{testDate}
+            </if>
+        </where>
+              order by p_id desc;
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.patient(
+        <if test="id != null and id != ''">
+            id,
+        </if>
+        code, name, sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc,
+        test_date, examine_doc, remark ,sample_type)
+        values (<if test="id != null and id != ''">
+        #{id},
+    </if>#{code}, #{name}, #{sex}, #{inpatientArea}, #{bedNum}, #{sampleNum}, #{inspectionDept}, #{inspectionDoc},
+        #{inspectionDate}, #{testDoc}, #{testDate}, #{examineDoc}, #{remark} ,#{sampleType})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.patient
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="inpatientArea != null and inpatientArea != ''">
+                Inpatient_area = #{inpatientArea},
+            </if>
+            <if test="bedNum != null">
+                bed_num = #{bedNum},
+            </if>
+            <if test="sampleNum != null">
+                sample_num = #{sampleNum},
+            </if>
+            <if test="inspectionDept != null and inspectionDept != ''">
+                Inspection_dept = #{inspectionDept},
+            </if>
+            <if test="inspectionDoc != null and inspectionDoc != ''">
+                inspection_doc = #{inspectionDoc},
+            </if>
+            <if test="inspectionDate != null">
+                inspection_date = #{inspectionDate},
+            </if>
+            <if test="testDoc != null and testDoc != ''">
+                test_doc = #{testDoc},
+            </if>
+            <if test="testDate != null">
+                test_date = #{testDate},
+            </if>
+            <if test="examineDoc != null and examineDoc != ''">
+                examine_doc = #{examineDoc},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="sampleType != null and sampleType != ''">
+                sample_type = #{sampleType},
+            </if>
+        </set>
+        <where>
+                id = #{id}
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="testDate != null">
+                and DATE_FORMAT(test_date,"%Y-%m-%d") = #{testDate}
+            </if>
+        </where>
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.patient where id = #{id} and  DATE_FORMAT(test_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d");
+    </delete>
+    <delete id="deleteProjects">
+
+    delete from laola.patient where DATE_FORMAT(test_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d")  and id  in (select human_code FROM laola.project WHERE endtime is null AND type=1);
+    </delete>
+</mapper>

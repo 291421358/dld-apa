@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.EquipmentStateMapper">
+
+    <resultMap type="com.laola.apa.entity.EquipmentState" id="EquipmentStateMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="temp" column="temp" jdbcType="VARCHAR"/>
+        <result property="rackNo" column="rack_no" jdbcType="INTEGER"/>
+        <result property="placeNo" column="place_no" jdbcType="INTEGER"/>
+        <result property="pureWater" column="pure_water" jdbcType="INTEGER"/>
+        <result property="wasteWater" column="waste_water" jdbcType="INTEGER"/>
+        <result property="firingPin" column="firing_pin" jdbcType="INTEGER"/>
+        <result property="reactTemp" column="react_temp" jdbcType="VARCHAR"/>
+        <result property="regentTemp" column="regent_temp" jdbcType="VARCHAR"/>
+        <result property="numSent" column="num_sent" jdbcType="INTEGER"/>
+        <result property="numUnderTest" column="num_under_test" jdbcType="INTEGER"/>
+        <result property="numAll" column="num_all" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EquipmentStateMap">
+        select
+          id, temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all
+        from laola.equipment_state
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EquipmentStateMap">
+        select
+          id, temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all
+        from laola.equipment_state
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EquipmentStateMap">
+        select
+          id, temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all
+        from laola.equipment_state
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="temp != null and temp != ''">
+                and temp = #{temp}
+            </if>
+            <if test="rackNo != null">
+                and rack_no = #{rackNo}
+            </if>
+            <if test="placeNo != null">
+                and place_no = #{placeNo}
+            </if>
+            <if test="pureWater != null">
+                and pure_water = #{pureWater}
+            </if>
+            <if test="wasteWater != null">
+                and waste_water = #{wasteWater}
+            </if>
+            <if test="firingPin != null">
+                and firing_pin = #{firingPin}
+            </if>
+            <if test="reactTemp != null and reactTemp != ''">
+                and react_temp = #{reactTemp}
+            </if>
+            <if test="regentTemp != null and regentTemp != ''">
+                and regent_temp = #{regentTemp}
+            </if>
+            <if test="numSent != null">
+                and num_sent = #{numSent}
+            </if>
+            <if test="numUnderTest != null">
+                and num_under_test = #{numUnderTest}
+            </if>
+            <if test="numAll != null">
+                and num_all = #{numAll}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.equipment_state(temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all)
+        values (#{temp}, #{rackNo}, #{placeNo}, #{pureWater}, #{wasteWater}, #{firingPin}, #{reactTemp}, #{regentTemp}, #{numSent}, #{numUnderTest}, #{numAll})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.equipment_state
+        <set>
+            <if test="temp != null and temp != ''">
+                temp = #{temp},
+            </if>
+            <if test="rackNo != null">
+                rack_no = #{rackNo},
+            </if>
+            <if test="placeNo != null">
+                place_no = #{placeNo},
+            </if>
+            <if test="pureWater != null">
+                pure_water = #{pureWater},
+            </if>
+            <if test="wasteWater != null">
+                waste_water = #{wasteWater},
+            </if>
+            <if test="firingPin != null">
+                firing_pin = #{firingPin},
+            </if>
+            <if test="reactTemp != null and reactTemp != ''">
+                react_temp = #{reactTemp},
+            </if>
+            <if test="regentTemp != null and regentTemp != ''">
+                regent_temp = #{regentTemp},
+            </if>
+            <if test="numSent != null">
+                num_sent = #{numSent},
+            </if>
+            <if test="numUnderTest != null">
+                num_under_test = #{numUnderTest},
+            </if>
+            <if test="numAll != null">
+                num_all = #{numAll},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.equipment_state where id = #{id}
+    </delete>
+
+</mapper>

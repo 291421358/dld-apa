@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仪器维护</title>
+    <link rel="stylesheet" href="../../css/equipment/adjust&AD&parts.css">
+</head>
+<body onload="drawFont()">
+<form class="layui-form" style="text-align: center;overflow-x: scroll;height: 633px">
+    <div id="adjust" class="external-form-item">
+        <div class="bottom-white-item layui-row">仪器机械各部件位置调整区</div>
+        <div class=" ">
+            <div class="layui-col-md2">
+                调整点
+            </div>
+            <div class="layui-col-md9">
+                机械臂
+            </div>
+        </div>
+        <div class=" ">
+            <div class="layui-col-md2" style="margin-left: 3%">
+                <input type="button" class="layui-btn" value="进入" name="IN" style="width: 70px;float: left" title="1:8号反应杯<br>2:清洗位<br>4：试剂位<br>5:搅拌-清洗8号</br>10:抽样位置">
+                <input class="layui-input" type="number" max="99" min="00" title="IN" maxlength="2" placeholder="00"
+                       style="width: 50px" id="num" value="00">
+            </div>
+            <div class="layui-col-md9">
+                <input type="button" class="layui-btn" value="Y方向-100" name="Y-100">
+                <input type="button" class="layui-btn" value="Y方向-10" name="Y-10">
+                <input type="button" class="layui-btn" value="Y方向+10" name="Y+10">
+                <input type="button" class="layui-btn" value="Y方向+100" name="Y+100">
+                <input type="button" class="layui-btn" value="返回" name="BACK">
+
+            </div>
+
+        </div>
+        <div class=" ">
+            <div class="layui-col-md2" style="margin-left: 3%">
+                <input type="button" class="layui-btn" value="复制到" name="COPY" style="width: 70px;float: left">
+                <input class="layui-input" type="number" max="99" min="00" title="COPY"
+                       maxlength="2" placeholder="00"
+                       style="width: 50px;float: left" id="num2" value="00">
+            </div>
+            <div class="layui-col-md9">
+                <input type="button" class="layui-btn" value="X方向-200" name="X-200">
+                <input type="button" class="layui-btn" value="X方向-20" name="X-20">
+                <input type="button" class="layui-btn" value="X方向+20" name="X+20">
+                <input type="button" class="layui-btn" value="X方向+200" name="X+200">
+                <input type="button" class="layui-btn" value="返回+保存" name="SAVE+BACK">
+            </div>
+
+        </div>
+        <div class="">
+            <div class=" layui-col-md2">
+                <div class="">样品</div>
+                <input type="button" class="layui-btn" value="-100" name="SAMPLE-100">
+                <input type="button" class="layui-btn" value="-10" name="SAMPLE-10">
+                <input type="button" class="layui-btn" value="+10" name="SAMPLE+10">
+                <input type="button" class="layui-btn" value="+100" name="SAMPLE+100">
+                <input type="button" class="layui-btn" value="50%高度" name="SAMPLE+50%">
+                <input type="button" class="layui-btn" value="100%高度" name="SAMPLE+100%">
+                <input type="button" class="layui-btn" value="返回" name="SAMPLE+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="SAMPLE+SAVE+BACK">
+            </div>
+            <div class=" layui-col-md2">
+                <div class="">抓手</div>
+
+                <input type="button" class="layui-btn" value="-100" name="GRIPPER-100">
+                <input type="button" class="layui-btn" value="-10" name="GRIPPER-10">
+                <input type="button" class="layui-btn" value="+10" name="GRIPPER+10">
+                <input type="button" class="layui-btn" value="+100" name="GRIPPER+100">
+                <input type="button" class="layui-btn" value="50%高度" name="GRIPPER+50%">
+                <input type="button" class="layui-btn" value="100%高度" name="GRIPPER+100%">
+                <input type="button" class="layui-btn" value="返回" name="GRIPPER+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="GRIPPER+SAVE+BACK">
+            </div>
+            <div class="layui-col-md2">
+                <div class="">搅拌</div>
+                <input type="button" class="layui-btn" value="-100" name="STIR-100">
+                <input type="button" class="layui-btn" value="-10" name="STIR-10">
+                <input type="button" class="layui-btn" value="+10" name="STIR+10">
+                <input type="button" class="layui-btn" value="+100" name="STIR+100">
+                <input type="button" class="layui-btn" value="50%高度" name="STIR+50%">
+                <input type="button" class="layui-btn" value="100%高度" name="STIR+100%">
+                <input type="button" class="layui-btn" value="转动" onmousedown="stirSpin()">
+                <input type="button" class="layui-btn" value="返回" name="STIR+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="STIR+SAVE+BACK">
+            </div>
+            <div class=" layui-col-md2">
+                <div class="">反应杯</div>
+
+                <input type="button" class="layui-btn" value="一号位" name="REACT_FIRST">
+                <input type="button" class="layui-btn" value="二号位" name="REACT_SECOND">
+                <input type="button" class="layui-btn" value="三号位" name="REACT_FOURTH">
+                <input type="button" class="layui-btn" value="清洗" name="REACT_THIRD">
+                <input type="button" class="layui-btn" value="+100" name="REACT+100">
+                <input type="button" class="layui-btn" value="-100" name="REACT-100">
+                <input type="button" class="layui-btn" value="返回" name="REACT+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="REACT+SAVE+BACK">
+            </div>
+            <div class=" layui-col-md2">
+                <div class="">清洗</div>
+                <input type="button" class="layui-btn" value="第一个深度" name="CLEAN_FIRST">
+                <input type="button" class="layui-btn" value="第二个深度" name="CLEAN_SECOND">
+                <input type="button" class="layui-btn" value="+100" name="CLEAN+100">
+                <input type="button" class="layui-btn" value="-100" name="CLEAN-100">
+                <input type="button" class="layui-btn" value="返回" name="CLEAN+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="CLEAN+SAVE+BACK">
+            </div>
+            <div class=" layui-col-md2">
+                <div class="">进样架</div>
+                <input type="button" class="layui-btn" value="条码位" name="SAMPLING-BCode">
+                <input type="button" class="layui-btn" value="一号位" name="SAMPLING_FIRST">
+                <input type="button" class="layui-btn" value="五号位" name="SAMPLING_FIFTY">
+                <input type="button" class="layui-btn" value="+100" name="SAMPLING+100">
+                <input type="button" class="layui-btn" value="-100" name="SAMPLING-100">
+                <input type="button" class="layui-btn" value="返回" name="SAMPLING+BACK">
+                <input type="button" class="layui-btn" value="返回+保存" name="SAMPLING+SAVE+BACK">
+            </div>
+        </div>
+    </div>
+    <div id="settings" class="external-form-item">
+        <div class="layui-col-md2">
+            <span style="float: left"> 初始化</span>
+            <div class="init" id="init" aria-hidden="true"
+                 style="float:left;background-image: url('../../css/images/inputAndResult/init.png');background-size: 31px 31px;height: 31px;width: 31px">
+            </div>
+            <span style="float: left"> 清洗反应杯</span>
+            <div class="init" id="cleanEight" aria-hidden="true"
+                 style="float:left;background-image: url('../../css/images/equipment/clean.png');background-size: 30px 30px;height: 30px;width: 30px">
+            </div>
+        </div>
+
+        <div class="layui-col-md2">
+            <button type="button" class="layui-btn" value="注射器推" id="syringeBlow" name="syringeBlow" style="width: 62px;float: left">注射器推</button>
+            <button type="button" class="layui-btn" value="注射器吸" id="syringeAbsorb" name="syringeAbsorb" style="width: 62px;float: left">注射器吸</button>
+            <input class="layui-input" type="number" max="999999" min="00" title="注射器吸/推量" maxlength="2" placeholder="00" style="width: 50px;float: left" id="volume" value="syringeAmount">
+            <div class="init" style="float:left;background-image: url('../../css/images/equipment/injection.png');background-size: 30px 30px;height: 30px;width: 30px"></div>
+        </div>
+        <div class="layui-col-md3">
+            <button type="button" class="layui-btn" value="读取" id="readAddress" name="syringeBlow" style="width: 62px;float: left">读取</button>
+            <button type="button" class="layui-btn" value="写入" id="writeAddress" name="syringeAbsorb" style="width: 62px;float: left">写入</button>
+            <label>地址</label>
+            <input class="layui-input" type="number" max="255" min="00" title="地址" maxlength="2" placeholder="00" style="width: 50px;float: left" id="address"  >
+                        <label>数据</label>
+
+            <input class="layui-input" type="number" max="255" min="00" title="数据" maxlength="2" placeholder="00" style="width: 50px;float: left" id="value"  >
+        </div>
+        <div class="layui-col-md3">
+            <button type="button" class="layui-btn" value="进水" id="inlet" name="syringeBlow" style="width: 62px;float: left">出水</button>
+            <button type="button" class="layui-btn" value="进水停止" id="inletSto" name="syringeBlow" style="width: 62px;float: left">出水停止</button>
+            <button type="button" class="layui-btn" value="出水" id="effluent" name="syringeAbsorb" style="width: 62px;float: left">进水</button>
+            <button type="button" class="layui-btn" value="出水停止" id="effluentSto" name="syringeAbsorb" style="width: 62px;float: left">进水停止</button>
+        </div>
+    </div>
+    <div id="lightQuasi" class="external-form-item">
+        <div class="bottom-white-item layui-row">光准调整区</div>
+        <div style="border: #83c7f2 1px solid;bottom:32px;left:135px;width: 1220px;overflow:scroll;overflow-y: hidden"
+             id="scrollC">
+            <canvas id="myCanvas" width="1500" height="200" onload="drawFont()"></canvas>
+        </div>
+        <div class="lightQuasi-bottom-item">
+            <div class="layui-col-md5 ">
+                <label class="lightQuasi-bottom-label b8cce4">波长</label>
+                <select title="波长" class="layui-form-select" disabled>
+                    <option value="READ_LIGHTQUASI_01">1</option>
+                    <option value="READ_LIGHTQUASI_02">2</option>
+                    <option value="READ_LIGHTQUASI_03">3</option>
+                    <option value="READ_LIGHTQUASI_04">4</option>
+                    <option value="READ_LIGHTQUASI_05">5</option>
+                    <option value="READ_LIGHTQUASI_06">6</option>
+                    <option value="READ_LIGHTQUASI_07">7</option>
+                    <option value="READ_LIGHTQUASI_08">8</option>
+                </select>
+                <label class="lightQuasi-bottom-label b8cce4" >光准</label>
+                <select title="光准" class="layui-form-select" disabled>
+                    <option value="READ_LIGHTQUASI_01">1</option>
+                    <option value="READ_LIGHTQUASI_02">2</option>
+                    <option value="READ_LIGHTQUASI_03">3</option>
+                    <option value="READ_LIGHTQUASI_04">4</option>
+                    <option value="READ_LIGHTQUASI_05">5</option>
+                    <option value="READ_LIGHTQUASI_06">6</option>
+                    <option value="READ_LIGHTQUASI_07">7</option>
+                    <option value="READ_LIGHTQUASI_08">8</option>
+                </select>
+            </div>
+            <div class="layui-col-md7" >
+                <div class="">
+
+                    <input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary"  hidden
+                           style="background: url('../../css/images/equipment/getLightQuasi.png');background-size: 75px;width: 75px">
+                    <!--获取光准-->
+                    <!--<input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary" value=""-->
+                           <!--style="background: url('./../../images/equipment/calibrationLightQuasi.png');background-size: 75px;width: 75px">-->
+                    <!--<input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary" value=""-->
+                           <!--style="background: url('./../../images/equipment/lightQuasiPlus1.png');background-size: 75px;width: 75px">-->
+                    <!--<input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary" value=""-->
+                           <!--style="background: url('./../../images/equipment/lightQuasiReduce1.png');background-size: 75px;width: 75px">-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ad" class="external-form-item">
+        <div name="id" hidden>
+            <!--展示第十个ad 先把这里注释  再添加-->
+            <!--<input class="layui-input" type="text" name="ad9">-->
+            <input class="layui-input" type="text" name="ad10">
+            <input class="layui-input" type="text" name="tem">
+        </div>
+        <div class="bottom-white-item layui-row">AD操作区</div>
+        <div class="ad-item">
+            <div class="" title="AD值">
+                <div class="layui-form-item b8cce4">
+                    <label class="layui-form-label">340</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad1">
+                    </div>
+                    <label class="layui-form-label">405</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad2">
+                    </div>
+                    <label class="layui-form-label">450</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad3">
+                    </div>
+                    <label class="layui-form-label">510</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad4">
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">∆OD</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                </div>
+                <div class="layui-form-item b8cce4">
+                    <label class="layui-form-label">546</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad5">
+                    </div>
+                    <label class="layui-form-label">578</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad6">
+
+                    </div>
+                    <label class="layui-form-label">630</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad7">
+                    </div>
+                    <label class="layui-form-label">700</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad8">
+                    </div>
+                    <label class="layui-form-label">750</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad9">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">∆OD</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                    <label class="layui-form-label"> </label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text">
+                    </div>
+                </div>
+                <div class="layui-form-item b8cce4" style="height: 50px">
+                    <div class="layui-btn-inline">
+                        <input type="button" name="READ_AD" value="" class="ad-btn"
+                               style="background: url('../../css/images/equipment/adRead.png');background-size: 130px;width: 130px"/>
+                    </div>
+                    <div class="layui-btn-inline">
+                        <input type="button" name="STOP" value="" class="ad-btn"
+                               style="background: url('../../css/images/equipment/adReadStop.png');background-size: 130px;width: 130px"/>
+                    </div>
+                    <!--ad 保存-->
+                    <!--<div class="layui-btn-inline">-->
+                        <!--<input type="button" value="" class="ad-btn"-->
+                               <!--style="background: url('./../../images/equipment/adSave.png');background-size: 130px;width: 130px"/>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="./../../js/webSocket.js"></script>
+<script src="./../../js/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="./../../js/properties.js"></script>
+<script src="./../../js/equipment/adjust&AD&parts.js"></script>
+
+</body>
+</html>

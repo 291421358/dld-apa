@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印设置</title>
+</head>
+<script src="../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../../js/properties.js"></script>
+<script src="../../js/search/print.js"></script>
+<link rel="stylesheet" href="../../css/search/print.css">
+<body onload="showPrint();printAndClose()">
+
+<div style="margin-left: 10px">
+<div id="title" style="border-bottom: black 1px solid;width: 100%" ><h1>XXXX医院化验报告单</h1></div>
+<div id="patientInfo" style="border-bottom: black 1px solid;width: 100%">
+    <div style="width: 100%">
+        <div><span>姓名：</span><li id="name">&nbsp</li></div>
+        <div><span>样本号：</span><li id="paramid">&nbsp</li></div>
+        <div><span>性别：</span><li id="sex">&nbsp</li></div>
+        <!--<div><span>年龄：</span><li id="age">111</li></div>-->
+        <div><span>送检科室：</span><li id="inspectionDept">&nbsp</li></div>
+    </div>
+    <div style="width: 100%">
+        <div><span> 样本种类：    </span><li id="sampleType">&nbsp</li></div>
+        <div><span> id号： </span><li id="id">&nbsp</li></div>
+        <div><span> 床号： </span><li id="bedNum">&nbsp</li></div>
+        <div><span> 医生： </span><li id="testDoc">&nbsp</li></div>
+        <div><span> 备注： </span><li id="remark">&nbsp</li></div>
+    </div>
+</div>
+<div id="projectsTitle" style="border-bottom: black 1px solid;width: 100%;font-weight: bold">
+    <div> NO </div><div>中文名称  </div><div> 项目 </div><div> 结果 </div><div> 单位 </div><div> 标志 </div> <div>参考值</div>
+</div>
+<div id="projects" style="width: 100%">
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+    <div class="project"><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div><div>  </div> <div></div></div>
+</div>
+<div id="printBottom">
+    <div> <span> 报告日期： </span> <li id="printDate"></li> </div>
+    <div> <span> 送检日期：</span> <li id="inspectionDate"></li></div>
+    <div> <span>检验者：</span> <li id="testDoc1" style="font-family: 华文新魏;"></li></div>
+    <div> <span>审核者：</span> <li id="examineDoc" style="font-family: 华文行楷"></li></div>
+</div>
+</div>
+</body>
+</html>

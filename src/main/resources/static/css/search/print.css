@@ -1,0 +1,60 @@
+h1 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+li {
+    list-style: none;
+    height: 20px;
+    width: 70px;
+    float: left;
+}
+
+div {
+    float: left;
+}
+
+#title, #patientInfo, #projectsTitle, #projects, #printBottom {
+    padding-left: 5px;
+}
+
+#title {
+    text-align: center;
+}
+
+#projectsTitle div {
+    width: 14.285714%;
+}
+
+#projects {
+    height: 200px;
+}
+
+.project {
+    width: 100%;
+}
+
+.project div {
+    width: 14.285714%;
+}
+
+#patientInfo div {
+    width: 20%;
+}
+
+span {
+    float: left;
+}
+
+#printBottom div {
+    width: 25%;
+    font-size: 5px;
+}
+
+#printBottom {
+    bottom: 5px;
+    position: fixed;
+    z-index: 1;
+    border-top: black 1px solid;
+    width: 100%;
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.ProjectParamMapper">
+  <resultMap id="BaseResultMap" type="com.laola.apa.entity.ProjectParam">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="chinese_name" jdbcType="VARCHAR" property="chineseName" />
+    <result column="compute_method" jdbcType="VARCHAR" property="computeMethod" />
+    <result column="sampleSize" jdbcType="VARCHAR" property="sampleSize" />
+    <result column="sampleType" jdbcType="VARCHAR" property="sampleType" />
+    <result column="reagent_quantity_no1" jdbcType="VARCHAR" property="reagentQuantityNo1" />
+    <result column="reagent_quantity_no2" jdbcType="VARCHAR" property="reagentQuantityNo2" />
+    <result column="main_wavelength" jdbcType="VARCHAR" property="mainWavelength" />
+    <result column="auxiliary_wavelength" jdbcType="VARCHAR" property="auxiliaryWavelength" />
+    <result column="decimal_digit" jdbcType="VARCHAR" property="decimalDigit" />
+    <result column="meterage_unit" jdbcType="VARCHAR" property="meterageUnit" />
+    <result column="min_absorbance" jdbcType="VARCHAR" property="minAbsorbance" />
+    <result column="max_absorbance" jdbcType="VARCHAR" property="maxAbsorbance" />
+    <result column="dilution_multiple" jdbcType="VARCHAR" property="dilutionMultiple" />
+    <result column="dilution_position" jdbcType="VARCHAR" property="dilutionPosition" />
+    <result column="main_indication_begin" jdbcType="VARCHAR" property="mainIndicationBegin" />
+    <result column="main_indication_end" jdbcType="VARCHAR" property="mainIndicationEnd" />
+    <result column="auxiliary_indication_begin" jdbcType="VARCHAR" property="auxiliaryIndicationBegin" />
+    <result column="auxiliary_indication_end" jdbcType="VARCHAR" property="auxiliaryIndicationEnd" />
+    <result column="normal_low" jdbcType="VARCHAR" property="normalLow" />
+    <result column="normal_high" jdbcType="VARCHAR" property="normalHigh" />
+    <result column="modified_formula_A" jdbcType="VARCHAR" property="modifiedFormulaA" />
+    <result column="modified_formula_B" jdbcType="VARCHAR" property="modifiedFormulaB" />
+    <result column="other_modified_formula_A" jdbcType="VARCHAR" property="otherModifiedFormulaA" />
+    <result column="other_modified_formula_B" jdbcType="VARCHAR" property="otherModifiedFormulaB" />
+    <result column="dilution_delay_period" jdbcType="VARCHAR" property="dilutionDelayPeriod" />
+    <result column="factor" jdbcType="VARCHAR" property="factor" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+</mapper>

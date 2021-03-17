@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>项目参数</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="./../../css/param/projectparam.css" media="all">
+    <link rel="stylesheet" href="./../../css/jquery-ui.min.css">
+</head>
+
+<!--<script src="./../../js/jquery-3.4.1/jquery-3.4.1.js"></script>-->
+<script src="./../../js/jquery2.1.4/jquery.min.js"></script>
+<script src="./../../js/jquery-ui.min.js"></script>
+<script src="./../../js/param/projectparam.js"></script>
+<script src="./../../js/properties.js"></script>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+
+    .ui-menu .ui-menu-item a {
+        text-decoration:none;
+
+        display:block;
+
+        padding:0;
+
+        line-height:1;
+
+        zoom:2;
+
+        font-size:12px;
+        font-family: 宋体;
+        text-align: left;
+    }
+</style>
+<body onload="load()">
+<form id="frm1" class="layui-form">
+    <div class="item-top">
+        项目参数设置显示&操作区
+    </div>
+    <div class="layui-row layui-col-md12" id="details">
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label">项目菜单</label>
+                <div class="layui-input-inline">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label ">项目编号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="id" name="id" placeholder="请选择/输入项目" readonly class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label">项目名称</label>
+                <div class="layui-input-inline">
+                    <input id="name" placeholder="请选择/输入项目" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">计算方法</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="computeMethod" name="computeMethod">
+                        <option style="font-color:gery" value="">- -请选择- -</option>
+                        <option  value="两点法">两点法</option>
+                        <option  value="速率法">速率法</option>
+                        <option  value="终点法">终点法</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">样本量</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="sampleSize" name="sampleSize" value="" lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入样本量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">样本种类</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="sampleType" name="sampleType">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option value="血清">血清</option>
+                        <option value="全血">全血</option>
+                        <option value="尿样">尿样</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">一试剂量</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="reagentQuantityNo1" name="reagentQuantityNo1" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入一试剂量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">二试剂量</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="reagentQuantityNo2" name="reagentQuantityNo2" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入二试剂量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">主波长</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="mainWavelength" name="mainWavelength">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option value="0">340</option>
+                        <option value="1">405</option>
+                        <option value="2">450</option>
+                        <option value="3">510</option>
+                        <option value="4">546</option>
+                        <option value="5">578</option>
+                        <option value="6">630</option>
+                        <option value="7">700</option>
+                        <option value="8">750</option>
+                        <option value="9">800</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">辅波长</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="auxiliaryWavelength" name="auxiliaryWavelength">
+                        <option style="color: slategray;" value="">- -请选择- -</option>
+                        <option value="0">340</option>
+                        <option value="1">405</option>
+                        <option value="2">450</option>
+                        <option value="3">510</option>
+                        <option value="4">546</option>
+                        <option value="5">578</option>
+                        <option value="6">630</option>
+                        <option value="7">700</option>
+                        <option value="8">750</option>
+                        <option value="9">800</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label">项目菜单</label>
+                <div class="layui-input-inline">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">中文名称</label>
+
+                <div class="layui-input-inline">
+                    <input type="text" id="chineseName" name="chineseName" lay-verify="required" placeholder="请输入中文名称 "
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">小数位数</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="decimalDigit" name="decimalDigit">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option value="0位">0位</option>
+                        <option value="1位">1位</option>
+                        <option value="2位">2位</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">计量单位</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="meterageUnit" name="meterageUnit">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option value="Mmo/l">Mmo/l</option>
+                        <option value="umol/l">umol/l</option>
+                        <option value="g/l">g/l</option>
+                        <option value="%">%</option>
+                        <option value="mg/l">mg/l</option>
+                        <option value="mg/dl">mg/dl</option>
+                        <option value="u/l">u/l</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">最小吸光度</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="minAbsorbance" name="minAbsorbance" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入最小吸光度" class="layui-input">
+                </div>
+                <label>(A)</label>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">最大吸光度</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="maxAbsorbance" name="maxAbsorbance"
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入最大吸光度" class="layui-input">
+                </div>
+                <label>(A)</label>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">稀释倍数</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="dilutionMultiple" name="dilutionMultiple">
+                        <option style="font-color:gery" value="">- -请选择- -</option>
+                        <option value="0">0</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">稀释延迟</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="dilutionDelayPeriod" name="dilutionDelayPeriod" placeholder="请输入稀释延迟"
+                           lay-verify="required|number"
+                           autocomplete="on" class="layui-input">
+                </div>
+                <label class="layui-form-mid ">周期</label>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label">项目菜单</label>
+                <div class="layui-input-inline">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item  b8cce4">
+                <label class="layui-form-label">主读数始点</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="mainIndicationBegin" name="mainIndicationBegin" value=""
+                           placeholder="请输入主读数始点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label small-input">主读数终点</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="mainIndicationEnd" name="mainIndicationEnd" value="" placeholder="请输入主读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item  b8cce4">
+                <label class="layui-form-label">辅读数始点</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="auxiliaryIndicationBegin" name="auxiliaryIndicationBegin"
+                           placeholder="请输入辅读数始点"
+                           value="" lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label small-input">辅读数终点</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="auxiliaryIndicationEnd" name="auxiliaryIndicationEnd" value=""
+                           placeholder="请输入辅读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">正常值高值</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="normalHigh" name="normalHigh" value="" lay-verify="required|number"
+                           placeholder="请输入正常值高值"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">正常值低值</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="normalLow" name="normalLow" value="" lay-verify="required|number"
+                           placeholder="请输入正常值低值"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item b8cce4">
+                <div class="layui-inline">
+                    <input type="button" class="layui-btn-primary" value="添加" onclick="insertProject();" lay-submit>
+                    <input type="button" class="layui-btn-primary" value="确认修改" onclick="updateProjectParam();" lay-submit>
+
+                    <input type="reset" class="layui-btn layui-btn-primary">
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-inline" style="border: none;width: 800px" id="info">
+            <label for="keyword">按条件查询</label><input id="keyword" style="width: 100px;float: left">
+        </div>
+        <br>
+        <div>
+            <label for="total">试剂量（总人份数）</label><input id="total" style="width: 100px;float: left">
+
+            <input type="button" id="createQRCode" value="生成二维码" style="float: left">
+            <!--<input class="text" id="text" type="tel"  placeholder="单击此处扫码">-->
+        </div>
+    </div>
+
+</form>
+<div id="QRCode">
+    <div class=" " id="QR_details">
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label-QR">项目菜单</label>
+                <div class="layui-input-inline-QR">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR ">项目编号</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_id" name="id" placeholder="请选择/输入项目" readonly class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">项目名称</label>
+                <div class="layui-input-inline-QR">
+                    <input id="QR_name" placeholder="请选择/输入项目" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">计算方法</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_computeMethod" name="computeMethod">
+                        <option style="font-color:gery" value="">- -请选择- -</option>
+                        <option class="qr1" value="两点法">两点法</option>
+                        <option class="qr2" value="速率法">速率法</option>
+                        <option class="qr3" value="终点法">终点法</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">样本量</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_sampleSize" name="sampleSize" value="" lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入样本量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">样本种类</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_sampleType" name="sampleType">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option class="qr1" value="血清">血清</option>
+                        <option class="qr2" value="全血">全血</option>
+                        <option class="qr3" value="尿样">尿样</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">一试剂量</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_reagentQuantityNo1" name="reagentQuantityNo1" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入一试剂量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">二试剂量</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_reagentQuantityNo2" name="reagentQuantityNo2" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入二试剂量" class="layui-input">
+                </div>
+                <label>(ul)</label>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">主波长</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_mainWavelength" name="mainWavelength">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option value="0">340</option>
+                        <option value="1">405</option>
+                        <option value="2">450</option>
+                        <option value="3">510</option>
+                        <option value="4">546</option>
+                        <option value="5">578</option>
+                        <option value="6">630</option>
+                        <option value="7">700</option>
+                        <option value="8">750</option>
+                        <option value="9">800</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">辅波长</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_auxiliaryWavelength" name="auxiliaryWavelength">
+                        <option style="color: slategray;" value="">- -请选择- -</option>
+                        <option value="0">340</option>
+                        <option value="1">405</option>
+                        <option value="2">450</option>
+                        <option value="3">510</option>
+                        <option value="4">546</option>
+                        <option value="5">578</option>
+                        <option value="6">630</option>
+                        <option value="7">700</option>
+                        <option value="8">750</option>
+                        <option value="9">800</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label-QR">项目菜单</label>
+                <div class="layui-input-inline-QR">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">中文名称</label>
+
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_chineseName" name="chineseName" lay-verify="required" placeholder="请输入中文名称 "
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">小数位数</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_decimalDigit" name="decimalDigit">
+                        <option style="color:gery" value="">- -请选择- -</option>
+                        <option class="qr0" value="0位">0位</option>
+                        <option class="qr1" value="1位">1位</option>
+                        <option class="qr2" value="2位">2位</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">计量单位</label>
+                <div class="layui-select-title layui-input-inline-QR">
+                    <select id="QR_meterageUnit" name="meterageUnit">
+                        <option class="qr0" style="color:gery" value="">- -请选择- -</option>
+                        <option class="qr1" value="Mmo/l">Mmo/l</option>
+                        <option class="qr2" value="umol/l">umol/l</option>
+                        <option class="qr3" value="g/l">g/l</option>
+                        <option class="qr4" value="%">%</option>
+                        <option class="qr5" value="mg/l">mg/l</option>
+                        <option class="qr6" value="mg/dl">mg/dl</option>
+                        <option class="qr7" value="u/l">u/l</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">最小吸光度</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_minAbsorbance" name="minAbsorbance" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入最小吸光度" class="layui-input">
+                </div>
+                <label>(A)</label>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">最大吸光度</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_maxAbsorbance" name="maxAbsorbance"
+                           lay-verify="required|number"
+                           autocomplete="on" placeholder="请输入最大吸光度" class="layui-input">
+                </div>
+                <label>(A)</label>
+            </div>
+            <div  style="float:left;width: 300px;border-right: 1px #7eaad7 solid">
+                <table id="scaling_deal">
+                    <tr>
+                        <td style="background:#fde9d9">序号</td>
+                        <td style="background:#fde9d9">吸光度(y)</td>
+                        <td style="background:#fde9d9">因子</td>
+                        <td style="background:#fde9d9">浓度(x)</td>
+                        <td style="background:#fde9d9" id="a"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="rack"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="layui-col-md4">
+            <div class="item-title">
+                <label class="layui-form-label-QR">项目菜单</label>
+                <div class="layui-input-inline-QR">
+                    选填区
+                </div>
+                <div>单位</div>
+            </div>
+            <div class="layui-form-item-QR  ">
+                <label class="layui-form-label-QR">主读数始点</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_mainIndicationBegin" name="mainIndicationBegin" value=""
+                           placeholder="请输入主读数始点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR small-input">主读数终点</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_mainIndicationEnd" name="mainIndicationEnd" value="" placeholder="请输入主读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item-QR  ">
+                <label class="layui-form-label-QR">辅读数始点</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_auxiliaryIndicationBegin" name="auxiliaryIndicationBegin"
+                           placeholder="请输入辅读数始点"
+                           value="" lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR small-input">辅读数终点</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_auxiliaryIndicationEnd" name="auxiliaryIndicationEnd" value=""
+                           placeholder="请输入辅读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR ">
+                <label class="layui-form-label-QR">正常值高值</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_normalHigh" name="normalHigh" value="" lay-verify="required|number"
+                           placeholder="请输入正常值高值"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item-QR">
+                <label class="layui-form-label-QR">正常值低值</label>
+                <div class="layui-input-inline-QR">
+                    <input type="text" id="QR_normalLow" name="normalLow" value="" lay-verify="required|number"
+                           placeholder="请输入正常值低值"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-inline-QR" style="border: none" id="QR_info">
+        </div>
+    </div>
+    <div><input type="button" class="layui-btn-primary" value="确认修改" onclick="QRCommit()" lay-submit></div>
+</div>
+</body>
+</html>

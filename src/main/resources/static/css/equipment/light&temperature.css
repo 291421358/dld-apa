@@ -1,0 +1,23 @@
+input{
+    width: 100px;
+}
+.box {
+    position: relative;
+    border: 1px solid lightgray;
+}
+
+.box::before {
+    width: auto;
+    content: attr(title);
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+    -webkit-transform: translate(-380%, -50%);
+    padding: 0 10px;
+    background-color: rgba(244, 244, 244, 1);
+}
+
+
+label {
+    margin-left: -50px;
+}

@@ -1,0 +1,166 @@
+body {
+    text-align: center;
+    /*font-size: 20px;*/
+}
+
+div::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#qcCanvas {
+    background: url("../images/scaling/coordinate1.png") no-repeat ;
+    background-size: 100% 113px;
+
+}
+
+select {
+    border: 1px #7eaad7 solid;
+    border-top: none;
+    border-left: none;
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    /*padding-right: .6rem;*/
+    /*-moz-appearance: none; !* Firefox *!*/
+    /*-webkit-appearance: none; !* Safari 和 Chrome *!*/
+    background: none;
+    height: 22px;
+}
+
+
+li {
+    list-style: none;
+    width: 100%;
+    border-bottom: 1px #7eaad7 solid;
+    float: left;
+}
+
+ul::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.SC_projectList {
+    background: #c6d5f7;
+    float: left;
+    width: 218px;
+    /*font-size: 12px;*/
+    margin-top: 1px;
+}
+
+.SC_projectList div {
+    width: 217px;
+    height: 45px;
+    opacity: 1;
+    background: #ffffff;
+    border: 1px solid #c6d5f7;
+    margin-top: -1px;
+}
+
+.SC_projectList input {
+    float: right;
+    margin-top: 2px;
+    height: 0;
+/ / 15 px;
+    border: none;
+    display: block;
+    width: 0;
+/ / 20 px;
+    cursor: pointer;
+}
+
+#scaling_deal table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    box-sizing: border-box;
+    height: 176px;
+    width: 100%;
+}
+
+#scaling_deal td {
+    border: #c6d5f7 1px solid;
+    height: 26px;
+    padding: 0;
+    font-size: 12px;
+    width: 40px;
+}
+
+#scaling_time :hover {
+    cursor: pointer;
+}
+
+#bottom_div div {
+    float: left;
+    border-right: 2px #7eaad7 solid;
+    height: 100%;
+}
+
+#qc_save {
+    cursor: pointer;
+}
+
+#send, #update, #del {
+    cursor: pointer;
+}
+
+.checkedColor {
+    background-color: #7eaad7;
+}
+
+#qc_deal {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    box-sizing: border-box;
+    float: left;
+    margin-left: -1px;
+}
+
+#qc_deal td {
+    border: 1px solid #c6d5f7;
+    font-size: 12px;
+    width: 148px;
+    height: 23px;
+    margin-left: -1px;
+}
+
+#qc_save ,#avg,#doUpdateQC,#doUpdateQCSta,#closeQCBox,#closeQCStaBox,#clear{
+    cursor: pointer;
+}
+
+#updateQC,#updateQCSta {
+    position: absolute;
+    right: 400px;
+    top: 100px;
+    background: white;
+    width: 250px;
+    height: 70px;
+    border: 3px solid #444;
+    border-radius: 1px;
+    z-index: 2;
+    display: none;
+}
+#dates div:hover{
+    background: #7eaad7;
+    cursor: pointer;
+}
+#closeQCBox{
+    float: right;
+    font-size: larger;
+    cursor: pointer;
+}
+
+#canvas {
+    background: url("../images/scaling/coordinate.png") 30px 0/ 202px 200px no-repeat;
+    margin-right: 50px;
+}

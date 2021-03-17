@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+}
+.layui-row:after, .layui-row:before {
+    content: '';
+    display: block;
+    clear: both;
+}
+.rightMenu {
+     position: absolute;
+     width: 120px;
+     line-height: 24px;
+     z-index: 999;
+     background: #FFF;
+     border: 1px solid #F2F2F2;
+     border-bottom: none;
+     border-radius: 3px;
+     display: none;
+}
+a {
+    color: black;
+}
+
+td{
+    padding: 0 0 0 0;
+}
+li {
+    font-size: 20px;
+    list-style: none;
+}
+
+img {
+    height: 60px;
+    padding: 5px 30px 10px 30px;
+}
+
+div {
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#menu li {
+    width: 113px;
+    height: 31px;
+    opacity: 1;
+    font-size: 18px;
+    font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
+    font-weight: 400;
+    text-align: center;
+    color: #ffffff;
+    line-height: 15px;
+    float: left;
+    padding-top: 15px;
+}
+
+
+
+#menu{
+    width: 1231px;
+    height: 45px;
+    opacity: 1;
+    background: #6d97f7;
+    box-shadow: 1px 1px 1px 0px rgba(4,4,4,0.09);
+}
+
+#menu li:hover {
+    width: 113px;
+    height: 30px;
+    opacity: 1;
+    background: #3766ed;
+    cursor: pointer;
+}
+
+
+#menu #tem{
+    float: right;
+    padding: 0 0 0 50px ;
+    width: 150px;
+    color: white;
+    font-size: 12px;
+    height: 45px;
+}
+#menu #tem:hover{
+    float: right;
+    background-color: #6d97f7;
+
+}
+#tem img{
+    height: 25px;
+    padding:  5px 0  0 0;
+}
+
+#quit {
+    position: absolute;
+    right: 500px;
+    top: 200px;
+    width: 150px;
+    height: 78px;
+    border-radius: 1px;
+    z-index: 2049;
+    display: none;
+    background: white;
+}
+
+#closeBtn,#quitBtn{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+

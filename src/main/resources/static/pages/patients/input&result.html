@@ -1,0 +1,321 @@
+<html lang="en" style="height: 100%">
+<!DOCTYPE html>
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<head>
+    <meta charset="UTF-8">
+    <title>项目测试</title>
+</head>
+<script src="./../../js/jquery2.1.4/jquery.min.js"></script>
+<script src="./../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="./../../js/jquery-ui.min.js"></script>
+<script src="../../js/properties.js"></script>
+<script src="../../js/patients/input&result.js"></script>
+<link rel="stylesheet" href="../../css/patients/input&result.css">
+<link rel="stylesheet" href="./../../css/jquery-ui.min.css">
+<script src="../../js/webSocket.js"></script>
+<script src="../../js/patients/scaling.js"></script>
+<script src="../../js/patients/qc.js"></script>
+<body onload=" circularReading();time() ">
+<style>
+
+    .ui-menu .ui-menu-item a {
+        text-decoration: none;
+        display: block;
+        padding: 0;
+        line-height: 1;
+        zoom: 2;
+        font-size: 12px;
+        font-family: 宋体;
+        text-align: left;
+    }
+
+</style>
+<form>
+    <div id="ceshiqu">
+        <div class="juxing"></div>
+        <div id="pn_1">检测操作区</div>
+        <div id="sc" onclick="alertWin(1);">定标</div>
+        <div id="qc" onclick="alertWin(2);">质控</div>
+        <div id="tips">
+            <div id="juxing_1"></div>
+            <label class="layui-btn" type="button">已选择</label>
+            <div id="juxing_2"></div>
+            <label class="layui-btn" type="button">已保存</label>
+            <div id="juxing_3"></div>
+            <label class="layui-btn" type="button">有错误</label>
+        </div>
+        <div>
+            <div id="testAndShow" class="testAndShow">
+                <table id="tab" class="test" border="2">
+                </table>
+            </div>
+        </div>
+        <div id="dealButton">
+            <div id="save" style="float: left">保存</div>
+            <div id="delete" style="float: left" title="删除所有未做的项目">删除</div>
+        </div>
+    </div>
+
+    <div id="shijiqu">
+        <div class="juxing"></div>
+        <div id="pn_2">试剂显示</div>
+        <div id="tuichu">试剂推出</div>
+        <div id="tuijin">试剂推进</div>
+        <div id="shiji_1">
+            <div id="n1"></div>
+            <div class="cfx"></div>
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo1" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t1" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <div class="cfx"></div>
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo2" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t2" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+        <div id="shiji_2">
+            <div id="n2"></div>
+            <div class="cfx"></div>
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo3" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t3" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <!--<div id="n2_r1"></div>-->
+            <div class="cfx"></div>
+            <!--<div id="n2_r2"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo4" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t4" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+        <div id="shiji_3">
+            <div id="n3"></div>
+            <div class="cfx"></div>
+            <!--<div id="n3_r1"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo5" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t5" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <div class="cfx"></div>
+            <!--<div id="n3_r2"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo6" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t6" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+        <div id="shiji_4">
+            <div id="n4"></div>
+            <div class="cfx"></div>
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo7" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t7" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <!--<div id="n4_r1"></div>-->
+            <div class="cfx"></div>
+            <!--<div id="n4_r2"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo8" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t8" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+        <div id="shiji_5">
+            <div id="n5"></div>
+            <div class="cfx"></div>
+            <!--<div id="n5_r1"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo9" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t9" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <div class="cfx"></div>
+            <!--<div id="n5_r2"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo10" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t10" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+        <div id="shiji_6">
+            <div id="n6"></div>
+            <div class="cfx"></div>
+            <!--<div id="n6_r1"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo1" id="J_demo11" cx="28" cy="28" r="25" fill="none" stroke="#5e97fe" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t11" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R1</text>
+            </svg>
+            <div class="cfx"></div>
+            <!--<div id="n6_r2"></div>-->
+            <svg class="svg">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="#e9edf4" stroke-width="5"
+                        stroke-linecap="round"></circle>
+                <circle class="demo2" id="J_demo12" cx="28" cy="28" r="25" fill="none" stroke="#4ab5b4" stroke-width="5"
+                        stroke-dasharray="0,10000"></circle>
+                <text id="t12" x="17" dy="40" style="fill: #6d97f7;font-size: 20px;font-family: SimHei,serif">//</text>
+                <text x="20" dy="20" style="fill: #111111;font-size: 12px">R2</text>
+            </svg>
+        </div>
+    </div>
+
+
+    <div class="state-control">
+        <div class="start">
+        </div>
+        <div class="stop">
+        </div>
+        <div class="suspend">
+        </div>
+        <div id="zhuangshi1">
+
+        </div>
+        <div class="state">
+            <div class="juxing"></div>
+            <div id="pn_3">数据统计</div>
+            <div class="rili"></div>
+            <div id="date">2000-01-01 00:00:00</div>
+            <div style="float: left">
+                <div id="zongjiance">
+                    <div id="zongjiance_n">91</div>
+                    <div id="zongjiance_t">今日总检测数</div>
+                </div>
+                <div id="zhuangshi2"></div>
+
+                <div id="daijiance">
+                    <div id="daijiance_n">55</div>
+                    <div id="daijiance_t">待检测次数</div>
+                </div>
+                <div id="zhuangshi3"></div>
+                <div id="yijiance">
+                    <div id="yijiance_n">36</div>
+                    <div id="yijiance_t">已检测数</div>
+                </div>
+                <div id="zhuangshi4"></div>
+                <div id="rack">
+                    <div id="rackNo">1</div>
+                    <div id="rack_t">架号</div>
+                </div>
+                <div id="zhuangshi5"></div>
+                <div id="place">
+                    <div id="placeNo">2</div>
+                    <div id="place_t">位号</div>
+                </div>
+                <div id="zhuangshi6"></div>
+            </div>
+            <div style="float: left">
+                <div id="shuiweitip">
+                    <div id="shuiwei1">
+                    </div>
+                    <div class="state_5">
+                        水位正常
+                    </div>
+                    <div id="shuiwei2">
+                    </div>
+                    <div class="state_5">
+                        水位报警
+                    </div>
+                </div>
+
+                <div id="pureWater" style="float: left ">
+                    <img src="../../css/images/inputAndResult/feishui.png" height="59" width="40">
+                </div>
+
+
+                <div id="wasteWater" style="float: left ">
+                    <img src="../../css/images/inputAndResult/chunshui.png" height="58" width="40">
+                </div>
+                <div id="water_t">
+                    纯水显示
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</form>
+
+<div id="LoginBox">
+    <div class="row1">
+        设置试剂位置窗口<a title="关闭窗口" class="close_btn" id="closeBtn">×</a>
+    </div>
+    <div class="row1">
+        <span class="inputBox">
+            <select id="regent_project"
+                    style="width: 100px;border: #a9a9a9 1.5px solid;border-radius: 50px;margin-left: 80px;margin-bottom: 5px"
+                    title="试剂名称">
+            </select>
+            </span>
+    </div>
+    <div class="row1">
+       <span class="inputBox">
+           <select id="regent_type"
+                   style="width: 100px;border: #a9a9a9 1.5px solid;border-radius: 50px;margin-left: 80px" title="试剂型号">
+            <option name="R1" value="R1">R1</option>
+               <option name="R1" value="R2">R2</option>
+            </select>
+            </span>
+    </div>
+    <div class="row">
+        <a id="updateBox">确认修改</a>
+    </div>
+</div>
+<div id="deleteProjectBox">
+    <div class="row1">
+        <div id="delProjectSure" style="float: left">
+        </div>
+        <a title="关闭窗口" class="close_btn" id="closeDPB">×</a>
+    </div>
+
+    <div class="row">
+        <a id="delProject">确认删除</a>
+    </div>
+</div>
+<div>
+    <div class="opacity_bg"></div>
+    <div id="dialog"></div>
+</div>
+</body>
+</html>

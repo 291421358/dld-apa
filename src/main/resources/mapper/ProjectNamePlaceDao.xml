@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.ProjectNamePlaceMapper">
+
+    <resultMap type="com.laola.apa.entity.ProjectNamePlace" id="ProjectNamePlaceMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectParamId" column="project_param_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProjectNamePlaceMap">
+        select
+          id, project_param_id
+        from laola.project_name_place
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ProjectNamePlaceMap">
+        select
+          id, project_param_id
+        from laola.project_name_place
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ProjectNamePlaceMap">
+        select
+          id, project_param_id
+        from laola.project_name_place
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectParamId != null">
+                and project_param_id = #{projectParamId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.project_name_place(project_param_id)
+        values (#{projectParamId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.project_name_place
+        <set>
+            <if test="projectParamId != null">
+                project_param_id = #{projectParamId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.project_name_place where id = #{id}
+    </delete>
+
+</mapper>

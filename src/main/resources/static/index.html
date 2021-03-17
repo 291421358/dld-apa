@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" style="height: 450px">
+
+<head>
+    <meta charset="UTF-8">
+    <title>D-land</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<script src="./js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="./js/properties.js"></script>
+<script src="./js/index.js"></script>
+<style type="text/css">
+    body {
+        height: 689px;
+        background-color: rgba(216, 222, 255, 0);
+        color: #000000;
+    }
+
+    #logoname {
+        width: 159px;
+        height: 15px;
+        opacity: 1;
+        font-size: 18px;
+        font-family: Arial Regular, Arial Regular-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #333333;
+        float: left;
+        margin: 4px 0 9px 20px;
+    }
+
+    #m_name {
+        width: 143px;
+        height: 12px;
+        opacity: 1;
+        font-size: 14px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #333333;
+        margin: 5px 0 9px 60px;
+        float: left;
+    }
+
+    #v {
+        width: 85px;
+        height: 12px;
+        opacity: 1;
+        font-size: 13px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #333333;
+        line-height: 31px;
+        margin-left: 40px;
+    }
+
+    #out {
+        cursor: pointer;
+    }
+
+    #out_t {
+        width: 25px;
+        height: 12px;
+        opacity: 1;
+        font-size: 12px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #333333;
+        float: left;
+        padding: 5px 0 0 12px;
+    }
+
+    #out_i {
+        width: 19px;
+        height: 20px;
+        opacity: 1;
+        float: left;
+        padding: 0;
+        margin: 4px 0 0 690px;
+   }
+    .opacity_bg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #000;
+        opacity: 0.6;
+        margin: auto;
+        z-index: 1024;
+        display: none;
+    }
+    #dialog {
+        position: absolute;
+        top: 69px;
+        left: 212px;
+        z-index: 1025;
+    }
+</style>
+<body onload="time();getTem();init()" style="z-index: 1022">
+<div class="layui-row layui-form-item" style="height: 689px;width: 1280px;">
+    <div class="layui-row">
+        <div style=";float: left">
+            <div id="logoname">Deviceland Medical</div>
+            <li id="m_name">MINI-SP100检测系统</li>
+        </div>
+        <div style=" float: left">
+            <li id="v">版本：A0版本</li>
+        </div>
+        <div id="out" onclick="suspend()">
+            <img id="out_i" src="css/images/tuichu2.png">
+            <li id="out_t">退出</li>
+        </div>
+        <!--<div id="time" class="layui-col-md4">-->
+        <!--</div>-->
+    </div>
+    <div id="title" class="layui-row" style="">
+        <ul id="menu">
+            <!--<li value="1">定标质控</li>-->
+            <li value="2">检测界面</li>
+            <li value="3">参数设置</li>
+            <li value="4">查询打印</li>
+            <li value="5">仪器维护</li>
+            <!--<li value="6">拉曼光谱</li>-->
+            <!--<li value="7">系统退出</li>-->
+            <li id="tem"> <img style="padding-top: 10px" src="images/temp.png"> </li>
+        </ul>
+    </div>
+    <div id="content">
+        <iframe scrolling='no' src="./pages/equipment/adjust&AD&parts.html" height=720 width=1270 frameborder=null
+                style="z-index: 1023;"></iframe>
+    </div>
+</div>
+<div id="quit">
+    <div style="height: 25px;background: #6d97f7;color: white">是否退出???</div>
+    <div> </div>
+    <div>
+        <div id="quitBtn" style="float: left">确认</div>
+        <div style="float: right" id="closeBtn">取消</div>
+    </div>
+</div>
+
+</body>
+<!--Tab菜单右键弹出菜单-->
+<ul class="rightMenu" id="rightMenu">
+    <li data-type="fresh">刷新</li>
+    <li data-type="current">关闭当前</li>
+    <li data-type="other">关闭其它</li>
+    <li data-type="all">关闭所有</li>
+</ul>
+<div>
+    <div class="opacity_bg"></div>
+    <div id="dialog"></div>
+</div>
+</html>

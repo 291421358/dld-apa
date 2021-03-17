@@ -1,0 +1,173 @@
+body {
+    text-align: center;
+    /*font-size: 20px;*/
+}
+
+div::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#qcCanvas {
+    background: url("../images/scaling/coordinate1.png") no-repeat 35px;
+    background-size: 100% 113px;
+
+}
+
+select {
+    border: 1px #7eaad7 solid;
+    border-top: none;
+    border-left: none;
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    /*padding-right: .6rem;*/
+    /*-moz-appearance: none; !* Firefox *!*/
+    /*-webkit-appearance: none; !* Safari 和 Chrome *!*/
+    background: none;
+    height: 22px;
+}
+
+
+input, input[type=checkbox] {
+    border: 1px #7eaad7 solid;
+    border-top: none;
+    height: 12px;
+    padding-top: 6.6px;
+    background: #b7dee8;
+}
+
+li {
+    list-style: none;
+    width: 100%;
+    border-bottom: 1px #7eaad7 solid;
+    float: left;
+}
+
+ul::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.SC_projectList {
+    background: #c6d5f7;
+    float: left;
+    width: 100px;
+    /*font-size: 12px;*/
+    margin-top: 1px;
+}
+
+.SC_projectList div {
+    border: 1px #adc3f7 solid;
+    height: 29.9px;
+    cursor: pointer;
+    margin-top: -1px;
+}
+
+.SC_projectList input {
+    float: right;
+    margin-top: 2px;
+    height: 0;
+/ / 15 px;
+    border: none;
+    display: block;
+    width: 0;
+/ / 20 px;
+    cursor: pointer;
+}
+
+#scaling_deal table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    box-sizing: border-box;
+    height: 176px;
+    width: 100%;
+}
+
+#scaling_deal td {
+    border: #c6d5f7 1px solid;
+    height: 26px;
+    padding: 0;
+    font-size: 12px;
+    width: 40px;
+}
+
+#scaling_time :hover {
+    cursor: pointer;
+}
+
+#bottom_div div {
+    float: left;
+    border-right: 2px #7eaad7 solid;
+    height: 100%;
+}
+
+#qc_save {
+    cursor: pointer;
+}
+
+#send, #update, #del,#sc_save   {
+    cursor: pointer;
+}
+
+.checkedColor {
+    background-color: #7eaad7;
+}
+
+#qc_deal {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    box-sizing: border-box;
+}
+
+#qc_deal table {
+    padding-left: 10px;
+}
+
+#qc_deal td {
+    border: #7eaad7 1px solid;
+    height: 31px;
+    font-size: 12px;
+    width: 40px;
+}
+
+#qc_save ,#avg,#doUpdateQC,#doUpdateQCSta,#closeQCBox,#closeQCStaBox,#clear{
+    cursor: pointer;
+}
+
+#updateQC,#updateQCSta {
+    position: absolute;
+    right: 400px;
+    top: 100px;
+    background: white;
+    width: 250px;
+    height: 70px;
+    border: 3px solid #444;
+    border-radius: 1px;
+    z-index: 2;
+    display: none;
+}
+#dates div:hover{
+    background: #7eaad7;
+    cursor: pointer;
+}
+#closeQCBox{
+    float: right;
+    font-size: larger;
+    cursor: pointer;
+}
+
+#canvas {
+    background: url("../images/scaling/coordinate.png") 30px 0/ 202px 200px no-repeat;
+    margin-right: 50px;
+}

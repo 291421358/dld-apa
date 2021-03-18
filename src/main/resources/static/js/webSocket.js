@@ -19,7 +19,7 @@ websocket.onerror = function () {
 //连接成功建立的回调方法
 websocket.onopen = function () {
     console.log("Websocket连接成功:WebSocket 21 Line");
-    setMessageInnerHTML("Websocket连接成功");
+    // setMessageInnerHTML("Websocket连接成功");
 };
 
 //接收到消息的回调方法

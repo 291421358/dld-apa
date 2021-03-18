@@ -419,13 +419,14 @@ $(document).ready(function () {
                 jsonp: 'jsoncallback',
                 success: function (data) {
                     var canvasDiv = $("#canvasDiv");
-                    canvasDiv.html("<canvas id='canvas' width='260' height='250'></canvas><div id='curves'></div>");
+                    canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left'></div>");
                     canvasDiv.fadeIn("slow");
                     var canvas = canvasDiv.find("#canvas")[0];
                     var ctx = canvas.getContext('2d');
                     ctx.clearRect(0, 0, 2000, 2000);
                     ctx.stroke();
                     console.log(data);
+                    var curveDiv = "";
                     $.each(data, function (i, project) {
                         var ctx3 = canvas.getContext('2d');
                         ctx3.strokeStyle = "red";
@@ -436,6 +437,7 @@ $(document).ready(function () {
                             var ctx4 = canvas.getContext('2d');
 
                             ctx4.strokeText(i, 200 / (data.length - 1) * i+15, 242);
+                            curveDiv += "<div>"+(i)+":"+project.abs+"</div>";
                         }
                     });
                     var ctx2 = canvas.getContext('2d');
@@ -443,8 +445,8 @@ $(document).ready(function () {
                     ctx2.strokeText(data[data.length - 1].max, 0, 222 - data[data.length - 1].maxY);
                     // ctx2.strokeText(data.length, 219, 212);
                     ctx2.stroke();
-                    var curve = $("#curves").html(data);
-                    var curveDiv = "";
+                    console.log(curveDiv);
+                    var curve = $("#curves").html(curveDiv);
 
 
                 },

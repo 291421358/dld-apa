@@ -160,6 +160,7 @@ public class ProjectTestController {
             Map<String, Float> map = new HashMap<>();
             map.put("y", (Float.parseFloat(projectCurve.getY()) - min) / gap);
             map.put("x", (projectCurve.getX() - minX) / gapX);
+            map.put("abs", Float.valueOf(projectCurve.getY())/1000);
             resultList.add(map);
         }
         Map<String, Float> maxminMap = new HashMap<>();

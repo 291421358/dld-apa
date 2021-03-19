@@ -257,6 +257,7 @@ function dealProject(event) {
 }
 
 function circularReading() {
+    loadProjectList();
     //z这是第一次进入界面。先获取试剂位置，后续要用。
     getRegentPlace();
     getProjectListByDataTenToEnd();
@@ -333,23 +334,7 @@ function irLoad(event) {
         jsonp: 'jsoncallback',
         success: function (data) {
             quasi++;
-            $('#tab').html(
-                "<tr class='tab-head' style='height: 25px'>" +
-                "</tr>" +
-                "<tr style=';font-size: 1px;position:fixed;top:63px;left:28px;height: 26px;z-index:2;width: 820px;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
-                "    <td height='26'>样本号</td>" +
-                "    <td width='96' style='font-size: 1px'>条码号</td>" +
-                "    <td></td>" +
-                "    <td> </td>" +
-                "    <td> </td>" +
-                "    <td> </td>" +
-                "    <td> </td>" +
-                "    <td> </td>" +
-                "    <td>架 号</td>" +
-                "    <td>位 号</td>" +
-                "    <td>操 作</td>" +
-                "</tr>");
-
+            loadProjectList()
             dealProject(event);
         },
         error: function () {
@@ -358,6 +343,25 @@ function irLoad(event) {
     });
 }
 
+
+function loadProjectList() {
+    $('#tab').html(
+        "<tr class='tab-head' style='height: 25px'>" +
+        "</tr>" +
+        "<tr style=';font-size: 1px;position:fixed;top:63px;left:28px;height: 26px;z-index:2;width: 820px;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
+        "    <td height='26'>样本号</td>" +
+        "    <td width='96' style='font-size: 1px'>条码号</td>" +
+        "    <td></td>" +
+        "    <td> </td>" +
+        "    <td> </td>" +
+        "    <td> </td>" +
+        "    <td> </td>" +
+        "    <td> </td>" +
+        "    <td>架 号</td>" +
+        "    <td>位 号</td>" +
+        "    <td>操 作</td>" +
+        "</tr>");
+}
 /**
  * 保存项目
  */

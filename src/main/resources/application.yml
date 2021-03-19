@@ -32,3 +32,4 @@ mybatis:
 
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#github token a07233876e043761d4db8d04231bdb6f1ec9388f

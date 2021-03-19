@@ -403,6 +403,8 @@ $(document).ready(function () {
         });
 
     });
+
+    var dataY = [];
 //监听项目列表并弹出曲线窗口
     $(".layui-form-item").on("click", function () {
         var jInput = $(this).find("input")[0];
@@ -418,6 +420,7 @@ $(document).ready(function () {
                 },
                 jsonp: 'jsoncallback',
                 success: function (data) {
+                    dataY = data;
                     var canvasDiv = $("#canvasDiv");
                     canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left;height: 250px;width:150px;overflow-y: scroll'  ></div>");
                     canvasDiv.fadeIn("slow");
@@ -450,9 +453,9 @@ $(document).ready(function () {
                     // ctx2.strokeText(data.length, 219, 212);
                     ctx2.stroke();
                     console.log(curveDiv);
-                    var curve = $("#curves").html(curveDiv);
+                    $("#curves").html(curveDiv);
 
-
+                    loadHighChart();
                 },
                 error: function () {
 
@@ -471,7 +474,78 @@ $(document).ready(function () {
         }
     });
 
+    function loadHighChart() {
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                panning: true,
+                panKey: 'shift'
+            },
+
+            annotations: [{
+                labelOptions: {
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                    verticalAlign: 'top',
+                    y: 15
+                },
+                labels: [{
+                    point: {
+                        xAxis: 0,
+                        yAxis: 0,
+                        // x: dataX,
+                        // y: dataXY[max][1]
+                    },
+                    text: '{point.y} '
+                }]
+            } ],
+
+            title: {
+                text: "光谱图 "
+            },
+            plotOptions: {
+                series: {
+                    marker: {
+                        enable: false,
+                    },
+                    lineWidth: 1.5,
+                    cursor: 'pointer',
+                    events: {
+                        click: function () {
+                            // alert('您点击的数据列是：' + this[0].value);
+                        }
+                    },
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+                },
+                title: {
+                    text: "数据线性图 "
+                },
+                subtitle: {
+                    text: "",
+                }
+            },
+            credits: {
+                enabled: false
+            }
+            ,
+            series: [{
+                data: dataY,
+                name: '光谱',
+                marker: {
+                    enabled: false
+                },
+                threshold: null
+            }]
+        });
+    }
 });
+
+
+
 
 window.onload = function () {
     getAllDoc();

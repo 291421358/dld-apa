@@ -376,7 +376,7 @@ public class GetProjectResultImp implements GetProjectResult {
             }
             double log = Math.log10(40000F / auxiliary);
             //格式化吸光度 小数点后三位
-            String formatAbs = new DecimalFormat("0.0000").format(log);
+            String formatAbs = new DecimalFormat("0.0000").format(log*2);
             //取得项目参数值
             ProjectParam projectParam = projectParameters.onePoject(ppi);
             //最大吸光度

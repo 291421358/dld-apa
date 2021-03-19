@@ -369,12 +369,17 @@ public class GetProjectResultImp implements GetProjectResult {
             //eb91250000140000000000000000000001000000010000e16d0000000500050518052915bf15bf1a071f151615161c021515d015d01d04108897359813010b17841784
             //辅波高位，辅波低位 //取一组数据，第10-11位 *256 + 12-13位 为ad数值
             int auxiliary = DateUtils.decodeHEX(result.substring(i * 14 + 10, i * 14 + 12)) * 256 + DateUtils.decodeHEX(result.substring(i * 14 + 12, i * 14 + 14));
+            //主波高位，主波低位 //取一组数据，第10-11位 *256 + 12-13位 为ad数值
+            int major = DateUtils.decodeHEX(result.substring(i * 14 + 6, i * 14 + 8)) * 256 + DateUtils.decodeHEX(result.substring(i * 14 + 8, i * 14 + 10));
             //40000/ad，取对数获得吸光度
             setBeindState(string);
             if (auxiliary == 0) {
                 auxiliary = 1;
             }
-            double log = Math.log10(40000F / auxiliary);
+            if (major == 0) {
+                major = 1;
+            }
+            double log = Math.log10(40000F / major);
             //格式化吸光度 小数点后三位
             String formatAbs = new DecimalFormat("0.0000").format(log*2);
             //取得项目参数值

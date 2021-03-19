@@ -367,7 +367,7 @@ button, input, optgroup, option, select, textarea {
 }
 canvas {
     background: url("../images/coordinate.png") -274px -50px/645px 619px no-repeat;
-    margin-right: 50px;
+    /*margin-right: 50px;*/
 }
 
 input[type=date] {

@@ -419,7 +419,7 @@ $(document).ready(function () {
                 jsonp: 'jsoncallback',
                 success: function (data) {
                     var canvasDiv = $("#canvasDiv");
-                    canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left;height: 250px;overflow: scroll'  ></div>");
+                    canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left;height: 250px;width:150px;overflow-y: scroll'  ></div>");
                     canvasDiv.fadeIn("slow");
                     var canvas = canvasDiv.find("#canvas")[0];
                     var ctx = canvas.getContext('2d');
@@ -440,7 +440,8 @@ $(document).ready(function () {
                         }
                         if (i !== data.length-1) {
 
-                            curveDiv += "<div>"+(i+1)+ ": "+project.abs+"</div>";
+                            var abs = project.abs.toString();
+                            curveDiv += "<div style='border-bottom: black 1px solid;float: left'> <div style='border-right: black 1px solid;width: 25px;float: left'>"+(i+1)+ "</div><div style='padding:0 20px 0 20px;float: left'> "+abs.substring(0,6)+"</div></div>";
                         }
                     });
                     var ctx2 = canvas.getContext('2d');

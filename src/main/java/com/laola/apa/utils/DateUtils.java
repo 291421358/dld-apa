@@ -201,7 +201,8 @@ public class DateUtils {
                 mainEnd = String.valueOf(map.get("y"));
             }
         }
-        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
+//        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
+        return Float.parseFloat(mainEnd);
     }
 
     /**

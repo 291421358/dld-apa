@@ -447,7 +447,11 @@ public class GetProjectResultImp implements GetProjectResult {
 //                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
                 if ("终点法".equals(computeMethod)) {
                     //速率法 取 终点-起点
-                    absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
+                    if (mainBegin == "0") {
+                        absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
+                    }else {
+                        absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
+                    }
                 }
                 logger.info("读数法：" + computeMethod);
                 if ("速率法".equals(computeMethod)) {

@@ -455,7 +455,7 @@ $(document).ready(function () {
                     console.log(curveDiv);
                     $("#curves").html(curveDiv);
 
-                    loadHighChart();
+                    // loadHighChart();
                 },
                 error: function () {
 

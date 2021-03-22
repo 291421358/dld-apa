@@ -262,7 +262,7 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public Map<String, Object> getProjectListByData(Project project){
-        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress ,p.code  FROM project \n" +
+        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress,p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
                 "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.test_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
@@ -353,6 +353,7 @@ public class ProjectTestImpl implements ProjectTest {
             map.put("abnormal",String.valueOf(project0.get("abnormal")));
             map.put("absorbanceLow",String.valueOf(project0.get("absorbance_low")));
             map.put("absorbanceHeight",String.valueOf(project0.get("absorbance_height")));
+            map.put("id",String.valueOf(project0.get("id")));
             ((List)pjtMap.get(humanCode)).add(map);
 
         }

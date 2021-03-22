@@ -89,6 +89,7 @@ function dealProject(event) {
                 var fac;
                 //取当前jsonArrElement[k].projectParamId;
                 var paramId = jsonArrElement[k].projectParamId;
+                var projectId = jsonArrElement[k].id;
 
                 var id = $('#tab tr:nth-child(2) td:nth-child(' + (j + 3) + ')')[0].id;
                 // console.log(id, paramId);
@@ -130,8 +131,9 @@ function dealProject(event) {
                             title += "吸光度低↓  ";
                         }
                         if (title != "") {
-                            tr += "title ='" + title + "'"
+                            tr += " title ='" + title + "'"
                         }
+
                         markCanBeDelete = 1;
                         if (progress <= 0.5) {
                             progress = "≤0.5";//This inspection reports expression statements which are not assignments or calls. Such statements have no
@@ -147,9 +149,13 @@ function dealProject(event) {
                     break;
                 }
             }
+            if (projectId != null && projectId !== ""){
+                tr += " id="+projectId;
+            }
             tr += ">" + progress + "</td>";
             progress = "";
         }
+
         tr += "<td><select disabled>";
         for (let j = 0; j < 5; j++) {
             //1到5架号
@@ -262,7 +268,7 @@ function circularReading() {
     getRegentPlace();
     getProjectListByDataTenToEnd();
     //然后进入循环 读取数据和仪器状态
-    timeout = setTimeout(readDateAndState, 1000);
+    timeout = setTimeout(readDateAndState, 250);
     setTimeout(function () {
         $("#testAndShow").scrollTop(scrollLength - 90);
     }, 1000);
@@ -334,7 +340,7 @@ function irLoad(event) {
         jsonp: 'jsoncallback',
         success: function (data) {
             quasi++;
-            loadProjectList()
+            // loadProjectList()
             dealProject(event);
         },
         error: function () {
@@ -648,17 +654,11 @@ $(document).ready(function () {
     }).on('click', 'td:nth-child(11)', function () {
         ///删除
         deltd = $(this);
-        // console.log(deltd1);
-        // console.log(deltr);
         deleteHumanCode = deltd.parent().children()[0].innerHTML;
         if ("X" == deltd[0].innerHTML) {
             var deleteProjectBox = $("#deleteProjectBox");
-            // noinspection JSAnnotator
-            // if (deltr ==null || deltr.parentNode == null || deltr[0] == "td"){
-            // }else {
             deleteProjectBox.find("#delProjectSure").html("确认删除项目" + deleteHumanCode + '吗？');
             deleteProjectBox.fadeIn("slow");
-            // }
         }
     });
     //删除项目
@@ -696,12 +696,6 @@ $(document).ready(function () {
         deltr = null;
     });
 
-    $(".regent-bottle td").on('click', function () {
-        var loginBox = $("#LoginBox");
-        loginBox.find("#updateBox").html("确认修改试剂位置" + $(this).attr("place"));
-        loginBox.find("#updateBox").attr("place", $(this).attr("place"));
-        loginBox.fadeIn("slow");
-    });
     //关闭悬浮的窗口
     $(".close_btn").hover(function () {
         $(this).css({color: 'black'})
@@ -711,17 +705,6 @@ $(document).ready(function () {
         $("#LoginBox").fadeOut("fast");
         $("#deleteProjectBox").fadeOut("fast");
         $("#mask").css({display: 'none'});
-    });
-    //修改    试剂位置
-    $("#updateBox").on("click", function () {
-        var parent = $(this).parent().parent();
-        var regent_project = parent.find("#regent_project");
-        var type = parent.find("#regent_type")[0].value;
-        var id = regent_project[0].value;
-        console.log(id);
-        var place = $(this).attr("place");
-        updateRegentPlace(place, id, place, type);
-        setTimeout(refush, 500);
     });
 
     /**
@@ -773,6 +756,76 @@ $(document).ready(function () {
             }
         });
     })
+
+
+    $("#tab").on("click","td", function () {
+
+        var id = $(this)[0].id;
+        if (id == null || id === "") {
+            return;
+        }
+        $.ajax({
+                type: 'get',
+                url: urlhead + '/productTest/selectCurveById',
+                async: true,
+                data: {
+                    id: id,
+                },
+                jsonp: 'jsoncallback',
+                success: function (data) {
+                    // dataY = data;
+                    var canvasDiv = $("#canvasDiv");
+                    canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left;height: 250px;width:150px;overflow-y: scroll'  ></div>");
+                    canvasDiv.fadeIn("slow");
+                    var canvas = canvasDiv.find("#canvas")[0];
+                    var ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, 2000, 2000);
+                    ctx.stroke();
+                    console.log(data);
+                    var curveDiv = "";
+                    $.each(data, function (i, project) {
+                        var ctx3 = canvas.getContext('2d');
+                        ctx3.strokeStyle = "red";
+                        ctx3.lineWidth = 1;
+                        ctx3.lineTo(project.x + 30, 210 - project.y);
+                        var number = parseInt((data.length - 1) / 7);
+                        if ((i % number === 0 && i!==0 && data.length-1-i >= number) || i===1 || i===data.length-1) {
+                            var ctx4 = canvas.getContext('2d');
+
+                            ctx4.strokeText(i, 200 / (data.length - 1) * i+15, 242);
+                        }
+                        if (i !== data.length-1) {
+
+                            var abs = project.abs.toString();
+                            curveDiv += "<div style='border-bottom: black 1px solid;float: left'> <div style='border-right: black 1px solid;width: 25px;float: left'>"+(i+1)+ "</div><div style='padding:0 20px 0 20px;float: left'> "+abs.substring(0,6)+"</div></div>";
+                        }
+                    });
+                    var ctx2 = canvas.getContext('2d');
+                    ctx2.strokeText(data[data.length - 1].min, 0, 210);
+                    ctx2.strokeText(data[data.length - 1].max, 0, 222 - data[data.length - 1].maxY);
+                    // ctx2.strokeText(data.length, 219, 212);
+                    ctx2.stroke();
+                    console.log(curveDiv);
+                    $("#curves").html(curveDiv);
+
+                    // loadHighChart();
+                },
+                error: function () {
+
+                }
+
+            }
+        )
+    });
+    //监听body 关闭曲线窗口
+    $("body").on("click", function (e) {
+
+        if ($(e.target).attr('id') != 'canvas') {
+            var canvasDiv = $("#canvasDiv");
+            canvasDiv.fadeOut("fast");
+        } else {
+        }
+    });
 });
 
 function refush() {
@@ -838,6 +891,9 @@ function readqc() {
             alert("error")
         }
     });
+
+
+
 }
 
 
@@ -872,4 +928,6 @@ function updateRegentPlace(id, projectParamId, place, type) {
             alert("error")
         }
     });
+
+
 }

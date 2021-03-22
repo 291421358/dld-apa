@@ -722,3 +722,24 @@ option{
     width: 56px;
     float: left;
 }
+
+#canvasDiv {
+    position: absolute;
+    right: 50px;
+    top: 150px;
+    background: white;
+    width: 200px;
+    height: 200px;
+    border: 3px solid #444;
+    z-index: 10000;
+    display: none;
+    /*padding-top: 20px;*/
+}
+#canvasDiv::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+canvas {
+    background: url("../images/coordinate.png") -274px -50px/645px 619px no-repeat;
+    /*margin-right: 50px;*/
+}

@@ -191,6 +191,25 @@ public class DateUtils {
      * @param mapList
      * @return
      */
+    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainEnd) {
+        for (Map<String, Object> map :
+                mapList) {
+            if (mainEnd.equals(String.valueOf(map.get("x")))) {
+                mainEnd = String.valueOf(map.get("y"));
+            }
+        }
+//        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
+        return Float.parseFloat(mainEnd);
+    }
+
+
+
+    /**
+     * 取得两点数差
+     *
+     * @param mapList
+     * @return
+     */
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd) {
         for (Map<String, Object> map :
                 mapList) {
@@ -201,8 +220,7 @@ public class DateUtils {
                 mainEnd = String.valueOf(map.get("y"));
             }
         }
-//        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
-        return Float.parseFloat(mainEnd);
+        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
     }
 
     /**

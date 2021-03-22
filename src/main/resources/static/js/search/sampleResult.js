@@ -420,7 +420,7 @@ $(document).ready(function () {
                 },
                 jsonp: 'jsoncallback',
                 success: function (data) {
-                    dataY = data;
+                    // dataY = data;
                     var canvasDiv = $("#canvasDiv");
                     canvasDiv.html("<canvas id='canvas' width='260' height='250' style='float: left'></canvas><div id='curves' style='float: left;height: 250px;width:150px;overflow-y: scroll'  ></div>");
                     canvasDiv.fadeIn("slow");

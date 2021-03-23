@@ -95,6 +95,33 @@ public class ProjectTestController {
         return json.toJson(projectListList);
     }
 
+
+    /**
+     * 获取某一天的结果
+     *
+     * @param project
+     * @return
+     */
+    @RequestMapping(value = "getProjectDensityByData")
+    public String getProjectDensityByData(Project project) {
+        Map<String, Object> projectListList = projectTest.getProjectListByData(project);
+        String densitys = "";
+        for (Map.Entry<String, Object> entry : projectListList.entrySet()) {
+
+            String key = entry.getKey().toString();
+            if (key.equals("maxCode") || key.equals("minCode")){
+                break;
+            }
+            ArrayList value = (ArrayList)entry.getValue();
+            System.out.println(value);
+            for (int j = 0; j < value.size(); j++) {
+                Map<String, String> stringStringMap = (Map<String, String>) value.get(j);
+                densitys += stringStringMap.get("progress")+" ";
+            }
+            densitys += "<br> ";
+        }
+        return densitys;
+    }
     /**
      * 获取某一天的数据 后十条
      *

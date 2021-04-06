@@ -667,6 +667,7 @@ $(document).ready(function () {
             var dateId = $scalingTimeChecked[0].innerText;
             del(dateId,paramid);
         }
+        setTimeout(getOneProjectsScalingTime, 1050, paramid);
     });
 });
 

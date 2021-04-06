@@ -283,7 +283,7 @@ $("#qc_deal").on('click', 'td', function () {
         }
         return;
     }
-    if ('序号' === innerHTML || innerHTML.indexOf("吸光度") >= 0 || '因子' === innerHTML || '浓度(y)' === innerHTML || '架号' === innerHTML || '位号' === innerHTML) return;
+    if ('序号' === innerHTML || innerHTML.indexOf("吸光度") >= 0 || '预设浓度' === innerHTML || '检测结果' === innerHTML || '架号' === innerHTML || '位号' === innerHTML) return;
 
     var input = '<input my=' + ($(this)[0].innerText === "" ? "-" : $(this)[0].innerText) + ' type="number" style="width: 100%;border: none;padding: 0;height: 18px;" value=' + $(this)[0].innerText + '>';
     td.html(input);

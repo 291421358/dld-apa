@@ -137,3 +137,7 @@ document.onkeypress = function (e) {
 function iclose(){
 
 }
+
+
+$("html,body").css("overflow","hidden").css("height","100%");
+document.body.addEventListener('touchmove', self.welcomeShowedListener, false);

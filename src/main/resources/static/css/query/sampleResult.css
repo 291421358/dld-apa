@@ -189,7 +189,7 @@ label {
 
 select {
     border: none;
-    width: 120px;
+    width: 220px;
     background: inherit;
     padding-left: 5px;
 }
@@ -224,7 +224,7 @@ button, input, optgroup, option, select, textarea {
     border-bottom: 1px solid #c6d5f7;
     float: left;
     width: -webkit-fill-available;
-    height: 21px;
+    height: 27px;
     /*background: #ebf1de;*/
 }
 
@@ -234,11 +234,13 @@ button, input, optgroup, option, select, textarea {
     border-right: 1px solid #c6d5f7;
     border-top: 1px solid #c6d5f7;
     border-left: 1px solid #c6d5f7;
-    width: 1260px;
+    width: 1233px;
+    font-size: 25px;
+    padding: 10px 0 10px 0;
 }
 
 .layui-form {
-    margin-top: 20px;
+    margin-top: 44px;
     margin-left: 20px;
 }
 
@@ -275,20 +277,21 @@ button, input, optgroup, option, select, textarea {
 .layui-form-label {
     width: 124px;
     border-right: 1px solid #c6d5f7;
-    height: 21px;
+    height: 29px;
+    padding-top: 3px;
 }
 
 .menu-label {
     width: 133px;
     border-right: 1px solid #c6d5f7;
-    height: 27px;
+    height: 29px;
     float: left;
 }
 
 .layui-input-inline {
     width: 133px;
     border-right: 1px solid #c6d5f7;
-    height: 21px;
+    height: 28px;
     float: left;
 }
 
@@ -344,7 +347,7 @@ button, input, optgroup, option, select, textarea {
     border-bottom: 1px  #c6d5f7 solid;
     float: left;
     width: -webkit-fill-available;
-    height: 21px;
+    height: 27px;
     background: none;
 }
 

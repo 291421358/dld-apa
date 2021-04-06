@@ -262,6 +262,8 @@ button, input, optgroup, option, select, textarea {
     border-top: 1px solid #c6d5f7;
     border-left: 1px solid #c6d5f7;
     width: 100%;
+    font-size: 25px;
+    padding: 10px 0 10px 0;
 }
 
 .layui-form {

@@ -556,14 +556,13 @@ button, input, optgroup, option, select, textarea {
     height: 0
 }
 .bottom-white-item {
-    padding-top: 3px;
     border: 1px solid #c6d5f7;
     float: left;
     width: -webkit-fill-available;
     height: 28px;
     background: none;
-    font-size: 22px;
-
+    font-size: 25px;
+    padding: 10px 0 10px 0;
 }
 
 .bottom-item {

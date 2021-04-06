@@ -105,7 +105,7 @@ and (min-resolution:.001dpcm) {
     float: left;
     background-image: url("../../css/images/inputAndResult/-e-3.png");
     background-size: 101px;
-    margin: 27px 0 0 23px;
+    margin: 10px 0 0 23px;
     cursor: pointer;
 }
 .stop{
@@ -115,7 +115,7 @@ and (min-resolution:.001dpcm) {
     background-image: url("../../css/images/inputAndResult/-e-2.png");
     background-size: 101px;
     float: left;
-    margin: 27px 0 0 19px;
+    margin: 10px 0 0 19px;
     cursor: pointer;
 
 }
@@ -126,7 +126,7 @@ and (min-resolution:.001dpcm) {
     background-image: url("../../css/images/inputAndResult/-e-1.png");
     float: left;
     background-size: 101px;
-    margin: 27px 0 0 19px;
+    margin: 10px 0 0 19px;
     cursor: pointer;
 
 }
@@ -459,8 +459,8 @@ option{
 }
 
 #save, #delete {
-    width: 67px;
-    height: 20px;
+    width: 83px;
+    height: 24px;
     opacity: 1;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
     font-weight: 400;
@@ -470,22 +470,22 @@ option{
 #save {
     background: #6bb3b3;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 17px;
     padding-top: 5px;
 }
 
 #delete {
     background: #ecf0f7;
     margin-left: 14px;
-    font-size: 12px;
+    font-size: 17px;
     padding-top: 5px;
 }
 
 #dealButton {
     float: left;
-    margin-top: 23px;
+    margin-top: 17px;
     margin-bottom: 15px;
-    margin-left: 670px;
+    margin-left: 639px;
 }
 
 #shijiqu {
@@ -501,29 +501,32 @@ option{
 }
 
 #tuichu {
-    width: 67px;
-    height: 21px;
+    width: 85px;
+    height: 23px;
     opacity: 1;
     background: #f4c244;
     border-radius: 11px;
     float: left;
-    margin-left: 101px;
+    margin-left: 35px;
     color: #ffffff;
-
+    padding-top: 1px;
+    font-size: 16px;
 }
 
 
 
 #tuijin {
-    width: 67px;
-    height: 21px;
+    width: 85px;
+    height: 23px;
     opacity: 1;
     background: #ecf0f7;
     border-radius: 11px;
     float: left;
-    margin-left: 13px;
+    margin-left: 50px;
     color: #96a0be;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    padding-top: 1px;
+    font-size: 16px;
 }
 
 #shiji_1, #shiji_2, #shiji_3, #shiji_4, #shiji_5, #shiji_6 {
@@ -579,7 +582,7 @@ option{
 
 #zhuangshi1 {
     width: 1px;
-    height: 159px;
+    height: 125px;
     opacity: 1;
     background: linear-gradient(100deg, #ebf0f8 0%, #bdc1c7 51%, #ebf0f8 100%);
     float: left;
@@ -588,7 +591,7 @@ option{
 
 #zhuangshi2, #zhuangshi6 {
     width: 1px;
-    height: 125px;
+    height: 94px;
     opacity: 1;
     background: linear-gradient(0deg, #ebf0f8 0%, #b9bec6 51%, #ebf0f8 100%);
     float: left;
@@ -597,7 +600,7 @@ option{
 
 #zhuangshi3, #zhuangshi4, #zhuangshi5 {
     width: 1px;
-    height: 93px;
+    height: 84px;
     opacity: 1;
     background: linear-gradient(0deg, #ebf0f8 0%, #c3c8d0 51%, #ebf0f8 100%);
     float: left;
@@ -649,7 +652,7 @@ option{
     font-weight: 700;
     text-align: center;
     color: #6d97f7;
-    margin: 20px 0 0 17px;
+    margin: 10px 0 2px 17px;
 }
 
 #zongjiance_t, #yijiance_t, #daijiance_t, #rack_t, #place_t {
@@ -694,7 +697,7 @@ option{
 
 #pureWater, #wasteWater {
     float: left;
-    margin: 20px 0 0 60px;
+    margin: 0px 0 7px 60px;
 }
 
 #water_t {
@@ -708,9 +711,23 @@ option{
     color: #333333;
     line-height: 15px;
     float: left;
-    margin-left: 10px;
+    margin-left: 203px;
 }
 
+
+#water_p {
+    width: 48px;
+    height: 11px;
+    opacity: 1;
+    font-size: 12px;
+    font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
+    font-weight: 400;
+    text-align: left;
+    color: #333333;
+    line-height: 15px;
+    float: left;
+    margin-left: 30px;
+}
 .demo2 ,.demo1{
     /*transform-origin: 55px 55px;*/
     transform: rotate(90deg) scale(1, -1);;

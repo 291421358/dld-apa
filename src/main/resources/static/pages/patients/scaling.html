@@ -109,15 +109,15 @@
     }
 
     #scalingAlgorithm {
-        width: 111px;
-        height: 23px;
+        width: 137px;
+        height: 30px;
         opacity: 1;
         background: #c6d5f7;
         border: 1px solid #adc3f7;
         float: left;
         margin-left: -1px;
         color: #333333;
-        font-size: 12px;
+        font-size: 16px;
         text-align: right;
         padding-left: 15px;
     }
@@ -133,11 +133,11 @@
     }
 
     #chance_1 {
-        height: 18px;
+        height: 25px;
         background: #dfe6f7;
         width: 111px;
         border: 1px solid #adc3f7;
-        font-size: 12px;
+        font-size: 16px;
         color: #333333;
         float: left;
         padding-top: 3px;
@@ -148,7 +148,7 @@
         height: 23px;
         width: 250px;
         margin-left: -1px;
-
+        text-align: center;
     }
 
     #chance_sc {
@@ -233,16 +233,6 @@
                     <!--<div style="float: left;height: 20px"><label hidden>定标点数</label><input hidden title="scalingPoint">-->
                     <!--</div>-->
                     <!--<div style="float: left;height: 20px;width: 373px"><label>重复次数</label><input value="1次" disabled title="scalingPoint"></div>-->
-                    <div id="chance">
-                        <div id="chance_1">算法选择</div>
-                        <select id="scalingAlgorithm" title="scalingAlgorithm">
-                            <option value="三次样条函数">三次样条函数</option>
-                            <option value="一次曲线">一次曲线</option>
-                            <option value="二次曲线拟合">二次曲线拟合</option>
-                            <option value="RodBard">Logistic-4p</option>
-                            <option value="三次曲线拟合">三次曲线拟合</option>
-                        </select>
-                    </div>
                 </div>
                 <div id="scaling_n" style="">
                     <div id="scal_list">
@@ -326,7 +316,18 @@
                 <div id="scal_curve">定标曲线</div>
                 <div id="can_o">
                     <canvas style="" id="canvas" height="234" width="234"></canvas>
+                    <div id="chance">
+                        <div id="chance_1">算法选择</div>
+                        <select id="scalingAlgorithm" title="scalingAlgorithm">
+                            <option value="三次样条函数">三次样条函数</option>
+                            <option value="一次曲线">一次曲线</option>
+                            <option value="二次曲线拟合">二次曲线拟合</option>
+                            <option value="RodBard">Logistic-4p</option>
+                            <option value="三次曲线拟合">三次曲线拟合</option>
+                        </select>
+                    </div>
                 </div>
+
                 <div style="float: right;margin-right: 23px;margin-top: 13px">
                     <div id="clear" class="clear"> 清空</div>
                     <div id="update" class="update"> 更新</div>

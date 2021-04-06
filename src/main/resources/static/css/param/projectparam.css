@@ -270,15 +270,18 @@ button, input, optgroup, option, select, textarea {
 }
 
 .layui-btn-primary {
-    border: 1px solid #C9C9C9;
+    border: 2px solid #3e3e3e;
     background-color: #fff;
     color: #555;
-    margin-top: 2px;
+    margin-top: 12px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 .layui-btn-primary:hover {
     border-color: #009688;
-    color: #333
+    color: #333;
+
 }
 
 .bottom-btn {

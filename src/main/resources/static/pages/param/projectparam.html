@@ -235,6 +235,13 @@
                 </div>
                 <label class="layui-form-mid ">周期</label>
             </div>
+            <div class="layui-form-item  ">
+                <label class="layui-form-label">试剂数量</label>
+                <div class="layui-input-inline">
+                    <input id="total" style="width: 100px;float: left;margin-top: 13px;border: none">
+                </div>
+                <label class="layui-form-mid ">人份</label>
+            </div>
         </div>
         <div class="layui-col-md4">
             <div class="item-title">
@@ -303,24 +310,26 @@
                 </div>
             </div>
 
-
             <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">关键字查询</label>
+                <div class="layui-input-inline">
+                    <input id="keyword" style="width: 100px;float: left;margin-top: 13px;border: none">
+                </div>
+            </div>
+            <div class="layui-form-item ">
                 <div class="layui-inline">
                     <input type="button" class="layui-btn-primary" value="添加" onclick="insertProject();" lay-submit>
                     <input type="button" class="layui-btn-primary" value="确认修改" onclick="updateProjectParam();" lay-submit>
 
                     <input type="reset" class="layui-btn layui-btn-primary">
+                    <input type="button" class="layui-btn-primary" id="createQRCode" value="生成二维码" style=" ">
                 </div>
             </div>
-        </div>
-        <div class="layui-input-inline" style="border: none;width: 800px" id="info">
-            <label for="keyword">按条件查询</label><input id="keyword" style="width: 100px;float: left">
+
         </div>
         <br>
         <div>
-            <label for="total">试剂量（总人份数）</label><input id="total" style="width: 100px;float: left">
 
-            <input type="button" id="createQRCode" value="生成二维码" style="float: left">
             <!--<input class="text" id="text" type="tel"  placeholderaaa="单击此处扫码">-->
         </div>
     </div>

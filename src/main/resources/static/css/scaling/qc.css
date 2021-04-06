@@ -59,11 +59,13 @@ ul {
 
 .SC_projectList div {
     width: 217px;
-    height: 45px;
+    height: 34px;
     opacity: 1;
     background: #ffffff;
     border: 1px solid #c6d5f7;
     margin-top: -1px;
+    padding-top: 11px;
+    font-size: 18px;
 }
 
 .SC_projectList input {
@@ -132,6 +134,7 @@ ul {
     width: 148px;
     height: 23px;
     margin-left: -1px;
+    padding-top: 3px;
 }
 
 #qc_save ,#avg,#doUpdateQC,#doUpdateQCSta,#closeQCBox,#closeQCStaBox,#clear{

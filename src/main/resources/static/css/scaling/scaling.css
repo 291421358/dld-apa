@@ -28,6 +28,7 @@ select {
     /*-webkit-appearance: none; !* Safari 和 Chrome *!*/
     background: none;
     height: 22px;
+    -webkit-appearance: button;
 }
 
 
@@ -44,6 +45,8 @@ li {
     width: 100%;
     border-bottom: 1px #7eaad7 solid;
     float: left;
+    padding-top: 3px;
+    font-size: 17px;
 }
 
 ul::-webkit-scrollbar {
@@ -67,9 +70,12 @@ ul {
 
 .SC_projectList div {
     border: 1px #adc3f7 solid;
-    height: 29.9px;
+    height: 25.9px;
     cursor: pointer;
     margin-top: -1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+font-size: 19px;
 }
 
 .SC_projectList input {
@@ -95,10 +101,11 @@ ul {
 
 #scaling_deal td {
     border: #c6d5f7 1px solid;
-    height: 26px;
+    height: 29px;
     padding: 0;
-    font-size: 12px;
+    font-size: 16px;
     width: 40px;
+    text-align: center;
 }
 
 #scaling_time :hover {
@@ -121,6 +128,7 @@ ul {
 
 .checkedColor {
     background-color: #7eaad7;
+    color: white;
 }
 
 #qc_deal {
@@ -170,4 +178,5 @@ ul {
 #canvas {
     background: url("../images/scaling/coordinate.png") 30px 0/ 202px 200px no-repeat;
     margin-right: 50px;
+    float: left;
 }

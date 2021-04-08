@@ -24,7 +24,13 @@ public class ParameterController {
     private ProjectNamePlaceServer projectNamePlaceServer;
 
 
-
+    /**
+     * 查询质控标准值
+     */
+    @RequestMapping(value = "presetQc" , method = RequestMethod.GET)
+    public List<ProjectParam> presetQc(){
+        return paramIntf.presetQc();
+    }
 
     /**
      * 项目列表

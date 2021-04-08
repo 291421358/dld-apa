@@ -256,6 +256,30 @@ function updateQCSta(projectParamNum, staQuality) {
         }
     })
 };
+
+
+/**
+ * 查询qc标准值
+ * @param projectParamNum
+ * @param staQuality
+ */
+function presetQc(projectParamNum, staQuality) {
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/parameter/presetQc',
+        async: true,
+        data: {},
+        jsonp: 'jsoncallback',
+        success: function (data) {
+            var $SCProjectList = $("#SC_projectList input");
+
+
+        },
+        error: function () {
+            console.log("请联系管理员")
+        }
+    })
+};
 function noParamGetQcProjects() {
     getQcProjects(paramid);
 };
@@ -285,7 +309,7 @@ $("#qc_deal").on('click', 'td', function () {
     }
     if ('序号' === innerHTML || innerHTML.indexOf("吸光度") >= 0 || '预设浓度' === innerHTML || '检测结果' === innerHTML || '架号' === innerHTML || '位号' === innerHTML) return;
 
-    var input = '<input my=' + ($(this)[0].innerText === "" ? "-" : $(this)[0].innerText) + ' type="number" style="width: 100%;border: none;padding: 0;height: 18px;" value=' + $(this)[0].innerText + '>';
+    var input = '<input  my=' + ($(this)[0].innerText === "" ? "-" : $(this)[0].innerText) + ' type="number" style="width: 100%;border: none;padding: 0;height: 13px;" value=' + $(this)[0].innerText + '>';
     td.html(input);
     td.find("input")[0].focus();
 }).on('blur ', 'input', function () {

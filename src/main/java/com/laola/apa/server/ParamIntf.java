@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ParamIntf {
+    List<ProjectParam> presetQc();
     //查询列表
     Map<String, String> projectMap();
 

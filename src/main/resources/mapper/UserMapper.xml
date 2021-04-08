@@ -33,6 +33,12 @@
     <result column="other_modified_formula_B" jdbcType="VARCHAR" property="otherModifiedFormulaB" />
     <result column="dilution_delay_period" jdbcType="VARCHAR" property="dilutionDelayPeriod" />
     <result column="factor" jdbcType="VARCHAR" property="factor" />
+    <result column="preset_density_low" jdbcType="VARCHAR" property="presetDensityLow" />
+    <result column="preset_density_mid" jdbcType="VARCHAR" property="presetDensityMid" />
+    <result column="preset_density_hight" jdbcType="VARCHAR" property="presetDensityHight" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
+    <select id="presetQc" resultType="com.laola.apa.entity.ProjectParam">
+      select id,preset_density_low,preset_density_mid,preset_density_hight from project_param;
+    </select>
 </mapper>

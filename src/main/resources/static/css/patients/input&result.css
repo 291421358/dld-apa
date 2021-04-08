@@ -362,7 +362,7 @@ option{
 }
 #dialog {
     position: absolute;
-    top: 69px;
+    top: 20px;
     left: 212px;
     z-index: 1025;
 }

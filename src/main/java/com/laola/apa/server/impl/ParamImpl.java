@@ -32,6 +32,12 @@ public class ParamImpl implements ParamIntf {
     @Autowired
     private CodeServer code;
     /**
+     * 查询质控标准值
+     */
+    public List<ProjectParam> presetQc(){
+        return projectParamMapper.presetQc();
+    }
+    /**
      * 查询所有项目的id和项目名 Map
      * @return Map<String, String>
      */

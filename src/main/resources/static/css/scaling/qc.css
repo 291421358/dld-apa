@@ -59,7 +59,7 @@ ul {
 
 .SC_projectList div {
     width: 217px;
-    height: 34px;
+    height: 45px;
     opacity: 1;
     background: #ffffff;
     border: 1px solid #c6d5f7;
@@ -130,11 +130,11 @@ ul {
 
 #qc_deal td {
     border: 1px solid #c6d5f7;
-    font-size: 19px;
+    font-size: 12px;
     width: 148px;
-    height: 23px;
+    height: 19px;
     margin-left: -1px;
-    padding-top: 3px;
+    padding-top: 0px;
 }
 
 #qc_save ,#avg,#doUpdateQC,#doUpdateQCSta,#closeQCBox,#closeQCStaBox,#clear{

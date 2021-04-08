@@ -173,6 +173,24 @@ public class ProjectParam {
     @Column(name = "factor")
     private String factor;
 
+
+    /**
+     * 标准浓度低
+     */
+    @Column(name = "`preset_density_low`")
+    private String presetDensityLow;
+
+     /**
+     * 标准浓度低
+     */
+    @Column(name = "`preset_density_mid`")
+    private String presetDensityMid;
+
+    /**
+     * 标准浓度高
+     */
+    @Column(name = "`preset_density_hight`")
+    private String presetDensityHight;
     /**
      * 创建时间
      */
@@ -654,6 +672,30 @@ public class ProjectParam {
         this.factor = factor;
     }
 
+    public String getPresetDensityLow() {
+        return presetDensityLow;
+    }
+
+    public void setPresetDensityLow(String presetDensityLow) {
+        this.presetDensityLow = presetDensityLow;
+    }
+
+    public String getPresetDensityHight() {
+        return presetDensityHight;
+    }
+
+    public void setPresetDensityHight(String presetDensityHight) {
+        this.presetDensityHight = presetDensityHight;
+    }
+
+    public String getPresetDensityMid() {
+        return presetDensityMid;
+    }
+
+    public void setPresetDensityMid(String presetDensityMid) {
+        this.presetDensityMid = presetDensityMid;
+    }
+
     /**
      * 获取创建时间
      * @return createtime - 创建时间
@@ -674,7 +716,7 @@ public class ProjectParam {
     @Override
     public String toString() {
         return "ProjectParam{" +
-                "paramid=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", chineseName='" + chineseName + '\'' +
                 ", computeMethod='" + computeMethod + '\'' +
@@ -702,6 +744,8 @@ public class ProjectParam {
                 ", otherModifiedFormulaB='" + otherModifiedFormulaB + '\'' +
                 ", dilutionDelayPeriod='" + dilutionDelayPeriod + '\'' +
                 ", factor='" + factor + '\'' +
+                ", presetDensityLow='" + presetDensityLow + '\'' +
+                ", presetDensityHight='" + presetDensityHight + '\'' +
                 ", createtime=" + createtime +
                 '}';
     }

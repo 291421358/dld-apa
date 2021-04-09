@@ -586,7 +586,7 @@ public class GetProjectResultImp implements GetProjectResult {
             logger.info(String.valueOf(density));
         }
         if (density == -501){
-            project.setDensity("ABS过小");
+            project.setDensity("<0.05");
             projectMapper.updateByPrimaryKeySelective(project);
             return;
         }

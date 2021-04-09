@@ -4,7 +4,7 @@ var quaslength = 0;
 var paramid = 1;
 
 /**
- * 初始化方法；加载项目列表
+ * 初始化方法；加载项目列表。左侧列表
  */
 function sc_irload() {
     $.ajax({

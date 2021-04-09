@@ -135,6 +135,7 @@ ul {
     height: 19px;
     margin-left: -1px;
     padding-top: 0px;
+    text-align: center;
 }
 
 #qc_save ,#avg,#doUpdateQC,#doUpdateQCSta,#closeQCBox,#closeQCStaBox,#clear{

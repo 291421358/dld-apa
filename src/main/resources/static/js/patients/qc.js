@@ -1,4 +1,4 @@
-var urlhead = 'http://localhost:8081';
+var urlhead = getPort();
 var Oid;
 var quaslength = 0;
 
@@ -78,7 +78,7 @@ function updateDensity() {
             getOneProjectsAllQcByProjectParamId(Oid);
         },
         error: function () {
-            $('#details').html("有问题");
+            $('#details').html("有异常");
         }
     });
 }
@@ -227,7 +227,9 @@ function saveQC() {
                         break;
                 }
             });
-            saveProject(paramid, 3, null, null, density, place_no, rack_no);
+            if (rack_no >0 && place_no >0) {
+                saveProject(paramid, 3, null, null, density, place_no, rack_no);
+            }
         }
     });
 }
@@ -255,15 +257,11 @@ function updateQCSta(projectParamNum, staQuality) {
             console.log("请联系管理员")
         }
     })
-};
-
-
+}
 /**
  * 查询qc标准值
- * @param projectParamNum
- * @param staQuality
  */
-function presetQc(projectParamNum, staQuality) {
+function presetQc() {
     $.ajax({
         type: 'get',
         url: urlhead + '/parameter/presetQc',
@@ -272,17 +270,30 @@ function presetQc(projectParamNum, staQuality) {
         jsonp: 'jsoncallback',
         success: function (data) {
             var $SCProjectList = $("#SC_projectList input");
-
+            for (let i = 0; i < $SCProjectList.length; i++) {
+                var id = $SCProjectList[i].id;
+                console.log(id);
+                for (let j = 0; j < data.length; j++) {
+                    if (data[j].id == id) {
+                        var presetDensityHight = $("#qc_deal tr:nth-child("+(3*i+2)+") td:nth-child(1)")[0];
+                        var presetDensityMid = $("#qc_deal tr:nth-child("+(3*i+3)+") td:nth-child(1)")[0];
+                        var presetDensityLow = $("#qc_deal tr:nth-child("+(3*i+4)+") td:nth-child(1)")[0];
+                        presetDensityHight.innerText =data[j].presetDensityHight;
+                        presetDensityMid.innerText =data[j].presetDensityMid;
+                        presetDensityLow.innerText =data[j].presetDensityLow;
+                    }
+                }
+            }
 
         },
         error: function () {
             console.log("请联系管理员")
         }
     })
-};
+}
 function noParamGetQcProjects() {
     getQcProjects(paramid);
-};
+}
 /**
  * 保存质控项目
  */
@@ -405,7 +416,8 @@ function setBEDate() {
     $("#QCEndDate").val(value1);
 
 }
-var availableTags =  new Array();
+//条件查询用的数组
+var availableTags =  [];
 function qc_load() {
     $.ajax({
         type: 'get',

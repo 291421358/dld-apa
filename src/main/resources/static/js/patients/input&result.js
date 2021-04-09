@@ -857,16 +857,19 @@ function alertWin(id) {
     }
     // $("#dialog").html("<iframe scrolling='no' src=" + url + " height=750 width=1280 frameborder=null style='z-index: 1023;'></iframe>") ;    // 加载弹出页
     $("#dialog").load(url);    // 加载弹出页
+    //设定左侧列表
+    setTimeout(sc_irload, 100);
     if (id === 1){
         setTimeout(getOneProjectsScalingTime(1), 100);
         setTimeout(setBEDate, 100);
     }else {
         setTimeout(qc_load, 100);
         setTimeout(setBEDate, 100);
+        setTimeout(presetQc, 100);
         // timeout1 = setTimeout(readqc, 15000);
     }
 
-    setTimeout(sc_irload, 100);
+
 
 
 }

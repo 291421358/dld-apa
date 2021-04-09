@@ -115,7 +115,7 @@ function getEquipmentState(){
         async: true,
         jsonp: 'jsoncallback',
         success: function (data) {
-            $("#tem").html("<img style='float: left;margin-left: 70px;margin-top: 5px'  src=\"images/temp.png\"> <div style='float: left;margin-top: 15px'>"+data.reactTemp+"°C</div>");
+            $("#tem").html("<img style='float: left;margin-left: 70px;margin-top: 5px'  src=\"css/images/temp.png\"> <div style='float: left;margin-top: 15px'>"+data.reactTemp+"°C</div>");
         },
         error: function () {
             alert("请联系管理员");

@@ -35,7 +35,8 @@ public class ParamImpl implements ParamIntf {
      * 查询质控标准值
      */
     public List<ProjectParam> presetQc(){
-        return projectParamMapper.presetQc();
+        List<ProjectParam> projectParams = projectParamMapper.presetQc();
+        return projectParams;
     }
     /**
      * 查询所有项目的id和项目名 Map

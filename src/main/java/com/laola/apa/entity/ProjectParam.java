@@ -177,20 +177,21 @@ public class ProjectParam {
     /**
      * 标准浓度低
      */
-    @Column(name = "`preset_density_low`")
-    private String presetDensityLow;
+    @Column(name = "preset_density_low")
+    private String preset_density_low;
 
      /**
-     * 标准浓度低
+     * 标准浓度中
      */
-    @Column(name = "`preset_density_mid`")
-    private String presetDensityMid;
+     @OneToOne()
+     @JoinColumn(name = "preset_density_mid")
+    private String preset_density_mid;
 
     /**
      * 标准浓度高
      */
-    @Column(name = "`preset_density_hight`")
-    private String presetDensityHight;
+    @Column(name = "preset_density_hight")
+    private String preset_density_hight;
     /**
      * 创建时间
      */
@@ -673,27 +674,27 @@ public class ProjectParam {
     }
 
     public String getPresetDensityLow() {
-        return presetDensityLow;
+        return preset_density_low;
     }
 
-    public void setPresetDensityLow(String presetDensityLow) {
-        this.presetDensityLow = presetDensityLow;
+    public void setPreset_density_low(String preset_density_low) {
+        this.preset_density_low = preset_density_low;
     }
 
     public String getPresetDensityHight() {
-        return presetDensityHight;
+        return preset_density_hight;
     }
 
     public void setPresetDensityHight(String presetDensityHight) {
-        this.presetDensityHight = presetDensityHight;
+        this.preset_density_hight = presetDensityHight;
     }
 
     public String getPresetDensityMid() {
-        return presetDensityMid;
+        return preset_density_mid;
     }
 
-    public void setPresetDensityMid(String presetDensityMid) {
-        this.presetDensityMid = presetDensityMid;
+    public void setPreset_density_mid(String preset_density_mid) {
+        this.preset_density_mid = preset_density_mid;
     }
 
     /**
@@ -744,8 +745,9 @@ public class ProjectParam {
                 ", otherModifiedFormulaB='" + otherModifiedFormulaB + '\'' +
                 ", dilutionDelayPeriod='" + dilutionDelayPeriod + '\'' +
                 ", factor='" + factor + '\'' +
-                ", presetDensityLow='" + presetDensityLow + '\'' +
-                ", presetDensityHight='" + presetDensityHight + '\'' +
+                ", presetDensityLow='" + preset_density_low + '\'' +
+                ", presetDensityMid='" + preset_density_mid + '\'' +
+                ", presetDensityHight='" + preset_density_hight + '\'' +
                 ", createtime=" + createtime +
                 '}';
     }

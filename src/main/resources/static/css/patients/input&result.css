@@ -105,9 +105,10 @@ and (min-resolution:.001dpcm) {
     float: left;
     background-image: url("../../css/images/inputAndResult/-e-3.png");
     background-size: 101px;
-    margin: 10px 0 0 23px;
+    margin: 10px 0 0 50px;
     cursor: pointer;
 }
+
 .stop{
     width: 101px;
     height: 113px;
@@ -115,12 +116,13 @@ and (min-resolution:.001dpcm) {
     background-image: url("../../css/images/inputAndResult/-e-2.png");
     background-size: 101px;
     float: left;
-    margin: 10px 0 0 19px;
+    margin: 10px 20px 0 49px;
     cursor: pointer;
 
 }
+
 .suspend{
-    width: 101px;
+    width: 0px;
     height: 113px;
     opacity: 1;
     background-image: url("../../css/images/inputAndResult/-e-1.png");
@@ -133,7 +135,7 @@ and (min-resolution:.001dpcm) {
 
 
 .state{
-    padding: 13px 0 0 27px;
+    padding: 13px 0 0 0px;
     float: left;
     width: 830px;
 }
@@ -157,8 +159,8 @@ float: left;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
     font-weight: 400;
     text-align: center;
-    color: #96a0be;
-    margin-top: 10px;
+    color: #848b98;
+    margin-top: 22px;
 }
 .state_6{
     float: left;
@@ -197,7 +199,8 @@ select {
     -moz-appearance: none; /* Firefox */
     -webkit-appearance: none; /* Safari 和 Chrome */
     background: none;
-    padding-left: 32px;
+    padding-left: 28px;
+    font-size: 23px;
 }
 
 .tab-head {
@@ -314,8 +317,8 @@ div::-webkit-scrollbar {
     width: 70px;
     text-align: center;
 }
-#tab  tr td:first-child,#tab  tr td:first-child{width:40px;}
-#tab  tr td:nth-child(2){width:147px;}
+#tab  tr td:first-child,#tab  tr td:first-child{width:66px;font-size: 18px}
+#tab  tr td:nth-child(2){width:125px;}
 #tab  tr td:last-child,#tab  tr td:last-child {width:41px;cursor: pointer;text-align: center}
 @supports (-ms-ime-align: auto) {/*针对edge*/
     .regent {
@@ -369,41 +372,41 @@ option{
 
 .juxing {
     width: 4px;
-    height: 17px;
+    height: 26px;
     opacity: 1;
     background: #6d97f7;
     border-radius: 2px;
     float: left;
-    margin-top: 3px;
+    margin-top: 4px;
 
 }
 
 /*pagename*/
 #pn_1, #pn_2, #pn_3 {
-    width: 70px;
+    width: 115px;
     height: 13px;
     opacity: 1;
-    font-size: 13px;
+    font-size: 22px;
     font-family: Source Han Sans CN Bold, Source Han Sans CN Bold-Bold, serif;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
     color: #333333;
     line-height: 15px;
     float: left;
-    margin-left: 13px;
-    margin-top: 5px;
+    margin-left: 10px;
+    margin-top: 9px;
 }
 
 #sc, #qc {
-    width: 73px;
-    height: 25px;
+    width: 78px;
+    height: 30px;
     opacity: 1;
     background: #ecf0f7;
-    border-radius: 13px;
+    border-radius: 45px;
     float: left;
     margin-left: 28px;
     cursor: pointer;
-
+    font-size: 22px;
 }
 
 #juxing_1, #juxing_2, #juxing_3 {
@@ -447,7 +450,7 @@ option{
 #ceshiqu {
     float: left;
     text-align: center;
-    width: 819px;
+    width: 820px;
     margin-left: 14px;
     padding-left: 13px;
     margin-top: 13px;
@@ -460,7 +463,7 @@ option{
 
 #save, #delete {
     width: 83px;
-    height: 24px;
+    height: 30px;
     opacity: 1;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
     font-weight: 400;
@@ -470,14 +473,14 @@ option{
 #save {
     background: #6bb3b3;
     color: #ffffff;
-    font-size: 17px;
+    font-size: 22px;
     padding-top: 5px;
 }
 
 #delete {
-    background: #ecf0f7;
+    background: #d4d8df;
     margin-left: 14px;
-    font-size: 17px;
+    font-size: 22px;
     padding-top: 5px;
 }
 
@@ -502,31 +505,31 @@ option{
 
 #tuichu {
     width: 85px;
-    height: 23px;
+    height: 27px;
     opacity: 1;
     background: #f4c244;
-    border-radius: 11px;
+    border-radius: 35px;
     float: left;
-    margin-left: 35px;
+    margin-left: 0px;
     color: #ffffff;
     padding-top: 1px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 
 
 #tuijin {
     width: 85px;
-    height: 23px;
+    height: 27px;
     opacity: 1;
     background: #ecf0f7;
-    border-radius: 11px;
+    border-radius: 35px;
     float: left;
     margin-left: 50px;
-    color: #96a0be;
-    margin-bottom: 18px;
+    color: #60677d;
+    margin-bottom: 8px;
     padding-top: 1px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #shiji_1, #shiji_2, #shiji_3, #shiji_4, #shiji_5, #shiji_6 {
@@ -624,14 +627,14 @@ option{
 }
 
 #date {
-    margin: 0 200px 0 10px;
+    margin: 0 119px 0 10px;
     height: 11px;
     opacity: 1;
     font-size: 11px;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
     font-weight: 400;
     text-align: left;
-    color: #96a0be;
+    color: #6e7691;
     float: left;
 }
 
@@ -670,7 +673,7 @@ option{
 
 #shuiwei1, #shuiwei2 {
     float: left;
-    margin-top: 17px;
+    margin-top: 29px;
 
 }
 
@@ -692,7 +695,7 @@ option{
 
 #shuiweitip {
     float: left;
-    margin: 25px 0 0 68px;
+    margin: 0px 0 0 68px;
 }
 
 #pureWater, #wasteWater {
@@ -704,29 +707,29 @@ option{
     width: 68px;
     height: 11px;
     opacity: 1;
-    font-size: 12px;
+    font-size: 15px;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
     font-weight: 400;
     text-align: left;
     color: #333333;
     line-height: 15px;
     float: left;
-    margin-left: 203px;
+    margin-left: 197px;
 }
 
 
 #water_p {
-    width: 48px;
+    width: 60px;
     height: 11px;
     opacity: 1;
-    font-size: 12px;
+    font-size: 15px;
     font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
     font-weight: 400;
     text-align: left;
     color: #333333;
     line-height: 15px;
     float: left;
-    margin-left: 30px;
+    margin-left: 31px;
 }
 .demo2 ,.demo1{
     /*transform-origin: 55px 55px;*/

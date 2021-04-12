@@ -352,11 +352,11 @@ function irLoad(event) {
 
 function loadProjectList() {
     $('#tab').html(
-        "<tr class='tab-head' style='height: 25px'>" +
+        "<tr class='tab-head' style='height: 25px;font-size: 18px'>" +
         "</tr>" +
-        "<tr style=';font-size: 1px;position:fixed;top:63px;left:28px;height: 26px;z-index:2;width: 820px;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
+        "<tr style=';font-size: 18px;position:fixed;top:63px;left:28px;height: 28px;z-index:2;width: 820px;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
         "    <td height='26'>样本号</td>" +
-        "    <td width='96' style='font-size: 1px'>条码号</td>" +
+        "    <td width='96'  >条码号</td>" +
         "    <td></td>" +
         "    <td> </td>" +
         "    <td> </td>" +
@@ -597,6 +597,9 @@ $(document).ready(function () {
 
     $(".start").click(function () {
         console.log("start");
+        $(this).css("background-image","url(../../css/images/inputAndResult/4.png)");
+        $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-2.png)");
+
         sendList();
 
         // setTimeout(refush,500);
@@ -610,7 +613,10 @@ $(document).ready(function () {
 
     $(".stop").click(function () {
         console.log("stop");
+        $(".start").css("background-image","url(../../css/images/inputAndResult/-e-3.png)");
+        $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-6.png)");
         clearTimeout(timeout);
+
     });
     var deleteHumanCode;
     var deltd;

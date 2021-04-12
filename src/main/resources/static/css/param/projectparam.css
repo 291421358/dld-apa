@@ -278,12 +278,22 @@ button, input, optgroup, option, select, textarea {
     width: 114px;
     background: #6bb3b3;
     color: white;
+    /*border-image:linear-gradient(to top,#000718, #757d8c) 1 10;*/
+    border-right: #4E5465 2px solid;
+    border-bottom: #4E5465 2px solid;
+    border-top: #bbc8ee 2px solid;
+    border-left: #b6c3ea 2px solid;
 }
 
+.layui-btn-primary:active {
+    border-right: #b6c3ea 2px solid;
+    border-bottom: #b6c3ea 2px solid;
+    border-top: #4E5465 2px solid;
+    border-left: #4E5465 2px solid;
+    color: #333
+}
 .layui-btn-primary:hover {
-    border-color: #009688;
-    color: #333;
-
+    color: #333
 }
 
 .bottom-btn {

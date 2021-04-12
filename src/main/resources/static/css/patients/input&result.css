@@ -514,6 +514,7 @@ option{
     color: #ffffff;
     padding-top: 1px;
     font-size: 18px;
+    cursor: pointer;
 }
 
 
@@ -530,6 +531,8 @@ option{
     margin-bottom: 8px;
     padding-top: 1px;
     font-size: 18px;
+    cursor: pointer;
+
 }
 
 #shiji_1, #shiji_2, #shiji_3, #shiji_4, #shiji_5, #shiji_6 {

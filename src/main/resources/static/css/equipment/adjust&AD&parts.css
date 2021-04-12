@@ -47,7 +47,7 @@ div.inner {
     }
 
     .layui-col-md3 {
-        width: 25%
+        width: 27%;
     }
 
     .layui-col-md4 {
@@ -150,13 +150,14 @@ div.inner {
     color: rgb(255, 255, 255);
     white-space: nowrap;
     text-align: center;
-    font-size: 10px;
+    font-size: 17px;
     cursor: pointer;
     border-width: initial;
     border-style: none;
     border-color: initial;
     border-image: initial;
     border-radius: 2px;
+    margin-left: 2px;
 }
 
 .ad-btn {
@@ -212,9 +213,10 @@ body {
     height: max-content;
 }
 .external-form-item{
-    width: 100%;
+    width: 99%;
     float: left;
     margin-top: 30px;
+    border: 1px solid gray;
 }
 .item{
     border:#ffffff 2px solid;
@@ -255,7 +257,10 @@ body {
     }
 
     .layui-col-md3 {
-        width: 25%
+        padding-top: 12px;
+        width: 49%;
+        line-height: 35px;
+        height: 65px;
     }
 
     .layui-col-md4 {
@@ -408,6 +413,7 @@ select {
     padding-left: 10px;
     width: 60px;
     float: left;
+    margin-top: 3px;
 }
 
 button, input, optgroup, option, select, textarea {
@@ -465,7 +471,9 @@ button, input, optgroup, option, select, textarea {
 .lightQuasi-bottom-label {
     width: 85px;
     border-right: 1px solid #c6d5f7;
-    height: 30px;
+    height: 38px;
+    font-size: 20px;
+    line-height: 33px;
 }
 
 .menu-label {
@@ -485,7 +493,7 @@ button, input, optgroup, option, select, textarea {
     border: 1px solid #c6d5f7;
     float: left;
     width: -webkit-fill-available;
-    height: 30px;
+    height: 38px;
 }
 .layui-btn-inline {
     width: 85px;
@@ -503,7 +511,7 @@ button, input, optgroup, option, select, textarea {
 .layui-form-select{
     width: 58px;
     border-right: 1px solid #c6d5f7;
-    height: 30px;
+    height: 36px;
     float: left;
 
 }
@@ -590,4 +598,32 @@ button, input, optgroup, option, select, textarea {
 .init{
     float: left;
     background: no-repeat;
+}
+
+.layui-btn-primary1 {
+    margin-top: 1px;
+    cursor: pointer;
+    margin-left: 47px;
+    width: 120px;
+    background: #6bb3b3;
+    color: white;
+    /*border-image:linear-gradient(to top,#000718, #757d8c) 1 10;*/
+    border-right: #4E5465 2px solid;
+    border-bottom: #4E5465 2px solid;
+    border-top: #bbc8ee 2px solid;
+    border-left: #b6c3ea 2px solid;
+    height: 35px;
+    float: right;
+    font-size: 20px;
+}
+
+.layui-btn-primary1:active {
+    border-right: #b6c3ea 2px solid;
+    border-bottom: #b6c3ea 2px solid;
+    border-top: #4E5465 2px solid;
+    border-left: #4E5465 2px solid;
+    color: #333
+}
+.layui-btn-primary1:hover {
+    color: #333
 }

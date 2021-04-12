@@ -119,42 +119,41 @@
         </div>
     </div>
     <div id="settings" class="external-form-item">
-        <div class="layui-col-md2">
-            <span style="float: left"> 初始化</span>
+        <div class="layui-col-md3">
             <div class="init" id="init" aria-hidden="true"
-                 style="float:left;background-image: url('../../css/images/inputAndResult/init.png');background-size: 31px 31px;height: 31px;width: 31px">
+                 style="float:left;background-image: url('../../css/images/inputAndResult/init.png');background-size: 45px 47px;height: 47px;width: 47px;line-height: 117px;margin-left: 50px">初始化
             </div>
-            <span style="float: left"> 清洗反应杯</span>
             <div class="init" id="cleanEight" aria-hidden="true"
-                 style="float:left;background-image: url('../../css/images/equipment/clean.png');background-size: 30px 30px;height: 30px;width: 30px">
+                 style="float:left;
+                 background: 15px 0px no-repeat;
+                 background-image: url('../../css/images/equipment/clean.png');background-size: 48px 47px;height: 47px;width: 76px;line-height: 117px;margin-left: 50px">清洗反应杯
             </div>
         </div>
 
-        <div class="layui-col-md2">
-            <button type="button" class="layui-btn" value="注射器推" id="syringeBlow" name="syringeBlow" style="width: 62px;float: left">注射器推</button>
-            <button type="button" class="layui-btn" value="注射器吸" id="syringeAbsorb" name="syringeAbsorb" style="width: 62px;float: left">注射器吸</button>
+        <div class="layui-col-md3">
+            <button type="button" class="layui-btn-primary1" value="注射器推" id="syringeBlow" name="syringeBlow" style=" float: left">注射器推</button>
+            <button type="button" class="layui-btn-primary1" value="注射器吸" id="syringeAbsorb" name="syringeAbsorb" style=" float: left">注射器吸</button>
             <input class="layui-input" type="number" max="999999" min="00" title="注射器吸/推量" maxlength="2" placeholder="00" style="width: 50px;float: left" id="volume" value="syringeAmount">
-            <div class="init" style="float:left;background-image: url('../../css/images/equipment/injection.png');background-size: 30px 30px;height: 30px;width: 30px"></div>
+            <div class="init" style="float:left; ;background-size: 30px 30px;height: 30px;width: 30px"></div>
         </div>
         <div class="layui-col-md3">
-            <button type="button" class="layui-btn" value="读取" id="readAddress" name="syringeBlow" style="width: 62px;float: left">读取</button>
-            <button type="button" class="layui-btn" value="写入" id="writeAddress" name="syringeAbsorb" style="width: 62px;float: left">写入</button>
+            <button type="button" class="layui-btn-primary1" value="读取" id="readAddress" name="syringeBlow" style="width: 80px;float: left">读取</button>
+            <button type="button" class="layui-btn-primary1" value="写入" id="writeAddress" name="syringeAbsorb" style="width: 80px;float: left">写入</button>
             <label>地址</label>
             <input class="layui-input" type="number" max="255" min="00" title="地址" maxlength="2" placeholder="00" style="width: 50px;float: left" id="address"  >
                         <label>数据</label>
-
             <input class="layui-input" type="number" max="255" min="00" title="数据" maxlength="2" placeholder="00" style="width: 50px;float: left" id="value"  >
         </div>
         <div class="layui-col-md3">
-            <button type="button" class="layui-btn" value="进水" id="inlet" name="syringeBlow" style="width: 62px;float: left">出水</button>
-            <button type="button" class="layui-btn" value="进水停止" id="inletSto" name="syringeBlow" style="width: 62px;float: left">出水停止</button>
-            <button type="button" class="layui-btn" value="出水" id="effluent" name="syringeAbsorb" style="width: 62px;float: left">进水</button>
-            <button type="button" class="layui-btn" value="出水停止" id="effluentSto" name="syringeAbsorb" style="width: 62px;float: left">进水停止</button>
+            <button type="button" class="layui-btn-primary1" value="进水" id="inlet" name="syringeBlow" style="margin-left:5px;width: 96px;float: left">出水</button>
+            <button type="button" class="layui-btn-primary1" value="进水停止" id="inletSto" name="syringeBlow" style="margin-left:5px;width: 96px;float: left">出水停止</button>
+            <button type="button" class="layui-btn-primary1" value="出水" id="effluent" name="syringeAbsorb" style="margin-left:5px;width: 96px;float: left">进水</button>
+            <button type="button" class="layui-btn-primary1" value="出水停止" id="effluentSto" name="syringeAbsorb" style="margin-left:5px;width: 96px;float: left">进水停止</button>
         </div>
     </div>
     <div id="lightQuasi" class="external-form-item">
         <div class="bottom-white-item layui-row">光准调整区</div>
-        <div style="border: #83c7f2 1px solid;bottom:32px;left:135px;width: 1232px;overflow:scroll;overflow-y: hidden"
+        <div style="border: #83c7f2 1px solid;bottom:32px;left:135px;width: 1220px;overflow:scroll;overflow-y: hidden"
              id="scrollC">
             <canvas id="myCanvas" width="1500" height="200" onload="drawFont()"></canvas>
         </div>
@@ -186,8 +185,7 @@
             <div class="layui-col-md7" >
                 <div class="">
 
-                    <input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary"  hidden
-                           style="background: url('../../css/images/equipment/getLightQuasi.png');background-size: 75px;width: 75px">
+                    <input type="button" name="READ_LIGHTQUASI" class="layui-btn-primary1"    value="获取光准">
                     <!--获取光准-->
                     <!--<input type="button" name="READ_LIGHTQUASI" class="layui-btn layui-btn-primary" value=""-->
                            <!--style="background: url('./../../images/equipment/calibrationLightQuasi.png');background-size: 75px;width: 75px">-->
@@ -226,7 +224,10 @@
                     <div class="layui-input-inline">
                         <input class="layui-input" type="text" name="ad4">
                     </div>
-
+                    <label class="layui-form-label">546</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad5">
+                    </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">∆OD</label>
@@ -245,12 +246,10 @@
                     <div class="layui-input-inline">
                         <input class="layui-input" type="text">
                     </div>
+
                 </div>
                 <div class="layui-form-item b8cce4">
-                    <label class="layui-form-label">546</label>
-                    <div class="layui-input-inline">
-                        <input class="layui-input" type="text" name="ad5">
-                    </div>
+
                     <label class="layui-form-label">578</label>
                     <div class="layui-input-inline">
                         <input class="layui-input" type="text" name="ad6">
@@ -268,6 +267,10 @@
                     <div class="layui-input-inline">
                         <input class="layui-input" type="text" name="ad9">
                     </div>
+                    <label class="layui-form-label">800</label>
+                    <div class="layui-input-inline">
+                        <input class="layui-input" type="text" name="ad10">
+                    </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">∆OD</label>
@@ -287,14 +290,12 @@
                         <input class="layui-input" type="text">
                     </div>
                 </div>
-                <div class="layui-form-item b8cce4" style="height: 50px">
-                    <div class="layui-btn-inline">
-                        <input type="button" name="READ_AD" value="" class="ad-btn"
-                               style="background: url('../../css/images/equipment/adRead.png');background-size: 130px;width: 130px"/>
+                <div class="layui-form-item b8cce4" style="height: 38px">
+                    <div class=" ">
+                        <input type="button" name="READ_AD" value="AD读取" class="layui-btn-primary1"/>
                     </div>
-                    <div class="layui-btn-inline">
-                        <input type="button" name="STOP" value="" class="ad-btn"
-                               style="background: url('../../css/images/equipment/adReadStop.png');background-size: 130px;width: 130px"/>
+                    <div class=" ">
+                        <input type="button" name="STOP" value="AD停止读取" class="layui-btn-primary1"/>
                     </div>
                     <!--ad 保存-->
                     <!--<div class="layui-btn-inline">-->

@@ -46,11 +46,11 @@
     <div class="layui-row layui-col-md12" id="details">
         <div class="layui-col-md4">
             <div class="item-title">
-                <label class="layui-form-label">项目菜单</label>
+                <label class="layui-form-label" style="border-left: 1px solid #a1adc7;">项目菜单</label>
                 <div class="layui-input-inline">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item b8cce4">
                 <label class="layui-form-label ">项目编号</label>
@@ -81,7 +81,7 @@
                     <input type="text" id="sampleSize" name="sampleSize" value="" lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入样本量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item b8cce4">
                 <label class="layui-form-label">样本种类</label>
@@ -101,7 +101,7 @@
                            lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入一试剂量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item b8cce4">
                 <label class="layui-form-label">二试剂量</label>
@@ -110,7 +110,7 @@
                            lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入二试剂量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">主波长</label>
@@ -151,11 +151,11 @@
         </div>
         <div class="layui-col-md4">
             <div class="item-title">
-                <label class="layui-form-label">项目菜单</label>
+                <label class="layui-form-label" >项目菜单</label>
                 <div class="layui-input-inline">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item b8cce4">
                 <label class="layui-form-label">中文名称</label>
@@ -240,7 +240,10 @@
                 <div class="layui-input-inline">
                     <input id="total" style="width: 100px;float: left;margin-top: 13px;border: none">
                 </div>
-                <label class="layui-form-mid ">人份</label>
+                
+            </div>
+            <div class="layui-form-item ">
+
             </div>
         </div>
         <div class="layui-col-md4">
@@ -249,7 +252,7 @@
                 <div class="layui-input-inline">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item  b8cce4">
                 <label class="layui-form-label">主读数始点</label>
@@ -311,25 +314,27 @@
             </div>
 
             <div class="layui-form-item b8cce4">
-                <label class="layui-form-label">关键字查询</label>
+
+            </div>
+            <div class="layui-form-item ">
+
+            </div>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label" style="font-weight:bold">关键字查询项目</label>
                 <div class="layui-input-inline">
                     <input id="keyword" style="width: 100px;float: left;margin-top: 13px;border: none">
                 </div>
             </div>
-            <div class="layui-form-item ">
-                <div class="layui-inline">
-                    <input type="button" class="layui-btn-primary" value="添加" onclick="insertProject();" lay-submit>
-                    <input type="button" class="layui-btn-primary" value="确认修改" onclick="updateProjectParam();" lay-submit>
-
-                    <input type="reset" class="layui-btn layui-btn-primary">
-                    <input type="button" class="layui-btn-primary" id="createQRCode" value="生成二维码" style=" ">
-                </div>
-            </div>
-
         </div>
         <br>
         <div>
+            <div class="layui-inline" style="text-align: right">
+                <input type="button" class="layui-btn-primary" value="添加" onclick="insertProject();" lay-submit>
+                <input type="button" class="layui-btn-primary" value="确认修改" onclick="updateProjectParam();" lay-submit>
 
+                <input type="reset" class="layui-btn layui-btn-primary">
+                <input type="button" class="layui-btn-primary" id="createQRCode" value="生成二维码" style=" ">
+            </div>
             <!--<input class="text" id="text" type="tel"  placeholderaaa="单击此处扫码">-->
         </div>
     </div>
@@ -343,7 +348,7 @@
                 <div class="layui-input-inline-QR">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item-QR ">
                 <label class="layui-form-label-QR ">项目编号</label>
@@ -374,7 +379,7 @@
                     <input type="text" id="QR_sampleSize" name="sampleSize" value="" lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入样本量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item-QR ">
                 <label class="layui-form-label-QR">样本种类</label>
@@ -394,7 +399,7 @@
                            lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入一试剂量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item-QR ">
                 <label class="layui-form-label-QR">二试剂量</label>
@@ -403,7 +408,7 @@
                            lay-verify="required|number"
                            autocomplete="on" placeholderaaa="请输入二试剂量" class="layui-input">
                 </div>
-                <label>(ul)</label>
+                
             </div>
             <div class="layui-form-item-QR">
                 <label class="layui-form-label-QR">主波长</label>
@@ -448,7 +453,7 @@
                 <div class="layui-input-inline-QR">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item-QR ">
                 <label class="layui-form-label-QR">中文名称</label>
@@ -571,7 +576,7 @@
                 <div class="layui-input-inline-QR">
                     选填区
                 </div>
-                <div>单位</div>
+                
             </div>
             <div class="layui-form-item-QR  ">
                 <label class="layui-form-label-QR">主读数始点</label>

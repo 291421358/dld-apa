@@ -214,7 +214,7 @@ select {
     height: 54px;
     border-width: 1px;
     border-style: solid;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 .layui-input, .layui-textarea {
@@ -272,12 +272,12 @@ button, input, optgroup, option, select, textarea {
 }
 
 .layui-btn-primary {
-    border: 2px solid #3e3e3e;
-    background-color: #fff;
-    color: #555;
     margin-top: 12px;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: 50px;
+    width: 114px;
+    background: #6bb3b3;
+    color: white;
 }
 
 .layui-btn-primary:hover {
@@ -293,7 +293,7 @@ button, input, optgroup, option, select, textarea {
 }
 
 .layui-form-label {
-    width: 100px;
+    width: 168px;
     border-right: 1px solid #c6d5f7;
     height: 41px;
 }
@@ -304,8 +304,8 @@ button, input, optgroup, option, select, textarea {
 }
 .layui-input-inline {
     width: 240px;
-    border-right: 1px solid #c6d5f7;
-    height: 54px;
+    /*border-right: 1px solid #c6d5f7;*/
+    /*height: 54px;*/
     float: left;
 
 }
@@ -338,14 +338,19 @@ button, input, optgroup, option, select, textarea {
 }
 
 .item-title {
-    border-right: 1px solid #c6d5f7;
-    border-bottom: 1px solid #c6d5f7;
+    /*border-right: 1px solid #a1adc7;*/
+    border-top: 1px solid #a1adc7;
+    border-bottom: 1px solid #a1adc7;
     float: left;
     width: -webkit-fill-available;
-    height: 27px;
+    height: 40px;
     background-color: #c6d5f7;
+    font-size: 25px;
+    line-height: 41px;
 }
-
+.item-title label,.item-title .layui-input-inline{
+    border-right: 1px solid #a1adc7;
+}
 .b8cce4 {
     background: #f7f7f7;
 }

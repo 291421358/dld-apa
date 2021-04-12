@@ -94,9 +94,9 @@ div {
 
 #quit {
     position: absolute;
-    right: 500px;
-    top: 200px;
-    width: 150px;
+    right: 43%;
+    top: 32%;
+    width: 200px;
     height: 78px;
     border-radius: 1px;
     z-index: 2049;

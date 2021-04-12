@@ -66,16 +66,19 @@
     }
 
     #out_t {
-        width: 25px;
-        height: 12px;
+        width: 45px;
+        height: 28px;
         opacity: 1;
-        font-size: 12px;
+        font-size: 27px;
         font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular;
-        font-weight: 400;
         text-align: center;
+        font-weight: 300;
         color: #333333;
         float: left;
-        padding: 5px 0 0 12px;
+        /*padding: 5px 0 0 12px;*/
+        margin: 0px 0 0 719px;
+        line-height: 23px;
+
     }
 
     #out_i {
@@ -105,7 +108,7 @@
         z-index: 1025;
     }
 </style>
-<body onload="time();getTem();init()" style="z-index: 1022">
+<body onload="showGif();time();getTem();init()" style="z-index: 1022">
 <div class="layui-row layui-form-item" style="height: 689px;width: 1280px;">
     <div class="layui-row">
         <div style=";float: left">
@@ -116,8 +119,9 @@
             <li id="v">版本：A0版本</li>
         </div>
         <div id="out" onclick="suspend()">
-            <img id="out_i" src="css/images/tuichu2.png">
-            <li id="out_t">退出</li>
+            <!--<img id="out_i" src="css/images/tuichu2.png">-->
+            <!--<li id="out_t">退出</li>-->
+            <li id="out_t">×</li>
         </div>
         <!--<div id="time" class="layui-col-md4">-->
         <!--</div>-->
@@ -131,7 +135,7 @@
             <li value="5">仪器维护</li>
             <!--<li value="6">拉曼光谱</li>-->
             <!--<li value="7">系统退出</li>-->
-            <lr  onclick="" id="tem"> <img style="padding-top: 10px" src="css/images/temp.png"> </lr>
+            <lr  onclick="" id="tem"> <img style="padding-top: 7px;height: 33px" src="css/images/temp.png"> </lr>
         </ul>
     </div>
     <div id="content">
@@ -147,7 +151,12 @@
         <div style="float: right" id="closeBtn">取消</div>
     </div>
 </div>
-
+<div id="show">
+    <div id="donghua">
+        <img  style="width: 800px;height: 600px" src="css/images/show.gif">
+    </div>
+    <input type="button"  value="进入" id="in" style="height: 30px;width: 50px;margin-left: 400px;cursor: grab">
+</div>
 </body>
 <!--Tab菜单右键弹出菜单-->
 <ul class="rightMenu" id="rightMenu">

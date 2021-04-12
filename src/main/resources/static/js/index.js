@@ -19,6 +19,9 @@ $(document).ready(function () {
         $(".opacity_bg").hide(); // 隐藏背景层
         $("#dialog").empty().hide(); // 清除弹出页
     });
+    $("#in").on("click",function () {
+       $("#show").hide()
+    });
 });
 
 function time() {//
@@ -115,7 +118,7 @@ function getEquipmentState(){
         async: true,
         jsonp: 'jsoncallback',
         success: function (data) {
-            $("#tem").html("<img style='float: left;margin-left: 70px;margin-top: 5px'  src=\"css/images/temp.png\"> <div style='float: left;margin-top: 15px'>"+data.reactTemp+"°C</div>");
+            $("#tem").html("<img style='float: left;margin-left: 0px;margin-top: 2px;height:33px;'  src=\"css/images/temp.png\"> <div style='float: left;margin-top: 10px;margin-left: 10px'>"+data.reactTemp+"°C</div>");
         },
         error: function () {
             alert("请联系管理员");
@@ -141,3 +144,7 @@ function iclose(){
 
 $("html,body").css("overflow","hidden").css("height","100%");
 document.body.addEventListener('touchmove', self.welcomeShowedListener, false);
+
+function showGif() {
+    $("#show").show();
+}

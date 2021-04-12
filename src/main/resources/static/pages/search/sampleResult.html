@@ -10,9 +10,9 @@
 <script src="./../../js/properties.js"></script>
 <script src="./../../js/search/sampleResult.js"></script>
 
-<script src="./../../js/highcharts.js"></script>
-<script src="./../../js/exporting.js"></script>
-<script src="./../../js/annotations.js"></script>
+<!--<script src="./../../js/highcharts.js"></script>-->
+<!--<script src="./../../js/exporting.js"></script>-->
+<!--<script src="./../../js/annotations.js"></script>-->
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="print">打印</a>
@@ -27,28 +27,28 @@
         检测报告显示&操作区
     </div>
     <div class="layui-row layui-col-md12" id="details">
-        <div style="width: 28.3333333333%;height: 357px;float: left">
+        <div style="width: 28.3333333333%;height: 462px;float: left">
             <div class="item-title">
                 <div>样本信息</div>
             </div>
             <div class="bottom-white-item b8cce4">
                 <label class="layui-form-label">样本号</label>
                 <div class="noBorder-inline">
-                    <input type="text" id="id" name="id" placeholder="请输入样本号" class="layui-input">
+                    <input type="text" id="id" name="id" placeholder---="请输入样本号" class="layui-input">
                 </div>
             </div>
             <div class="bottom-white-item">
                 <label class="layui-form-label">条码号</label>
                 <div class="noBorder-inline">
                     <input type="text" id="code" name="code" value="" lay-verify="required"
-                           autocomplete="off" placeholder="请输入条码号" class="layui-input">
+                           autocomplete="off" placeholder---="请输入条码号" class="layui-input">
                 </div>
             </div>
             <div class="bottom-white-item b8cce4">
                 <label class="layui-form-label">姓名</label>
                 <div class=" noBorder-inline">
                     <input type="text" id="name" name="sampleSize" value="" lay-verify="required|number"
-                           autocomplete="off" placeholder="请输入姓名" class="layui-input">
+                           autocomplete="off" placeholder---="请输入姓名" class="layui-input">
                 </div>
             </div>
             <div class="bottom-white-item">
@@ -66,7 +66,7 @@
                 <div class="layui-select-title noBorder-inline">
                     <div class=" noBorder-inline">
                         <input type="text" id="inpatientArea" name="sampleSize" value="" lay-verify="required|number"
-                               autocomplete="off" placeholder="请输入病区" class="layui-input">
+                               autocomplete="off" placeholder---="请输入病区" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <label class="layui-form-label">床号</label>
                 <div class="noBorder-inline">
                     <input type="text" id="bedNum" name="bedNum" value="" lay-verify="required|number"
-                           autocomplete="off" placeholder="请输入床号" class="layui-input">
+                           autocomplete="off" placeholder---="请输入床号" class="layui-input">
                 </div>
             </div>
             <div class="bottom-white-item b8cce4">
@@ -92,7 +92,7 @@
                 <label class="layui-form-label">样本编号</label>
                 <div class="layui-select-title noBorder-inline">
                     <input type="text" id="sampleNum" name="sampleNum" value="" lay-verify="required|number"
-                           autocomplete="off" placeholder="请输入样本编号" class="layui-input">
+                           autocomplete="off" placeholder---="请输入样本编号" class="layui-input">
                 </div>
             </div>
             <div class="bottom-white-item b8cce4">
@@ -101,7 +101,7 @@
                     <div class="layui-select-title noBorder-inline">
                         <input type="text" id="inspectionDept" name="inspectionDept" value=""
                                lay-verify="required|number"
-                               autocomplete="off" placeholder="请输入送检科室" class="layui-input">
+                               autocomplete="off" placeholder---="请输入送检科室" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                 <label class="layui-form-label">备注</label>
                 <div class="layui-select-title noBorder-inline">
                     <input type="text" id="remark" name="remark" value="" lay-verify="required|number"
-                           autocomplete="off" placeholder="请输入备注" class="layui-input">
+                           autocomplete="off" placeholder---="请输入备注" class="layui-input">
                 </div>
             </div>
         </div>
@@ -298,17 +298,10 @@
     </div>
     <div class="layui-col-md11">
         <div class="bottom-item">
-            <div title="查询条件：样本号+条码号。" id="query"
-                 style="background: url('../../css/images/query/query.png') no-repeat;background-size: 80px"
-                 class="bottom-btn"></div>
-            <div id="printf" style="background: url('../../css/images/query/printf.png')no-repeat;background-size: 80px"
-                 class="bottom-btn"></div>
-            <div style="background: url('../../css/images/query/button.png')no-repeat;background-size: 80px"
-                 class="bottom-btn" id="deleteDoc"> 删除医生
-            </div>
-            <div style="background: url('../../css/images/query/button.png')no-repeat;background-size: 80px"
-                 class="bottom-btn" id="updatePatient"> 更新
-            </div>
+            <input type="button" title="查询条件：样本号+条码号。" id="query" class="layui-btn-primary" value="查询">
+            <input type="button" id="printf" class="layui-btn-primary" value="打印">
+            <input type="button" class="layui-btn-primary" id="deleteDoc" value="删除">
+            <input type="button" class="layui-btn-primary" id="updatePatient" value="更新">
             <!--<div id="export" style="background: url('./../../images/query/export.png')no-repeat;background-size: 80px"-->
             <!--class="bottom-btn"></div>-->
 

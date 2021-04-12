@@ -210,6 +210,7 @@ button, input, optgroup, option, select, textarea {
     font-weight: inherit;
     outline: 0;
     background: inherit;
+    text-align: center;
 
 }
 
@@ -250,17 +251,23 @@ button, input, optgroup, option, select, textarea {
     color: #555;
 }
 
+.layui-btn-primary:active {
+    border-right: #b6c3ea 2px solid;
+    border-bottom: #b6c3ea 2px solid;
+    border-top: #4E5465 2px solid;
+    border-left: #4E5465 2px solid;
+    color: #333
+}
 .layui-btn-primary:hover {
-    border-color: #009688;
     color: #333
 }
 
 .bottom-item {
-    float: left;
+    /*float: right;*/
     width: 800px;
     height: 50px;
     background: none;
-    margin-left: 150px;
+    margin-left: 501px;
     margin-top: 15px;
     border: none;
 }
@@ -277,14 +284,14 @@ button, input, optgroup, option, select, textarea {
 .layui-form-label {
     width: 124px;
     border-right: 1px solid #c6d5f7;
-    height: 29px;
+    height: 24px;
     padding-top: 3px;
 }
 
 .menu-label {
     width: 133px;
-    border-right: 1px solid #c6d5f7;
-    height: 29px;
+    border-right: 1px solid #adbbdd;
+    height: 40px;
     float: left;
 }
 
@@ -315,12 +322,15 @@ button, input, optgroup, option, select, textarea {
 }
 
 .item-title {
-    border-right: 1px solid #c6d5f7;
-    border-bottom: 1px solid #c6d5f7;
+    border-top: 1px solid #a8b5d2;
+    border-right: 1px solid #a8b5d2;
+    border-bottom: 1px solid #a5b2ce;
     float: left;
     width: -webkit-fill-available;
-    height: 27px;
+    height: 40px;
     background-color: #c6d5f7;
+    font-size: 22px;
+    line-height: 39px;
 }
 
 .b8cce4 {
@@ -379,13 +389,13 @@ input[type=date] {
 }
 
 #projects label {
-    width: 30px;
+    width: 50px;
 }
 
 #deleteDocBox {
     position: absolute;
-    right: 0;
-    top: 100px;
+    right: 33%;
+    top: 25%;
     background: white;
     width: 331px;
     height: 300px;
@@ -409,7 +419,7 @@ input[type=date] {
 
 #canvasDiv {
     position: absolute;
-    right: 50px;
+    right: 33%;
     top: 150px;
     background: white;
     width: 200px;
@@ -418,4 +428,26 @@ input[type=date] {
     z-index: 10000;
     display: none;
     /*padding-top: 20px;*/
+
+}
+.layui-btn-primary {
+    margin-top: 12px;
+    cursor: pointer;
+    margin-left: 50px;
+    width: 114px;
+    background: #6bb3b3;
+    color: white;
+    font-family: inherit;
+    font-size: 20px;
+    font-style: inherit;
+    font-weight: inherit;
+    outline: 0;
+    border-width: 2px;
+    border-style: outset;
+    /*border-image:linear-gradient(to top,#000718, #abbccb) 1 10;*/
+    border-radius: 2px;
+    border-right: #4E5465 2px solid;
+    border-bottom: #4E5465 2px solid;
+    border-top: #bbc8ee 2px solid;
+    border-left: #b6c3ea 2px solid;
 }

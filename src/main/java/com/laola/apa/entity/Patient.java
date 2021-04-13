@@ -209,7 +209,7 @@ public class Patient implements Serializable {
                 '}';
     }
 
-    public static void main(String[] args) {
-        System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//    }
 }

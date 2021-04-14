@@ -92,7 +92,7 @@ and (min-resolution:.001dpcm) {
 
 /*机器状态*/
 .state-control{
-    width: 1253px;
+    width: 1244px;
     height: 124px;
     opacity: 1;
     background: #ffffff;
@@ -212,13 +212,6 @@ div::-webkit-scrollbar {
     height: 0;
 }
 
-.do-icon-start,.init {
-    height: 53px;
-    width: 50px;
-    margin-bottom: 40px;
-    /*padding-right: 5px;*/
-
-}
 
 .do-icon-shutdown {
     height: 30px;
@@ -319,7 +312,7 @@ div::-webkit-scrollbar {
 }
 #tab  tr td:first-child,#tab  tr td:first-child{width:66px;font-size: 18px}
 #tab  tr td:nth-child(2){width:125px;}
-#tab  tr td:last-child,#tab  tr td:last-child {width:41px;cursor: pointer;text-align: center}
+#tab  tr td:last-child,#tab  tr td:last-child {width:34px;cursor: pointer;text-align: center;font-size: 13px}
 @supports (-ms-ime-align: auto) {/*针对edge*/
     .regent {
         border-spacing: 0;
@@ -722,7 +715,7 @@ option{
 
 
 #water_p {
-    width: 60px;
+    width: 68px;
     height: 11px;
     opacity: 1;
     font-size: 15px;

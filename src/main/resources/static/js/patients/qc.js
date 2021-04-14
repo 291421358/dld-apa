@@ -227,8 +227,16 @@ function saveQC() {
                         break;
                 }
             });
+            var type = 3;
+            if (i % 3 == 2){
+                type = 4;
+            }
+            if (i % 3 == 0){
+                type = 5;
+            }
+
             if (rack_no >0 && place_no >0) {
-                saveProject(paramid, 3, null, null, density, place_no, rack_no);
+                saveProject(paramid, type, null, null, density, place_no, rack_no);
             }
         }
     });

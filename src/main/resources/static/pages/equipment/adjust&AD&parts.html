@@ -120,14 +120,8 @@
     </div>
     <div id="settings" class="external-form-item">
         <div class="layui-col-md3">
-            <div class="init" id="init" aria-hidden="true"
-                 style="float:left;background-image: url('../../css/images/inputAndResult/init.png');background-size: 45px 47px;height: 47px;width: 47px;line-height: 117px;margin-left: 50px">初始化
-            </div>
-            <div class="init" id="cleanEight" aria-hidden="true"
-                 style="float:left;
-                 background: 15px 0px no-repeat;
-                 background-image: url('../../css/images/equipment/clean.png');background-size: 48px 47px;height: 47px;width: 76px;line-height: 117px;margin-left: 50px">清洗反应杯
-            </div>
+            <button type="button" class="layui-btn-primary1 init" value="初始化" id="init" name="syringeBlow" style=" float: left">初始化</button>
+            <button type="button" class="layui-btn-primary1" value="清洗反应杯" id="cleanEight" name="syringeBlow" style=" float: left">清洗反应杯</button>
         </div>
 
         <div class="layui-col-md3">
@@ -137,18 +131,18 @@
             <div class="init" style="float:left; ;background-size: 30px 30px;height: 30px;width: 30px"></div>
         </div>
         <div class="layui-col-md3">
-            <button type="button" class="layui-btn-primary1" value="读取" id="readAddress" name="syringeBlow" style="width: 80px;float: left">读取</button>
-            <button type="button" class="layui-btn-primary1" value="写入" id="writeAddress" name="syringeAbsorb" style="width: 80px;float: left">写入</button>
+            <button type="button" class="layui-btn-primary1" value="读取" id="readAddress" name="syringeBlow" style=" float: left">读取</button>
+            <button type="button" class="layui-btn-primary1" value="写入" id="writeAddress" name="syringeAbsorb" style=" float: left">写入</button>
             <label>地址</label>
             <input class="layui-input" type="number" max="255" min="00" title="地址" maxlength="2" placeholder="00" style="width: 50px;float: left" id="address"  >
                         <label>数据</label>
             <input class="layui-input" type="number" max="255" min="00" title="数据" maxlength="2" placeholder="00" style="width: 50px;float: left" id="value"  >
         </div>
         <div class="layui-col-md3">
-            <button type="button" class="layui-btn-primary1" value="进水" id="inlet" name="syringeBlow" style="margin-left:5px;width: 96px;float: left">出水</button>
-            <button type="button" class="layui-btn-primary1" value="进水停止" id="inletSto" name="syringeBlow" style="margin-left:5px;width: 96px;float: left">出水停止</button>
-            <button type="button" class="layui-btn-primary1" value="出水" id="effluent" name="syringeAbsorb" style="margin-left:5px;width: 96px;float: left">进水</button>
-            <button type="button" class="layui-btn-primary1" value="出水停止" id="effluentSto" name="syringeAbsorb" style="margin-left:5px;width: 96px;float: left">进水停止</button>
+            <button type="button" class="layui-btn-primary1" value="进水" id="inlet" name="syringeBlow" style="float: left">出水</button>
+            <button type="button" class="layui-btn-primary1" value="进水停止" id="inletSto" name="syringeBlow" style="float: left">出水停止</button>
+            <button type="button" class="layui-btn-primary1" value="出水" id="effluent" name="syringeAbsorb" style="float: left">进水</button>
+            <button type="button" class="layui-btn-primary1" value="出水停止" id="effluentSto" name="syringeAbsorb" style="float: left">进水停止</button>
         </div>
     </div>
     <div id="lightQuasi" class="external-form-item">

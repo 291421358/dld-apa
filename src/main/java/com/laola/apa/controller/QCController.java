@@ -58,8 +58,8 @@ public class QCController {
      * @return
      */
     @GetMapping("getQcProjects")
-    public List<Map<String, Object>> getQcProjects(int projectParamId,String beginDate,String endDate){
-        List<Map<String, Object>> projects = projectTest.getQcProjects(projectParamId,beginDate,endDate);
+    public List<Map<String, Object>> getQcProjects(int projectParamId,String beginDate,String endDate,String type){
+        List<Map<String, Object>> projects = projectTest.getQcProjects(projectParamId,beginDate,endDate,type);
         QC qc = qCService.queryById(projectParamId);
         if (qc == null){
             qc = new QC();

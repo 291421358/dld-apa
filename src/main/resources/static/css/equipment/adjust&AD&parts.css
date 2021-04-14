@@ -260,7 +260,7 @@ body {
         padding-top: 12px;
         width: 49%;
         line-height: 35px;
-        height: 65px;
+        height: 44px;
     }
 
     .layui-col-md4 {
@@ -593,17 +593,12 @@ button, input, optgroup, option, select, textarea {
 }
 #init,#cleanEight{
     cursor: pointer;
-    background:no-repeat;
-}
-.init{
-    float: left;
-    background: no-repeat;
 }
 
 .layui-btn-primary1 {
     margin-top: 1px;
     cursor: pointer;
-    margin-left: 47px;
+    margin-left: 15px;
     width: 120px;
     background: #6bb3b3;
     color: white;

@@ -373,14 +373,15 @@ public class ProjectTestImpl implements ProjectTest {
     }
 
     /**
-     * 根据项目参数id获取项目列表（distinct）日期
+     * 根据项目参数id获取qc曲线
+     *
      */
     @Override
-    public List<Map<String, Object>> getQcProjects(int projectParamId, String beginDate, String endDate){
+    public List<Map<String, Object>> getQcProjects(int projectParamId, String beginDate, String endDate, String type){
         String preDateByDate = DataUtil.getPreDateByDate(endDate, 1);
         List<Map<String, Object>> mapList = selectDao.selectList(" SELECT DATE_FORMAT(p.starttime,\"%y-%m-%d\") date,p.id,p.density FROM project p \n" +
                 "LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
-                "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = 3 AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
+                "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = "+type+" AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
         List<Map<String, Object>> resultMap = new ArrayList<>();
         String date = "";
         for (int i = 0; i < mapList.size(); i++) {
@@ -410,6 +411,8 @@ public class ProjectTestImpl implements ProjectTest {
     public void deleteProjects(String dateId, Integer paramId) {
         projectMapper.deleteProjectsByDateIdParamId(dateId,paramId);
     }
+
+
 
 }
 

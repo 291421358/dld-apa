@@ -30,6 +30,7 @@ mybatis:
   type-aliases-package: com.laola.hello.laola.entity
   mapper-locations: classpath:mapper/*.xml
 
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
 #github token a07233876e043761d4db8d04231bdb6f1ec9388f

@@ -119,7 +119,8 @@ public class ProjectTestImpl implements ProjectTest {
                 "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY)\n" +
                 "      ) \n" +
                 "\tAND ISNULL( endtime )\n" +
-                "\tand ISNULL(pc.id);");
+                "\tand ISNULL(pc.id)" +
+                "\torder by project_num;");
     }
 
     /**

@@ -117,7 +117,7 @@
         width: 422px;
         float: left;
         margin-top: 13px;
-        margin-right: 121px;
+        /*margin-right:  21px;*/
     }
 
     #select_time input {
@@ -127,7 +127,21 @@
         border: 1px solid #d9d9d9;
         border-radius: 2px;
     }
-
+    #types{
+        width: 117px;
+        height: 19px;
+        opacity: 1;
+        border-radius: 2px;
+        float: left;
+    }
+    #type{
+        font-size: 12px;
+        margin-top: 13px;
+        margin-right: 10px;
+        width: 60px;
+        text-align: center;
+        padding-left: 25px;
+    }
     #select_b {
         width: 74px;
         height: 25px;
@@ -318,6 +332,14 @@
             <div id="select_time">
                 开始时间<input id="QCBeginDate" title="date" type="date">
                 结束时间<input id="QCEndDate" title="date" type="date">
+            </div>
+            <div id="types">
+                <label style="float: left;margin-top: 13px">质控类型</label>
+                <select id="type" title="质控类型">
+                    <option value="3">高</option>
+                    <option value="4">中</option>
+                    <option value="5">低</option>
+                </select>
             </div>
             <div id="select_b"> 查询</div>
             <div style=" width: 30px;font-size: 11px;float: left">

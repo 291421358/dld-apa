@@ -129,6 +129,7 @@ function getQcProjects(id) {
             projectParamId: id,
             beginDate: $("#QCBeginDate")[0].value,
             endDate: $("#QCEndDate")[0].value,
+            type:$("#type").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -397,6 +398,9 @@ $("#QCBeginDate").on("change", function () {
     noParamGetQcProjects();
 });
 $("#QCEndDate").on("change", function () {
+    noParamGetQcProjects();
+});
+$("#type").on("change", function () {
     noParamGetQcProjects();
 });
 $("#test").on("click",function () {

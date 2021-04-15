@@ -19,7 +19,7 @@ import java.io.IOException;
 public class IndexConfig {
 
     @EventListener({ApplicationReadyEvent.class})
-    void applicationReadyEvent() {
+    public void applicationReadyEvent() {
         System.out.println("mini-100准备就绪 ... 启动浏览器");
 
 //        // 启动后访问地址

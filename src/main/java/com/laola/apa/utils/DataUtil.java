@@ -154,7 +154,7 @@ public class DataUtil {
             }
         }
     }
-    public static void main(String[] args) throws ParseException {
+    public   void main(String[] args) throws ParseException {
 //        double x[] = {0,0,0,0,0};
 //        double y[] = {0,2,1,2,3};
 //        int length = DataUtil.DistinctXAveY(x, y);

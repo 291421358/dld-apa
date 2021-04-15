@@ -136,7 +136,7 @@ public class LineRegression
         return s ;
     }
 
-    public static void main(String[] args)
+    public   void main(String[] args)
     {
         Random random = new Random();
         double[] X = new double[20];

@@ -319,7 +319,7 @@ public class DateUtils {
         return n;
     }
 
-    public static void main(String[] args) {
+    public   void main(String[] args) {
         int[] numbers = { 1, 10, 26, 27, 256, 702, 703 };
         for (int n :numbers) {
             String s = ToNumberSystem26(n);

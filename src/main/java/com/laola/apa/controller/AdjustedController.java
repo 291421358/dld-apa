@@ -29,7 +29,7 @@ public class AdjustedController {
     public String connect(){
         SerialUtil cRead = new SerialUtil();
         SerialPort serialPort = cRead.startComPort();
-        System.out.println(serialPort);
+        p(serialPort.getName());
         return "200";
     }
     /**
@@ -39,7 +39,7 @@ public class AdjustedController {
     public String init(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 82 00 00 00 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -50,7 +50,7 @@ public class AdjustedController {
     public String cleanEight(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
     /**
@@ -72,7 +72,7 @@ public class AdjustedController {
         }
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 0B 01 "+volume+" 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
     /**
@@ -80,7 +80,7 @@ public class AdjustedController {
      */
     @RequestMapping(value = "syringeBlow" , method = RequestMethod.GET)
     public String syringeBlow(String volume){
-        System.out.println(volume);
+        p(volume);
         if (volume.length() == 1){
             volume = "00 0"+volume;
         }
@@ -95,7 +95,7 @@ public class AdjustedController {
         }
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 0B 00 "+volume+" 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -106,7 +106,7 @@ public class AdjustedController {
     public String removeCup(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -117,7 +117,7 @@ public class AdjustedController {
     public String moveBackCup(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 83 06 00 00 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -128,7 +128,7 @@ public class AdjustedController {
     public String readAddress(String address){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 9A 00 "+address+" 00 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         InputStream inputStream;
         byte[] b = new byte[1];
         try {
@@ -149,7 +149,7 @@ public class AdjustedController {
     public String writeAddress(String address,String value){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 9A 88 "+address+" "+value+" 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -161,7 +161,7 @@ public class AdjustedController {
     public String inlet(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 10 00 01 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -172,7 +172,7 @@ public class AdjustedController {
     public String inletSto(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 10 00 00 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -183,7 +183,7 @@ public class AdjustedController {
     public String effluent(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 10 01 01 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -194,7 +194,7 @@ public class AdjustedController {
     public String effluentSto(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
-        System.out.println(init);
+        p(init);
         return init;
     }
 
@@ -207,7 +207,7 @@ public class AdjustedController {
     public String tuijin(){
         SerialUtil cRead = new SerialUtil();
 //        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
-//        System.out.println(init);
+//        p(init);
         return "1";
     }
 
@@ -220,8 +220,12 @@ public class AdjustedController {
     public String tuichu(){
         SerialUtil cRead = new SerialUtil();
 //        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
-//        System.out.println(init);
+//        p(init);
         
         return "1";
+    }
+
+    private static void p(String a){
+        System.out.println(a);
     }
 }

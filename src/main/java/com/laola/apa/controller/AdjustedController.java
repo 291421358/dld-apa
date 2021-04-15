@@ -225,6 +225,18 @@ public class AdjustedController {
         return "1";
     }
 
+
+    /**
+     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "getTemp" , method = RequestMethod.GET)
+    public String getTemp(){
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 83 00 00 00 00 00 00 00 00 00 00 00 00");
+//        p(init);
+
+        return "1";
+    }
     private static void p(String a){
         System.out.println(a);
     }

@@ -404,7 +404,22 @@ input[type=date] {
     z-index: 2;
     display: none;
 }
-
+#Hlist {
+    position: absolute;
+    right: 33%;
+    top: 25%;
+    background: white;
+    width: 150px;
+    height: 350px;
+    border: 1px solid #444;
+    border-radius: 1px;
+    z-index: 2;
+    display: none;
+    overflow-y: scroll;
+}
+#Hlist li{
+    list-style: none;
+}
 .doc {
     width: 32.33333%;
     height: 90%;
@@ -442,12 +457,22 @@ input[type=date] {
     font-style: inherit;
     font-weight: inherit;
     outline: 0;
-    border-width: 2px;
-    border-style: outset;
     /*border-image:linear-gradient(to top,#000718, #abbccb) 1 10;*/
     border-radius: 2px;
-    border-right: #4E5465 2px solid;
-    border-bottom: #4E5465 2px solid;
-    border-top: #bbc8ee 2px solid;
-    border-left: #b6c3ea 2px solid;
+    border: 2px solid #4E5465;
+    border-top-color: #bbc8ee;
+    border-left-color: #b6c3ea;
+}
+.is{
+
+    border: 3px solid;
+    border-color: #bbc8ee #4E5465 #4E5465 #b6c3ea;
+    margin-bottom: 5px;
+}
+.is:hover{
+    cursor: pointer;
+    background: #abcce9;
+    border-color:  #4E5465 #bbc8ee #b6c3ea #4E5465 ;
+
+
 }

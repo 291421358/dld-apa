@@ -97,10 +97,10 @@ public class SerialUtilCopy implements SerialPortEventListener { // SerialPortEv
         return 0;
     }
 
-    public static void main(String[] args) {
-        SerialUtilCopy cRead = new SerialUtilCopy();
-        cRead.initt("E5 90 82 00 00 00 00 00 00 00 00 00 00 00 00 00");
-    }
+//    public static void main(String[] args) {
+//        SerialUtilCopy cRead = new SerialUtilCopy();
+//        cRead.initt("E5 90 82 00 00 00 00 00 00 00 00 00 00 00 00 00");
+//    }
 
     public int initt(String command) {
         SerialUtilCopy cRead = new SerialUtilCopy();

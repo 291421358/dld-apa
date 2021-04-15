@@ -84,6 +84,13 @@ function delDoc(ids) {
     });
 }
 
+/**
+ *
+ * @param id
+ * @param code
+ * @param testDate
+ * 根据↑  查询项目
+ */
 function queryAllPatient(id, code ,testDate) {
     $.ajax({
         type: 'get',
@@ -325,11 +332,24 @@ function select_inspectionDoc() {
     $parent.html(inputStr);
 }
 
-
 $(document).ready(function () {
+
+
+
     var timeout;
     $("#query").click(function () {
-        queryAllPatient($("#id")[0].value, $("#code")[0].value ,$("#testDate")[0].value);
+        //查询当天所有项目
+        getProjectListByDate();
+        //查询用户
+        showHlist();
+        var id = $("#id")[0].value;
+        var code = $("#code")[0].value;
+        var date = $("#testDate")[0].value;
+        console.log(id, code, date);
+        if (   "" === id || "" === code){
+            return;
+        }
+        queryAllPatient(id, code, date);
     });
     var MM = new Date().getUTCMonth() + 1;
     if (MM < 10) {
@@ -452,7 +472,7 @@ $(document).ready(function () {
                     ctx2.strokeText(data[data.length - 1].max, 0, 222 - data[data.length - 1].maxY);
                     // ctx2.strokeText(data.length, 219, 212);
                     ctx2.stroke();
-                    console.log(curveDiv);
+                    // console.log(curveDiv);
                     $("#curves").html(curveDiv);
 
                     // loadHighChart();
@@ -473,6 +493,7 @@ $(document).ready(function () {
         } else {
         }
     });
+
 
     function loadHighChart() {
         Highcharts.chart('container', {
@@ -544,9 +565,60 @@ $(document).ready(function () {
     }
 });
 
+//根据时间获得项目列表
+function getProjectListByDate() {
+    // console.log("获取当天所有项目");
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/productTest/getProjectListByData',
+        async: true,
+        data: {
+            endtime: $("#testDate")[0].value
+        },
+        jsonp: 'jsoncallback',
+        success: function (event) {
+            dealProject(event)
+        },
+        error: function () {
+            alert("error")
+        }
+    });
 
+};
+function dealProject(event) {
+    var div = "";
+    var jsonArr = JSON.parse(event);
+    var l = 1;
+    var leng = 1;
+    //创建一个查找表  函数
+    var maxCode = jsonArr['maxCode'];
+    for (var i = jsonArr['minCode']; i <= maxCode; i++) {
 
+        var jsonArrElement = jsonArr[i];
 
+        if (null == jsonArrElement) {
+            continue;
+        }
+        div += "<div onclick='sss(this);' class='is' value="+i+"><label style='line-height: 31px;text-align: center;width: 100px'>样本号：</label>"+i+" </div>";
+    }
+    $("#Hlist").html(div);
+}
+
+/**
+ * 单击 用户code列表 查询
+ */
+function sss(e){
+
+    var val = e.value;
+    queryAllPatient(val, $("#code")[0].value ,$("#testDate")[0].value);
+    var Hlist = $("#Hlist");
+    Hlist.fadeOut("slow");
+};
+function showHlist(){
+    var Hlist = $("#Hlist");
+    Hlist.find("#updateBox").attr("place", $(this).attr("place"));
+    Hlist.fadeIn("slow");
+}
 window.onload = function () {
     getAllDoc();
 };

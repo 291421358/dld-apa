@@ -50,7 +50,7 @@ public interface ProjectTest {
     List<Map<String, Object>> getProjectsByCon(String startTime, int humanCode);
 
     //根据条件查询定标项目
-    List<Map<String, Object>> getQcProjects(int projectParamId,String beginDate,String EndDate);
+    List<Map<String, Object>> getQcProjects(int projectParamId, String beginDate, String EndDate, String type);
 
     void deleteProjects();
 

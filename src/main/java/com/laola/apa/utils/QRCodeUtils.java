@@ -265,21 +265,21 @@ public class QRCodeUtils {
 //50.0010.0010.02550.086150.117300.378ARU25230005467002U/L131180040
 
 
-    public static void main(String[] args) throws Exception {
-        String text = "{'param':[{'pn':'ARU总蛋白','me':'2','sas':'5','sat':'2','ftd':'300','std':'0','mw':'4','aw':'7','u':'2','mia':'1','maa':'3','spm':'1','epm':'18','spa':'0','epa':'0','nh':'40','nl':'0'}]}";  //这里设置自定义网站url
-        text = DateUtils.unicodeEncodeOnlyCN(text);
-        /*
-        50.0010.0010.02550.086150.117300.378ARU25230005467002U/L131180040
-        50.0010.0010.02550.086150.117300.378ARU25230005467002U/L131180040";  //这里设置自定义网站url
-        */
-        String logoPath = "C:\\img\\test.jpg";
-        String destPath = "C:\\img\\";
-        String encode = QRCodeUtils.encode(text, logoPath, destPath, true);
-        System.out.println(encode);
-
-        Process p = null;//Process代表一个进程对象
-        openQRCode(encode, p);
-    }
+//    public static void main(String[] args) throws Exception {
+//        String text = "{'param':[{'pn':'ARU总蛋白','me':'2','sas':'5','sat':'2','ftd':'300','std':'0','mw':'4','aw':'7','u':'2','mia':'1','maa':'3','spm':'1','epm':'18','spa':'0','epa':'0','nh':'40','nl':'0'}]}";  //这里设置自定义网站url
+//        text = DateUtils.unicodeEncodeOnlyCN(text);
+//        /*
+//        50.0010.0010.02550.086150.117300.378ARU25230005467002U/L131180040
+//        50.0010.0010.02550.086150.117300.378ARU25230005467002U/L131180040";  //这里设置自定义网站url
+//        */
+//        String logoPath = "C:\\img\\test.jpg";
+//        String destPath = "C:\\img\\";
+//        String encode = QRCodeUtils.encode(text, logoPath, destPath, true);
+//        System.out.println(encode);
+//
+//        Process p = null;//Process代表一个进程对象
+//        openQRCode(encode, p);
+//    }
 
     public static void openQRCode(String encode, Process p) {
         try {

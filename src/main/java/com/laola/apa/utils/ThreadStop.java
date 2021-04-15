@@ -29,10 +29,10 @@ public class ThreadStop extends Thread {
         interrupt();
     }
 
-    public static void main(String[] args) throws Exception {
-        ThreadStop ts = new ThreadStop();
-        ts.run();
-        ts.doShutDown();
-    }
+//    public static void main(String[] args) throws Exception {
+//        ThreadStop ts = new ThreadStop();
+//        ts.run();
+//        ts.doShutDown();
+//    }
 
 }

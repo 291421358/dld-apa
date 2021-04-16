@@ -131,5 +131,5 @@ div {
 #donghua{
     width: 800px;
     height: 600px;
-    background-image: url("../../static/css/images/show.gif");
+    background-image: url("../css/images/show.gif");
 }

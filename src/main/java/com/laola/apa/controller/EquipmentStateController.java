@@ -32,6 +32,7 @@ public class EquipmentStateController {
     @GetMapping("selectOne")
     public EquipmentState selectOne(Integer id) {
         return this.equipmentStateService.queryById(id);
+
     }
     
     /**

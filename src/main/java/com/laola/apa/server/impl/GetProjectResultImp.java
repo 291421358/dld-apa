@@ -54,6 +54,8 @@ public class GetProjectResultImp implements GetProjectResult {
     UsedCodeServer usedCodeServer;
     @Autowired
     WebSocket webSocket;
+    @Autowired
+    PortDataDealService portDataDealService;
     /**
      * 处理项目结果
      *
@@ -68,10 +70,15 @@ public class GetProjectResultImp implements GetProjectResult {
         }
         logger.info("收到数据长度为" + string.length());
 
-
-        if ("86".equals(string.substring(2, 4))) {
-            logger.info("接收到机器状态数据" + string);
-            setBeindState(string);
+        String s34 = string.substring(2, 4);
+        if ("90".equals(s34)){
+            PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
+            beanByName.deal(string);
+            return;
+        }
+        if ("86".equals(s34)) {
+            PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
+            beanByName.deal(string);
             return;
         }
         if (string.length() == 104) {
@@ -85,7 +92,7 @@ public class GetProjectResultImp implements GetProjectResult {
             }
             return;
         }
-        if ("92".equals(string.substring(2, 4)) || string.length() > 2000) {
+        if ("92".equals(s34) || string.length() > 2000) {
             logger.info("接收到光准数据" + string);
             try {
                 readLightQuasi(serialPort.getInputStream(), "user1", WebSocket.getClients().get("user1"), string);
@@ -118,21 +125,22 @@ public class GetProjectResultImp implements GetProjectResult {
             //string == 项目数据
             string = string.substring(0,string.indexOf("eb9c"));
         }
-        if (DateUtils.decodeHEX(string.substring(4, 6)) <= 80 && string.length() > 64 && "91".equals(string.substring(2, 4))) {
+        if (DateUtils.decodeHEX(string.substring(4, 6)) <= 80 && string.length() > 64 && "91".equals(s34)) {
             logger.info("接收到结果数据" + string);
             dealResult(string);
         }
         if (!"".equals(temp)) {
             string = temp;
         }
-        if ("9c".equals(string.substring(2, 4))) {
+        if ("9c".equals(s34)) {
             logger.info("接收到位号和二维码信息" + string);
             deal9cCommand(string, serialPort);
         }
-        if ("9f".equals(string.substring(2, 4))) {
+        if ("9f".equals(s34)) {
             logger.info("项目二维码信息" + string);
             dealQR(string);
         }
+
     }
 
     private void dealQR(String string) {
@@ -627,28 +635,7 @@ public class GetProjectResultImp implements GetProjectResult {
      * @param string
      */
     private void setBeindState(String string) {
-        //A12：进水标志   1/0代表进水
-        int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
-        //A13：出水标志   1/0代表出水满
-        int wasteWater = DateUtils.decodeHEX(string.substring(32, 34));
-        //A15：撞针标志   1/0代表撞针
-        int firingPin = DateUtils.decodeHEX(string.substring(36, 38));
 
-        // A20：反应盘温度高位（计算方法：高位*256+高位）/1351（测试过程中返回有效）
-        //A21：反应盘温度低位（测试过程中返回有效）
-        float reactTemp = (Float.parseFloat(String.valueOf(DateUtils.decodeHEX(string.substring(46, 48)))) * 256F + Float.parseFloat(String.valueOf(DateUtils.decodeHEX(string.substring(48, 50))))) / 1351F;
-        //A24：试剂盘温度
-        int regentTemp = DateUtils.decodeHEX(string.substring(54, 56));
-        //A25：发送数据组数。
-        int numSent = DateUtils.decodeHEX(string.substring(56, 58));
-        //A27：在测试的项目数
-        int numberUnderTest = DateUtils.decodeHEX(string.substring(60, 62));
-        //A28：所有项目数
-        int numAll = DateUtils.decodeHEX(string.substring(62, 64));
-//        logger.info("string==" + string);
-        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll);
-//        logger.info("equipment=" + equipmentState.toString());
-        EquipmentState update = equipmentStateSever.update(equipmentState);
     }
 
     /**

@@ -111,7 +111,7 @@ function queryAllPatient(id, code ,testDate) {
             }
 
             var datum = data[0];
-            console.log(datum);
+            // console.log(datum);
 
             if (datum == null) {
                 getProjectsByCon(testDate, id);
@@ -129,7 +129,7 @@ function queryAllPatient(id, code ,testDate) {
             $("#name")[0].value = datum.name;
             $("#remark")[0].value = datum.remark;
             $("#sampleNum")[0].value = datum.sampleNum;
-            console.log("datum.testDate"+datum.testDate);
+            // console.log("datum.testDate"+datum.testDate);
             $("#testDate")[0].value = (datum.testDate == null ? "" : datum.testDate.substring(0, 10));
             $("#testDoctor option[value='" + datum.testDoc + "']").attr("selected", "selected");
 
@@ -334,10 +334,22 @@ function select_inspectionDoc() {
 
 $(document).ready(function () {
 
-
-
     var timeout;
     $("#query").click(function () {
+
+        $("#id")[0].value = "";
+             $("#code")[0].value= "";
+             $("#name")[0].value= "";
+            $("#sex")[0].value= "";
+             $("#inpatientArea")[0].value= "";
+            $("#bedNum")[0].value= "";
+             $("#sampleNum")[0].value= "";
+             $("#sampleType")[0].value= "";
+             $("#inspectionDept")[0].value= "";
+             $("#inspectionDoc")[0].value= "";
+            $("#testDoctor")[0].value= "";
+             $("#examineDoctor")[0].value= "";
+            $("#remark")[0].value= "";
         //查询当天所有项目
         getProjectListByDate();
         //查询用户
@@ -345,11 +357,10 @@ $(document).ready(function () {
         var id = $("#id")[0].value;
         var code = $("#code")[0].value;
         var date = $("#testDate")[0].value;
-        console.log(id, code, date);
         if (   "" === id || "" === code){
             return;
         }
-        queryAllPatient(id, code, date);
+        // queryAllPatient(id, code, date);
     });
     var MM = new Date().getUTCMonth() + 1;
     if (MM < 10) {
@@ -599,7 +610,7 @@ function dealProject(event) {
         if (null == jsonArrElement) {
             continue;
         }
-        div += "<div onclick='sss(this);' class='is' value="+i+"><label style='line-height: 31px;text-align: center;width: 100px'>样本号：</label>"+i+" </div>";
+        div += "<div onclick='sss(this);' class='is' data-i="+i+"><label style='line-height: 31px;text-align: center;width: 100px'>样本号：</label>"+i+" </div>";
     }
     $("#Hlist").html(div);
 }
@@ -608,8 +619,8 @@ function dealProject(event) {
  * 单击 用户code列表 查询
  */
 function sss(e){
-
-    var val = e.value;
+    var val = e.getAttribute("data-i");
+    console.log(val);
     queryAllPatient(val, $("#code")[0].value ,$("#testDate")[0].value);
     var Hlist = $("#Hlist");
     Hlist.fadeOut("slow");

@@ -227,7 +227,7 @@ public class AdjustedController {
 
 
     /**
-     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     * 请求发送命令取得温度 E5 90 83 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "getTemp" , method = RequestMethod.GET)
     public String getTemp(){

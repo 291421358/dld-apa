@@ -15,7 +15,7 @@ public class P86 implements PortDataDealService<Object, String> {
 
     @Override
     public Object deal(String... data) {
-        String string = data.toString();
+        String string = data[0].toString();
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
         //A13：出水标志   1/0代表出水满

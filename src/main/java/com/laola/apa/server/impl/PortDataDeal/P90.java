@@ -16,7 +16,7 @@ public class P90 implements PortDataDealService<EquipmentState,String>{
     @Override
     public EquipmentState deal(String ... data) {
         //取得窗口发来的字符串
-        String string = data.toString();
+        String string = data[0].toString();
         String tHighBefore = string.substring(4, 6);
         String tHighBehind = string.substring(6, 8);
         // A20：反应盘温度高位（计算方法：高位*256+高位）/1351（测试过程中返回有效）
@@ -28,4 +28,5 @@ public class P90 implements PortDataDealService<EquipmentState,String>{
 
         return null;
     }
+
 }

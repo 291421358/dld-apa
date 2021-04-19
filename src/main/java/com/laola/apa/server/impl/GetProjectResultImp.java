@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,8 +55,6 @@ public class GetProjectResultImp implements GetProjectResult {
     UsedCodeServer usedCodeServer;
     @Autowired
     WebSocket webSocket;
-    @Autowired
-    PortDataDealService portDataDealService;
     /**
      * 处理项目结果
      *

@@ -276,14 +276,11 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
      * 发送指令，然后关闭串口
      * @return
      */
-    public void sendCommond(String command){
-        SerialPort serialPort = this.startComPort();
-        try {
-            OutputStream outputStream = serialPort.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void sendCommond(String command){
+        SerialUtil serialUtil = new SerialUtil();
+        SerialPort serialPort = serialUtil.startComPort();
         byte[] bytes = DateUtils.hexStrToBinaryStr(command);
+        System.out.println(command);
         try {
             outputStream.write(bytes,0,bytes.length);
         } catch (IOException e) {
@@ -294,4 +291,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
     public OutputStream getOutputStream() {
         return outputStream;
     }
+
+
+
 }

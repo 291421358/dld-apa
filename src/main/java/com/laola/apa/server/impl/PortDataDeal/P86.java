@@ -11,12 +11,16 @@ import java.text.DecimalFormat;
 @Service("p86")
 public class P86 implements PortDataDealService<Object, String> {
 
+    private final EquipmentStateserver equipmentStateSever;
+
     @Autowired
-    EquipmentStateserver equipmentStateSever;
+    public P86(EquipmentStateserver equipmentStateSever) {
+        this.equipmentStateSever = equipmentStateSever;
+    }
 
     @Override
     public Object deal(String... data) {
-        String string = data[0].toString();
+        String string = data[0];
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
         //A13：出水标志   1/0代表出水满
@@ -38,7 +42,7 @@ public class P86 implements PortDataDealService<Object, String> {
 //        logger.info("string==" + string);
         EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll);
 //        logger.info("equipment=" + equipmentState.toString());
-        EquipmentState update = equipmentStateSever.update(equipmentState);
+         equipmentStateSever.update(equipmentState);
         return null;
     }
 }

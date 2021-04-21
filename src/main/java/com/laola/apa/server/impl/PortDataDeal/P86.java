@@ -5,9 +5,10 @@ import com.laola.apa.server.EquipmentStateserver;
 import com.laola.apa.server.PortDataDealService;
 import com.laola.apa.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
-
+@Service("p86")
 public class P86 implements PortDataDealService<Object, String> {
 
     @Autowired

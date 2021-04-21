@@ -1,10 +1,14 @@
 package com.laola.apa.config;
 
+import com.laola.apa.utils.SerialUtil;
+import com.laola.apa.utils.thread.FutureTaskable;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author tzh
@@ -33,7 +37,7 @@ public class IndexConfig {
 
     @EventListener({ApplicationReadyEvent.class})
     public void applicationReadyEvent1() {
-        System.out.println("mini-100准备就绪 ... 启动浏览器");
+        FutureTaskable.main(null);
+        }
 
-    }
 }

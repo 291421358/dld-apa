@@ -286,7 +286,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
         } catch (IOException e) {
             e.printStackTrace();
         }
-        serialPort.close();
+//        serialPort.close();
     }
     public OutputStream getOutputStream() {
         return outputStream;

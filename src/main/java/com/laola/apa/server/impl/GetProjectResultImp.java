@@ -71,11 +71,13 @@ public class GetProjectResultImp implements GetProjectResult {
 
         String s34 = string.substring(2, 4);
         if ("90".equals(s34)){
+            logger.info("接收到仪器温度数据" + string);
             PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
             beanByName.deal(string);
             return;
         }
         if ("86".equals(s34)) {
+            logger.info("接收到仪器状态数据" + string);
             PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
             beanByName.deal(string);
             return;
@@ -108,6 +110,11 @@ public class GetProjectResultImp implements GetProjectResult {
             testRate(string);
         }
         String temp = "";
+
+        if ("9f".equals(s34)) {
+            logger.info("项目二维码信息" + string);
+            dealQR(string);
+        }
         if (string.indexOf("eb91") > 4) {
             //项目数据在后
             logger.info("项目数据在后 " + string);
@@ -124,6 +131,7 @@ public class GetProjectResultImp implements GetProjectResult {
             //string == 项目数据
             string = string.substring(0,string.indexOf("eb9c"));
         }
+        s34 = string.substring(2, 4);
         if (DateUtils.decodeHEX(string.substring(4, 6)) <= 80 && string.length() > 64 && "91".equals(s34)) {
             logger.info("接收到结果数据" + string);
             dealResult(string);
@@ -131,14 +139,12 @@ public class GetProjectResultImp implements GetProjectResult {
         if (!"".equals(temp)) {
             string = temp;
         }
+        s34 = string.substring(2, 4);
         if ("9c".equals(s34)) {
             logger.info("接收到位号和二维码信息" + string);
             deal9cCommand(string, serialPort);
         }
-        if ("9f".equals(s34)) {
-            logger.info("项目二维码信息" + string);
-            dealQR(string);
-        }
+
 
     }
 
@@ -386,7 +392,7 @@ public class GetProjectResultImp implements GetProjectResult {
             if (major == 0) {
                 major = 1;
             }
-            double log = Math.log10(40000F / major);
+            double log = major/10000F;
             //格式化吸光度 小数点后三位
             String formatAbs = new DecimalFormat("0.0000").format(log*2);
             //取得项目参数值
@@ -700,4 +706,7 @@ public class GetProjectResultImp implements GetProjectResult {
         webSocket.sendMessageTo(gson.toJson(lightQuasiMap), username);
     }
 
+    public static void main(String[] args) {
+        System.out.println(4000/10000F);
+    }
 }

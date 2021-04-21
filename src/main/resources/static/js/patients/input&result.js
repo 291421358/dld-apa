@@ -81,7 +81,7 @@ function dealProject(event) {
             "<td>" + ("null" === jsonArrElement[0].barCode ? "" : jsonArrElement[0].barCode) + "</td>";
         for (let j = 0; j < 6; j++) {
             tr += "<td";
-            //循环9次
+            //循环6次
             for (let k = 0; k < jsonArrElement.length; k++) {
                 turn++;
                 //循环jsonArrElement
@@ -314,8 +314,10 @@ function getRegentPlace() {
                 t1.html(count);
                 var t2 = $("#t" + (i * 2 + 2));
                 t2.html(count_2);
+
+                //设置标题项目名称
                 var $tab = $("#tab tr:nth-child(2)").find("td:nth-child(" + (i + 3) + ")");// td:nth-child("+2+i+")
-                // console.log($tab)
+                // console.log($tab);
                 $tab.html(eventElement.name);
                 $tab.attr("id", eventElement.project_param_id);
             }

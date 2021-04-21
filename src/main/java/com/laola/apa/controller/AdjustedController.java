@@ -227,12 +227,12 @@ public class AdjustedController {
 
 
     /**
-     * 请求发送命令取得温度 E5 90 83 00 00 00 00 00 00 00 00 00 00 00 00
+     * 请求发送命令取得温度 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "getTemp" , method = RequestMethod.GET)
     public String getTemp(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00");
 //        p(init);
 
         return "1";

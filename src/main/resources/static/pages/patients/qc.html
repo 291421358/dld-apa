@@ -65,7 +65,7 @@
         color: #333333;
         line-height: 15px;
         float: left;
-        margin: 16px 380px 0 13px;
+        margin: 16px 300px 0 13px;
     }
 
     #p_li {
@@ -187,6 +187,24 @@
         font-size: 16px;
         cursor: pointer;
     }
+
+    #printf {
+        float: left;
+        width: 74px;
+        height: 21px;
+        opacity: 1;
+        background: #6d97f7;
+        font-size: 14px;
+        font-family: Source Han Sans CN Regular, Source Han Sans CN Regular-Regular, serif;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        line-height: 18px;
+        margin-top: 22px;
+        padding-top: 3px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 </style>
 
 <body onload="irload();getOneProjectsScalingTime(1);">
@@ -198,6 +216,7 @@
         <div id="juxing"></div>
         <div id="qc_t">质控显示区</div>
         <div id="test">开始测试</div>
+        <div id="printf">打印</div>
         <div id="qc_save">保存</div>
         <div id="qc_t1">
             <div style="float: left">
@@ -351,7 +370,7 @@
                 <span>-2SD</span>
                 <span>-3SD</span>
             </div>
-            <div style=";float: left;width: 750px;overflow:scroll">
+            <div style=";float: left;width: 750px;overflow:scroll;margin-top: 6px;margin-left: 3px">
                 <canvas id="qcCanvas" height="112" width="10280px"></canvas>
                 <div id="dates" style="font-size: 11px;padding-left: 19px;height:13px">
                     <div style="width: 12px">&nbsp</div>

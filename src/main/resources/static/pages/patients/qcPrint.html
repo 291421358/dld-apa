@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>质控打印设置</title>
+</head>
+<script src="../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../../js/properties.js"></script>
+<script src="../../js/patients/QCprint.js"></script>
+<link rel="stylesheet" href="../../css/patients/QCprint.css">
+<body onload="showPrint();">
+<!--printAndClose()-->
+
+<div style="margin-left: 10px;width:180mm;">
+    <div id="title" style="border-bottom: black 1px solid;width: 100%" ><h1>质控报告单</h1></div>
+    <div id="patientInfo" style="border-bottom: black 1px solid;width: 100%">
+        <div style="width: 100%">
+            <div><span>项目名称：</span><li id="name">&nbsp</li></div>
+            <div><span>靶值：</span><li id="target">&nbsp</li></div>
+            <div><span>平均值：</span><li id="average">&nbsp</li></div>
+            <div><span>标准差：</span><li id="standard">&nbsp</li></div>
+            <!--<div><span>年龄：</span><li id="age">111</li></div>-->
+        </div>
+    </div>
+    <div id="projectsTitle" style="border-bottom: black 1px solid;width: 100%;font-weight: bold">
+        <div>  时间 </div><div>  结果 </div>  <div> 时间 </div> <div>结果</div>
+    </div>
+    <div id="projects" style="width: 100%">
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+        <div class="project"><div>  </div><div>  </div> </div>
+    </div>
+
+    <div id="sds" >
+        <span>+3SD</span>
+        <span>+2SD</span>
+        <span>+1SD</span>
+        <span>&nbsp;AVG</span>
+        <span>- 1SD</span>
+        <span>- 2SD</span>
+        <span>- 3SD</span>
+    </div>
+    <div style=";float: left;width: 94%; margin-left: 5px">
+        <canvas id="qcCanvas" height="1500" width="6500"></canvas>
+        <div id="dates" style="font-size: 11px;padding-left: 19px;height:13px">
+            <div style="width: 12px">&nbsp</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

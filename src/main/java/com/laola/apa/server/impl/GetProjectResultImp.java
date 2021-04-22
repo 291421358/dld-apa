@@ -7,6 +7,7 @@ import com.laola.apa.mapper.ProjectCurveMapper;
 import com.laola.apa.mapper.ProjectMapper;
 import com.laola.apa.mapper.ScalingMapper;
 import com.laola.apa.server.*;
+import com.laola.apa.server.impl.PortDataDeal.P86;
 import com.laola.apa.utils.*;
 import gnu.io.SerialPort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,13 +73,13 @@ public class GetProjectResultImp implements GetProjectResult {
         String s34 = string.substring(2, 4);
         if ("90".equals(s34)){
             logger.info("接收到仪器温度数据" + string);
-            PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
+            PortDataDealService<String,String> beanByName =  SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class,"p" + s34);
             beanByName.deal(string);
             return;
         }
         if ("86".equals(s34)) {
             logger.info("接收到仪器状态数据" + string);
-            PortDataDealService beanByName = (PortDataDealService) SpringBeanUtil.getBeanByName("P" + equals(s34));
+            PortDataDealService<String,String> beanByName =  SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class,"p" + s34);
             beanByName.deal(string);
             return;
         }

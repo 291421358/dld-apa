@@ -12,12 +12,8 @@ import java.text.DecimalFormat;
 @Service("p90")
 public class P90 implements PortDataDealService<EquipmentState,String>{
 
-    private final EquipmentStateserver equipmentStateSever;
-
     @Autowired
-    public P90(EquipmentStateserver equipmentStateSever) {
-        this.equipmentStateSever = equipmentStateSever;
-    }
+     public EquipmentStateserver equipmentStateSever;
 
     @Override
     public EquipmentState deal(String ... data) {

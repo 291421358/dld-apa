@@ -11,12 +11,9 @@ import java.text.DecimalFormat;
 @Service("p86")
 public class P86 implements PortDataDealService<Object, String> {
 
-    private final EquipmentStateserver equipmentStateSever;
-
     @Autowired
-    public P86(EquipmentStateserver equipmentStateSever) {
-        this.equipmentStateSever = equipmentStateSever;
-    }
+    private EquipmentStateserver equipmentStateSever;
+
 
     @Override
     public Object deal(String... data) {

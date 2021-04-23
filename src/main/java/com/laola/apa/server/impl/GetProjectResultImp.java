@@ -32,7 +32,6 @@ import java.util.*;
 @SuppressWarnings("ALL")
 @Service
 public class GetProjectResultImp implements GetProjectResult {
-    Logger logger = Logger.getGlobal();
     @Autowired
     private ProjectMapper projectMapper;
     @Autowired
@@ -55,6 +54,9 @@ public class GetProjectResultImp implements GetProjectResult {
     UsedCodeServer usedCodeServer;
     @Autowired
     WebSocket webSocket;
+
+    private static final Logger logger = LoggerFactory.getLogger(GetProjectResultImp.class);
+
     /**
      * 处理项目结果
      *

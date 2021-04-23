@@ -1,14 +1,11 @@
 package com.laola.apa.config;
 
-import com.laola.apa.utils.SerialUtil;
-import com.laola.apa.utils.thread.FutureTaskable;
+import com.laola.apa.task.FutureTaskable;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 /**
  * @author tzh
@@ -17,7 +14,7 @@ import java.util.concurrent.FutureTask;
  * @title     IndexConfig
  * @package    com.laob.laob_special.common
  * @date   2019/9/10 19:07
- * @explain 服务启动时自动打开项目
+ * @explain 服务启动时自动打开项目 remote
  */
 @Configuration
 public class IndexConfig {

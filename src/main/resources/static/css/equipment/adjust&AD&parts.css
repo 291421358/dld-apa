@@ -436,7 +436,7 @@ button, input, optgroup, option, select, textarea {
     border-right: 1px solid #c6d5f7;
     float: left;
     width: -webkit-fill-available;
-    height: 21px;
+    height: 25px;
     background: #ebf1de;
 
 }
@@ -466,6 +466,7 @@ button, input, optgroup, option, select, textarea {
     width: 85px;
     border-right: 1px solid #c6d5f7;
     height: 21px;
+    padding-top: 6px;
 }
 
 .lightQuasi-bottom-label {

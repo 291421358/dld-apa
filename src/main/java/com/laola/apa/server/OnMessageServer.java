@@ -6,6 +6,7 @@ import com.laola.apa.costant.LightQuasiConstant;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
 import com.laola.apa.utils.WebSocket;
+import com.laola.apa.task.FutureTaskable;
 import gnu.io.SerialPort;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
-import javax.sound.sampled.Line;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -71,6 +71,7 @@ public class OnMessageServer extends Thread {
         }
         //判断是否为项目自动/手动测试
         if (jsonTo.get("code").equals("5") || jsonTo.get("code").equals(5)) {
+            FutureTaskable.stop();
 //            serialPort.notifyOnDataAvailable(false);
 //            serialPort.removeEventListener();
             //查询当前有效的样本数量
@@ -99,7 +100,7 @@ public class OnMessageServer extends Thread {
                         assert hexStr != null;
                         break;
                     }
-                    System.out.println(i + ":OnMessageServer 120 end for在·" + Line.Info.class);
+//                    System.out.println(i + ":OnMessageServer 120 end for在·" + Line.Info.class);
                 }
 //            }
         } else {

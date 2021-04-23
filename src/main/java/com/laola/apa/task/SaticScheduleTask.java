@@ -1,5 +1,6 @@
-package com.laola.apa.utils;
+package com.laola.apa.task;
 
+import com.laola.apa.utils.WebSocket;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

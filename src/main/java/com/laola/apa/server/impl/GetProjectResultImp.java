@@ -387,18 +387,29 @@ public class GetProjectResultImp implements GetProjectResult {
             //主波高位，主波低位 //取一组数据，第10-11位 *256 + 12-13位 为ad数值
             int major = DateUtils.decodeHEX(result.substring(i * 14 + 6, i * 14 + 8)) * 256 + DateUtils.decodeHEX(result.substring(i * 14 + 8, i * 14 + 10));
             //40000/ad，取对数获得吸光度
-            setBeindState(string);
+            PortDataDealService<String,String> beanByName =  SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class,"p86");
+            beanByName.deal(string);
+//            setBeindState(string);
+            ProjectParam projectParam = projectParameters.onePoject(ppi);
+            String mainWavelength = projectParam.getMainWavelength();
             if (auxiliary == 0) {
                 auxiliary = 1;
             }
             if (major == 0) {
                 major = 1;
             }
-            double log = major/10000F;
+            double log = 0;
+            //波长不为750时使用透射算法
+            if (!"8".equals(mainWavelength)){
+                 log = Math.log10(40000F / major);
+            }else {
+                //波长为750时使用散射算法
+                 log = major/10000F;
+            }
             //格式化吸光度 小数点后三位
             String formatAbs = new DecimalFormat("0.0000").format(log*2);
             //取得项目参数值
-            ProjectParam projectParam = projectParameters.onePoject(ppi);
+
             //最大吸光度
             String maxAbsorbance = projectParam.getMaxAbsorbance();
             //最小吸光度

@@ -87,7 +87,7 @@ public class ProjectTestImpl implements ProjectTest {
                 "\tDATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\")\n" +
                 "\tor\n" +
                 "\tDATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY)\n" +
-                "\t);");
+                "\t)  order by p.id;");
     }
 
 

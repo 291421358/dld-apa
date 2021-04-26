@@ -877,9 +877,6 @@ function alertWin(id) {
         // timeout1 = setTimeout(readqc, 15000);
     }
 
-
-
-
 }
 
 /**

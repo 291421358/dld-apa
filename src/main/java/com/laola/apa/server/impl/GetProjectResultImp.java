@@ -388,7 +388,4 @@ public class GetProjectResultImp implements GetProjectResult {
         webSocket.sendMessageTo(gson.toJson(lightQuasiMap), username);
     }
 
-    public static void main(String[] args) {
-        System.out.println(4000/10000F);
-    }
 }

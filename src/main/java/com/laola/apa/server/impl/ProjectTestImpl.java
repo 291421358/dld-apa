@@ -120,7 +120,7 @@ public class ProjectTestImpl implements ProjectTest {
                 "      ) \n" +
                 "\tAND ISNULL( endtime )\n" +
                 "\tand ISNULL(pc.id)" +
-                "\torder by project_num;");
+                "\torder by p.id;");
     }
 
     /**

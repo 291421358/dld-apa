@@ -20,7 +20,7 @@ function sc_irload() {
                 if (i>5){
                     return;
                 }
-                tabStr += "<div ><span style='width: 100%'>" + (project.name==null?'':project.name) + "</span><input disabled type='checkbox' id=" + project.id + " value=" + project.name + " ></div>";
+                tabStr += "<div ><span style='width: 100%'>" + (project.name==null?'':project.name) + "</span><input disabled type='checkbox' id=" + project.project_param_id + " value=" + project.name + " ></div>";
             });
             $('#SC_projectList').html(tabStr);
         },

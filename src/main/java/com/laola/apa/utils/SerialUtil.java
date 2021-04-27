@@ -110,6 +110,8 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                                 int innerIfNumBytes = inputStream.available();
                                 if(innerIfNumBytes == numBytes){
                                     break;
+                                }else {
+                                    numBytes = innerIfNumBytes;
                                 }
                             }
                             numBytes = inputStream.available();

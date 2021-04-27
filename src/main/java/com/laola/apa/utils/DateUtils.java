@@ -1,6 +1,5 @@
 package com.laola.apa.utils;
 
-import java.io.Console;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -155,38 +154,40 @@ public class DateUtils {
      * @return
      */
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd, String auxBegin, String auxEnd) {
-        float mainYSum = 0;
-        float auxYSum = 0;
-        int mainTimes = 0;
-        int auxTimes = 0;
+        float beganSum = 0;
+        float endSum = 0;
+        int beginTimes = 0;
+        int endTimes = 0;
         for (Map<String, Object> map : mapList) {
+            //第n个点
             float xFloat = Float.parseFloat(String.valueOf(map.get("x")));
+            //第n个点的数据
             float yFloat = Float.parseFloat(String.valueOf(map.get("y")));
             //如果 主/辅终点都为空或者0；只取主/辅始点
-            if ((Float.parseFloat(mainBegin) == xFloat && xFloat <= Float.parseFloat(mainEnd)) || (("0".equals(mainEnd) || "".equals(mainEnd)) && Float.parseFloat(mainBegin) == xFloat)) {
-                mainYSum += yFloat;
-                mainTimes++;
+            if ((Float.parseFloat(mainBegin) <= xFloat && xFloat <= Float.parseFloat(auxBegin)) || (Float.parseFloat( auxBegin) <= xFloat && xFloat <= Float.parseFloat(mainBegin))) {
+                beganSum += yFloat;
+                beginTimes++;
             }
-            if (null != auxBegin && null != auxEnd && !"".equals(auxBegin) && !"".equals(auxEnd) && (Float.parseFloat(auxBegin) <= xFloat && xFloat <= Float.parseFloat(auxEnd) || (("0".equals(auxEnd) || "".equals(auxEnd)) && Float.parseFloat(auxBegin) == xFloat))) {
-                auxYSum += yFloat;
-                auxTimes++;
+            if ((Float.parseFloat(mainEnd) <= xFloat && xFloat <= Float.parseFloat(auxEnd)) || (Float.parseFloat( auxEnd) <= xFloat && xFloat <= Float.parseFloat(mainEnd))) {
+                endSum += yFloat;
+                endTimes++;
             }
         }
-        System.out.println("mainYSum:" + mainYSum + "----auxYSum" + auxYSum);
-        if (mainTimes == 0 && auxTimes == 0) {
+        System.out.println("beganSum:" + beganSum + "----endSum" + endSum);
+        if (beginTimes == 0 && endTimes == 0) {
             return 0;
         }
-        if (auxTimes == 0) {
-            return mainYSum / mainTimes;
+        if (endTimes == 0) {
+            return beganSum / beginTimes;
         }
-        if (mainTimes == 0) {
-            return auxYSum / auxTimes;
+        if (beginTimes == 0) {
+            return endSum / endTimes;
         }
-        return mainYSum / mainTimes - auxYSum / auxTimes;
+        return endSum /  endTimes-  beganSum / beginTimes;
     }
 
     /**
-     * 取得两点数差
+     * 取得最后一点
      *
      * @param mapList
      * @return
@@ -317,6 +318,18 @@ public class DateUtils {
             n += ((int)c - 96) * j;
         }
         return n;
+    }
+
+    public static float terminalMethod(List<Map<String, Object>> selectOneCurve, String mainBegin, String mainEnd, String auxBegin, String auxEnd) {
+        float absorbanceGap = 0;
+       //  终点-起点
+        if (mainBegin.equals("0")) {
+            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
+        }
+        if (!mainBegin.equals("0")){
+            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd, auxBegin, auxEnd) / 1000;
+        }
+        return absorbanceGap;
     }
 
     public   void main(String[] args) {

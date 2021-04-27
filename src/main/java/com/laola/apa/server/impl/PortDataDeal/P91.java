@@ -194,12 +194,7 @@ public class P91 implements PortDataDealService<String,String> {
                     }
 //                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
                     if ("终点法".equals(computeMethod)) {
-                        //速率法 取 终点-起点
-                        if (mainBegin == "0") {
-                            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
-                        }else {
-                            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
-                        }
+                        absorbanceGap = DateUtils.terminalMethod(selectOneCurve, mainBegin, mainEnd,auxBegin,auxEnd);
                     }
                     logger.info("读数法：" + computeMethod);
                     if ("速率法".equals(computeMethod)) {

@@ -107,10 +107,10 @@ public class Formula {
         logger.info(String.valueOf(absorbanceGap));
         logger.info(String.valueOf(yY[yY.length - 1]));
         logger.info(String.valueOf(yY[0]));
-        if (absorbanceGap < yY[0]) {
+        if (absorbanceGap < xX[0]) {
             return -501;
         }
-        if (absorbanceGap > yY[yY.length - 1]) {
+        if (absorbanceGap > xX[yY.length - 1]) {
             return -502;
         }
         float density;// 样条曲线
@@ -176,7 +176,7 @@ public class Formula {
             double x2 = x1 + 1;
             double cubic = polynomials.value(x1);
 //            logit4p(x1, a, b, c, d);
-            if (cubic == 0) System.out.println(x + " ");
+            if (cubic == 0) return x1+ knode;
             else {
                 double cubic1 = polynomials.value(x2); //logit4p(x2, a, b, c, d)
                 if ((cubic - absorbanceGap) * (cubic1 - absorbanceGap) < 0) {
@@ -191,6 +191,7 @@ public class Formula {
             }
 
         }
+
         return -503;
     }
 

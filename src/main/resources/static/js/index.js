@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     $("#quitBtn").on("click",function () {
         window.location.href="about:blank";
+        closeJava()
         window.close();
 
     });
@@ -23,7 +24,20 @@ $(document).ready(function () {
        $("#show").hide()
     });
 });
+function closeJava() {
+    $.ajax({
+        type : "GET",
+        url : urlhead + "/index/close",
+        async : true,
+        jsonp : "jsoncallback",
+        success : function () {
 
+        },
+        error : function () {
+
+        }
+    })
+}
 function time() {//
     var date = new Date();
     $("#time").html("<li style='font-family: 隶书;float: left'>&nbsp&nbsp" + date.getFullYear() + "年"

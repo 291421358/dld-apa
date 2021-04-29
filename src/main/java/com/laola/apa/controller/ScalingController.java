@@ -146,4 +146,14 @@ public class ScalingController {
         return scalingIntf.deleteOneScaling(dateId);
 
     }
+    /**
+     *
+     * @param projectId
+     */
+    @RequestMapping("delOne")
+    public int delOne(int projectId){
+        System.out.println("11111111111111111");
+        projectTest.deleteProjectById(projectId);
+        return 1;
+    }
 }

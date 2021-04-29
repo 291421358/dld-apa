@@ -412,6 +412,14 @@ public class ProjectTestImpl implements ProjectTest {
         projectMapper.deleteProjectsByDateIdParamId(dateId,paramId);
     }
 
+    /**
+     * 通过id删除项目
+     * @param id
+     */
+    @Override
+    public void deleteProjectById(int id) {
+        projectMapper.deleteByPrimaryKey(id);
+    }
 
 
 }

@@ -400,7 +400,24 @@ function saveList() {
     }, 1200);
 
 }
+function delOne(projectId) {
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/scaling/delOne',
+        async: true,
+        data: {
+            projectId: projectId,
+        },
+        jsonp: 'jsoncallback',
+        success: function (data) {
 
+        },
+        error: function () {
+            console.log("请联系管理员")
+        }
+    })
+
+}
 
 function updateScalingAlgorithm(dateId,Algorithm) {
     $.ajax({
@@ -524,6 +541,10 @@ var code = 0;
 var rackNo = 0;
 var overList;
 $(document).ready(function () {
+
+    $("#scaling_deal").bind("contextmenu", function(){
+        return false;
+    })
     $('tr').on("click", function () {
 
     });
@@ -572,6 +593,15 @@ $(document).ready(function () {
         fp.html(message);
     });
 
+    $("#scaling_deal tr").mousedown( function(e) {
+        //右键为3
+        if (3 == e.which) {
+            var jQueryElement = $(this).find("td");
+            delOne(jQueryElement.find("input")[0].value);
+            console.log(jQueryElement.find("input")[0].value)
+        }
+    });
+
 
     $("#send").on('click', function () {
         sendList();
@@ -596,7 +626,7 @@ $(document).ready(function () {
             if ($(this).find("td")[0].innerHTML === "" || $(this).find("td")[0].innerHTML === "-") {
                 // console.log("1");
                 return;
-            }
+            }         
             if (i > 0) {
                 var id = 0;
                 var absorbance = 0;

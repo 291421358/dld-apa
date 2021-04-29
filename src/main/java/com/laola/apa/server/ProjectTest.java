@@ -55,4 +55,6 @@ public interface ProjectTest {
     void deleteProjects();
 
     void deleteProjects(String dateId, Integer paramId);
+
+    void deleteProjectById(int id);
 }

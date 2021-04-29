@@ -868,7 +868,7 @@ function alertWin(id) {
     //设定左侧列表
     setTimeout(sc_irload, 100);
     if (id === 1){
-        setTimeout(getOneProjectsScalingTime(1), 100);
+        // setTimeout(getOneProjectsScalingTime(1), 100);
         setTimeout(setBEDate, 100);
     }else {
         setTimeout(qc_load, 100);

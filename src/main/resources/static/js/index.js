@@ -21,7 +21,7 @@ $(document).ready(function () {
         $("#dialog").empty().hide(); // 清除弹出页
     });
     $("#in").on("click",function () {
-       $("#show").hide()
+        verification();
     });
 });
 function closeJava() {
@@ -161,4 +161,27 @@ document.body.addEventListener('touchmove', self.welcomeShowedListener, false);
 
 function showGif() {
     $("#show").show();
+}
+
+function  verification() {
+    console.log($("#username")[0].value);
+    $.ajax({
+        type:"GET",
+        url : urlhead + "/loginer/verification?un="+$("#username")[0].value+"&pa="+$("#password")[0].value,
+        async:true,
+        date:{
+            un : $("#username")[0].value,
+            pa : $("#password")[0].value,
+        },
+        jsonp: 'jsoncallback',
+        success:function (e) {
+            if (e == 1)
+                $("#show").hide();
+            else
+                alert("密码错误")
+        },
+        error: function () {
+
+        }
+    })
 }

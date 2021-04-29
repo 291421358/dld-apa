@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.LoginerMapper">
+
+    <resultMap type="com.laola.apa.entity.Loginer" id="LoginerMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="u" column="u" jdbcType="VARCHAR"/>
+        <result property="p" column="p" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LoginerMap">
+        select
+          id, u, p
+        from laola.loginer
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LoginerMap">
+        select
+          id, u, p
+        from laola.loginer
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LoginerMap">
+        select
+          id, u, p
+        from laola.loginer
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="u != null and u != ''">
+                and u = #{u}
+            </if>
+            <if test="p != null and p != ''">
+                and p = #{p}
+            </if>
+        </where>
+    </select>
+    <select id="verfication" resultType="java.lang.Boolean">
+        select count(*) from laola.loginer where u=#{u} and p=#{p}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.loginer(u, p)
+        values (#{u}, #{p})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.loginer
+        <set>
+            <if test="u != null and u != ''">
+                u = #{u},
+            </if>
+            <if test="p != null and p != ''">
+                p = #{p},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.loginer where id = #{id}
+    </delete>
+
+</mapper>

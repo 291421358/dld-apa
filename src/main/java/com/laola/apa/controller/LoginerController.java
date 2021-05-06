@@ -43,7 +43,7 @@ public class LoginerController {
     }
 
     @GetMapping("verification")
-    public boolean verification(String un,String pa){
+    public int verification(String un,String pa){
         return this.loginerService.verification(un,pa);
     }
 

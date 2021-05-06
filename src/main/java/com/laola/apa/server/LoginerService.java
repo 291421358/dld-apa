@@ -58,6 +58,6 @@ public interface LoginerService {
      * @param p 密码
      * @return 是否成功
      */
-    boolean verification(String u,String p);
+    int verification(String u, String p);
 
 }

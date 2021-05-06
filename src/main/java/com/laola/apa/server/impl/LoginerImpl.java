@@ -78,15 +78,19 @@ public class LoginerImpl implements LoginerService {
     }
 
     /**
-     *验证
+     * 验证
      * @param u 账号
      * @param p 密码
      * @return 是否成功
      */
     @Override
-    public boolean verification(String u, String p) {
+    public int verification(String u, String p) {
 
 
-        return this.loginerMapper.verfication(u,p);
+        Object verfication = this.loginerMapper.verfication(u, p);
+        if (null == verfication) {
+            return 0;
+        }
+        return (int) verfication;
     }
 }

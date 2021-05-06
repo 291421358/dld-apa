@@ -29,6 +29,9 @@ public class AdjustedController {
     public String connect(){
         SerialUtil cRead = new SerialUtil();
         SerialPort serialPort = cRead.startComPort();
+        if (serialPort == null) {
+            return "200";
+        }
         p(serialPort.getName());
         return "200";
     }

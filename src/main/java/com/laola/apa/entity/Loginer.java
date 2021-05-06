@@ -17,6 +17,16 @@ public class Loginer implements Serializable {
     
     private String p;
 
+    private String t;
+
+    public String getT() {
+        return t;
+    }
+
+    public Loginer setT(String t) {
+        this.t = t;
+        return this;
+    }
 
     public Integer getId() {
         return id;
@@ -42,4 +52,13 @@ public class Loginer implements Serializable {
         this.p = p;
     }
 
+    @Override
+    public String toString() {
+        return "Loginer{" +
+                "id=" + id +
+                ", u='" + u + '\'' +
+                ", p='" + p + '\'' +
+                ", t='" + t + '\'' +
+                '}';
+    }
 }

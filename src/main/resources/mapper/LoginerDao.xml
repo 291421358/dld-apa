@@ -6,6 +6,7 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="u" column="u" jdbcType="VARCHAR"/>
         <result property="p" column="p" jdbcType="VARCHAR"/>
+        <result property="t" column="t" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -41,8 +42,8 @@
             </if>
         </where>
     </select>
-    <select id="verfication" resultType="java.lang.Boolean">
-        select count(*) from laola.loginer where u=#{u} and p=#{p}
+    <select id="verfication" resultType="java.lang.Integer">
+        select t from laola.loginer where u=#{u} and p=#{p} Limit 1;
     </select>
 
     <!--新增所有列-->

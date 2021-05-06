@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $("#menu li").click(function (data) {
+    $("#menu").on("click",'li',function (data) {
         var i = data.currentTarget.value;
         jumpPage(i);
         $("#menu li").each(function () {
@@ -48,29 +48,30 @@ function time() {//
     }, 500);
 }
 
-var url = "";
-
+var urls = ["/pages/patients/scaling.html","/pages/patients/input&result.html","/pages/param/projectparam.html","/pages/search/sampleResult.html"
+,"/pages/equipment/adjust&AD&parts.html","/pages/laser/laserSpectrum.html"];
 function jumpPage(i) {
+    var url = "";
     console.log(i);
     switch (i) {
         case 1:
-            url = "/pages/patients/scaling.html";
+            url = urls[i-1];
             break;
         case 2:
-            url = "/pages/patients/input&result.html";
+            url = urls[i-1];
             break;
         case 3:
-            url = "/pages/param/projectparam.html";
+            url = urls[i-1];
             break;
         case 4:
-            url = "/pages/search/sampleResult.html";
+            url = urls[i-1];
             break;
 
         case 5:
-            url = "/pages/equipment/adjust&AD&parts.html";
+            url = urls[i-1];
             break;
         case 6:
-            url = "/pages/laser/laserSpectrum.html";
+            url = urls[i-1];
             break;
         case 7:
             suspend();
@@ -175,8 +176,18 @@ function  verification() {
         },
         jsonp: 'jsoncallback',
         success:function (e) {
-            if (e == 1)
+            var a = "<li class='mli' value='2'>检测界面</li>"
+            var b = "<li class='mli' value='3'>参数设置</li>"
+            var c = "<li class='mli' value='4'>查询打印</li>"
+            var d = "<li class='mli' value='5'>仪器维护</li>"
+            if (e == 1){
+                $("#menu").html(a+b+c+d);
                 $("#show").hide();
+            }
+            else if (e == 2){
+                $("#menu").html(a+b+c);
+                $("#show").hide();
+            }
             else
                 alert("密码错误")
         },

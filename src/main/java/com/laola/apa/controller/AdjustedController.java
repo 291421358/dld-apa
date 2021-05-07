@@ -196,7 +196,7 @@ public class AdjustedController {
     @RequestMapping(value = "effluentSto" , method = RequestMethod.POST)
     public String effluentSto(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
@@ -204,26 +204,26 @@ public class AdjustedController {
 
 
     /**
-     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     *   试剂仓进入 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "tuijin" , method = RequestMethod.GET)
     public String tuijin(){
         SerialUtil cRead = new SerialUtil();
-//        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
-//        p(init);
+        String init = cRead.init("E5 90 C9 01 01 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
         return "1";
     }
 
 
 
     /**
-     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     *  试剂仓推出 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "tuichu" , method = RequestMethod.GET)
     public String tuichu(){
         SerialUtil cRead = new SerialUtil();
-//        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00");
-//        p(init);
+        String init = cRead.init("E5 90 C9 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
         
         return "1";
     }

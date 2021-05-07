@@ -3,7 +3,7 @@ package com.laola.apa.costant;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdjustedNewCostant extends BaseCostant{
+public class AdjustedNewCostant extends BaseCostant {
 
 
     public static final Map<String, String> adjuestNew = new HashMap<String, String>() {
@@ -11,7 +11,7 @@ public class AdjustedNewCostant extends BaseCostant{
 //进入
             put("IN", "00 IN 00 ");
 //复制
-            put("COPY","46 FROM TO");
+            put("COPY", "46 FROM TO");
 //y-100步
             put("Y-100", "16 00 00 ");
 //y-10步
@@ -31,10 +31,10 @@ public class AdjustedNewCostant extends BaseCostant{
 //返回
             put("BACK", "04 00 00 ");
 //返回+保存
-       put("SAVE+BACK", "05 00 00 ");
+            put("SAVE+BACK", "05 00 00 ");
 /**
-* 加样针 SAMPLE
-*/
+ * 加样针 SAMPLE
+ */
 //-100
             put("SAMPLE-100", "0A 00 00 ");
 //-10
@@ -50,10 +50,10 @@ public class AdjustedNewCostant extends BaseCostant{
 //样品臂返回
             put("SAMPLE+BACK", "17 00 00 ");
 //样品臂保存+返回+
-       put("SAMPLE+SAVE+BACK", "18 00 00 ");
+            put("SAMPLE+SAVE+BACK", "18 00 00 ");
 /**
-* 抓手 GRIPPER
-*/
+ * 抓手 GRIPPER
+ */
 //-100
             put("GRIPPER-100", "1A 00 00 ");
 //-10
@@ -72,7 +72,7 @@ public class AdjustedNewCostant extends BaseCostant{
             put("GRIPPER+SAVE+BACK", "21 00 00 ");
 /**
  * 搅拌 STIR
-  */
+ */
 //-100
             put("STIR-100", "29 00 00 ");
 //-10
@@ -93,7 +93,7 @@ public class AdjustedNewCostant extends BaseCostant{
             put("STIR+SAVE+BACK", "22 00 00 ");
 /**
  * 反应杯 REACT
-  */
+ */
 //第四个点
             put("REACT_FOURTH", "30 00 00 ");
 //第一个点
@@ -125,9 +125,11 @@ public class AdjustedNewCostant extends BaseCostant{
             put("CLEAN+BACK", "2D 00 00 ");
 //清洗保存+返回
             put("CLEAN+SAVE+BACK", "2E 00 00 ");
-/**
- * 进样架 SAMPLING
-  */
+
+
+            /**
+             * 进样架 SAMPLING
+             */
 //条码位
             put("SAMPLING-BCode", "3C 00 00 ");
 //1号位
@@ -142,6 +144,23 @@ public class AdjustedNewCostant extends BaseCostant{
             put("SAMPLING+BACK", "44 00 00 ");
 //进样架保存+返回
             put("SAMPLING+SAVE+BACK", "45 00 00 ");
+
+            /**
+             * 试剂仓 SAMPLING
+             */
+
+//1号位
+            put("RB_FIRST", "47 00 00 ");
+//2号位
+            put("RB_SECOND", "48 00 00 ");
+//+100步
+            put("RB+100", "49 00 00 ");
+//-100步
+            put("RB-100", "4A 00 00 ");
+//试剂仓返回
+            put("RB+BACK", "4B 00 00 ");
+//试剂仓保存+返回
+            put("RB+SAVE+BACK", "4C 00 00 ");
         }
     };
 }

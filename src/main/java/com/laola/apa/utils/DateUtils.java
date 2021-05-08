@@ -96,7 +96,7 @@ public class DateUtils {
 
     //10进制转16进制
     public static String DEC2HEX(String dec) {
-        if (dec == null || dec.equals("null")) {
+        if (dec == null || dec.equals("null") || dec.equals("")) {
             return "00";
         }
         String hex = Integer.toHexString(Integer.valueOf(dec));

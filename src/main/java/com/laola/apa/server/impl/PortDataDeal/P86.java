@@ -14,7 +14,11 @@ public class P86 implements PortDataDealService<Object, String> {
     @Autowired
     private EquipmentStateserver equipmentStateSever;
 
-
+    /**
+     * 处理仪器参数数据
+     * @param data
+     * @return
+     */
     @Override
     public Object deal(String... data) {
         String string = data[0];

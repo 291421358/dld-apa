@@ -14,6 +14,12 @@ import java.util.Map;
 
 @Service("p93")
 public class P93 implements PortDataDealService<String,String> {
+
+    /**
+     * 读取光准
+     * @param data
+     * @return
+     */
     @Override
     public String deal(String... data) {
         String hexStr = data[0];

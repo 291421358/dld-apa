@@ -15,6 +15,11 @@ public class P90 implements PortDataDealService<EquipmentState,String>{
     @Autowired
      public EquipmentStateserver equipmentStateSever;
 
+    /**
+     * 处理仪器温度数据
+     * @param data
+     * @return
+     */
     @Override
     public EquipmentState deal(String ... data) {
         //取得窗口发来的字符串

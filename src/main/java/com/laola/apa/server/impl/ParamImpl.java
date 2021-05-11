@@ -120,7 +120,9 @@ public class ParamImpl implements ParamIntf {
 
         Code code = this.code.queryNextCode();
         StringBuilder text =  new StringBuilder(code.getCode());
-        text = text.append(",").append(total).append(",1,");
+        text = text.append(",").append(total).append(",").append(id).append(",");
+
+
         text = new StringBuilder(DateUtils.unicodeEncodeOnlyCN(text.toString()));
 
         Example example = new Example(Project.class);

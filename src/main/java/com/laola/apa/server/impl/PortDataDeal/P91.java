@@ -42,10 +42,10 @@ public class P91 implements PortDataDealService<String,String> {
     ScalingMapper scalingMapper;
     @Autowired
     WebSocket webSocket;
-    private static final Logger logger = LoggerFactory.getLogger(PortDataDealService.class);
+    private static final Logger logger = LoggerFactory.getLogger(P91.class);
 
     /**
-     * 处理9c开头的结果。  在做项目时，出一个结果时
+     * 处理91开头的结果。  在做项目时，出一个结果时
      *
      * @param strings
      * @throws Exception
@@ -53,6 +53,7 @@ public class P91 implements PortDataDealService<String,String> {
     @Override
     public String deal(String ... strings) {
             String  string= strings[0];
+        logger.info("GET RESULT DATA" + string);
             //判断是结果
             //截取前32 * 2位
             String result = string.substring(64);

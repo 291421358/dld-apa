@@ -40,6 +40,7 @@ public class P9C implements PortDataDealService<String,Object> {
     @Override
     public String deal(Object... data) {
         String string = String.valueOf(data[0]);
+        logger.info("GET PLACE&BAR DATA" + string);
         SerialPort serialPort = (SerialPort) data[1];
         //架号
         Integer rackNo = DateUtils.decodeHEX(string.substring(4, 6));

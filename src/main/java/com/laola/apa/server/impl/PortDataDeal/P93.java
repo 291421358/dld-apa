@@ -3,6 +3,8 @@ package com.laola.apa.server.impl.PortDataDeal;
 import com.google.gson.Gson;
 import com.laola.apa.server.PortDataDealService;
 import com.laola.apa.utils.WebSocket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @Service("p93")
 public class P93 implements PortDataDealService<String,String> {
-
+    private static final Logger logger = LoggerFactory.getLogger(P93.class);
     /**
      * 读取光准
      * @param data
@@ -23,6 +25,7 @@ public class P93 implements PortDataDealService<String,String> {
     @Override
     public String deal(String... data) {
         String hexStr = data[0];
+        logger.info("GET OPTICAL ALIGNMENT DATA" + hexStr);
         Map<String, Object> lightQuasiMap = new HashMap<>(11);
         assert hexStr != null;
         List<String> LightQuasiStr = new ArrayList<>();

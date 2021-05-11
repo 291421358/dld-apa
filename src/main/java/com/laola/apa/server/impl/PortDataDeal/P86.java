@@ -4,6 +4,8 @@ import com.laola.apa.entity.EquipmentState;
 import com.laola.apa.server.EquipmentStateserver;
 import com.laola.apa.server.PortDataDealService;
 import com.laola.apa.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ public class P86 implements PortDataDealService<Object, String> {
 
     @Autowired
     private EquipmentStateserver equipmentStateSever;
+    private Logger logger = LoggerFactory.getLogger(P90.class);
 
     /**
      * 处理仪器参数数据
@@ -21,7 +24,10 @@ public class P86 implements PortDataDealService<Object, String> {
      */
     @Override
     public Object deal(String... data) {
+
+
         String string = data[0];
+        logger.info("GET INSTRUMENT STATE DATA" + string);
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
         //A13：出水标志   1/0代表出水满

@@ -25,8 +25,9 @@ public class P92 implements PortDataDealService<String,String> {
      */
     @Override
     public String deal(String... data) {
+
         String hexStr = data[0];
-        logger.info("转码后的数据" + hexStr);
+        logger.info("GET AD DATA" + hexStr);
 
         Map<String, String> ADMap = new HashMap<>(11);
         assert hexStr != null;

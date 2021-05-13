@@ -274,7 +274,7 @@ public class AdjustedController {
     }
 
     /**
-     * 柱塞泵1 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "plungerPump2" , method = RequestMethod.GET)
     public String plungerPump2(String value){

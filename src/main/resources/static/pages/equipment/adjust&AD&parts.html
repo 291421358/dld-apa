@@ -153,6 +153,13 @@
             <button type="button" class="layui-btn-primary1" value="出水" id="effluent" name="syringeAbsorb" style="float: left">进水</button>
             <button type="button" class="layui-btn-primary1" value="出水停止" id="effluentSto" name="syringeAbsorb" style="float: left">进水停止</button>
         </div>
+        <div class="layui-col-md3">
+            <button type="button" class="layui-btn-primary1" value="柱塞泵1" id="plungerPump1" name="plungerPump1" style="float: left">柱塞泵1</button>
+            <input class="layui-input" type="number"  min="00" title="柱塞泵1数值"  placeholder="00" style="width: 50px;float: left" id="plungerPump1Value"  >
+
+            <button type="button" class="layui-btn-primary1" value="柱塞泵2" id="plungerPump2" name="plungerPump2" style="float: left">柱塞泵2</button>
+            <input class="layui-input" type="number"  min="00" title="柱塞泵2数值"  placeholder="00" style="width: 50px;float: left" id="plungerPump2Value"  >
+        </div>
     </div>
     <div id="lightQuasi" class="external-form-item">
         <div class="bottom-white-item layui-row">光准调整区</div>
@@ -295,7 +302,8 @@
                 </div>
                 <div class="layui-form-item b8cce4" style="height: 38px">
                     <div class=" ">
-                        <input type="button" name="READ_AD" value="AD读取" class="layui-btn-primary1"/>
+                        <input id="adt" type="button" name="READ_AD" value="透射AD读取" class="layui-btn-primary1"/>
+                        <input id="ads" type="button" name="READ_AD" value="散射AD读取" class="layui-btn-primary1"/>
                     </div>
                     <div class=" ">
                         <input type="button" name="STOP" value="AD停止读取" class="layui-btn-primary1"/>

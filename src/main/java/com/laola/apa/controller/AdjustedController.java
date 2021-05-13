@@ -1,6 +1,7 @@
 package com.laola.apa.controller;
 
 import com.laola.apa.server.impl.AdjustedImpl;
+import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
 import gnu.io.SerialPort;
@@ -104,11 +105,25 @@ public class AdjustedController {
 
     /**
      * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00
+     * 读透射ad
      */
-    @RequestMapping(value = "removeCup" , method = RequestMethod.POST)
-    public String removeCup(){
+    @RequestMapping(value = "removeCupReadTransmission" , method = RequestMethod.POST)
+    public String removeCupReadTransmission(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 05 00 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
+        return init;
+    }
+
+
+    /**
+     * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00
+     * 读散射ad
+     */
+    @RequestMapping(value = "removeCupReadScattering" , method = RequestMethod.POST)
+    public String removeCupReadScattering(){
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 83 05 01 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
@@ -129,6 +144,7 @@ public class AdjustedController {
      */
     @RequestMapping(value = "readAddress" , method = RequestMethod.GET)
     public String readAddress(String address){
+        address = DateUtils.DEC2HEX(address);
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 9A 00 "+address+" 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
@@ -151,6 +167,9 @@ public class AdjustedController {
     @RequestMapping(value = "writeAddress" , method = RequestMethod.POST)
     public String writeAddress(String address,String value){
         SerialUtil cRead = new SerialUtil();
+        address = DateUtils.DEC2HEX(address);
+        value = DateUtils.DEC2HEX(value);
+
         String init = cRead.init("E5 90 9A 88 "+address+" "+value+" 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
@@ -236,10 +255,38 @@ public class AdjustedController {
     public String getTemp(){
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00");
-//        p(init);
+        p(init);
 
         return "1";
     }
+
+    /**
+     * 柱塞泵1 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "plungerPump1" , method = RequestMethod.GET)
+    public String plungerPump1(String value){
+        value = DateUtils.DEC2HEX4Place(value);
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 91 13 00 "+value+" 00 00 00 00 00 00 00 00 00");
+        p(init);
+
+        return "1";
+    }
+
+    /**
+     * 柱塞泵1 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "plungerPump2" , method = RequestMethod.GET)
+    public String plungerPump2(String value){
+        value = DateUtils.DEC2HEX4Place(value);
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 91 12 00 "+value+" 00 00 00 00 00 00 00 00 00");
+        p(init);
+
+        return "1";
+    }
+
+
     private static void p(String a){
         System.out.println(a);
     }

@@ -44,10 +44,10 @@ public class OnMessageServer extends Thread {
      * @throws InterruptedException
      */
     public void onMessage(String username, Object message, WebSocket webSocket) throws IOException, InterruptedException {
-        //打印收到的数据
-        System.out.println(message + "51 :OnMessageServer");
         //将收到的数据转换为json格式
         JSONObject jsonTo = JSONObject.fromObject(message);
+        //打印收到的数据
+        System.out.println( "OnMessageServer " +jsonTo.get("message") );
         //将json格式数据转换为字符串
         String mes = String.valueOf(jsonTo.get("message"));
         //新建连接串口帮助类对象 SerialTest
@@ -76,7 +76,7 @@ public class OnMessageServer extends Thread {
 //            serialPort.removeEventListener();
             //查询当前有效的样本数量
             int projectDoing = onMessageServer.projectTest.isProjectDoing();
-            System.out.println("正在做的项目数量："+projectDoing);
+            System.out.println("DOING NUMBERS:"+projectDoing);
             //样品 试剂位   试剂量  项目序号 波长
 //            List<String> messageList = onMessageServer.projectTest.get(Integer.parseInt(String.valueOf(jsonTo.get("message"))));
 
@@ -111,7 +111,7 @@ public class OnMessageServer extends Thread {
             byte[] bytes = DateUtils.hexStrToBinaryStr(st);
             //发送字节码串口通讯业务完成
             //code为5 测试项目 直接结束 在 监听处获得数据
-            System.out.println("st:Message153  the command" + st);
+            System.out.println("st:Message153  the command " + st);
             outputStream.write(bytes, 0, bytes.length);
 //            serialPort.notifyOnDataAvailable(false);
 //            serialPort.removeEventListener();

@@ -61,7 +61,8 @@ public class DateUtils {
      * @return
      */
     public static String bytes2hexStr(byte[] bytes) {
-        System.out.printf(":收到字节码的长度%n%d", bytes.length);
+
+        System.out.println("GET BYTE LEN: "+ bytes.length);
         int len = bytes.length;
         if (len == 0) {
             return null;
@@ -106,7 +107,23 @@ public class DateUtils {
         return hex;
     }
 
-
+    //10进制转16进制
+    public static String DEC2HEX4Place(String dec) {
+        if (dec == null || dec.equals("null") || dec.equals("")) {
+            return "00 00";
+        }
+        String hex = Integer.toHexString(Integer.valueOf(dec));
+        if (hex.length() == 1) {
+            hex = "00 " + "0"+hex;
+        }
+        if (hex.length() == 2) {
+            hex = "00 " + hex;
+        }
+        if (hex.length() == 3) {
+            hex = "0" + hex.substring(0,1) + " "+ hex.substring(1,3);
+        }
+        return hex;
+    }
 
     /**
      * 十六进制ASCII码hex字符串转String明文

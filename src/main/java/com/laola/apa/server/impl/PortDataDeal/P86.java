@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 @Service("p86")
-public class P86 implements PortDataDealService<Object, String> {
+public class P86 implements PortDataDealService<Object, Object> {
 
     @Autowired
     private EquipmentStateserver equipmentStateSever;
@@ -23,10 +23,10 @@ public class P86 implements PortDataDealService<Object, String> {
      * @return
      */
     @Override
-    public Object deal(String... data) {
+    public Object deal(Object... data) {
 
 
-        String string = data[0];
+        String string = String.valueOf(data[0]);
         logger.info("GET INSTRUMENT STATE DATA" + string);
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));

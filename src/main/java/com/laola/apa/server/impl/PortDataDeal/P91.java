@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Service("p91")
-public class P91 implements PortDataDealService<String,String> {
+public class P91 implements PortDataDealService<String,Object> {
 
     @Autowired
     private ProjectTest projectTest;
@@ -51,8 +51,8 @@ public class P91 implements PortDataDealService<String,String> {
      * @throws Exception
      */
     @Override
-    public String deal(String ... strings) {
-            String  string= strings[0];
+    public String deal(Object ... strings) {
+            String  string= String.valueOf(strings[0]);
         logger.info("GET RESULT DATA" + string);
             //判断是结果
             //截取前32 * 2位

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service("p92")
-public class P92 implements PortDataDealService<String,String> {
+public class P92 implements PortDataDealService<String,Object> {
 
     private static final Logger logger = LoggerFactory.getLogger(PortDataDealService.class);
 
@@ -24,9 +24,9 @@ public class P92 implements PortDataDealService<String,String> {
      * @return
      */
     @Override
-    public String deal(String... data) {
+    public String deal(Object... data) {
 
-        String hexStr = data[0];
+        String hexStr = String.valueOf(data[0]);
         logger.info("GET AD DATA" + hexStr);
 
         Map<String, String> ADMap = new HashMap<>(11);

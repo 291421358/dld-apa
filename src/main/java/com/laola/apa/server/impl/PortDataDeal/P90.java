@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.text.DecimalFormat;
 
 @Service("p90")
-public class P90 implements PortDataDealService<EquipmentState,String>{
+public class P90 implements PortDataDealService<EquipmentState,Object>{
 
     @Autowired
      public EquipmentStateserver equipmentStateSever;
@@ -24,9 +24,9 @@ public class P90 implements PortDataDealService<EquipmentState,String>{
      * @return
      */
     @Override
-    public EquipmentState deal(String ... data) {
+    public EquipmentState deal(Object ... data) {
         //取得窗口发来的字符串
-        String string = data[0];
+        String string = String.valueOf(data[0]);
         logger.info("GET TEMPERATURE DATA" + string);
         String tHighBefore = string.substring(4, 6);
         String tHighBehind = string.substring(6, 8);

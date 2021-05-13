@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("p93")
-public class P93 implements PortDataDealService<String,String> {
+public class P93 implements PortDataDealService<String,Object> {
     private static final Logger logger = LoggerFactory.getLogger(P93.class);
     /**
      * 读取光准
@@ -23,8 +23,8 @@ public class P93 implements PortDataDealService<String,String> {
      * @return
      */
     @Override
-    public String deal(String... data) {
-        String hexStr = data[0];
+    public String deal(Object... data) {
+        String hexStr = String.valueOf(data[0]);
         logger.info("GET OPTICAL ALIGNMENT DATA" + hexStr);
         Map<String, Object> lightQuasiMap = new HashMap<>(11);
         assert hexStr != null;

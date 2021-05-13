@@ -180,12 +180,13 @@ function  verification() {
             var b = "<li class='mli' value='3'>参数设置</li>"
             var c = "<li class='mli' value='4'>查询打印</li>"
             var d = "<li class='mli' value='5'>仪器维护</li>"
+            var f = "<lr  onclick='' id='tem'> <img style='padding-top: 7px;height: 33px' src='css/images/temp.png'> </lr>"
             if (e == 1){
-                $("#menu").html(a+b+c+d);
+                $("#menu").html(a+b+c+d+f);
                 $("#show").hide();
             }
             else if (e == 2){
-                $("#menu").html(a+b+c);
+                $("#menu").html(a+b+c+f);
                 $("#show").hide();
             }
             else

@@ -40,7 +40,7 @@ public class ReagentPlaceImpl implements ReagentPlaceIntf {
     @Override
     public int updateRegentPlace(RegentPlace regentPlace) {
 
-        return regentPlaceMapper.updateByPrimaryKey(regentPlace);
+        return regentPlaceMapper.updateByPrimaryKeySelective(regentPlace);
     }
 
 }

@@ -49,7 +49,7 @@ public class GetProjectResultImp implements GetProjectResult {
         String s34 = string.substring(2, 4);
 
         String[] split = string.split(SPLITCONDITION);
-        for (int i = 0; i < split.length-1; i++) {
+        for (int i = 0; i < split.length; i++) {
             String s = split[i];
             logger.info("THE LENGTH OF GET DATA" + s.length());
             PortDataDealService<String,Object> beanByName =  SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class,"p" + s34);

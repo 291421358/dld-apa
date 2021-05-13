@@ -18,12 +18,12 @@ function stirSpin() {
 }
 
 /**
- * 移开反应杯
+ * 移开反应杯 读透射
  */
-function removeCup() {
+function removeCupReadTransmission() {
     $.ajax({
         type: 'POST',
-        url: urlhead + '/adjusted/removeCup',
+        url: urlhead + '/adjusted/removeCupReadTransmission',
         async: true,
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -33,7 +33,22 @@ function removeCup() {
         }
     });
 }
-
+/**
+ * 移开反应杯 读散射
+ */
+function removeCupReadScattering() {
+    $.ajax({
+        type: 'POST',
+        url: urlhead + '/adjusted/removeCupReadScattering',
+        async: true,
+        jsonp: 'jsoncallback',
+        success: function (data) {
+        },
+        error: function () {
+            alert("error")
+        }
+    });
+}
 /**
  * 移回反应杯
  */
@@ -74,11 +89,13 @@ $(document).ready(function () {
         command = this.name;
         send(-1, -1, 4);
     });
-    //读ad
+    //读透射ad
     $("#ad input[type=button]").click(function () {
         $("#lightQuasi input[type=button]").attr("type","hidden");
         if (this.name === "STOP") {
             $("#lightQuasi input[type=hidden]").attr("type","button");
+            $("#ads").attr("type","button");
+            $("#adt").attr("type","button");
             clearTimeout(timeout);
             moveBackCup();
             return;
@@ -93,10 +110,23 @@ $(document).ready(function () {
             command = te;
             return;
         }
-        removeCup()
+        if (this.id == "ads") {
+
+            removeCupReadScattering();
+        }
+        if (this.id == "adt") {
+            removeCupReadTransmission();
+        }
+        $("#adt").attr("type","hidden");
+        $("#ads").attr("type","hidden");
         runEvery1Sec();
     });
-
+    $("#plungerPump1").on('click',function () {
+        plungerPump1();
+    })
+    $("#plungerPump2").on('click',function () {
+        plungerPump2();
+    })
     $("#readAddress").on('click',function () {
         readAddress();
     });
@@ -221,13 +251,46 @@ $(document).ready(function () {
         });
     });
 });
+
+function plungerPump1(){
+    $.ajax({
+        type: 'GET',
+        url: urlhead + '/adjusted/plungerPump1?value='+$("#plungerPump1Value")[0].value,
+        date: {
+        },
+        async: true,
+        jsonp: 'jsoncallback',
+        success: function (event) {
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+}
+
+function plungerPump2(){
+    $.ajax({
+        type: 'GET',
+        url: urlhead + '/adjusted/plungerPump2?value='+$("#plungerPump1Value")[0].value,
+        date: {
+        },
+        async: true,
+        jsonp: 'jsoncallback',
+        success: function (event) {
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+}
+
 //读取地址码
 function readAddress() {
     $.ajax({
         type: 'GET',
-        url: urlhead + '/adjusted/readAddress?address=',
+        url: urlhead + '/adjusted/readAddress?address='+$("#address")[0].value,
         date: {
-            address: parseInt($("#address")[0].value).toString(16),
+            address: $("#address")[0].value,
         },
         async: true,
         jsonp: 'jsoncallback',
@@ -244,10 +307,10 @@ function readAddress() {
 function writeAddress() {
     $.ajax({
         type: 'POST',
-        url: urlhead + '/adjusted/writeAddress?address=' + parseInt($("#address")[0].value).toString(16) +'&value='+ parseInt($("#value")[0].value).toString(16),
+        url: urlhead + '/adjusted/writeAddress?address=' + $("#address")[0].value +'&value='+ $("#value")[0].value,
         date: {
-            address: parseInt($("#address")[0].value).toString(16),
-            value: parseInt($("#value")[0].value).toString(16),
+            address: $("#address")[0].value,
+            value: $("#value")[0].value,
         },
         async: true,
         jsonp: 'jsoncallback',

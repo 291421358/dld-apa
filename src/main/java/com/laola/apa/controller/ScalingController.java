@@ -50,7 +50,7 @@ public class ScalingController {
     }
 
     /**
-     * 获得某个项目最后一个定标
+     * 获得某个项目最后一个定标 的所有项目
      * @return
      */
     @RequestMapping("getLatestOne")

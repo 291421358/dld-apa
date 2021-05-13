@@ -507,7 +507,7 @@ public class ScalingImpl implements ScalingIntf {
 
 
     /**
-     * 添加定标项目计算方法
+     * 添加定标项目  时间+计算方法
      *
      * @return
      */
@@ -516,11 +516,21 @@ public class ScalingImpl implements ScalingIntf {
         return scalingMapper.insert(scaling);
     }
 
+    /**
+     * 更新定标项目计算方法
+     * @param scaling
+     * @return
+     */
     @Override
     public int updateScalingAlgorithm(Scaling scaling) {
         return scalingMapper.update(scaling);
     }
 
+    /**
+     *删除一个定标
+     * @param dateId
+     * @return
+     */
     @Override
     public int deleteOneScaling(String dateId) {
         return scalingMapper.deleteById(dateId);

@@ -271,7 +271,7 @@ function plungerPump1(){
 function plungerPump2(){
     $.ajax({
         type: 'GET',
-        url: urlhead + '/adjusted/plungerPump2?value='+$("#plungerPump1Value")[0].value,
+        url: urlhead + '/adjusted/plungerPump2?value='+$("#plungerPump2Value")[0].value,
         date: {
         },
         async: true,

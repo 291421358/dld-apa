@@ -54,14 +54,14 @@
         </where>
     </select>
     <select id="queryByCode" resultType="com.laola.apa.entity.UsedCode">
-          select * from laola.code where code = #{code}
+          select * from laola.used_code where code = #{code}
     </select>
 
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into laola.used_code(code, count, total, count_1, total_2)
-        values (#{code}, #{count}, #{total}, #{count1}, #{total2})
+        insert into laola.used_code(code, count, total, count_2, total_2)
+        values (#{code}, #{count}, #{total}, #{count2}, #{total2})
     </insert>
 
     <!--通过主键修改数据-->

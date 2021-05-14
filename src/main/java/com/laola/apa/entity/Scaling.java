@@ -46,4 +46,9 @@ public class Scaling implements Serializable {
     public Scaling() {
         this.dateid = DataUtil.now("yyyy-MM-dd HH:mm");
     }
+
+    public Scaling(String dateid, String algorithm) {
+        this.dateid = dateid;
+        this.algorithm = algorithm;
+    }
 }

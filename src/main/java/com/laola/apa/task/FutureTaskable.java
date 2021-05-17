@@ -13,7 +13,7 @@ public class FutureTaskable   {
         public Long call() throws Exception {
             Thread.currentThread().setName("t_1");
             String name = Thread.currentThread().getName();
-            System.out.println("线程名："+name);
+            System.out.println("thread_name:"+name);
             for(int i=0;i < 10000&&!Thread.currentThread().isInterrupted();i++){
                 SerialUtil.sendCommond("E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00");
                 Thread.sleep(15000);
@@ -43,19 +43,15 @@ public class FutureTaskable   {
      */
     public static void stop(){
         ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
-
         int noThreads = currentGroup.activeCount();
-
         Thread[] lstThreads = new Thread[noThreads];
-
         currentGroup.enumerate(lstThreads);
-
         for (int j = 0; j < noThreads; j++) {
 
             String nm = lstThreads[j].getName();
             if (nm.equals("t_1")) {
                 lstThreads[j].stop();
-                System.out.println("停止线程："+nm);
+                System.out.println("STOP THREAD："+nm);
             }
         }
     }

@@ -144,7 +144,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
     }
 
     /**
-     * 通过程序打开COM4串口，设置监听器以及相关的参数
+     * 通过程序打开COM1串口，设置监听器以及相关的参数
      *
      * @return 返回1 表示端口打开成功，返回 0表示端口打开失败
      */
@@ -162,7 +162,6 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                 //如果串口对象不为空且是com1 则返回该端口对象
                 // 设置当前串口的输入输出流
                 try{
-
                 inputStream = serialPort.getInputStream();
                 outputStream = serialPort.getOutputStream();
                 // 给当前串口添加一个监听器
@@ -185,7 +184,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                 // 判断如果COM4//COME1串口存在，就打开该串口
                 if ( "COM1".equals(portId.getName())) {
-                    System.out.println("设备名称：---->" + portId.getName());
+                    System.out.println("EquipmentName：---->" + portId.getName());
                     try {
                         // 打开串口名字为COM_4(名字任意),延迟为2毫秒
                         serialPort = (SerialPort) portId.open("COM1", 2000);
@@ -255,7 +254,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             // 启动线程来处理收到的数据
             try {
                 byte[] bytes = DateUtils.hexStrToBinaryStr(command);
-                System.out.println("发出字节数：" + command.getBytes("gbk").length);
+                System.out.println("SEND COUNT：" + command.length());//.getBytes("gbk").length);
                 System.out.println(command);
                 outputStream.write(bytes, 0, bytes.length);
             } catch (Exception e) {

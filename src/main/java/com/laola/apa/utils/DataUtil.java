@@ -28,11 +28,11 @@ public class DataUtil {
     }
 
     /**
-     * @Author： tz hh
-     * @Description： 更加输入日期，获取输入日期的前一天
-     * @Date：
-     * @strData： 参数格式：yyyy-MM-dd
-     * @return： 返回格式：yyyy-MM-dd
+     * @author tz hh
+     * @apiNote 更加输入日期，获取输入日期的前一天
+     * @date 
+     * @strData 参数格式：yyyy-MM-dd
+     * @return 返回格式：yyyy-MM-dd
      */
     public static String getPreDateByDate(String strData,int gap) {
         String preDate = "";
@@ -54,11 +54,15 @@ public class DataUtil {
 
 
     /**
-     * @Author： tz hh
-     * @Description： 更加输入日期，获取输入日期的前一天
-     * @Date：
-     * @strData： 参数格式：yyyy-MM-dd
-     * @return： 返回格式：yyyy-MM-dd
+     * @author tz hh
+     * @apiNote 更加输入日期，获取输入日期的前一天
+     * @date 
+     * @strData 参数格式：yyyy-MM-dd
+     * @return 返回格式：yyyy-MM-dd
+     *
+     * @param strData
+     * @param gap
+     * @param unit MINUTE HOUR
      */
     public static String getPreDateByUnit(String strData,int gap,int unit) {
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -81,7 +85,38 @@ public class DataUtil {
         return preDate;
     }
 
+    /***
+     * @apiNote
+     * @author tzhh
+     * @date 2021/5/13 10:39
+     * @param strData
+     * @return {@link long}
+     **/
+    public  static long getDateGap2Now(String strData){
+        Calendar calendarNow = Calendar.getInstance();
+        calendarNow.setTime(new Date());
 
+        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(strData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendarOld = Calendar.getInstance();
+        calendarOld.setTime(date);
+        long difference=calendarNow.getTimeInMillis()-calendarOld.getTimeInMillis();
+        return difference;
+    }
+
+
+    /***
+     * @apiNote
+     * @author tzhh
+     * @date 2021/5/13 10:15
+     * @param str
+     * @return {@link double[]}
+     **/
     //将字符型转换为double型
     public static double[] string2Double(String str) {
         double[] d = { 1 };

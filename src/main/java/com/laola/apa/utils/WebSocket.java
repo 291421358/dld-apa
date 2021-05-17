@@ -48,7 +48,7 @@ public class WebSocket {
         //将MyWebSocket对象置入clients
         clients.put(username, this);
         connections.add(session);
-        System.out.println("已连接");
+        System.out.println("connecting");
     }
 
     /**

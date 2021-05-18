@@ -27,7 +27,10 @@ public class EquipmentStateImpl implements EquipmentStateserver {
      */
     @Override
     public EquipmentState queryById(Integer id) {
-        return this.equipmentStateMapper.queryById(id);
+        EquipmentState equipmentState = this.equipmentStateMapper.queryById(id);
+             float v = Float.parseFloat(String.valueOf(equipmentState.getTemperatureControlCalibration())) + Float.parseFloat(equipmentState.getReactTemp());
+        equipmentState.setReactTemp(String.valueOf(v));
+        return equipmentState;
     }
 
     /**
@@ -75,5 +78,10 @@ public class EquipmentStateImpl implements EquipmentStateserver {
     @Override
     public boolean deleteById(Integer id) {
         return this.equipmentStateMapper.deleteById(id) > 0;
+    }
+
+    @Override
+    public int temperatureControlCalibration(int i) {
+        return  this.equipmentStateMapper.temperatureControlCalibration(i);
     }
 }

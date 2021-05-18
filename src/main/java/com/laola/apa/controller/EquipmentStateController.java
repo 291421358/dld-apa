@@ -46,4 +46,9 @@ public class EquipmentStateController {
         return this.equipmentStateService.insert(equipmentState);
     }
 
+    @GetMapping("temperatureControlCalibration")
+    public int temperatureControlCalibration(int i){
+        return this.equipmentStateService.temperatureControlCalibration(i);
+    }
+
 }

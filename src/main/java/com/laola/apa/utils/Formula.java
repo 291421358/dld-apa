@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Formula {
-    static Logger logger = Logger.getGlobal();
+    private static Logger logger = Logger.getGlobal();
 
     /**
      * 二次曲线获得浓度
@@ -107,10 +107,12 @@ public class Formula {
         logger.info(String.valueOf(absorbanceGap));
         logger.info(String.valueOf(yY[yY.length - 1]));
         logger.info(String.valueOf(yY[0]));
-        if (absorbanceGap < xX[0]) {
+        if (absorbanceGap < yY[0]) {
+            logger.info("absorbance:"+absorbanceGap+" < the min yY[0]:"+yY[0]);
             return -501;
         }
-        if (absorbanceGap > xX[yY.length - 1]) {
+        if (absorbanceGap > yY[yY.length - 1]) {
+            logger.info("absorbance:"+absorbanceGap+" > the min yY[yY.length - 1]:"+yY[yY.length - 1]);
             return -502;
         }
         float density;// 样条曲线
@@ -175,8 +177,9 @@ public class Formula {
             double x1 = x - knode;
             double x2 = x1 + 1;
             double cubic = polynomials.value(x1);
+            logger.info("cubic"+cubic+"x1"+x1+"x2"+x2);
 //            logit4p(x1, a, b, c, d);
-            if (cubic == 0) return x1+ knode;
+            if (cubic == absorbanceGap) return x1+ knode;
             else {
                 double cubic1 = polynomials.value(x2); //logit4p(x2, a, b, c, d)
                 if ((cubic - absorbanceGap) * (cubic1 - absorbanceGap) < 0) {

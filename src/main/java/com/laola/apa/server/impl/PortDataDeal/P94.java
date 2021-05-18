@@ -1,10 +1,8 @@
 package com.laola.apa.server.impl.PortDataDeal;
 
-import com.laola.apa.entity.Project;
 import com.laola.apa.entity.RegentPlace;
 import com.laola.apa.entity.Scaling;
 import com.laola.apa.entity.UsedCode;
-import com.laola.apa.mapper.ScalingMapper;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.String2Hex;
@@ -47,6 +45,9 @@ public class P94 implements PortDataDealService<String,Object> {
         int total = Integer.parseInt(split[1]);
         //试剂项目id
         String paramid = split[2];
+        //试剂位置
+        String place = string.substring(4, 6);
+        //计算方法
         String algorithm = split[3];
         switch (algorithm){
             case  "1":
@@ -67,21 +68,12 @@ public class P94 implements PortDataDealService<String,Object> {
         }
         //查询或插入
         UsedCode b = usedCodeServer.queryOrInsert(code,total);
+        setRegentPlace(code, paramid, place);
         if(b == null){
             return "";
         }
-        //试剂位置
-        String place = string.substring(4, 6);
-        //设置试剂位置
-        RegentPlace regentPlace = new RegentPlace();
-        //设置位置
-        regentPlace.setId(Integer.parseInt(place));
-        //设置项目id
-        regentPlace.setProjectParamId(Integer.valueOf(paramid));
-        regentPlace.setPlace(Integer.parseInt(place));
-        //设置试剂code
-        regentPlace.setCode(code);
-        int i1 = reagentPlaceIntf.updateRegentPlace(regentPlace);
+
+
         List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(Integer.valueOf(paramid));
         String thistime = "";
         if (latestOne != null) {
@@ -99,7 +91,20 @@ public class P94 implements PortDataDealService<String,Object> {
 
         Scaling scaling = new Scaling(thistime,algorithm);
         scalingIntf.insertScalingAlgorithm(scaling);
-        //定标参数
+        //添加定标项目
+        insertScalingProject(split, paramid, thistime);
+        return "";
+    }
+    /**
+     * @apiNote 添加定标项目
+     * @author tzhh
+     * @date 2021/5/17 14:34
+     * @param split
+	 * @param paramid
+	 * @param thistime
+     * @return
+     **/
+    private void insertScalingProject(String[] split, String paramid, String thistime) {
         List<Map<String, Object>> projectList = new ArrayList<>();
         for (int i = 4; i <split.length ; i += 2) {
             Map<String, Object> p = new HashMap<>();
@@ -114,7 +119,27 @@ public class P94 implements PortDataDealService<String,Object> {
             projectList.add(p);
         }
         projectTest.insertProjectList(projectList);
-        return "";
+    }
+    /**
+     * @apiNote 设置试剂位置
+     * @author tzhh 
+     * @date 2021/5/17 14:34
+     * @param code
+	 * @param paramid
+	 * @param place
+     * @return
+     **/
+    private void setRegentPlace(String code, String paramid, String place) {
+        //设置试剂位置
+        RegentPlace regentPlace = new RegentPlace();
+        //设置位置
+        regentPlace.setId(Integer.parseInt(place));
+        //设置项目id
+        regentPlace.setProjectParamId(Integer.valueOf(paramid));
+        regentPlace.setPlace(Integer.parseInt(place));
+        //设置试剂code
+        regentPlace.setCode(code);
+        int i1 = reagentPlaceIntf.updateRegentPlace(regentPlace);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.laola.apa.server.impl.PortDataDeal;
 
+import com.laola.apa.costant.AlgorithmConstant;
 import com.laola.apa.entity.RegentPlace;
 import com.laola.apa.entity.Scaling;
 import com.laola.apa.entity.UsedCode;
@@ -49,23 +50,8 @@ public class P94 implements PortDataDealService<String,Object> {
         String place = string.substring(4, 6);
         //计算方法
         String algorithm = split[3];
-        switch (algorithm){
-            case  "1":
-                algorithm="三次样条函数";
-                break;
-            case  "2":
-                algorithm="一次曲线";
-                break;
-            case "3":
-                algorithm="二次曲线拟合";
-                break;
-            case "4":
-                algorithm="RodBard";
-                break;
-            case "5":
-                algorithm="三次曲线拟合";
-                break;
-        }
+        //根据算法代码获得计算方法全称
+        algorithm = AlgorithmConstant.algorithm.get(algorithm);
         //查询或插入
         UsedCode b = usedCodeServer.queryOrInsert(code,total);
         setRegentPlace(code, paramid, place);
@@ -75,18 +61,15 @@ public class P94 implements PortDataDealService<String,Object> {
 
 
         List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(Integer.valueOf(paramid));
-        String thistime = "";
-        if (latestOne != null) {
+
+        String    thistime = DataUtil.now();;
+        if (latestOne != null && latestOne.size() >0) {
             Map<String, Object> map = latestOne.get(0);
             Object starttime = map.get("starttime");
             long dateGap2Now = DataUtil.getDateGap2Now(String.valueOf(starttime));
             if (dateGap2Now < 6000){
                 thistime = DataUtil.getPreDateByUnit(String.valueOf(starttime), 1, Calendar.MINUTE);
-            }else {
-                thistime = DataUtil.now();
             }
-        } else {
-            thistime = DataUtil.now();
         }
 
         Scaling scaling = new Scaling(thistime,algorithm);

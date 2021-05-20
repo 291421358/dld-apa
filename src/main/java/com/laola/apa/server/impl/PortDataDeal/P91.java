@@ -127,7 +127,7 @@ public class P91 implements PortDataDealService<String,Object> {
                     log = Math.log10(40000F / major);
                 }else {
                     //波长为750时使用散射算法
-                    log = major/10000F;
+                    log = major/5000F;
                 }
                 //格式化吸光度 小数点后三位
                 String formatAbs = new DecimalFormat("0.0000").format(log*2);

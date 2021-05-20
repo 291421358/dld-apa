@@ -1,5 +1,6 @@
 package com.laola.apa.server.impl;
 
+import com.laola.apa.costant.AlgorithmConstant;
 import com.laola.apa.entity.Code;
 import com.laola.apa.entity.Project;
 import com.laola.apa.entity.ProjectParam;
@@ -127,24 +128,8 @@ public class ParamImpl implements ParamIntf {
 
         Scaling scaling = scalingMapper.queryById(p.getFactor());
         String algorithm = scaling.getAlgorithm();
-
-        switch (algorithm){
-            case  "三次样条函数":
-                algorithm="1";
-                break;
-            case  "一次曲线":
-                algorithm="2";
-                break;
-            case "二次曲线拟合":
-                algorithm="3";
-                break;
-            case "RodBard":
-                algorithm="4";
-                break;
-            case "三次曲线拟合":
-                algorithm="5";
-                break;
-        }
+        //根据算法全称获取 算法代码
+        algorithm = AlgorithmConstant.algorithm.get(algorithm);
         text.append(algorithm).append(",");
 
         Example example = new Example(Project.class);

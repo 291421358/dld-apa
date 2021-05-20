@@ -275,7 +275,7 @@ public class ScalingImpl implements ScalingIntf {
         if (max < yY[yY.length-1]){
             max = (float) yY[yY.length-1];
         }
-        System.out.println(max + "::::::::" + min);
+        System.out.println("curve max"+max + "::::::::min" + min);
 
         float yLength = 200;
 

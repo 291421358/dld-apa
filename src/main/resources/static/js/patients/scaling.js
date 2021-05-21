@@ -67,7 +67,8 @@ function getLatestOne(projectParamId) {
                                 $(this).html(i + "<input hidden value=" + projectListI.id + ">");
                                 break;
                             case 1:
-                                $(this).html(projectListI.absorbance == null ? "-" : projectListI.absorbance);
+                                var absorbance = parseFloat(projectListI.absorbance);
+                                $(this).html(absorbance == null ? "" : absorbance.toFixed(4));
                                 break;
                             case 2:
                                 $(this).html(projectListI.factor);
@@ -180,7 +181,8 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                                     $(this).html(i + "<input hidden value=" + projectListI.id + ">");
                                     break;
                                 case 1:
-                                    $(this).html(projectListI.absorbance == null ? "" : projectListI.absorbance);
+                                    var absorbance = parseFloat(projectListI.absorbance);
+                                    $(this).html(absorbance == null ? "" : absorbance.toFixed(5));
                                     break;
                                 case 2:
                                     $(this).html(projectListI.factor);

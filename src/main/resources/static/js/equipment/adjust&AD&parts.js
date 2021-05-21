@@ -133,6 +133,9 @@ $(document).ready(function () {
     $("#writeAddress").on('click',function () {
         writeAddress();
     });
+    $("#temperatureControlCalibration").on('click',function () {
+        temperatureControlCalibration();
+    });
     /**
      * 初始化
      */
@@ -251,7 +254,28 @@ $(document).ready(function () {
         });
     });
 });
-
+/**
+ * @apiNote  溫控
+ * @author tzhh 
+ * @date 2021/5/18 10:05
+ * @param null
+ * @return {@link null}
+ **/
+function temperatureControlCalibration() {
+    $.ajax({
+        type: 'GET',
+        url: urlhead + '/equipmentState/temperatureControlCalibration?i='+$("#temperatureControlCalibrationValue")[0].value,
+        date: {
+        },
+        async: true,
+        jsonp: 'jsoncallback',
+        success: function (event) {
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+}
 function plungerPump1(){
     $.ajax({
         type: 'GET',
@@ -303,6 +327,7 @@ function readAddress() {
         }
     });
 }
+
 //写入地址码
 function writeAddress() {
     $.ajax({

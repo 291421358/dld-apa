@@ -32,7 +32,7 @@ public class QCController {
     private ProjectTest projectTest;
     /**
      * 通过主键查询单条数据
-     *
+     * @author tzhh
      * @param id 主键
      * @return 单条数据
      */
@@ -43,7 +43,7 @@ public class QCController {
     
     /**
      * 修改数据
-     *
+     * @author tzhh
      * @param qC 对象
      * @return 对象
      */
@@ -52,8 +52,9 @@ public class QCController {
         return this.qCService.update(qC);
     }
 
-    /**根据条件查询定标项目
-     *
+    /**
+     * 根据条件查询质控项目
+     * @author tzhh
      * @param projectParamId
      * @return
      */
@@ -95,8 +96,12 @@ public class QCController {
         return projects;
     }
     /**
-     * 获取正在做的定标结果
-     */
+     * @apiNote 获取正在做的定标结果
+     * @author tzhh
+     * @date 2021/5/27 15:24
+     * @param
+     * @return {@link com.laola.apa.entity.Project}
+     **/
     @GetMapping("getQcProjectsResult")
     public Project getQcProjectsResult(){
         return qCService.queryLast();

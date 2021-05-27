@@ -20,6 +20,15 @@ public class ScalingController {
     ScalingIntf scalingIntf;
     @Autowired
     ProjectTest projectTest;
+    /**
+     * @apiNote 根据条件获得定标
+     * @author tzhh
+     * @date 2021/5/27 15:17
+     * @param id
+	 * @param type
+	 * @param time
+     * @return {@link Map< String, List>}
+     **/
     @RequestMapping("getOneProjectsAllScalingByCon")
     public Map<String, List> getOneProjectsAllScalingByCon(Integer id, Integer type, String time){
         Map<String,List> resultMap = scalingIntf.getOneProjectsAllScalingByCon(id,type,time);
@@ -34,9 +43,12 @@ public class ScalingController {
 
 
     /**
-     * 获得某个项目的所有定标时间
-     * @return
-     */
+     * @apiNote 获得某个项目的所有定标时间
+     * @author tzhh
+     * @date 2021/5/27 15:18
+     * @param projectParamId
+     * @return {@link null}
+     **/
     @RequestMapping("getOneProjectsScalingTime")
     public List<Map<String, Object>> getOneProjectsScalingTime(Integer projectParamId){
         Map<String,Object> resultMap = new HashMap<>(16);
@@ -50,9 +62,12 @@ public class ScalingController {
     }
 
     /**
-     * 获得某个项目最后一个定标 的所有项目
-     * @return
-     */
+     * @apiNote 获得某个项目最后一个定标 的所有项目
+     * @author tzhh
+     * @date 2021/5/27 15:23
+     * @param projectParamId
+     * @return {@link java.util.List<java.util.Map<java.lang.String,java.lang.Object>>}
+     **/
     @RequestMapping("getLatestOne")
     public List<Map<String, Object>> getLatestOne(Integer projectParamId){
         Map<String,Object> resultMap = new HashMap<>(16);
@@ -66,9 +81,13 @@ public class ScalingController {
     }
 
     /**
-     * 修改某个项目的定标
-     * @return
-     */
+     * @apiNote 修改某个项目的定标
+     * @author tzhh
+     * @date 2021/5/27 15:23
+     * @param projectParamId
+	 * @param projectId
+     * @return {@link java.lang.String}
+     **/
     @RequestMapping("updateProjectsScaling")
     public String updateProjectsScaling(int projectParamId,String projectId){
         Map<String,Object> resultMap = new HashMap<>(16);
@@ -83,9 +102,12 @@ public class ScalingController {
 
 
     /**
-     * 修改某个定标项目数值
-     * @return
-     */
+     * @apiNote 修改某个定标项目数值
+     * @author tzhh
+     * @date 2021/5/27 15:23
+     * @param project
+     * @return {@link java.lang.String}
+     **/
     @RequestMapping("updateProject")
     public String updateProject(Project project){
         Map<String,Object> resultMap = new HashMap<>(16);
@@ -99,10 +121,13 @@ public class ScalingController {
     }
 
 
-    /**
-     * 添加定标项目计算方法
-     * @return
-     */
+    /***
+     * @apiNote  添加定标项目计算方法
+     * @author tzhh
+     * @date 2021/5/27 15:22
+     * @param scaling
+     * @return {@link int}
+     **/
     @RequestMapping("insertScalingAlgorithm")
     public int insertScalingAlgorithm(Scaling scaling){
         String dateid = scaling.getDateid();
@@ -116,9 +141,12 @@ public class ScalingController {
     }
 
     /**
-     * 修改某个定标曲线算法
-     * @return
-     */
+     * @apiNote 修改某个定标曲线算法
+     * @author tzhh
+     * @date 2021/5/27 15:22
+     * @param scaling
+     * @return {@link int}
+     **/
     @RequestMapping("updateScalingAlgorithm")
     public int updateScalingAlgorithm(Scaling scaling){
         String dateid = scaling.getDateid();
@@ -132,9 +160,13 @@ public class ScalingController {
     }
 
     /**
-     * 删除某个定标
-     * @return
-     */
+     * @apiNote 删除某个定标
+     * @author tzhh
+     * @date 2021/5/27 15:22
+     * @param dateId
+     * @param paramId
+     * @return {@link int}
+     **/
     @RequestMapping("deleteOneScaling")
     public int deleteOneScaling(String dateId,Integer paramId){
         dateId = dateId.replace("年","-");
@@ -146,10 +178,13 @@ public class ScalingController {
         return scalingIntf.deleteOneScaling(dateId);
 
     }
-    /**
-     *
+    /***
+     * @apiNote 删除选中定标中的选中点
+     * @author tzhh
+     * @date 2021/5/27 15:22
      * @param projectId
-     */
+     * @return {@link int}
+     **/
     @RequestMapping("delOne")
     public int delOne(int projectId){
         System.out.println("11111111111111111");

@@ -69,8 +69,12 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
 
     @Override
     /**
-     * SerialPort EventListene 的方法,持续监听端口上是否有数据流
-     */
+     * @apiNote SerialPort EventListene 的方法,持续监听端口上是否有数据流
+     * @author tzhh
+     * @date 2021/5/27 17:03
+     * @param event
+     * @return
+     **/
     public void serialEvent(SerialPortEvent event) {//
 
         switch (event.getEventType()) {
@@ -144,10 +148,12 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
     }
 
     /**
-     * 通过程序打开COM1串口，设置监听器以及相关的参数
-     *
-     * @return 返回1 表示端口打开成功，返回 0表示端口打开失败
-     */
+     * @apiNote 通过程序打开COM1串口，设置监听器以及相关的参数
+     * @author tzhh
+     * @date 2021/5/27 17:04
+     * @param
+     * @return {@link SerialPort}
+     **/
     public SerialPort startComPort() {
         // 通过串口通信管理类获得当前连接上的串口列表
         portList = CommPortIdentifier.getPortIdentifiers();

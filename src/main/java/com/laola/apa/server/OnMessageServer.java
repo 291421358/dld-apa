@@ -9,6 +9,8 @@ import com.laola.apa.utils.WebSocket;
 import com.laola.apa.task.FutureTaskable;
 import gnu.io.SerialPort;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 
 @Controller
 //使websock在spring boot中生效，交由spring 管理
@@ -34,7 +37,7 @@ public class OnMessageServer extends Thread {
         onMessageServer = this;
         this.projectTest = onMessageServer.projectTest;
     }
-
+    Logger logger = LoggerFactory.getLogger(OnMessageServer.class);
 
     /**
      * @param username
@@ -76,7 +79,7 @@ public class OnMessageServer extends Thread {
 //            serialPort.removeEventListener();
             //查询当前有效的样本数量
             int projectDoing = onMessageServer.projectTest.isProjectDoing();
-            System.out.println("DOING NUMBERS:"+projectDoing);
+            logger.info("DOING NUMBERS:"+projectDoing);
             //样品 试剂位   试剂量  项目序号 波长
 //            List<String> messageList = onMessageServer.projectTest.get(Integer.parseInt(String.valueOf(jsonTo.get("message"))));
 
@@ -96,7 +99,7 @@ public class OnMessageServer extends Thread {
                         byte[] readBuffer = new byte[available];
                         int read = inputStream.read(readBuffer);
                         String hexStr = DateUtils.bytes2hexStr(readBuffer);
-                        System.out.println("read" + read + "\nreadBuffer:" + readBuffer.length + "\nhexStr:" + hexStr + "\nava" + available);
+                        logger.info("read" + read + "\nreadBuffer:" + readBuffer.length + "\nhexStr:" + hexStr + "\nava" + available);
                         assert hexStr != null;
                         break;
                     }
@@ -111,7 +114,7 @@ public class OnMessageServer extends Thread {
             byte[] bytes = DateUtils.hexStrToBinaryStr(st);
             //发送字节码串口通讯业务完成
             //code为5 测试项目 直接结束 在 监听处获得数据
-            System.out.println("st:Message153  the command " + st);
+            logger.info("st:Message153  the command " + st);
             outputStream.write(bytes, 0, bytes.length);
 //            serialPort.notifyOnDataAvailable(false);
 //            serialPort.removeEventListener();
@@ -148,7 +151,7 @@ public class OnMessageServer extends Thread {
         if (jsonTo.get("code").equals("4") || jsonTo.get("code").equals(4)) {
             st = LightQuasiConstant.LightHead + LightQuasiConstant.lightQuasiMap.get(mes) + LightQuasiConstant.last;
         }
-
+        logger.info(st);
         return st;
-    }
+    } 
 }

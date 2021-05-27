@@ -24,18 +24,25 @@ public class ParameterController {
     private ProjectNamePlaceServer projectNamePlaceServer;
 
 
-    /**
-     * 查询质控标准值
-     */
+    /***
+     * @apiNote 查询质控标准值
+     * @author tzhh
+     * @date 2021/5/27 16:18
+     * @param
+     * @return {@link List< ProjectParam>}
+     **/
     @RequestMapping(value = "presetQc" , method = RequestMethod.GET)
     public List<ProjectParam> presetQc(){
         return paramIntf.presetQc();
     }
 
     /**
-     * 项目列表
-     * @return
-     */
+     * @apiNote 项目列表
+     * @author tzhh
+     * @date 2021/5/27 16:19
+     * @param
+     * @return {@link Map< String, Object>}
+     **/
     @RequestMapping(value = "projectList" , method = RequestMethod.GET)
     public Map<String, Object> projectList(){
         List<ProjectListVO> projectList = paramIntf.projectList();
@@ -48,9 +55,12 @@ public class ParameterController {
     }
 
     /**
-     * 项目列表
-     * @return
-     */
+     * @apiNote 项目列表
+     * @author tzhh
+     * @date 2021/5/27 16:19
+     * @param
+     * @return {@link Map< String, Object>}
+     **/
     @RequestMapping(value = "projectMap" , method = RequestMethod.GET)
     public Map<String, Object> projectMap(){
         Map<String, String> projectMap = paramIntf.projectMap();
@@ -63,10 +73,12 @@ public class ParameterController {
     }
 
     /**
-     * 单个项目查询
+     * @apiNote 单个项目查询
+     *
+     * @date 2021/5/27 16:19
      * @param id
-     * @return
-     */
+     * @return {@link ProjectParam}
+     **/
     @RequestMapping(value = "oneProject" , method = RequestMethod.GET)
     public ProjectParam onePoject(Integer id){
         ProjectParam projectParam = paramIntf.onePoject(id);
@@ -74,6 +86,7 @@ public class ParameterController {
     }
 
     /**
+     * @author tzhh
      * 更新
      * @param projectParam
      * @return
@@ -88,6 +101,7 @@ public class ParameterController {
     }
 
     /**
+     * @author tzhh
      * 增加
      * @param projectParam
      * @return 200
@@ -100,6 +114,7 @@ public class ParameterController {
         return "200";
     }
     /**
+     * @author tzhh
      * 生成二维码
      * @param id
      * @return

@@ -31,13 +31,16 @@ public class WebSocket {
     //存储连接用户的session
     private static CopyOnWriteArraySet<Session> connections = new CopyOnWriteArraySet<>();
     Logger logger = Logger.getGlobal();
+
+
     /**
-     * 打开websocket连接
-     *
+     * @apiNote 打开websocket连接
+     * @author tzhh
+     * @date 2021/5/27 17:02
      * @param username
      * @param session
-     * @throws IOException
-     */
+     * @return
+     **/
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) throws IOException {
 
@@ -52,10 +55,12 @@ public class WebSocket {
     }
 
     /**
-     * 关闭websocket连接
-     *
-     * @throws IOException
-     */
+     * @apiNote 关闭websocket连接
+     * @author tzhh
+     * @date 2021/5/27 17:02
+     * @param
+     * @return
+     **/
     @OnClose
     public void onClose() throws IOException {
         clients.remove(username);
@@ -63,12 +68,14 @@ public class WebSocket {
     }
 
     /**
-     * 接收消息
-     * 处理业务
-     * 在此处与串口发生通讯
-     *
-     * @param message uuuuuu    * @throws IOException MyWebSocket
-     */
+     * @apiNote 接收websocket消息
+     *  处理业务
+     *  在此处与串口发生通讯
+     * @author tzhh
+     * @date 2021/5/27 17:01
+     * @param message
+     * @return
+     **/
     @OnMessage
     public void onMessage(String message) throws IOException {
         OnMessageServer onMessageServer = new OnMessageServer();
@@ -89,12 +96,13 @@ public class WebSocket {
     }
 
     /**
-     * 发送消息
-     *
+     * @apiNote 通过websocket发送消息
+     * @author tzhh
+     * @date 2021/5/27 17:00
      * @param message
-     * @param To
-     * @throws IOException
-     */
+	 * @param To
+     * @return
+     **/
     public void sendMessageTo(String message, String To) throws IOException {
         //关于getBasicRemote 与getAsyncRemote 的区别，在
         /** @throws MyWebSocket **/ //中有
@@ -108,11 +116,12 @@ public class WebSocket {
     }
 
     /**
-     * 发送全体消息
-     *
+     * @apiNote 发送全体消息
+     * @author tzhh
+     * @date 2021/5/27 17:02
      * @param message
-     * @throws IOException
-     */
+     * @return
+     **/
     public void sendMessageAll(String message) throws IOException {
         //遍历clients
         for (WebSocket item : clients.values()) {
@@ -121,33 +130,45 @@ public class WebSocket {
     }
 
     /**
-     * 获取所有在线人数
-     *
-     * @return
-     */
+     * @apiNote 获取所有在线人数
+     * @author tzhh
+     * @date 2021/5/27 17:02
+     * @param
+     * @return {@link int}
+     **/
     public static synchronized int getOnlineCount() {
         return onlineCount;
     }
 
     /**
-     * 在线人数自加
-     */
+     * @apiNote 在线人数自加
+     * @author tzhh
+     * @date 2021/5/27 17:02
+     * @param
+     * @return
+     **/
     public static synchronized void addOnlineCount() {
         WebSocket.onlineCount++;
     }
 
     /**
-     * 在线人数自减
-     */
+     * @apiNote 在线人数自减
+     * @author tzhh
+     * @date 2021/5/27 17:02
+     * @param
+     * @return
+     **/
     public static synchronized void subOnlineCount() {
         WebSocket.onlineCount--;
     }
 
     /**
-     * 获取所有客户端信息
-     *
-     * @return
-     */
+     * @apiNote 获取所有客户端信息
+     * @author tzhh
+     * @date 2021/5/27 17:02
+     * @param
+     * @return {@link Map< String, WebSocket>}
+     **/
     public static synchronized Map<String, WebSocket> getClients() {
         return clients;
     }

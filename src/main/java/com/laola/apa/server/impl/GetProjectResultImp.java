@@ -33,7 +33,7 @@ import java.util.*;
 @Service
 public class GetProjectResultImp implements GetProjectResult {
     private static final Logger logger = LoggerFactory.getLogger(GetProjectResultImp.class);
-    static String SPLITCONDITION = "(?=eb9c)|(?=eb86)|(?=eb90)|(?=eb91)|(?=eb92)|(?=eb93)|(?=eb94)";
+    static String SPLITCONDITION = "(?=eb9c)|(?=eb86)|(?=eb90)|(?=eb91)|(?=eb92)|(?=eb93)|(?=eb94)|(?=eb95)";
     /**
      * 处理项目结果
      *

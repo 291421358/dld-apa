@@ -60,11 +60,26 @@ public class PatientController {
         return this.patientService.queryAll(patient);
     }
 
+    /**
+     * @apiNote 通过用户id删除
+     * @author tzhh
+     * @date 2021/5/27 15:29
+     * @param humanCode
+     * @return {@link boolean}
+     **/
     @GetMapping("deleteByHumanCode")
     public boolean deleteByHumanCode(Integer humanCode) {
         return this.patientService.deleteById(humanCode);
     }
 
+    /**
+     * @apiNote 根据条件查询
+     * @author tzhh 
+     * @date 2021/5/27 15:29
+     * @param starttime
+	 * @param humancode
+     * @return {@link List< Map< String, Object>>}
+     **/
     @GetMapping("getProjectsByCon")
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         return projectTest.getProjectsByCon(starttime, humancode);

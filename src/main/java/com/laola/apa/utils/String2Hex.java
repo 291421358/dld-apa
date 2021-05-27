@@ -2,6 +2,13 @@ package com.laola.apa.utils;
 
 public class String2Hex {
 
+    /**
+     * @apiNote string转16进制
+     * @author tzhh 
+     * @date 2021/5/27 16:58
+     * @param str
+     * @return {@link String}
+     **/
     public static String convertStringToHex(String str){
 
         char[] chars = str.toCharArray();
@@ -14,6 +21,13 @@ public class String2Hex {
         return hex.toString();
     }
 
+    /***
+     * @apiNote  16进制转string
+     * @author tzhh
+     * @date 2021/5/27 16:58
+     * @param hex
+     * @return {@link String}
+     **/
     public static String convertHexToString(String hex){
         StringBuilder sb = new StringBuilder();
         StringBuilder temp = new StringBuilder();
@@ -34,17 +48,17 @@ public class String2Hex {
     }
 
     //504F533838383834  POS88884
-    public  void main(String[] args) {
+    public static void main(String[] args) {
 
         String2Hex strToHex = new String2Hex();
         System.out.println("\n-----ASCII码转换为16进制 -----");
-        String str = "POS88884";
+        String str = "eb9401712c35302c322c31302c31302c33616161616161616161610d";
         System.out.println("字符串: " + str);
         String hex = strToHex.convertStringToHex(str);
         System.out.println("转换为16进制 : " + hex);
 
         System.out.println("\n***** 16进制转换为ASCII *****");
-        System.out.println("Hex : " + hex);
-        System.out.println("ASCII : " + strToHex.convertHexToString(hex));
+        System.out.println("Hex : " + str);
+        System.out.println("ASCII : " + strToHex.convertHexToString(str));
     }
 }

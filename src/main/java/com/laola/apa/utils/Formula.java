@@ -17,13 +17,14 @@ public class Formula {
     private static Logger logger = Logger.getGlobal();
 
     /**
-     * 二次曲线获得浓度
-     *
-     * @param absorbanceGap
+     * @apiNote 二次曲线获得浓度
+     * @author tzhh
+     * @date 2021/5/27 17:46
      * @param xX
-     * @param yY
-     * @return
-     */
+	 * @param yY
+	 * @param absorbanceGap
+     * @return {@link float}
+     **/
     public static float quadratic(double[] xX, double[] yY, float absorbanceGap) {
         float density;//多项式曲线拟合器创建阶数为二的拟合器
         PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(2);
@@ -65,13 +66,14 @@ public class Formula {
 
 
     /**
-     * 一次函数获得浓度
-     *
+     * @apiNote 一次函数获得浓度
+     * @author tzhh
+     * @date 2021/5/27 17:46
      * @param absorbanceGap
-     * @param xX
-     * @param yY
-     * @return
-     */
+	 * @param xX
+	 * @param yY
+     * @return {@link float}
+     **/
     public static float getDensityByLinear(float absorbanceGap, double[] xX, double[] yY) {
         float density;//多项式曲线拟合器创建阶数为一的拟合器
         PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(1);
@@ -96,13 +98,14 @@ public class Formula {
 
 
     /**
-     * 样条曲线获得浓度
-     *
+     * @apiNote 样条曲线获得浓度
+     * @author tzhh
+     * @date 2021/5/27 17:45
      * @param absorbanceGap
-     * @param xX
-     * @param yY
-     * @return
-     */
+	 * @param xX
+	 * @param yY
+     * @return {@link float}
+     **/
     public static float getSplineDensity(float absorbanceGap, double[] xX, double[] yY) {
         logger.info(String.valueOf(absorbanceGap));
         logger.info(String.valueOf(yY[yY.length - 1]));
@@ -138,13 +141,14 @@ public class Formula {
         return density;
     }
     /**
-     * logit4p获得浓度
-     *
-     * @param absorbanceGap
+     * @apiNote logit4p获得浓度
+     * @author tzhh
+     * @date 2021/5/27 17:45
      * @param x
-     * @param y
-     * @return float
-     */
+	 * @param y
+	 * @param absorbanceGap
+     * @return {@link float}
+     **/
     public static float RodBard(double[] x, double[] y, float absorbanceGap) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(7);

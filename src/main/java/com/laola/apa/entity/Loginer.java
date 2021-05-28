@@ -10,13 +10,19 @@ import java.io.Serializable;
  */
 public class Loginer implements Serializable {
     private static final long serialVersionUID = -23819997828211659L;
-    
-    private Integer id;
-    
-    private String u;
-    
-    private String p;
 
+    private Integer id;
+    /**
+     * 用户名
+     */
+    private String u;
+    /**
+     * 密码
+     */
+    private String p;
+    /**
+     * 用户类型
+     */
     private String t;
 
     public String getT() {

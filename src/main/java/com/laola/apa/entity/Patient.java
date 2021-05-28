@@ -19,33 +19,77 @@ public class Patient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pid;
-
+    /**
+     * 当日id
+     */
     private Integer id;
-    
+
+    /**
+     * 试剂瓶上的条码
+     *
+     */
     private String code;
 
+    /**
+     * 姓名
+     */
     private String name;
+    /**
+     * 性别
+     */
     private String sex;
 
+    /**
+     * 病区/住院区
+     */
     private String inpatientArea;
-    
+
+    /**
+     * 床号
+     */
     private Integer bedNum;
-    
+
+    /**
+     * 样本号
+     */
     private Integer sampleNum;
-    
+
+    /**
+     * 送验部门
+     */
     private String inspectionDept;
-    
+
+    /**
+     * 送验医生
+     */
     private String inspectionDoc;
-    
+
+    /**
+     * 送验日期
+     */
     private String inspectionDate;
-    
+
+    /**
+     * 测试医生
+     */
     private String testDoc;
-    
+    /**
+     * 检测日期
+     */
     private String testDate;
-    
+
+    /**
+     * 审核医生
+     */
     private String examineDoc;
 
+    /**
+     * 备注
+     */
     private String remark;
+    /**
+     * 样本类型
+     */
     private String sampleType;
 
     public Integer getId() {

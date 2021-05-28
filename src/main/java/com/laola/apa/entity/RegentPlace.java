@@ -16,11 +16,20 @@ public class RegentPlace implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
+    /**
+     * 项目参数id
+     */
     private Integer projectParamId;
-    
+
+    /**
+     * 位置
+     */
     private Integer place;
-    
+
+    /**
+     * 试剂编码
+     */
     private String code;
 
 

@@ -13,9 +13,15 @@ import java.io.Serializable;
  */
 public class Scaling implements Serializable {
     private static final long serialVersionUID = -70569154632839822L;
-    
+
+    /**
+     * 定标id/年-月-日 时:分
+     */
     private String dateid;
-    
+
+    /**
+     * 定标算法
+     */
     private String algorithm;
 
 

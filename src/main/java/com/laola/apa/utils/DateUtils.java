@@ -11,7 +11,14 @@ import java.util.regex.Pattern;
  * 数据工具类
  */
 public class DateUtils {
-    //浮点数退位
+    /**
+     * @apiNote 浮点数退位
+     * @author tzhh
+     * @date 2021/5/27 17:05
+     * @param strDig
+	 * @param Multiple
+     * @return {@link java.lang.String}
+     **/
     public static String carryDigit(String strDig, Float Multiple) {
 
         if (null == strDig) {
@@ -30,8 +37,12 @@ public class DateUtils {
     }
 
     /**
-     * 将十六进制的字符串转换成字节数组	 *	 * @param hexString	 * @return
-     */
+     * @apiNote 将十六进制的字符串转换成字节数组
+     * @author tzhh
+     * @date 2021/5/27 17:05
+     * @param hexString
+     * @return {@link byte[]}
+     **/
     public static byte[] hexStrToBinaryStr(String hexString) {
         if (hexString.equals("")) {
             return null;
@@ -55,11 +66,12 @@ public class DateUtils {
     /*     * byte[]数组转十六进制     */
 
     /**
-     * bytes2hexStr 字节转成字符串
-     *
+     * @apiNote 字节转成字符串
+     * @author tzhh
+     * @date 2021/5/27 17:06
      * @param bytes
-     * @return
-     */
+     * @return {@link java.lang.String}
+     **/
     public static String bytes2hexStr(byte[] bytes) {
 
         System.out.println("GET BYTE LEN: "+ bytes.length);
@@ -88,14 +100,26 @@ public class DateUtils {
         return new BigInteger(1, bytes).toString(radix);// 这里的1代表正数
     }
 
-    //將16进制字符串轉換為10进制
+    /**
+     * @apiNote 將16进制字符串轉換為10进制
+     * @author tzhh
+     * @date 2021/5/27 17:06
+     * @param hexs
+     * @return {@link int}
+     **/
     public static int decodeHEX(String hexs) {
         BigInteger bigint = new BigInteger(hexs, 16);
         int numb = bigint.intValue();
         return numb;
     }
 
-    //10进制转16进制
+    /**
+     * @apiNote 10进制转16进制
+     * @author tzhh
+     * @date 2021/5/27 17:06
+     * @param dec
+     * @return {@link String}
+     **/
     public static String DEC2HEX(String dec) {
         if (dec == null || dec.equals("null") || dec.equals("")) {
             return "00";
@@ -107,7 +131,13 @@ public class DateUtils {
         return hex;
     }
 
-    //10进制转16进制
+    /**
+     * @apiNote 10进制转16进制4位
+     * @author tzhh
+     * @date 2021/5/27 17:07
+     * @param dec
+     * @return {@link String}
+     **/
     public static String DEC2HEX4Place(String dec) {
         if (dec == null || dec.equals("null") || dec.equals("")) {
             return "00 00";
@@ -126,11 +156,12 @@ public class DateUtils {
     }
 
     /**
-     * 十六进制ASCII码hex字符串转String明文
-     *
+     * @apiNote 十六进制ASCII码hex字符串转String明文
+     * @author tzhh
+     * @date 2021/5/27 17:07
      * @param hex
-     * @return
-     */
+     * @return {@link String}
+     **/
     public static String hexAscii2Str(String hex) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < hex.length() - 1; i += 2) {
@@ -142,12 +173,13 @@ public class DateUtils {
     }
 
     /**
-     * 取得终点数差
-     *
+     * @apiNote 取得终点数差
+     * @author tzhh
+     * @date 2021/5/27 17:07
      * @param mapList
-     * @param factor
-     * @return
-     */
+    	 * @param factor
+     * @return {@link float}
+     **/
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, float factor) {
         Map<String, Object> minMap = new HashMap<>();
         Map<String, Object> maxMap = new HashMap<>();
@@ -165,11 +197,16 @@ public class DateUtils {
     }
 
     /**
-     * 取得平均数差
-     *
+     * @apiNote 取得平均数差
+     * @author tzhh
+     * @date 2021/5/27 17:07
      * @param mapList
-     * @return
-     */
+	 * @param mainBegin
+	 * @param mainEnd
+	 * @param auxBegin
+	 * @param auxEnd
+     * @return {@link float}
+     **/
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd, String auxBegin, String auxEnd) {
         float beganSum = 0;
         float endSum = 0;
@@ -204,11 +241,13 @@ public class DateUtils {
     }
 
     /**
-     * 取得最后一点
-     *
+     * @apiNote 取得最后一点
+     * @author tzhh
+     * @date 2021/5/27 17:07
      * @param mapList
-     * @return
-     */
+	 * @param mainEnd
+     * @return {@link float}
+     **/
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainEnd) {
         for (Map<String, Object> map :
                 mapList) {
@@ -223,11 +262,14 @@ public class DateUtils {
 
 
     /**
-     * 取得两点数差
-     *
+     * @apiNote 取得两点数差
+     * @author tzhh
+     * @date 2021/5/27 17:07
      * @param mapList
-     * @return
-     */
+	 * @param mainBegin
+	 * @param mainEnd
+     * @return {@link float}
+     **/
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd) {
         for (Map<String, Object> map :
                 mapList) {

@@ -12,7 +12,9 @@ public class Code implements Serializable {
     private static final long serialVersionUID = 475729231233134116L;
     
     private Integer id;
-    
+    /**
+     * 试剂唯一码
+     */
     private String code;
 
 

@@ -8,6 +8,13 @@ public class FutureTaskable   {
 
 
     public static ExecutorService executor = Executors.newSingleThreadExecutor();
+    /**
+     * @apiNote 开启发送读取温度命令任务
+     * @author tzhh
+     * @date 2021/5/27 17:47
+     * @param null
+     * @return {@link null}
+     **/
     public static FutureTask<?> futureTask = new FutureTask<Long>(new Callable<Long>() {
         @Override
         public Long call() throws Exception {
@@ -23,7 +30,7 @@ public class FutureTaskable   {
     });
 
 
-    public static void main(String[] args) {
+    public static  void main(String[] args) {
         executor.execute(futureTask);
         Future<?> submit = executor.submit(futureTask);
         System.out.println("futureTask start");

@@ -12,7 +12,9 @@ public class ProjectNamePlace implements Serializable {
     private static final long serialVersionUID = -74391756033758484L;
     
     private Integer id;
-    
+    /**
+     * 试剂参数id
+     */
     private Integer projectParamId;
 
 

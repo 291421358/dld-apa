@@ -17,15 +17,29 @@ public class UsedCode implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
+    /**
+     * 试剂唯一码
+     */
     private String code;
-    
+
+    /**
+     * 一试剂数量
+     */
     private Integer count;
-    
+
+    /**
+     * 一试剂总量
+     */
     private Integer total;
-    
+
+    /**
+     * 二试剂数量
+     */
     private Integer count2;
-    
+    /**
+     * 二试剂总量
+     */
     private Integer total2;
 
 

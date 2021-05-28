@@ -12,29 +12,53 @@ public class EquipmentState implements Serializable {
     private static final long serialVersionUID = 726379449152597495L;
 
     private Integer id;
-
+    /**
+     * 温度
+     */
     private String temp;
-
+    /**
+     * 架号
+     */
     private Integer rackNo;
-
+    /**
+     * 位号
+     */
     private Integer placeNo;
-
+    /**
+     * 纯水
+     */
     private Integer pureWater;
-
+    /**
+     * 污水
+     */
     private Integer wasteWater;
-
+    /**
+     * 撞针
+     */
     private Integer firingPin;
-
+    /**
+     * 反应杯温度
+     */
     private String reactTemp;
-
+    /**
+     * 试剂仓温度
+     */
     private String regentTemp;
-
+    /**
+     * 发送数量
+     */
     private Integer numSent;
-
+    /**
+     * 测试中数量
+     */
     private Integer numUnderTest;
-
+    /**
+     * 总数量
+     */
     private Integer numAll;
-
+    /**
+     * 温度控制校准
+     */
     private Integer temperatureControlCalibration;
 
     private Integer a;

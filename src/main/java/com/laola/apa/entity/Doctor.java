@@ -12,9 +12,13 @@ public class Doctor implements Serializable {
     private static final long serialVersionUID = -73446904719969362L;
     
     private Integer id;
-    
+    /**
+     * 类型
+     */
     private String type;
-    
+    /**
+     * 名称
+     */
     private String name;
 
 

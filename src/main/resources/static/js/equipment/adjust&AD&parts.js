@@ -86,7 +86,9 @@ $(document).ready(function () {
     });
     //光准
     $("#lightQuasi input[type=button]").click(function () {
-        command = this.name;
+        command = $("#wavelength")[0].value;
+        console.log($("#wavelength")[0]);
+        console.log(command);
         send(-1, -1, 4);
     });
     //读透射ad

@@ -298,14 +298,15 @@ function getRegentPlace() {
             // regentBottleSet();
             for (let i = 0; i < 6; i++) {
                 var eventElement = event[i];
-                if (eventElement.name == null){
-                    continue;
+                var name = eventElement.name;
+                if (name == null){
+                    name ="";
                 }
-                $("#n" + (i + 1)).html(eventElement.name);
-                var total = eventElement.total;
-                var count = eventElement.count;
-                var total_2 = eventElement.total_2;
-                var count_2 = eventElement.count_2;
+                $("#n" + (i + 1)).html(name);
+                var total = null == eventElement.total ? 1: eventElement.total;
+                var count = null == eventElement.count ? "//": eventElement.count;
+                var total_2 = null == eventElement.total_2 ? 1 : eventElement.total_2;
+                var count_2 = null == eventElement.count_2 ? "//" : eventElement.count_2;
                 var demo1 = $("#J_demo" + (i * 2 + 1));
                 demo1.attr("stroke-dasharray", "" + count / total * 156 + ",10000");
                 var demo2 = $("#J_demo" + (i * 2 + 2));
@@ -318,7 +319,7 @@ function getRegentPlace() {
                 //设置标题项目名称
                 var $tab = $("#tab tr:nth-child(2)").find("td:nth-child(" + (i + 3) + ")");// td:nth-child("+2+i+")
                 // console.log($tab);
-                $tab.html(eventElement.name);
+                $tab.html(name);
                 $tab.attr("id", eventElement.project_param_id);
             }
 
@@ -456,8 +457,13 @@ function getEquipmentState() {
 /**
  *查下一个用户code，并且保存 手动
  */
+var savec = 0;
 $(document).ready(function () {
     $('#save').click(function () {
+        if (savec === 1) {
+            return
+        }
+        savec = 1;
         pjsaveList();
     });
 });

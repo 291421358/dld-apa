@@ -33,7 +33,7 @@ import java.util.*;
 @Service
 public class GetProjectResultImp implements GetProjectResult {
     private static final Logger logger = LoggerFactory.getLogger(GetProjectResultImp.class);
-    static String SPLITCONDITION = "(?=eb9c)|(?=eb86)|(?=eb90)|(?=eb91)|(?=eb92)|(?=eb93)|(?=eb94)|(?=eb95)";
+    static String SPLITCONDITION = "(?=eb9c)|(?=eb86)|(?=eb90)|(?=eb92)|(?=eb93)|(?=eb94)|(?=eb95)";//(?=eb91)|
     /**
      * 处理项目结果
      *
@@ -46,6 +46,8 @@ public class GetProjectResultImp implements GetProjectResult {
         if (null == string) {
             return;
         }
+        if (string.substring(0,4).equals("eb91") || string.substring(0,4).equals("eb9c"))
+            SPLITCONDITION = " ";
         String[] split = string.split(SPLITCONDITION);
         for (int i = 0; i < split.length; i++) {
             String s = split[i];
@@ -56,4 +58,10 @@ public class GetProjectResultImp implements GetProjectResult {
         }
     }
 
+//    public static void main(String[] args) {
+//        String a = "1111";
+//        SPLITCONDITION = " ";
+//        String[] split = a.split(SPLITCONDITION);
+//        System.out.println(split[0]);
+//    }
 }

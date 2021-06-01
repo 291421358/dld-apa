@@ -77,7 +77,7 @@ function dealProject(event) {
             continue;
         }
         tr = "<tr>" +
-            "<td>" + i + "</td>" +
+            "<td  style='background:#b6b1b1;color:#000000'>" + i + "</td>" +
             "<td>" + ("null" === jsonArrElement[0].barCode ? "" : jsonArrElement[0].barCode) + "</td>";
         for (let j = 0; j < 6; j++) {
             tr += "<td";
@@ -93,7 +93,9 @@ function dealProject(event) {
 
                 var id = $('#tab tr:nth-child(2) td:nth-child(' + (j + 3) + ')')[0].id;
                 // console.log(id, paramId);
+                var pUsed = 0;
                 if (id == paramId && paramId != "") {
+                    pUsed = 1;
                     //如果项目id相等
                     progress = jsonArrElement[k].progress;
                     if (progress.indexOf("%") >= 0) {
@@ -178,7 +180,7 @@ function dealProject(event) {
             else
                 tr += "<option> " + (j + 1) + "</option>";
         }
-        if (markCanBeDelete === 1) {
+        if (markCanBeDelete === 1 || pUsed === 0) {
             tr += "</select></td>" +
                 "<td style='background-color: #ececec'></td>" +
                 "</tr>";

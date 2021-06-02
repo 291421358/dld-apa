@@ -100,7 +100,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                         numBytes = inputStream.available();
 
                         //如果可用字节数大于零则开始循环并获取数据
-                        while(numBytes >=  6){
+                        while(numBytes >=  1){
 
                             System.out.println(numBytes);
                             //循环10秒，如果下一次的长度与上一次相同，便取走串口中的数据

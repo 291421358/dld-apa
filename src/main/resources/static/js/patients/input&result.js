@@ -884,6 +884,7 @@ function alertWin(id) {
         setTimeout(setBEDate, 100);
         setTimeout(presetQc, 100);
         setTimeout(readqc, 100);
+        loopRead();
     }
 
 }
@@ -894,6 +895,7 @@ function alertWin(id) {
 function iclose() {
     $(".opacity_bg").hide(); // 隐藏背景层
     $("#dialog").empty().hide(); // 清除弹出页
+    loop = 0;
 }
 
 

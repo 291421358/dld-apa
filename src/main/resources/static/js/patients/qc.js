@@ -225,6 +225,7 @@ function saveQC() {
     saveProjectList(projectList);
 }
 
+
 /**
  * 修改qc标准值
  * @param projectParamNum
@@ -236,9 +237,9 @@ function updateQCSta(projectParamNum, staQuality) {
         url: urlhead + '/qC/update',
         async: true,
         data: {
-            id: null,
-            projectParamNum: projectParamNum,
-            staQuality: staQuality
+            id: projectParamNum,
+            staQuality: staQuality,
+            type: $("#type").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -247,7 +248,9 @@ function updateQCSta(projectParamNum, staQuality) {
         error: function () {
             console.log("请联系管理员")
         }
-    })
+    });
+    readqc();
+    setTimeout(presetQc,100);
 }
 /**
  * 查询qc标准值
@@ -266,10 +269,10 @@ function presetQc() {
                 console.log(id);
                 for (let j = 0; j < data.length; j++) {
                     if (data[j].id == id) {
-                        var presetDensityHight = $("#qc_deal tr:nth-child("+(3*i+2)+") td:nth-child(1)")[0];
+                        var presetDensityHight = $("#qc_deal tr:nth-child("+(3*i+2)+") td:nth-child(1)");
                         var presetDensityMid = $("#qc_deal tr:nth-child("+(3*i+3)+") td:nth-child(1)")[0];
                         var presetDensityLow = $("#qc_deal tr:nth-child("+(3*i+4)+") td:nth-child(1)")[0];
-                        presetDensityHight.innerText =data[j].presetDensityHight;
+                        presetDensityHight.html(data[j].presetDensityHight);
                         presetDensityMid.innerText =data[j].presetDensityMid;
                         presetDensityLow.innerText =data[j].presetDensityLow;
                     }
@@ -344,7 +347,12 @@ function readqc() {
         }
     });
 
-
+}
+var loop = 1;
+function loopRead(){
+    if (loop === 1) {
+        readqc();
+    }  setTimeout(loopRead,15000);
 
 }
 
@@ -358,6 +366,7 @@ function readqc() {
  **/
 
 $("#qc_save").on('click', function () {
+    loop = 1;
     var seconds = new Date().getSeconds();
     for (; new Date().getSeconds() >= 58;) {
     }
@@ -375,12 +384,16 @@ $("#qc_save").on('click', function () {
  * @return {@link null}
  **/
 $("#in_save").on('click',function () {
+    loop = 0;
     var not01 = $("#qc_deal tr:not(1) td:nth-child(2)").not(0);
     var not02 = $("#qc_deal tr:not(1) td:nth-child(3)").not(0);
+    var not03 = $("#qc_deal tr:not(1) td:nth-child(4)").not(0);
     not01[0] = null;
     not02[0] = null;
+    not03[0] = null;
     not01.html("");
     not02.html("");
+    not03.html("");
     $("#qc_save").removeAttr("hidden");
     $("#in_save").attr("hidden","hidden");
     // $("#qc_deal tr:nth-child(1) td:nth-child(2)").html("");
@@ -388,6 +401,7 @@ $("#in_save").on('click',function () {
 
 
 $("#qc_deal").on('click', 'td', function () {
+
     // 质控项目
     var td = $(this);
     var innerHTML = td[0].innerHTML;

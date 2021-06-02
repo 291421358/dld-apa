@@ -48,12 +48,23 @@ public class QCController {
     /**
      * 修改数据
      * @author tzhh
-     * @param qC 对象
+     * @param
      * @return 对象
      */
     @GetMapping("update")
-    public int update(QC qC) {
-        return this.qCService.update(qC);
+    public int update(int id,String staQuality,String type) {
+        ProjectParam projectParam = new ProjectParam();
+        projectParam.setId(id);
+        if (type.equals("3")){
+            projectParam.setPresetDensityHight(staQuality);
+        }
+        if (type.equals("4")){
+            projectParam.setPreset_density_mid(staQuality);
+        }
+        if (type.equals("5")){
+            projectParam.setPreset_density_low(staQuality);
+        }
+        return  projectParamMapper.updateByPrimaryKeySelective(projectParam);
     }
 
     /**

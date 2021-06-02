@@ -262,7 +262,7 @@ public class ScalingImpl implements ScalingIntf {
         //取得最大值 和最小值
         logger.info(String.valueOf(valueList.size()));
         for (Float val : valueList) {
-            logger.info(String.valueOf(val));
+//            logger.info(String.valueOf(val));
             //取最大的 y
             if (val > max) {
                 max = val;

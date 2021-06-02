@@ -2,6 +2,7 @@ package com.laola.apa.server;
 
 import com.laola.apa.entity.Project;
 import com.laola.apa.entity.ProjectCurve;
+import com.laola.apa.entity.ProjectQC;
 
 import java.util.List;
 import java.util.Map;
@@ -57,4 +58,7 @@ public interface ProjectTest {
     void deleteProjects(String dateId, Integer paramId);
 
     void deleteProjectById(int id);
+
+    //查询每天最后一个质控
+    List<ProjectQC> getQcLastOneByDataAndType();
 }

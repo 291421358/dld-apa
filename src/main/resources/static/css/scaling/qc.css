@@ -107,7 +107,7 @@ ul {
     height: 100%;
 }
 
-#qc_save {
+#qc_save,#in_save {
     cursor: pointer;
 }
 

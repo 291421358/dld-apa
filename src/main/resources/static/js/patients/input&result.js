@@ -878,49 +878,23 @@ function alertWin(id) {
     if (id === 1){
         // setTimeout(getOneProjectsScalingTime(1), 100);
         setTimeout(setBEDate, 100);
+
     }else {
         setTimeout(qc_load, 100);
         setTimeout(setBEDate, 100);
         setTimeout(presetQc, 100);
-        // timeout1 = setTimeout(readqc, 15000);
+        setTimeout(readqc, 100);
     }
 
 }
 
-/**
- * 获取在做的项目qc
- */
-function readqc() {
-    $.ajax({
-        type: 'get',
-        url: urlhead + '/productTest/getProjectListByDataTenToEnd',
-        async: true,
-        data: {
-            endtime: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate()
-        },
-        jsonp: 'jsoncallback',
-        success: function (event) {
 
-            irLoad(event);
-        },
-        error: function () {
-            alert("error")
-        }
-    });
-
-
-
-}
 
 
 function iclose() {
     $(".opacity_bg").hide(); // 隐藏背景层
     $("#dialog").empty().hide(); // 清除弹出页
 }
-
-
-
-
 
 
 /**

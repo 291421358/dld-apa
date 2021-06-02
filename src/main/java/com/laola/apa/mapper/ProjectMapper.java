@@ -1,6 +1,7 @@
 package com.laola.apa.mapper;
 
 import com.laola.apa.entity.Project;
+import com.laola.apa.entity.ProjectQC;
 import com.laola.apa.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,6 @@ public interface ProjectMapper extends MyMapper<Project> {
      *
      */
     void deleteProjectsByDateIdParamId(String dateId, Integer paramId);
+
+    List<ProjectQC> getQcLastOneByDataAndType();
 }

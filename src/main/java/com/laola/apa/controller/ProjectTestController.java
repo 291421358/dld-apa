@@ -3,8 +3,8 @@ package com.laola.apa.controller;
 import com.google.gson.Gson;
 import com.laola.apa.entity.Project;
 import com.laola.apa.entity.ProjectCurve;
+import com.laola.apa.entity.ProjectQC;
 import com.laola.apa.server.ProjectTest;
-import com.laola.apa.server.ReagentPlaceIntf;
 import com.laola.apa.utils.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +17,15 @@ import java.util.*;
 public class ProjectTestController {
     @Autowired
     private ProjectTest projectTest;
-    @Autowired
-    private ReagentPlaceIntf reagentPlaceIntf;
 
+    /**
+     *
+     */
+@RequestMapping(value = "getQcLastOneByDataAndType")
+    public List<ProjectQC> getQcLastOneByDataAndType(){
+    List<ProjectQC> qcLastOneByDataAndType = projectTest.getQcLastOneByDataAndType();
+    return qcLastOneByDataAndType;
+    }
     /**
      * 保存项目
      *

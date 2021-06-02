@@ -3,6 +3,7 @@ package com.laola.apa.server.impl;
 import com.laola.apa.entity.Project;
 import com.laola.apa.entity.ProjectCurve;
 import com.laola.apa.entity.ProjectParam;
+import com.laola.apa.entity.ProjectQC;
 import com.laola.apa.mapper.*;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.utils.DataUtil;
@@ -381,7 +382,7 @@ public class ProjectTestImpl implements ProjectTest {
         String preDateByDate = DataUtil.getPreDateByDate(endDate, 1);
         List<Map<String, Object>> mapList = selectDao.selectList(" SELECT DATE_FORMAT(p.starttime,\"%y-%m-%d\") date,p.id,p.density FROM project p \n" +
                 "LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
-                "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = "+type+" AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
+                    "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = "+type+" AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
         List<Map<String, Object>> resultMap = new ArrayList<>();
         String date = "";
         for (int i = 0; i < mapList.size(); i++) {
@@ -419,6 +420,18 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public void deleteProjectById(int id) {
         projectMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * @apiNote 查询每天每个项目最后一个质控
+     * @author tzhh
+     * @date 2021/6/2 11:05
+     * @param
+     * @return
+     **/
+    @Override
+    public List<ProjectQC> getQcLastOneByDataAndType() {
+        return projectMapper.getQcLastOneByDataAndType();
     }
 
 

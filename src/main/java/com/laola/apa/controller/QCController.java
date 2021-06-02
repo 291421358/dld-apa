@@ -1,7 +1,9 @@
 package com.laola.apa.controller;
 
 import com.laola.apa.entity.Project;
+import com.laola.apa.entity.ProjectParam;
 import com.laola.apa.entity.QC;
+import com.laola.apa.mapper.ProjectParamMapper;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.server.QCserver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class QCController {
     private QCserver qCService;
     @Autowired
     private ProjectTest projectTest;
+    @Autowired
+    private ProjectParamMapper projectParamMapper;
     /**
      * 通过主键查询单条数据
      * @author tzhh
@@ -61,6 +65,10 @@ public class QCController {
     @GetMapping("getQcProjects")
     public List<Map<String, Object>> getQcProjects(int projectParamId,String beginDate,String endDate,String type){
         List<Map<String, Object>> projects = projectTest.getQcProjects(projectParamId,beginDate,endDate,type);
+        ProjectParam projectParam = new ProjectParam();
+        projectParam.setId(projectParamId);
+        projectParam = projectParamMapper.selectOne(projectParam);
+
         QC qc = qCService.queryById(projectParamId);
         if (qc == null){
             qc = new QC();
@@ -69,7 +77,16 @@ public class QCController {
         if (staQuality == null || staQuality.equals("")){
           staQuality = "0";
         }
-        float sta = Float.parseFloat(staQuality);
+        float sta = 0.0f;
+        if (type.equals("3")){
+            sta =  Float.parseFloat(projectParam.getPresetDensityHight());
+        }
+        if (type.equals("4")){
+            sta =  Float.parseFloat(projectParam.getPresetDensityMid());
+        }
+        if (type.equals("5")){
+            sta =  Float.parseFloat(projectParam.getPresetDensityLow());
+        }
         float MaxGap = 0;
         for (Map<String, Object> project:projects) {
             //求得所有density与标准值*（sta）的最大数差

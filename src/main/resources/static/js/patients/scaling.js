@@ -561,7 +561,7 @@ $(document).ready(function () {
     $("#date").attr("value", new Date().getFullYear() + "-" + (MM) + "-" + dd);
 
 
-    $("#scaling_deal").on('click', 'td', function () {
+    $("#scaling_deal,#calibration").on('click', 'td', function () {
         // 单击td修改样本号事件
         var td = $(this);
         var innerHTML = td[0].innerHTML;

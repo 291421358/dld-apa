@@ -296,7 +296,6 @@ function getRegentPlace() {
         success: function (event) {
             // console.log(event.length);
             // console.log(event[0]);
-            console.log(event);
             // regentBottleSet();
             for (let i = 0; i < 6; i++) {
                 var eventElement = event[i];
@@ -435,6 +434,7 @@ function getEquipmentState() {
         success: function (data) {
             $("#rackNo").html(data.rackNo);//架号
             $("#placeNo").html(data.placeNo);//位号
+            $("#placeNo").html(data.placeNo);//位号
             var $pureWater = $("#pureWater");
             var pureWater = data.pureWater;
             if (pureWater === 1) {
@@ -449,6 +449,8 @@ function getEquipmentState() {
             } else {
                 $wasteWater.html("<img src='../../css/images/inputAndResult/feishui.png' height='59' width='40'>")
             }
+
+
         },
         error: function () {
             $('#projectname').html("请联系管理员");

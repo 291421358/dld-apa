@@ -34,7 +34,17 @@ public class ProjectTestController {
      */
     @RequestMapping(value = "saveProject")
     public synchronized int saveProject(Project project) {
-        project.setStarttime(DataUtil.now());
+        if (project.getStarttime() == null || project.getStarttime().equals("")){
+            project.setStarttime(DataUtil.now());
+        }else {
+            String dateid = project.getStarttime();
+            dateid = dateid.replace("年","-");
+            dateid = dateid.replace("月","-");
+            dateid = dateid.replace("日"," ");
+            dateid = dateid.replace("时",":");
+            dateid = dateid.replace("分",":00");
+            project.setStarttime(dateid);
+        }
         Integer integer = projectTest.selectNextProjectNum();
         project.setProjectNum(integer);
 //        System.out.println(integer);

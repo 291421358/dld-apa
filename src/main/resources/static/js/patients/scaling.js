@@ -17,10 +17,10 @@ function sc_irload() {
             projectNameList = projectList;
             var tabStr = "";
             $.each(projectList, function (i, project) {
-                if (i>5){
+                if (i > 5) {
                     return;
                 }
-                tabStr += "<div ><span style='width: 100%'>" + (project.name==null?'':project.name) + "</span><input disabled type='checkbox' id=" + project.project_param_id + " value=" + project.name + " ></div>";
+                tabStr += "<div ><span style='width: 100%'>" + (project.name == null ? '' : project.name) + "</span><input disabled type='checkbox' id=" + project.project_param_id + " value=" + project.name + " ></div>";
             });
             $('#SC_projectList').html(tabStr);
         },
@@ -29,8 +29,6 @@ function sc_irload() {
         }
     });
 }
-
-
 
 
 /**
@@ -68,7 +66,7 @@ function getLatestOne(projectParamId) {
                                 break;
                             case 1:
                                 var absorbance = parseFloat(projectListI.absorbance);
-                                $(this).html(absorbance == null ? "" : absorbance.toFixed(4));
+                                $(this).html((absorbance == null || isNaN(absorbance)) ? "" : absorbance.toFixed(4));
                                 break;
                             case 2:
                                 $(this).html(projectListI.factor);
@@ -114,17 +112,17 @@ function getOneProjectsScalingTime(projectParamId) {
             // console.log(projectList);
             var scalingMark = 0;
             $.each(projectList, function (i, project) {
-                tabStr  += "<div style='height: max-content'><input ";
+                tabStr += "<div style='height: max-content'><input ";
                 if ("" !== project.check && project.check != null) {
                     tabStr += "checked";
                     scalingMark = 1;
                     choiceTime = project.date;
                 }
                 tabStr += " id=" + project.id + " style='float: left;width: 5%' name='project_date' title=" + project.date + " type='radio'><li style='width: 92%' ";
-                if (i == 0){
+                if (i == 0) {
                     tabStr += "class='checkedColor'";
                 }
-                tabStr +=  ">" + project.date + "</li></div>";
+                tabStr += ">" + project.date + "</li></div>";
 
             });
             $('#scaling_time').html(tabStr);
@@ -144,6 +142,7 @@ function getOneProjectsScalingTime(projectParamId) {
         }
     });
 }
+
 /**
  *根据时间获得定标项目/并画出曲线
  */
@@ -163,12 +162,20 @@ function getOneProjectsAllScalingByCon(id, type, time) {
             var valueList = data.value;
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext('2d');
+            var calList = [];
             ctx.clearRect(0, 0, 2000, 2000);
             if (null != valueList && valueList.length > 0) {
+                var mi = 1;
                 $('#scaling_deal tr').each(function (i) {
                     // console.log(i);
                     if (i > 0) {
-                        var projectListI = projectList[i - 1];
+                        var projectListI = projectList[i - mi];
+                        if (null != projectListI && projectListI.type === 6) {
+                            var projectListElement = projectList[i - mi];
+                            calList.push(projectListElement);
+                            mi--;
+                            projectListI = projectList[i - mi];
+                        }
                         // console.log(projectListI);
 
                         $(this).find("td").each(function (j) {
@@ -182,7 +189,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                                     break;
                                 case 1:
                                     var absorbance = parseFloat(projectListI.absorbance);
-                                    $(this).html(absorbance == null ? "" : absorbance.toFixed(5));
+                                    $(this).html((absorbance == null || isNaN(absorbance)) ? "" : absorbance.toFixed(5));
                                     break;
                                 case 2:
                                     $(this).html(projectListI.factor);
@@ -201,92 +208,127 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                         });
                     }
                 });
+
                 var step = valueList[valueList.length - 1].step;
-                if (step == null){
-                    return
-                }
-                // console.log(projectList);
-                var ctx1 = canvas.getContext('2d');
-                ctx1.lineWidth = 2;
-                ctx1.strokeStyle = "black";
-                ctx1.beginPath();
-                for (var j = 0; j < valueList.length; j++) {
-                    //画曲线
-                    ctx1.lineTo(j * 200 / (valueList.length - 2) + 31, canvas.height - valueList[j] - 34);
-                    // console.log(j)
-                }
-                ctx1.stroke();
+                if (step == null) {
 
-                var algorithm = valueList[valueList.length - 1].algorithm;
-                $("#scalingAlgorithm").find("option").each(function () {
-                    if ($(this)[0].value === algorithm) {
-                        $(this)[0].selected = true;
-                    } else {
-                        $(this)[0].selected = false;
+                } else {
+                    // console.log(projectList);
+                    var ctx1 = canvas.getContext('2d');
+                    ctx1.lineWidth = 2;
+                    ctx1.strokeStyle = "black";
+                    ctx1.beginPath();
+                    for (var j = 0; j < valueList.length; j++) {
+                        //画曲线
+                        ctx1.lineTo(j * 200 / (valueList.length - 2) + 31, canvas.height - valueList[j] - 34);
+                        // console.log(j)
                     }
-                });
-                var max = valueList[valueList.length - 1].max;
-                var min = valueList[valueList.length - 1].min;
-                var maxX = valueList[valueList.length - 1].maxX;
-                var minX = valueList[valueList.length - 1].minX;
-                var ctx2 = canvas.getContext('2d');
-                ctx2.font = "DIN";//italic bold  small-caps
-                for (var k = 0; k <= 5; k++) {
-                    if (step == null){
-                        break;
-                    }
-                    //画y
-                    ctx2.lineWidth = 1;
-                    var y = (k * ((max - min) / 5) + min);//四分之一 4
-                    if (y.toFixed(0) == '-0') {
-                        y = 0;
-                    }
-                    if (k === 0 || k === 5) {
-                        ctx2.strokeText(y.toFixed(2), 0, 200 - k * 38.2);//四分之一 46.5
-                    } else {
-                        ctx2.strokeText(y.toFixed(3), 0, 200 - k * 40);
-                    }
-                }
-                //画x
-                for (var h = 0; h <= 5; h++) {
-                    var digit = 1;
-                    if (maxX-minX < 0.1){
-                        digit = 2;
-                    };
-                    if (step == null){
-                        break;
-                    }
-                    var digitLength = step.toString().length-1;
-                    var x = minX+(h * ( + (maxX-minX) / 5) );
-                    if ((h === 5)) {
-                        ctx2.strokeText(x.toFixed(0), h * 38.2 + 32, 214);//
-                    } else {
-                        ctx2.strokeText(x.toFixed(digitLength), h * 40 + (26-digitLength*3), 214);
-                    }
+                    ctx1.stroke();
 
-                }
-                ctx2.stroke();
-                var ctx3 = canvas.getContext('2d');
-                for (var m = 0; m < projectList.length; m++) {
-                    ctx3.strokeStyle = "#3db7ff";
-                    ctx3.lineWidth = 2;
-                    var density = projectList[m]. absorbance;
-                    if (density > max) {
-                        density = max;
+                    var algorithm = valueList[valueList.length - 1].algorithm;
+                    $("#scalingAlgorithm").find("option").each(function () {
+                        if ($(this)[0].value === algorithm) {
+                            $(this)[0].selected = true;
+                        } else {
+                            $(this)[0].selected = false;
+                        }
+                    });
+                    var max = valueList[valueList.length - 1].max;
+                    var min = valueList[valueList.length - 1].min;
+                    var maxX = valueList[valueList.length - 1].maxX;
+                    var minX = valueList[valueList.length - 1].minX;
+                    var ctx2 = canvas.getContext('2d');
+                    ctx2.font = "DIN";//italic bold  small-caps
+                    for (var k = 0; k <= 5; k++) {
+                        if (step == null) {
+                            break;
+                        }
+                        //画y
+                        ctx2.lineWidth = 1;
+                        var y = (k * ((max - min) / 5) + min);//四分之一 4
+                        if (y.toFixed(0) == '-0') {
+                            y = 0;
+                        }
+                        if (k === 0 || k === 5) {
+                            ctx2.strokeText(y.toFixed(2), 0, 200 - k * 38.2);//四分之一 46.5
+                        } else {
+                            ctx2.strokeText(y.toFixed(3), 0, 200 - k * 40);
+                        }
                     }
-                    // console.log(projectList[m].absorbance,density);
-                    var gap = max - min;
-                    if (gap === 0) {
-                        ctx3.strokeText('*', projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 32, 205);
-                    }
-                    //画点
-                    // console.log("点的位置",projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 31, density);
-                    console.log("点的位置",(projectList[m].density-minX) * (200 / (maxX-minX)) + 31, density);
-                    ctx3.strokeText('*', (projectList[m].density-minX) * (200 / (maxX-minX)) + 31, 207 - ((density - min) * (200 / (max - min))));
+                    //画x
+                    for (var h = 0; h <= 5; h++) {
+                        var digit = 1;
+                        if (maxX - minX < 0.1) {
+                            digit = 2;
+                        }
+                        ;
+                        if (step == null) {
+                            break;
+                        }
+                        var digitLength = step.toString().length - 1;
+                        var x = minX + (h * (+(maxX - minX) / 5));
+                        if ((h === 5)) {
+                            ctx2.strokeText(x.toFixed(0), h * 38.2 + 32, 214);//
+                        } else {
+                            ctx2.strokeText(x.toFixed(digitLength), h * 40 + (26 - digitLength * 3), 214);
+                        }
 
+                    }
+                    ctx2.stroke();
+                    var ctx3 = canvas.getContext('2d');
+                    for (var m = 0; m < projectList.length; m++) {
+                        ctx3.strokeStyle = "#3db7ff";
+                        ctx3.lineWidth = 2;
+                        var density = projectList[m].absorbance;
+                        if (density > max) {
+                            density = max;
+                        }
+                        // console.log(projectList[m].absorbance,density);
+                        var gap = max - min;
+                        if (gap === 0) {
+                            ctx3.strokeText('*', projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 32, 205);
+                        }
+                        //画点
+                        // console.log("点的位置",projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 31, density);
+                        console.log("点的位置", (projectList[m].density - minX) * (200 / (maxX - minX)) + 31, density);
+                        ctx3.strokeText('*', (projectList[m].density - minX) * (200 / (maxX - minX)) + 31, 207 - ((density - min) * (200 / (max - min))));
+                    }
                 }
             }
-
+                $('#cal tr').each(function (i) {
+                    // console.log(i);
+                    if (i > 0) {
+                        var calListI = calList[i - 1];
+                        $(this).find("td").each(function (j) {
+                            if (calListI == null) {
+                                $(this).html("");
+                                return;
+                            }
+                            switch (j) {
+                                case 0:
+                                    $(this).html(i + "<input hidden value=" + calListI.id + ">");
+                                    break;
+                                case 1:
+                                    var absorbance = parseFloat(calListI.absorbance);
+                                    $(this).html((absorbance == null || isNaN(absorbance)) ? "" : absorbance.toFixed(5));
+                                    break;
+                                case 2:
+                                    $(this).html(calListI.factor);
+                                    break;
+                                case 3:
+                                    $(this).html(calListI.density);
+                                    break;
+                                case 4:
+                                    $(this).html(calListI.rackNo);
+                                    break;
+                                case 5:
+                                    $(this).html(calListI.placeNo);
+                                    break;
+                                case 6:
+                            }
+                        });
+                    }
+                });
 
         },
         error: function () {
@@ -295,6 +337,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
     });
 
 }
+
 /**
  * 保存个项目 saveProject
  */
@@ -305,6 +348,7 @@ function saveProject(id, type, absorbance, factor, density, place_no, rack_no) {
         url: urlhead + '/productTest/saveProject',
         async: true,
         data: {
+            starttime: $("#scaling_time .checkedColor").html(),
             density: density,
             projectParamId: id,
             type: type,
@@ -322,8 +366,6 @@ function saveProject(id, type, absorbance, factor, density, place_no, rack_no) {
         }
     });
 }
-
-
 
 
 /**
@@ -351,7 +393,63 @@ function insertScalingAlgorithm(Algorithm) {
 
 var args;
 
-//保存定标项目saveList
+/***
+ * @apiNote 保存电子定标校准
+ * @author tzhh
+ * @date 2021/6/8 15:39
+ * @param null
+ * @return {@link null}
+ **/
+function saveCalList() {
+    console.log("into saveList");
+    $("#cal tr").each(function (i) {
+        if ($(this).find("td")[3].innerHTML === "" || $(this).find("td")[3].innerHTML === "-" || $(this).find("td")[0].innerHTML === "" || $(this).find("td")[0].innerHTML === "-") {
+            console.log("1");
+            return;
+        }
+        if (i > 0) {
+            var absorbance = 0;
+            var factor = 0;
+            var density = 0;
+            var rack_no = 0;
+            var place_no = 0;
+            $(this).find("td").each(function (j) {
+                switch (j) {
+                    case 0:
+                        break;
+                    case 1:
+                        absorbance = "";// $(this)[0].innerHTML;
+                        break;
+                    case 2:
+                        factor = "";//$(this)[0].innerHTML;
+                        break;
+                    case 3:
+                        density = $(this)[0].innerHTML;
+                        break;
+                    case 4:
+                        rack_no = $(this)[0].innerHTML;
+                        break;
+                    case 5:
+                        place_no = $(this)[0].innerHTML;
+                        break;
+                    case 6:
+                }
+            });
+            ;
+
+
+            timeout = setTimeout(saveProject, i * 150, paramid, 6, absorbance, factor, density, place_no, rack_no)
+        }
+    });
+}
+
+/***
+ * @apiNote 保存定标项目saveList
+ * @author tzhh
+ * @date 2021/6/8 15:39
+ * @param null
+ * @return {@link null}
+ **/
 function saveList() {
     console.log("into saveList");
     $("#scaling_deal tr").each(function (i) {
@@ -402,6 +500,7 @@ function saveList() {
     }, 1200);
 
 }
+
 function delOne(projectId) {
     $.ajax({
         type: 'get',
@@ -421,7 +520,7 @@ function delOne(projectId) {
 
 }
 
-function updateScalingAlgorithm(dateId,Algorithm) {
+function updateScalingAlgorithm(dateId, Algorithm) {
     $.ajax({
         type: 'get',
         url: urlhead + '/scaling/updateScalingAlgorithm',
@@ -440,7 +539,8 @@ function updateScalingAlgorithm(dateId,Algorithm) {
     })
 
 }
-function del(dateId,paramId) {
+
+function del(dateId, paramId) {
     $.ajax({
         type: 'get',
         url: urlhead + '/scaling/deleteOneScaling',
@@ -486,6 +586,7 @@ function updateProject(id, absorbance, factor, density, rackNo, placeNo) {
         }
     });
 }
+
 /**
  * 修改某个项目的定标
  */
@@ -509,6 +610,7 @@ function updateProjectsScaling(projectParamid, projectId) {
         }
     });
 }
+
 $(document).ready(function () {
     $("#SC_projectList").on('click', 'div', function () {
         //点击项目列表的的方法
@@ -544,7 +646,7 @@ var rackNo = 0;
 var overList;
 $(document).ready(function () {
 
-    $("#scaling_deal").bind("contextmenu", function(){
+    $("#scaling_deal").bind("contextmenu", function () {
         return false;
     })
     $('tr').on("click", function () {
@@ -561,7 +663,7 @@ $(document).ready(function () {
     $("#date").attr("value", new Date().getFullYear() + "-" + (MM) + "-" + dd);
 
 
-    $("#scaling_deal,#calibration").on('click', 'td', function () {
+    $("#scaling_deal,#cal").on('click', 'td', function () {
         // 单击td修改样本号事件
         var td = $(this);
         var innerHTML = td[0].innerHTML;
@@ -577,7 +679,7 @@ $(document).ready(function () {
         // if ($(this)[0].innerText === "")
         var input = '<input my=' + ($(this)[0].innerText === "" ? "" : $(this)[0].innerText) + ' type="number" style="width: 100%;border: none;padding: 0;height: 18px;" value=' + $(this)[0].innerText + '>';
         var attribute = $(this)[0].attributes[0];
-        if (attribute != null){
+        if (attribute != null) {
             var className = attribute.value;
             if (className == 'rack' || className == 'place') {
                 input = '<input my=' + ($(this)[0].innerText === "" ? "" : $(this)[0].innerText) + ' type="number" max="5" min="1" placeholder="1~5" oninput="if(value < 1 ){value =1};if(value > 5 ){value = value.substring(0,1)};if(value > 5 ){value = 5}" style="width: 100%;border: none;padding: 0;height: 18px;" value=' + $(this)[0].innerText + '>';
@@ -595,7 +697,7 @@ $(document).ready(function () {
         fp.html(message);
     });
 
-    $("#scaling_deal tr").mousedown( function(e) {
+    $("#scaling_deal tr").mousedown(function (e) {
         //右键为3
         if (3 == e.which) {
             var jQueryElement = $(this).find("td");
@@ -610,7 +712,7 @@ $(document).ready(function () {
     });
 
     $("#sc_save").on('click', function () {
-        //保存
+        //保存/添加
         var seconds = new Date().getSeconds();
         for (; new Date().getSeconds() >= 58;) {
         }
@@ -622,13 +724,30 @@ $(document).ready(function () {
         insertScalingAlgorithm(Algorithm);
     });
 
-    //修改定标参数
+
+    $("#cal_save").on('click', function () {
+        //保存
+        var seconds = new Date().getSeconds();
+        for (; new Date().getSeconds() >= 58;) {
+        }
+        console.log(seconds);
+        console.log($("#scaling_time .checkedColor").html())
+        saveCalList();
+    });
+
+    /**
+     * @apiNote 修改定标参数
+     * @author tzhh
+     * @date 2021/6/8 15:40
+     * @param null
+     * @return {@link null}
+     **/
     $("#update").on('click', function () {
         $("#scaling_deal tr").each(function (i) {
             if ($(this).find("td")[0].innerHTML === "" || $(this).find("td")[0].innerHTML === "-") {
                 // console.log("1");
                 return;
-            }         
+            }
             if (i > 0) {
                 var id = 0;
                 var absorbance = 0;
@@ -682,22 +801,22 @@ $(document).ready(function () {
         $(this).attr("class", "checkedColor");
     });
 
-    $("#scalingAlgorithm").on("change",function () {
+    $("#scalingAlgorithm").on("change", function () {
         console.log($(this)[0].value);
         var $scalingTimeChecked = $("#scaling_time .checkedColor");
-        if ($scalingTimeChecked[0] != null){
+        if ($scalingTimeChecked[0] != null) {
             console.log($scalingTimeChecked[0].innerText);
             var dateId = $scalingTimeChecked[0].innerText;
             var Algorithm = $(this)[0].value;
-            updateScalingAlgorithm(dateId,Algorithm);
+            updateScalingAlgorithm(dateId, Algorithm);
         }
     })
     $("#del").on("click", function () {
         var $scalingTimeChecked = $("#scaling_time .checkedColor");
-        if ($scalingTimeChecked[0] != null){
+        if ($scalingTimeChecked[0] != null) {
             console.log($scalingTimeChecked[0].innerText);
             var dateId = $scalingTimeChecked[0].innerText;
-            del(dateId,paramid);
+            del(dateId, paramid);
         }
         setTimeout(getOneProjectsScalingTime, 1050, paramid);
     });

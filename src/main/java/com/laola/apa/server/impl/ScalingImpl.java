@@ -140,7 +140,7 @@ public class ScalingImpl implements ScalingIntf {
         Example example = new Example(Project.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("projectParamId", projectParamId);
-        criteria.andEqualTo("type", type);
+//        criteria.andEqualTo("type", type);
         if (null != time && !"".equals(time)) {
             String preDate = DataUtil.getPreDateByUnit(time, 1, 12);
             time = time.replace("年", "-");
@@ -153,6 +153,9 @@ public class ScalingImpl implements ScalingIntf {
             criteria.andBetween("starttime", time, preDate);
         }
 
+        Set<Integer> singleton = new HashSet<>(Arrays.asList(2,6));
+
+        criteria.andIn("type", singleton);
         //
         List<Project> projects = projectMapper.selectByExample(example);
         //从定标项目中取得定标算法

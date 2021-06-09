@@ -90,7 +90,7 @@ font-size: 19px;
     cursor: pointer;
 }
 
-#scaling_deal table,#calibration table{
+#scaling_deal table,#cal table{
     border-collapse: collapse;
     border-spacing: 0;
     display: table;
@@ -98,8 +98,12 @@ font-size: 19px;
     height: 176px;
     width: 100%;
 }
+#cal table{
+     height: 60px;
+    margin-bottom: 15px;
+ }
 
-#scaling_deal td,#calibration td{
+#scaling_deal td,#cal td{
     border: #c6d5f7 1px solid;
     height: 29px;
     padding: 0;
@@ -122,7 +126,7 @@ font-size: 19px;
     cursor: pointer;
 }
 
-#send, #update, #del,#sc_save   {
+#send, #update, #del,#sc_save,#cal_save   {
     cursor: pointer;
 }
 

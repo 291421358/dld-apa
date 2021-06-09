@@ -108,6 +108,7 @@ function fullScreen(el) {
 
 function getTem() {
     getEquipmentState();
+    setTimeout(getEquipmentState,100);
     setTimeout(getTem,10000);
 }
 function init() {

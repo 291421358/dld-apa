@@ -10,6 +10,7 @@ import com.laola.apa.mapper.SelectDao;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.server.ScalingIntf;
 import com.laola.apa.utils.DataUtil;
+import com.laola.apa.utils.Formula;
 import ij.IJ;
 import ij.measure.CurveFitter;
 import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
@@ -193,19 +194,26 @@ public class ScalingImpl implements ScalingIntf {
             algorithm = scaling.getAlgorithm();
         }
 
-        List<Float> valueList = new ArrayList<>();
+        List<List<Float>> relAndValue = new ArrayList<>();
         //创建浓度list
         StringBuilder den = new StringBuilder();
         //创建吸光度list
         StringBuilder abs = new StringBuilder();
+          StringBuilder calDen = new StringBuilder();;
+          StringBuilder calAbs = new StringBuilder();;
+          StringBuilder relAbs = new StringBuilder();;
         //取出浓度和吸光度
-        for (Project project : projects) {
-            den.append(project.getDensity()).append(",");
-            abs.append(project.getAbsorbance()).append(",");
+        DataUtil.setDAndA(projects, den, abs, calDen, relAbs);
+        double[] calx = new double[0];
+        double[] rely = new double[0];
+        if (null != calDen){
+             calx = DataUtil.string2Double(calDen.toString());
+             rely = DataUtil.string2Double(relAbs.toString());
         }
+
         // xy 装换成 double类型的数组 // xy交换 - 20201013
-        double[] y = DataUtil.string2Double(abs.toString());
         double[] x = DataUtil.string2Double(den.toString());
+        double[] y = DataUtil.string2Double(abs.toString());
 
         DataUtil.DealXY dealXY = new DataUtil.DealXY(x, y).invoke();
         ArrayList<Object> objects = new ArrayList<>();
@@ -217,53 +225,24 @@ public class ScalingImpl implements ScalingIntf {
         double[] xX = dealXY.getxX();
         double[] yY = dealXY.getyY();
         // 曲线list
-
-
         if (xX.length < 3 && "三次样条函数".equals(algorithm)) {
             algorithm = "一次曲线";
         }
 
         logger.info(algorithm);
 
-        if (y[y.length - 1] - y[0] < 1) {
-            yStep = "0.000";
-        }
-        if (y[y.length - 1] - y[0] < 0.1) {
-            yStep = "0.0000";
-        }
-        if (y[y.length - 1] - y[0] < 0.01) {
-            yStep = "0.00000";
-        }
-        if (y[y.length - 1] - y[0] < 0.001) {
-            yStep = "0.000000";
-        }
-        if ("三次样条函数".equals(algorithm)) {
-            // 样条曲线
-            splineInterpolation(xX, yY, valueList);
-        }
-        if ("一次曲线".equals(algorithm)) {
-            //一次曲线
-            Instance(xX, yY, valueList);
-        }
-        if ("二次曲线拟合".equals(algorithm)) {
-            //二次曲线拟合
-            quadratic(xX, yY, valueList);
-        }
-        if ("RodBard".equals(algorithm)) {
-           //log4p
-            RodBard(xX, yY, valueList);
-        }
-        if ("三次曲线拟合".equals(algorithm)) {
-            //三次曲线拟合
-            cubicCurveFitting(xX, yY, valueList);
-        }
+
+
+        relAndValue = Formula.getValueList(algorithm, y, xX, yY ,rely,calx);
+        List<Float> valueList = relAndValue.get(0);
+        List<Float> relList = relAndValue.get(1);
 
         float max = 0;
         float min = 0;
         float maxX = 0;
         float minX = 0;
         //取得最大值 和最小值
-        logger.info(String.valueOf(valueList.size()));
+        logger.info(String.valueOf(relAndValue.size()));
         for (Float val : valueList) {
 //            logger.info(String.valueOf(val));
             //取最大的 y
@@ -275,6 +254,19 @@ public class ScalingImpl implements ScalingIntf {
                 min = val;
             }
         }
+
+        for (Float val : relList) {
+//            logger.info(String.valueOf(val));
+            //取最大的 y
+            if (val > max) {
+                max = val;
+            }
+            //取最小的Y
+            if (val < min) {
+                min = val;
+            }
+        }
+
         if (max < yY[yY.length-1]){
             max = (float) yY[yY.length-1];
         }
@@ -314,199 +306,19 @@ public class ScalingImpl implements ScalingIntf {
         if (minX > 0) {
             minX = minX*0.9F;
         }
+
+
+
         param.put("minX", minX);
         param.put("algorithm", algorithm);
 
         param.put("step", step);
         resultList.add(param);
+        resultList.add(relList);
         return resultList;
     }
 
-    private void cubicCurveFitting(double[] x, double[] y, List<Float> value) {
-        CurveFitter curveFitter = new CurveFitter(x, y);
-        curveFitter.doFit(2);
-        double[] p = curveFitter.getParams();
-        double a = Double.parseDouble(IJ.d2s(p[0], 3, 5));
-        double b = Double.parseDouble(IJ.d2s(p[1], 3, 5));
-        double c = Double.parseDouble(IJ.d2s(p[2], 3, 5));
-        double d = Double.parseDouble(IJ.d2s(p[3], 3, 5));
-        double minKey;
-        if (x[0] < 0) {
-            minKey = x[0];
-        }else {
-            minKey = x[0]*0.9;
-        }
-        double step = 0.1;
-        double maxKey = x[x.length - 1];
-        if (maxKey - minKey < 1) {
-            step = 0.01;
-        }
-        if (maxKey - minKey < 0.1) {
-            step = 0.001;
-        }
-        for (double key = minKey; key <= maxKey; key = key + step) {
-            value.add(Float.parseFloat(new DecimalFormat(yStep).format(a+b*key+c*key*key+d*key*key*key)));
-        }
 
-    }
-
-    private void RodBard(double[] x, double[] y, List<Float> value) {
-        CurveFitter curveFitter = new CurveFitter(x, y);
-        curveFitter.doFit(7);
-        double[] p = curveFitter.getParams();
-        double a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
-        double b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
-        double c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
-        double d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
-        double minKey;
-        if (x[0] < 0) {
-            minKey = x[0];
-        }else {
-            minKey = x[0]*0.9;
-        }
-        double step = 0.1;
-        double maxKey = x[x.length - 1];
-        if (maxKey - minKey < 1) {
-            step = 0.01;
-        }
-        if (maxKey - minKey < 0.1) {
-            step = 0.001;
-        }
-        for (double key = minKey; key <= maxKey; key = key + step) {
-            value.add(Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b)))));
-        }
-    }
-
-    /**
-     * 取得一次多项式
-     *
-     * @param y
-     * @param x
-     * @param value
-     */
-    private void Instance(double[] x, double[] y, List<Float> value) {
-        //多项式曲线拟合器创建阶数为一的拟合器
-        PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(1);
-        //权重以及坐标点
-        List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
-        for (int i = 0; i < x.length; i++) {
-            //遍历xy值，并加入权重坐标点
-            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
-            weightedObservedPoints.add(weightedObservedPoint);
-        }
-
-        double[] doubles = polynomialCurveFitter.fit(weightedObservedPoints);
-
-        double minKey = 0;
-        if (x[0] < 0) {
-            minKey = x[0];
-        }
-        double step = 0.1;
-        double maxKey = x[x.length - 1];
-        if (maxKey - minKey < 1) {
-            step = 0.01;
-        }
-        if (maxKey - minKey < 0.1) {
-            step = 0.001;
-        }
-        for (double key = minKey; key <= maxKey; key = key + step) {
-            value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0])));
-
-        }
-    }
-
-    /**
-     * 取得二次多项式
-     *
-     * @param y
-     * @param x
-     * @param value
-     */
-    private void quadratic(double[] x, double[] y, List<Float> value) {
-        //多项式曲线拟合器创建阶数为一的拟合器
-        PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(2);
-        //权重以及坐标点
-        List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
-        for (int i = 0; i < x.length; i++) {
-            //遍历xy值，并加入权重坐标点
-            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
-            weightedObservedPoints.add(weightedObservedPoint);
-        }
-
-        double[] doubles = polynomialCurveFitter.fit(weightedObservedPoints);
-
-        double minKey = 0;
-        if (x[0] < 0) {
-            minKey = x[0];
-        }
-        double step = 0.1;
-        double maxKey = x[x.length - 1];
-        if (maxKey - minKey < 1) {
-            step = 0.01;
-        }
-        if (maxKey - minKey < 0.1) {
-            step = 0.001;
-        }
-        for (double key = minKey; key <= maxKey; key = key + step) {
-            value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0])));
-        }
-    }
-
-    /**
-     * 取得三次样条多项式
-     *
-     * @param y
-     * @param x
-     * @param value
-     */
-    private void splineInterpolation(double[] x, double[] y, List<Float> value) {
-        SplineInterpolator sp = new SplineInterpolator();
-        //插入样条值
-        PolynomialSplineFunction interpolate = sp.interpolate(x, y);
-        //取得三次样条多项式
-        PolynomialFunction[] polynomials = interpolate.getPolynomials();
-//        int n = interpolate.getN();
-        // knots is key list
-        double[] knots = interpolate.getKnots();
-        //v is
-        double minKey = 0;
-        if (x[0] < 0) {
-            minKey = x[0];
-        }else {
-            minKey = x[0]*0.9;
-        }
-        ;
-        double step = 0.1;
-        double maxX = x[x.length - 1];
-        if (maxX - minKey < 1) {
-            step = 0.01;
-        }
-        if (maxX - minKey < 0.1) {
-            step = 0.001;
-        }
-        double maxKey = ((maxX / (step * 5)) + 1) * (step * 5);
-        for (double key = minKey; key < maxKey; key = key + step) {
-            int i = Arrays.binarySearch(knots, key);
-
-            if (i < 0) {
-                i = -i - 2;
-            }
-            // key 大于最大的x值
-            if (key > maxX) {
-                i = x.length - 1;
-            }
-            // key小于最小的x值
-            if (key <= x[0]) {
-                i = 0;
-            }
-            // 这将处理v是最后一个结值的情况 只有n-1多项式，所以如果v是最后一个结
-            //然后我们用最后一个多项式来计算这个值。
-            if (i >= polynomials.length) {
-                i--;
-            }
-            value.add(Float.parseFloat(new DecimalFormat(yStep).format(polynomials[i].value(key - knots[i]))));
-        }
-    }
 
 
     /**

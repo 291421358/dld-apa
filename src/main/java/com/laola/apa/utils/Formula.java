@@ -10,11 +10,63 @@ import org.apache.commons.math3.fitting.WeightedObservedPoint;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Formula {
     private static Logger logger = Logger.getGlobal();
+    private static String yStep = "0.0";
+
+    public static float getDensity(float absorbanceGap, double[] xX, double[] yY, String algorithm, double[] calDen, double[] calAbs) {
+
+
+        if (yY[yY.length - 1] - yY[0] < 1) {
+            yStep = "0.000";
+        }
+        if (yY[yY.length - 1] - yY[0] < 0.1) {
+            yStep = "0.0000";
+        }
+        if (yY[yY.length - 1] - yY[0] < 0.01) {
+            yStep = "0.00000";
+        }
+        if (yY[yY.length - 1] - yY[0] < 0.001) {
+            yStep = "0.000000";
+        }
+
+
+
+        float density = 0;
+        if (xX.length < 3 && "三次样条函数".equals(algorithm)) {
+            algorithm = "一次曲线";
+        }
+        if ("三次样条函数".equals(algorithm)) {
+            logger.info("三次样条");
+            density = Formula.getSplineDensity(absorbanceGap, xX, yY,calDen,calAbs);
+
+        }
+        if ("一次曲线".equals(algorithm)) {
+            logger.info("一次曲线");
+            density = Formula.getDensityByLinear(absorbanceGap, xX, yY);
+//                        logger.info(density);
+        }
+        if ("二次曲线拟合".equals(algorithm)) {
+            logger.info("二次曲线拟合");
+            //二次曲线拟合
+            density = Formula.quadratic(xX, yY, absorbanceGap);
+        }
+
+        if ("RodBard".equals(algorithm)) {
+            density = Formula.RodBard(xX, yY, absorbanceGap);
+            logger.info(String.valueOf(density));
+        }
+
+        if ("三次曲线拟合".equals(algorithm)) {
+            density = Formula.cubicCurveFitting(xX, yY, absorbanceGap);
+            logger.info(String.valueOf(density));
+        }
+        return density;
+    }
 
     /**
      * @apiNote 二次曲线获得浓度
@@ -26,7 +78,7 @@ public class Formula {
      * @return {@link float}
      **/
     public static float quadratic(double[] xX, double[] yY, float absorbanceGap) {
-        float density;//多项式曲线拟合器创建阶数为二的拟合器
+        float density = 0;//多项式曲线拟合器创建阶数为二的拟合器
         PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(2);
         //权重以及坐标点
         List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
@@ -60,7 +112,7 @@ public class Formula {
         }
         double densityValue = doubles[1] * absorbanceGap + doubles[0];
 //        logger.info(densityValue);
-        density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+        density = Float.parseFloat(new DecimalFormat("0.000").format(density));
         return density;
     }
 
@@ -102,44 +154,72 @@ public class Formula {
      * @author tzhh
      * @date 2021/5/27 17:45
      * @param absorbanceGap
-	 * @param xX
-	 * @param yY
+	 * @param x
+	 * @param y
+     * @param calDen
+     * @param calAbs
      * @return {@link float}
      **/
-    public static float getSplineDensity(float absorbanceGap, double[] xX, double[] yY) {
+    public static float getSplineDensity(float absorbanceGap, double[] x, double[] y, double[] calDen, double[] calAbs) {
+
         logger.info(String.valueOf(absorbanceGap));
-        logger.info(String.valueOf(yY[yY.length - 1]));
-        logger.info(String.valueOf(yY[0]));
-        if (absorbanceGap < yY[0]) {
-            logger.info("absorbance:"+absorbanceGap+" < the min yY[0]:"+yY[0]);
+        logger.info(String.valueOf(y[y.length - 1]));
+        logger.info(String.valueOf(y[0]));
+        if (absorbanceGap < y[0]) {
+            logger.info("absorbance:"+absorbanceGap+" < the min yY[0]:"+y[0]);
             return -501;
         }
-        if (absorbanceGap > yY[yY.length - 1]) {
-            logger.info("absorbance:"+absorbanceGap+" > the min yY[yY.length - 1]:"+yY[yY.length - 1]);
+        if (absorbanceGap > y[y.length - 1]) {
+            logger.info("absorbance:"+absorbanceGap+" > the min yY[yY.length - 1]:"+y[y.length - 1]);
             return -502;
         }
         float density;// 样条曲线
         SplineInterpolator sp = new SplineInterpolator();
         //插入样条值
-        PolynomialSplineFunction interpolate = sp.interpolate(xX, yY);
+        PolynomialSplineFunction interpolate = sp.interpolate(x, y);
         //取得三次样条多项式
         PolynomialFunction[] polynomials = interpolate.getPolynomials();
 //        int n = interpolate.getN();
         //knots is key list
         double[] knots = interpolate.getKnots();
+
+
+
+        double maxX = x[x.length - 1];
+        if (calDen.length == 2 && calAbs.length ==2){
+            setCalAbs(x, calDen, calAbs, polynomials, knots, maxX );
+            double b = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
+            double k = (calAbs[0]-b)/calDen[0];
+            for (int i = 0; i <x.length ; i++) {
+                y[i] = (k*x[i]+b)*y[i];
+            }
+             sp = new SplineInterpolator();
+            //插入样条值
+             interpolate = sp.interpolate(x, y);
+            //取得三次样条多项式
+            polynomials = interpolate.getPolynomials();
+
+            knots = interpolate.getKnots();
+        }
+
+
         //v is
         int j = 0;
 
-        for (int i = 0; i < yY.length - 1; i++) {
-            if ((absorbanceGap > yY[i] && absorbanceGap < yY[i + 1]) || (absorbanceGap < yY[i] && absorbanceGap > yY[i + 1])) {
+        //
+        for (int i = 0; i < y.length - 1; i++) {
+            if ((absorbanceGap > y[i] && absorbanceGap < y[i + 1]) || (absorbanceGap < y[i] && absorbanceGap > y[i + 1])) {
                 //找到 abs 所在区间
                 j = i;
             }
         }
-        double densityValue = divideAndConquer(knots[j], xX[j], xX[j + 1], polynomials[j], absorbanceGap);
+        double densityValue = divideAndConquer(knots[j], x[j], x[j + 1], polynomials[j], absorbanceGap);
         density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
         return density;
     }
+
+
+
     /**
      * @apiNote logit4p获得浓度
      * @author tzhh
@@ -149,7 +229,7 @@ public class Formula {
 	 * @param absorbanceGap
      * @return {@link float}
      **/
-    public static float RodBard(double[] x, double[] y, float absorbanceGap) {
+    public static float  RodBard(double[] x, double[] y, float absorbanceGap) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(7);
         double[] p = curveFitter.getParams();
@@ -173,7 +253,58 @@ public class Formula {
     public static double logit4p(double x, double a, double b, double c, double d) {
         return d + (a - d) / (1 + Math.pow((x / c), b));
     }
-    //    分治法 divideAndConquer
+
+
+
+
+    /**
+     * @apiNote 三次曲线获得浓度
+     * @author tzhh
+     * @date 2021/5/27 17:45
+     * @param x
+     * @param y
+     * @param absorbanceGap
+     * @return {@link float}
+     **/
+    public static float cubicCurveFitting(double[] x, double[] y, float absorbanceGap) {
+        CurveFitter curveFitter = new CurveFitter(x, y);
+        curveFitter.doFit(2);
+        double[] p = curveFitter.getParams();
+        double a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+        double b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+        double c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+        double d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+
+        if (absorbanceGap < cubicCurve(0,a,b,c,d)) {
+            logger.info(absorbanceGap+"   "+logit4p(0,a,b,c,d));
+            return -501;
+        }
+
+
+
+
+        double densityValue = divideAndConquerCubic(a, b, c, d, absorbanceGap,x[x.length-1]);
+
+
+        return Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+    }
+
+    private static double cubicCurve(double x, double a, double b, double c, double d){
+        return d*x*x*x + c*x*x +b*x +a;
+    }
+
+
+    /**
+     * @apiNote 分治样条曲线
+     * @author tzhh 
+     * @date 2021/6/11 14:43
+     * @param knode
+	 * @param minX
+	 * @param maxX
+	 * @param polynomials
+	 * @param absorbanceGap
+     * @return {@link double}
+     **/
 
     private static double divideAndConquer(double knode, double minX, double maxX, PolynomialFunction polynomials, float absorbanceGap) {
         //没隔 1 为一个区间
@@ -202,7 +333,18 @@ public class Formula {
         return -503;
     }
 
-    //分治logit4p
+    /**
+     * @apiNote 分治logit4p
+     * @author tzhh
+     * @date 2021/6/11 14:44
+     * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 * @param absorbanceGap
+	 * @param xMax
+     * @return {@link double}
+     **/
     private static double divideAndConquerRodBard(double a, double b, double c, double d, float absorbanceGap, double xMax) {
         //没隔 1 为一个区间
         for (double x = 0; x <= xMax*2; x += 100) {
@@ -234,6 +376,382 @@ public class Formula {
         }
         return -503;
     }
+
+    /**
+     * @apiNote 分治三次曲线
+     * @author tzhh
+     * @date 2021/6/11 14:44
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param absorbanceGap
+     * @param xMax
+     * @return {@link double}
+     **/
+    private static double divideAndConquerCubic(double a, double b, double c, double d, float absorbanceGap, double xMax) {
+        //没隔 1 为一个区间
+        for (double x = 0; x <= xMax*2; x += 100) {
+            double x1 = x;
+            double x2 = x1 + 100;
+            //取x的值
+            double cubic = cubicCurve(x1, a, b, c, d);
+//            logit4p(x1, a, b, c, d);
+            if (cubic == absorbanceGap) {
+                System.out.println(x1 + " ");
+                return x1;
+            } else {
+                double cubic1 = cubicCurve(x2, a, b, c, d); //logit4p(x2, a, b, c, d)
+                if ((cubic - absorbanceGap) * (cubic1 - absorbanceGap) < 0) {
+                    while (x2 - x1 >= 0.0001) {
+                        double mid = (x2 + x1) / 2;
+                        if ((cubic - absorbanceGap) * (cubicCurve(mid, a, b, c, d) - absorbanceGap) <= 0){
+
+                            x2 = mid;
+                        } else {
+                            x1 = mid;
+                        }
+                    }
+                    System.out.println(x1);
+                    return x1;
+                }
+            }
+
+        }
+        return -503;
+    }
+
+
+    public static List<List<Float>> getValueList(String algorithm, double[] y, double[] xX, double[] yY, double[] calAbs, double[] calDen) {
+
+        List<List<Float>> relAndValue = new ArrayList<>();
+
+        List<Float> relVal = new ArrayList<>();
+
+        List<Float> valueList = new ArrayList<>();
+        if (y[y.length - 1] - y[0] < 1) {
+            yStep = "0.000";
+        }
+        if (y[y.length - 1] - y[0] < 0.1) {
+            yStep = "0.0000";
+        }
+        if (y[y.length - 1] - y[0] < 0.01) {
+            yStep = "0.00000";
+        }
+        if (y[y.length - 1] - y[0] < 0.001) {
+            yStep = "0.000000";
+        }
+        if ("三次样条函数".equals(algorithm)) {
+            // 样条曲线
+            splineInterpolation(xX, yY, valueList ,calAbs ,calDen ,relVal);
+        }
+        if ("一次曲线".equals(algorithm)) {
+            //一次曲线
+            Instance(xX, yY, valueList,calAbs ,calDen ,relVal);
+        }
+        if ("二次曲线拟合".equals(algorithm)) {
+            //二次曲线拟合
+            quadratic(xX, yY, valueList,calAbs ,calDen ,relVal);
+        }
+        if ("RodBard".equals(algorithm)) {
+            //log4p
+            RodBard(xX, yY, valueList,calAbs ,calDen ,relVal);
+        }
+        if ("三次曲线拟合".equals(algorithm)) {
+            //三次曲线拟合
+            cubicCurveFitting(xX, yY, valueList,calAbs ,calDen ,relVal);
+        }
+        relAndValue.add(valueList);
+        relAndValue.add(relVal);
+        return relAndValue;
+    }
+
+    private static void cubicCurveFitting(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
+        CurveFitter curveFitter = new CurveFitter(x, y);
+        curveFitter.doFit(2);
+        double[] p = curveFitter.getParams();
+        double a = Double.parseDouble(IJ.d2s(p[0], 3, 5));
+        double b = Double.parseDouble(IJ.d2s(p[1], 3, 5));
+        double c = Double.parseDouble(IJ.d2s(p[2], 3, 5));
+        double d = Double.parseDouble(IJ.d2s(p[3], 3, 5));
+        double minKey;
+        if (x[0] < 0) {
+            minKey = x[0];
+        }else {
+            minKey = x[0]*0.9;
+        }
+        double step = 0.1;
+        double maxKey = x[x.length - 1];
+        if (maxKey - minKey < 1) {
+            step = 0.01;
+        }
+        if (maxKey - minKey < 0.1) {
+            step = 0.001;
+        }
+        for (double key = minKey; key <= maxKey; key = key + step) {
+            value.add(Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d))));
+        }
+
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d)));
+            calAbs[k] = v/calAbs[k];
+        }
+
+        if (calDen.length == 2 && calAbs.length ==2){
+            double calb = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
+            double calk = (calAbs[0]-calb)/calDen[0];
+            for (int i = 0; i <x.length ; i++) {
+                y[i] = (calk*x[i]+calb)*y[i];
+            }
+
+            curveFitter = new CurveFitter(x, y);
+            curveFitter.doFit(2);
+
+            for (double key = minKey; key <= maxKey; key = key + step) {
+                relVal.add(Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d))));
+            }
+        }
+    }
+
+    private static void RodBard(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
+        CurveFitter curveFitter = new CurveFitter(x, y);
+        curveFitter.doFit(7);
+        double[] p = curveFitter.getParams();
+        double a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+        double b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+        double c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+        double d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+        double minKey;
+        if (x[0] < 0) {
+            minKey = x[0];
+        }else {
+            minKey = x[0]*0.9;
+        }
+        double step = 0.1;
+        double maxKey = x[x.length - 1];
+        if (maxKey - minKey < 1) {
+            step = 0.01;
+        }
+        if (maxKey - minKey < 0.1) {
+            step = 0.001;
+        }
+        for (double key = minKey; key <= maxKey; key = key + step) {
+            value.add(Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b)))));
+        }
+    }
+
+    /**
+     * 取得一次多项式
+     *  @param x
+     * @param y
+     * @param value
+     * @param calAbs
+     * @param calDen
+     * @param relVal
+     */
+    private static void Instance(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
+        //多项式曲线拟合器创建阶数为一的拟合器
+        PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(1);
+        //权重以及坐标点
+        List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
+        for (int i = 0; i < x.length; i++) {
+            //遍历xy值，并加入权重坐标点
+            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
+            weightedObservedPoints.add(weightedObservedPoint);
+        }
+
+        double[] doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+
+        double minKey = 0;
+        if (x[0] < 0) {
+            minKey = x[0];
+        }
+        double step = 0.1;
+        double maxKey = x[x.length - 1];
+        if (maxKey - minKey < 1) {
+            step = 0.01;
+        }
+        if (maxKey - minKey < 0.1) {
+            step = 0.001;
+        }
+        for (double key = minKey; key <= maxKey; key = key + step) {
+            value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0])));
+
+        }
+    }
+
+    /**
+     * 取得二次多项式
+     *  @param x
+     * @param y
+     * @param value
+     * @param calAbs
+     * @param calDen
+     * @param relVal
+     */
+    private static void quadratic(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
+        //多项式曲线拟合器创建阶数为一的拟合器
+        PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(2);
+        //权重以及坐标点
+        List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
+        for (int i = 0; i < x.length; i++) {
+            //遍历xy值，并加入权重坐标点
+            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
+            weightedObservedPoints.add(weightedObservedPoint);
+        }
+
+        double[] doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+
+        double minKey = 0;
+        if (x[0] < 0) {
+            minKey = x[0];
+        }
+        double step = 0.1;
+        double maxKey = x[x.length - 1];
+        if (maxKey - minKey < 1) {
+            step = 0.01;
+        }
+        if (maxKey - minKey < 0.1) {
+            step = 0.001;
+        }
+        for (double key = minKey; key <= maxKey; key = key + step) {
+            value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0])));
+        }
+    }
+
+    /**
+     * 取得三次样条多项式
+     * @param x
+     * @param y
+     * @param value
+     * @param calAbs
+     * @param calDen
+     */
+    private static void splineInterpolation(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relValue) {
+        SplineInterpolator sp = new SplineInterpolator();
+        //插入样条值
+        PolynomialSplineFunction interpolate = sp.interpolate(x, y);
+        //取得三次样条多项式
+        PolynomialFunction[] polynomials = interpolate.getPolynomials();
+//        int n = interpolate.getN();
+        // knots is key list
+        double[] knots = interpolate.getKnots();
+        //v is
+        double minKey = 0;
+        if (x[0] < 0) {
+            minKey = x[0];
+        }else {
+            minKey = x[0]*0.9;
+        }
+        ;
+        double step = 0.1;
+        double maxX = x[x.length - 1];
+        if (maxX - minKey < 1) {
+            step = 0.01;
+        }
+        if (maxX - minKey < 0.1) {
+            step = 0.001;
+        }
+        double maxKey = ((maxX / (step * 5)) + 1) * (step * 5);
+        getValue(x, value, polynomials, knots, minKey, step, maxX, maxKey);
+
+        setCalAbs(x, calDen, calAbs, polynomials, knots, maxX);
+        if (calDen.length == 2 && calAbs.length ==2){
+            double b = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
+            double k = (calAbs[0]-b)/calDen[0];
+            for (int i = 0; i <x.length ; i++) {
+                y[i] = (k*x[i]+b)*y[i];
+            }
+
+            SplineInterpolator relsp = new SplineInterpolator();
+            //插入样条值
+            PolynomialSplineFunction relinterpolate = relsp.interpolate(x, y);
+            //取得三次样条多项式
+            PolynomialFunction[] relpolynomials = relinterpolate.getPolynomials();
+
+            double[] relknots = interpolate.getKnots();
+            //v is
+            double relminKey = 0;
+            if (x[0] < 0) {
+                relminKey = x[0];
+            }else {
+                relminKey = x[0]*0.9;
+            }
+            ;
+            double relstep = 0.1;
+            double relmaxX = x[x.length - 1];
+            if (relmaxX - relminKey < 1) {
+                relstep = 0.01;
+            }
+            if (relmaxX - relminKey < 0.1) {
+                relstep = 0.001;
+            }
+            double relmaxKey = ((relmaxX / (relstep * 5)) + 1) * (relstep * 5);
+            getValue(x, relValue, relpolynomials, relknots, relminKey, relstep, relmaxX, relmaxKey);
+
+        }
+
+    }
+
+    private static void getValue(double[] x, List<Float> relValue, PolynomialFunction[] polynomials, double[] relknots, double relminKey, double relstep, double relmaxX, double relmaxKey) {
+         for (double key = relminKey; key < relmaxKey; key = key + relstep) {
+            int i = Arrays.binarySearch(relknots, key);
+
+            if (i < 0) {
+                i = -i - 2;
+            }
+            // key 大于最大的x值
+            if (key > relmaxX) {
+                i = x.length - 1;
+            }
+            // key小于最小的x值
+            if (key <= x[0]) {
+                i = 0;
+            }
+            // 这将处理v是最后一个结值的情况 只有n-1多项式，所以如果v是最后一个结
+            //然后我们用最后一个多项式来计算这个值。
+            if (i >= polynomials.length) {
+                i--;
+            }
+             double value = polynomials[i].value(key - relknots[i]);
+             String format = new DecimalFormat(yStep).format(value);
+             float e = Float.parseFloat(format);
+             relValue.add(e);
+
+        }
+    }
+
+
+    private static void setCalAbs(double[] x, double[] calDen, double[] calAbs, PolynomialFunction[] polynomials, double[] knots, double maxX) {
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            int i = Arrays.binarySearch(knots, key);
+
+            if (i < 0) {
+                i = -i - 2;
+            }
+            // key 大于最大的x值
+            if (key > maxX) {
+                i = x.length - 1;
+            }
+            // key小于最小的x值
+            if (key <= x[0]) {
+                i = 0;
+            }
+            // 这将处理v是最后一个结值的情况 只有n-1多项式，所以如果v是最后一个结
+            //然后我们用最后一个多项式来计算这个值。
+            if (i >= polynomials.length) {
+                i--;
+            }
+
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(polynomials[i].value(key - knots[i])));
+            calAbs[k] = v/calAbs[k];
+
+        }
+    }
+
 
 }
 

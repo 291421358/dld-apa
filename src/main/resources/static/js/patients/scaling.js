@@ -160,6 +160,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
         success: function (data) {
             var projectList = data.projects;
             var valueList = data.value;
+
             var canvas = document.getElementById('canvas');
             var ctx = canvas.getContext('2d');
             var calList = [];
@@ -171,10 +172,21 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                     if (i > 0) {
                         var projectListI = projectList[i - mi];
                         if (null != projectListI && projectListI.type === 6) {
-                            var projectListElement = projectList[i - mi];
-                            calList.push(projectListElement);
-                            mi--;
-                            projectListI = projectList[i - mi];
+                            var k  =0;
+                            for (let j = i; j <= projectList.length ; j++) {
+                                console.log(j+"len"  +mi);
+
+                                var projectListElement = projectList[j - mi];
+                                if (projectListElement.type === 6){
+                                    calList.push(projectListElement);
+                                }
+                                else{
+                                    break;
+                                }
+                                k++;
+                                // mi--;
+                            }
+                            projectListI = projectList[i - mi +k];
                         }
                         // console.log(projectListI);
 
@@ -209,23 +221,35 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                     }
                 });
 
-                var step = valueList[valueList.length - 1].step;
+                var lenMi = valueList.length - 2;
+                var step = valueList[lenMi].step;
                 if (step == null) {
 
                 } else {
                     // console.log(projectList);
                     var ctx1 = canvas.getContext('2d');
-                    ctx1.lineWidth = 2;
-                    ctx1.strokeStyle = "black";
+                    ctx1.lineWidth = 1;
+                    ctx1.strokeStyle = "red";
                     ctx1.beginPath();
                     for (var j = 0; j < valueList.length; j++) {
                         //画曲线
-                        ctx1.lineTo(j * 200 / (valueList.length - 2) + 31, canvas.height - valueList[j] - 34);
+                        ctx1.lineTo(j * 200 / (valueList.length - 3) + 31, canvas.height - valueList[j] - 34);
                         // console.log(j)
                     }
                     ctx1.stroke();
 
-                    var algorithm = valueList[valueList.length - 1].algorithm;
+                    var relList = valueList[lenMi+1];
+                    var ctx5 = canvas.getContext('2d');
+                    ctx5.lineWidth = 1;
+                    ctx5.strokeStyle = "black";
+                    ctx5.beginPath();
+                    for (var j = 0; j < valueList.length; j++) {
+                        //画曲线
+                        ctx5.lineTo(j * 200 / (relList.length) + 31, canvas.height - relList[j] - 34);
+                        // console.log(j)
+                    }
+                    ctx5.stroke();
+                    var algorithm = valueList[lenMi].algorithm;
                     $("#scalingAlgorithm").find("option").each(function () {
                         if ($(this)[0].value === algorithm) {
                             $(this)[0].selected = true;
@@ -233,10 +257,10 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                             $(this)[0].selected = false;
                         }
                     });
-                    var max = valueList[valueList.length - 1].max;
-                    var min = valueList[valueList.length - 1].min;
-                    var maxX = valueList[valueList.length - 1].maxX;
-                    var minX = valueList[valueList.length - 1].minX;
+                    var max = valueList[lenMi].max;
+                    var min = valueList[lenMi].min;
+                    var maxX = valueList[lenMi].maxX;
+                    var minX = valueList[lenMi].minX;
                     var ctx2 = canvas.getContext('2d');
                     ctx2.font = "DIN";//italic bold  small-caps
                     for (var k = 0; k <= 5; k++) {
@@ -286,7 +310,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                         // console.log(projectList[m].absorbance,density);
                         var gap = max - min;
                         if (gap === 0) {
-                            ctx3.strokeText('*', projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 32, 205);
+                            ctx3.strokeText('*', projectList[m].absorbance * (200 / (lenMi) * 10) + 32, 205);
                         }
                         //画点
                         // console.log("点的位置",projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 31, density);

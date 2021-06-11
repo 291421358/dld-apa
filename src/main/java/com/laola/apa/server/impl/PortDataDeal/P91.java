@@ -19,10 +19,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("p91")
 public class P91 implements PortDataDealService<String, Object> {
@@ -248,7 +245,9 @@ public class P91 implements PortDataDealService<String, Object> {
         Example example = new Example(Project.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("projectParamId", ppi);
-        criteria.andEqualTo("type", 2);
+        Set<Integer> singleton = new HashSet<>(Arrays.asList(2,6));
+
+        criteria.andIn("type", singleton);
         String preDate = DataUtil.getPreDateByUnit(factor, 1, 12);
 //                    logger.info("factor:"+factor);
         criteria.andBetween("starttime", factor, preDate);
@@ -259,11 +258,18 @@ public class P91 implements PortDataDealService<String, Object> {
         StringBuilder den = new StringBuilder();
         //创建吸光度list
         StringBuilder abs = new StringBuilder();
+        StringBuilder calDen = new StringBuilder();;
+        StringBuilder calAbs = new StringBuilder();;
         //取出浓度和吸光度
-        for (Project project0 : projects) {
-            den.append(project0.getDensity()).append(",");
-            abs.append(project0.getAbsorbance()).append(",");
+        DataUtil.setDAndA(projects, den, abs, calDen, calAbs);
+
+        double[] calx = new double[0];
+        double[] rely = new double[0];
+        if (null != calDen){
+            calx = DataUtil.string2Double(calDen.toString());
+            rely = DataUtil.string2Double(calAbs.toString());
         }
+
         // xy 装换成 double类型的数组
         double[] y = DataUtil.string2Double(abs.toString());
         double[] x = DataUtil.string2Double(den.toString());
@@ -295,29 +301,7 @@ public class P91 implements PortDataDealService<String, Object> {
         }
         //根据项目定标参数  获得项目定标算法
         algorithm = scaling.getAlgorithm();
-        if (xX.length < 3 && "三次样条函数".equals(algorithm)) {
-            algorithm = "一次曲线";
-        }
-        if ("三次样条函数".equals(algorithm)) {
-            logger.info("三次样条");
-            density = Formula.getSplineDensity(absorbanceGap, xX, yY);
-
-        }
-        if ("一次曲线".equals(algorithm)) {
-            logger.info("一次曲线");
-            density = Formula.getDensityByLinear(absorbanceGap, xX, yY);
-//                        logger.info(density);
-        }
-        if ("二次曲线拟合".equals(algorithm)) {
-            logger.info("二次曲线拟合");
-            //二次曲线拟合
-            density = Formula.quadratic(xX, yY, absorbanceGap);
-        }
-
-        if ("RodBard".equals(algorithm)) {
-            density = Formula.RodBard(xX, yY, absorbanceGap);
-            logger.info(String.valueOf(density));
-        }
+        density = Formula.getDensity(absorbanceGap, xX, yY, algorithm, calx, rely);
         if (density == -501) {
             project.setDensity("<0.05");
             projectMapper.updateByPrimaryKeySelective(project);
@@ -351,6 +335,8 @@ public class P91 implements PortDataDealService<String, Object> {
         }
         project.setDensity(new DecimalFormat(formatDigit).format(density));
     }
+
+
 
 
     /***

@@ -1,9 +1,12 @@
 package com.laola.apa.utils;
 
+import com.laola.apa.entity.Project;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 日期操作的工具类
@@ -186,6 +189,20 @@ public class DataUtil {
             }
             if (i <index){
                 tem[i] = array[i];
+            }
+        }
+    }
+
+    public static void setDAndA(List<Project> projects, StringBuilder den, StringBuilder abs, StringBuilder calDen, StringBuilder relAbs) {
+        for (Project project0 : projects) {
+            if (project0.getType().equals(2)){
+                den.append(project0.getDensity()).append(",");
+                abs.append(project0.getAbsorbance()).append(",");
+            }else {
+                if (null != project0.getAbsorbance() && !project0.getAbsorbance().equals("")){
+                    calDen.append(project0.getDensity()).append(",");
+                    relAbs.append(project0.getAbsorbance()).append(",");
+                }
             }
         }
     }

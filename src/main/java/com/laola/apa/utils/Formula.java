@@ -47,22 +47,22 @@ public class Formula {
         }
         if ("一次曲线".equals(algorithm)) {
             logger.info("一次曲线");
-            density = Formula.getDensityByLinear(absorbanceGap, xX, yY);
+            density = Formula.getDensityByLinear(absorbanceGap, xX, yY,calDen,calAbs);
 //                        logger.info(density);
         }
         if ("二次曲线拟合".equals(algorithm)) {
             logger.info("二次曲线拟合");
             //二次曲线拟合
-            density = Formula.quadratic(xX, yY, absorbanceGap);
+            density = Formula.quadratic(xX, yY, absorbanceGap,calDen,calAbs);
         }
 
         if ("RodBard".equals(algorithm)) {
-            density = Formula.RodBard(xX, yY, absorbanceGap);
+            density = Formula.RodBard(xX, yY, absorbanceGap,calDen,calAbs);
             logger.info(String.valueOf(density));
         }
 
         if ("三次曲线拟合".equals(algorithm)) {
-            density = Formula.cubicCurveFitting(xX, yY, absorbanceGap);
+            density = Formula.cubicCurveFitting(xX, yY, absorbanceGap,calDen,calAbs);
             logger.info(String.valueOf(density));
         }
         return density;
@@ -72,47 +72,85 @@ public class Formula {
      * @apiNote 二次曲线获得浓度
      * @author tzhh
      * @date 2021/5/27 17:46
-     * @param xX
-	 * @param yY
+     * @param x
+	 * @param y
 	 * @param absorbanceGap
+     * @param calDen
+     * @param calAbs
      * @return {@link float}
      **/
-    public static float quadratic(double[] xX, double[] yY, float absorbanceGap) {
-        float density = 0;//多项式曲线拟合器创建阶数为二的拟合器
+    public static float quadratic(double[] x, double[] y, float absorbanceGap, double[] calDen, double[] calAbs) {
+        double density = 0;//多项式曲线拟合器创建阶数为二的拟合器
         PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(2);
         //权重以及坐标点
         List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
-        for (int j = 0; j < xX.length; j++) {
+        for (int j = 0; j < x.length; j++) {
             //遍历xy值，并加入权重坐标点
 //            logger.info(xX[j] + "yy:" + yY[j]);
-            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, xX[j], yY[j]);
+            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[j], y[j]);
             weightedObservedPoints.add(weightedObservedPoint);
         }
-        //得出多项式的系数
+        //得出多项式的系数-1.284270711704957E-15
         double[] doubles = polynomialCurveFitter.fit(weightedObservedPoints);
         //带入吸光度算出浓度
 //        logger.info(doubles[0] + "1:" + doubles[1]);
         double a = doubles[2];
         double b = doubles[1];
-        double c = doubles[0];
-        double d = b * b - 4 * a * (c - absorbanceGap);        //根据b^2-4ac判断方程可解性
+        double c = doubles[0] ;
+        double v1 = b * b;
+        double v2 = 4 * a * (c-absorbanceGap);
+        double d = v1 - v2;        //根据b^2-4ac判断方程可解性
         System.out.println(d);
+        density = divideAndConquerQuadratic(a,b,c,absorbanceGap,x[x.length-1]);
+        density = Float.parseFloat(new DecimalFormat("0.000").format(density));
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(( a*key*key+b*key+c)));
+            setCalAbs(calAbs, k, v);
+        }
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            polynomialCurveFitter = PolynomialCurveFitter.create(2);
+            //权重以及坐标点
+             weightedObservedPoints = new ArrayList<>();
+            for (int j = 0; j < x.length; j++) {
+                //遍历xy值，并加入权重坐标点
+//            logger.info(xX[j] + "yy:" + yY[j]);
+                WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[j], y[j]);
+                weightedObservedPoints.add(weightedObservedPoint);
+            }
+            doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+             a = doubles[2];
+             b = doubles[1];
+             c = doubles[0];
+            density = divideAndConquerQuadratic(a,b,c,absorbanceGap,x[x.length-1]);
+        }
+        return Float.parseFloat(new DecimalFormat("0.000").format(density));
+    }
+    public static double quadratic(double x, double a, double b, double c) {
+        double v = BigMath.mul(BigMath.mul(a,x),x);
+        double v1 = BigMath.mul(b,x);
+        return v + v1 + c;
+    }
+    private static float getDensity(float density,double abs, double a, double b, double c, double d) {
+        if (a < 0.0000000000001){
+            density = -200;//(float) ((abs-c)/b);
+        }
         if (d < 0) {
             density = -500;
         } else if (d == 0) {
             density = (float) (-b / (2 * a));
         } else {
-            System.out.println("方程有两个解：" + (-b + Math.sqrt(d)) / (2 * a) + "和" + (-b - Math.sqrt(d)) / (2 * a));
+            double sqrt = Math.sqrt(d);
+            System.out.println("方程有两个解：" + (-b + sqrt) / (2 * a) + "和" + (-b - sqrt) / (2 * a));
             if (a > 0) {
-                density = (float) ((-b + Math.sqrt(d)) / (2 * a));
+                density = (float) ((-b + sqrt) / (2 * a));
             }
             if (a < 0) {
-                density = (float) ((-b - Math.sqrt(d)) / (2 * a));
+                density = (float) ((-b - sqrt) / (2 * a));
             }
         }
-        double densityValue = doubles[1] * absorbanceGap + doubles[0];
-//        logger.info(densityValue);
-        density = Float.parseFloat(new DecimalFormat("0.000").format(density));
         return density;
     }
 
@@ -122,19 +160,21 @@ public class Formula {
      * @author tzhh
      * @date 2021/5/27 17:46
      * @param absorbanceGap
-	 * @param xX
-	 * @param yY
+	 * @param x
+	 * @param y
+     * @param calDen
+     * @param calAbs
      * @return {@link float}
      **/
-    public static float getDensityByLinear(float absorbanceGap, double[] xX, double[] yY) {
+    public static float getDensityByLinear(float absorbanceGap, double[] x, double[] y, double[] calDen, double[] calAbs) {
         float density;//多项式曲线拟合器创建阶数为一的拟合器
         PolynomialCurveFitter polynomialCurveFitter = PolynomialCurveFitter.create(1);
         //权重以及坐标点
         List<WeightedObservedPoint> weightedObservedPoints = new ArrayList<>();
-        for (int j = 0; j < xX.length; j++) {
+        for (int j = 0; j < x.length; j++) {
             //遍历xy值，并加入权重坐标点
 //            logger.info(xX[j] + "yy:" + yY[j]);
-            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, xX[j], yY[j]);
+            WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[j], y[j]);
             weightedObservedPoints.add(weightedObservedPoint);
         }
         //得出多项式的系数
@@ -145,6 +185,29 @@ public class Formula {
         double densityValue = (absorbanceGap - doubles[0]) / doubles[1];
 //        logger.info(densityValue);
         density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format( doubles[0] + doubles[1]*key));
+            setCalAbs(calAbs, k, v);
+        }
+
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            polynomialCurveFitter = PolynomialCurveFitter.create(1);
+            weightedObservedPoints = new ArrayList<>();
+            for (int j = 0; j < x.length; j++) {
+                //遍历xy值，并加入权重坐标点
+//            logger.info(xX[j] + "yy:" + yY[j]);
+                WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[j], y[j]);
+                weightedObservedPoints.add(weightedObservedPoint);
+            }
+            polynomialCurveFitter.fit(weightedObservedPoints);
+            doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+            densityValue = (absorbanceGap - doubles[0]) / doubles[1];
+            density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+        }
+
         return density;
     }
 
@@ -183,17 +246,11 @@ public class Formula {
         //knots is key list
         double[] knots = interpolate.getKnots();
 
-
-
         double maxX = x[x.length - 1];
         if (calDen.length == 2 && calAbs.length ==2){
             setCalAbs(x, calDen, calAbs, polynomials, knots, maxX );
-            double b = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
-            double k = (calAbs[0]-b)/calDen[0];
-            for (int i = 0; i <x.length ; i++) {
-                y[i] = (k*x[i]+b)*y[i];
-            }
-             sp = new SplineInterpolator();
+            setY(x, y, calAbs, calDen);
+            sp = new SplineInterpolator();
             //插入样条值
              interpolate = sp.interpolate(x, y);
             //取得三次样条多项式
@@ -201,7 +258,6 @@ public class Formula {
 
             knots = interpolate.getKnots();
         }
-
 
         //v is
         int j = 0;
@@ -215,6 +271,27 @@ public class Formula {
         }
         double densityValue = divideAndConquer(knots[j], x[j], x[j + 1], polynomials[j], absorbanceGap);
         density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(polynomials[j].value(key)));
+            setCalAbs(calAbs, k, v);
+        }
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            sp = new SplineInterpolator();
+            interpolate = sp.interpolate(x, y);
+            polynomials = interpolate.getPolynomials();
+            knots = interpolate.getKnots();
+            for (int i = 0; i < y.length - 1; i++) {
+                if ((absorbanceGap > y[i] && absorbanceGap < y[i + 1]) || (absorbanceGap < y[i] && absorbanceGap > y[i + 1])) {
+                    //找到 abs 所在区间
+                    j = i;
+                }
+            }
+            densityValue = divideAndConquer(knots[j], x[j], x[j + 1], polynomials[j], absorbanceGap);
+            density = Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+        }
         return density;
     }
 
@@ -227,9 +304,11 @@ public class Formula {
      * @param x
 	 * @param y
 	 * @param absorbanceGap
+     * @param calDen
+     * @param calAbs
      * @return {@link float}
      **/
-    public static float  RodBard(double[] x, double[] y, float absorbanceGap) {
+    public static float  RodBard(double[] x, double[] y, float absorbanceGap, double[] calDen, double[] calAbs) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(7);
         double[] p = curveFitter.getParams();
@@ -245,8 +324,23 @@ public class Formula {
 
         double densityValue = divideAndConquerRodBard(a, b, c, d, absorbanceGap,x[x.length-1]);
 
-
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(logit4p(key, a, b, c, d)));
+            setCalAbs(calAbs, k, v);
+        }
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            curveFitter.doFit(7);
+            p = curveFitter.getParams();
+            a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+            b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+            c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+            d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+            densityValue = divideAndConquerRodBard(a, b, c, d, absorbanceGap,x[x.length-1]);
+        }
         return Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
+
     }
     //    logit4p
 
@@ -264,9 +358,11 @@ public class Formula {
      * @param x
      * @param y
      * @param absorbanceGap
+     * @param calDen
+     * @param calAbs
      * @return {@link float}
      **/
-    public static float cubicCurveFitting(double[] x, double[] y, float absorbanceGap) {
+    public static float cubicCurveFitting(double[] x, double[] y, float absorbanceGap, double[] calDen, double[] calAbs) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(2);
         double[] p = curveFitter.getParams();
@@ -279,11 +375,29 @@ public class Formula {
             logger.info(absorbanceGap+"   "+logit4p(0,a,b,c,d));
             return -501;
         }
-
-
-
-
         double densityValue = divideAndConquerCubic(a, b, c, d, absorbanceGap,x[x.length-1]);
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d)));
+            setCalAbs(calAbs, k, v);
+        }
+
+
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+
+            curveFitter = new CurveFitter(x, y);
+            curveFitter.doFit(2);
+
+            p = curveFitter.getParams();
+            a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+            b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+            c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+            d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+
+            densityValue= divideAndConquerCubic(a, b, c, d, absorbanceGap,x[x.length-1]);
+        }
 
 
         return Float.parseFloat(new DecimalFormat("0.000").format(densityValue));
@@ -292,7 +406,50 @@ public class Formula {
     private static double cubicCurve(double x, double a, double b, double c, double d){
         return d*x*x*x + c*x*x +b*x +a;
     }
+    /**
+     * @apiNote 分治三次曲线
+     * @author tzhh
+     * @date 2021/6/11 14:44
+     * @param a
+     * @param b
+     * @param c
+     * @param absorbanceGap
+     * @param xMax
+     * @return {@link double}
+     **/
+    private static double divideAndConquerQuadratic(double a, double b, double c, float absorbanceGap, double xMax) {
+        //没隔 1 为一个区间
+        for (double x = 0; x <= xMax*2; x += 100) {
+            double x1 = x;
+            double x2 = x1 + 100;
+            //取x的值
+            double cubic = quadratic(x1, a, b, c);
+//            logit4p(x1, a, b, c, d);
+            if (cubic == absorbanceGap) {
+                System.out.println(x1 + " ");
+                return x1;
+            } else {
+                double cubic1 = quadratic(x2, a, b, c); //logit4p(x2, a, b, c, d)
+                if ((cubic - absorbanceGap) * (cubic1 - absorbanceGap) < 0) {
+                    while (x2 - x1 >= 0.0001) {
+                        double mid = (x2 + x1) / 2;
+                        double midVal = quadratic(mid, a, b, c);
 
+                        if ((cubic - absorbanceGap) * (midVal - absorbanceGap) <= 0){
+
+                            x2 = mid;
+                        } else {
+                            x1 = mid;
+                        }
+                    }
+                    System.out.println(x1);
+                    return x1;
+                }
+            }
+
+        }
+        return -503;
+    }
 
     /**
      * @apiNote 分治样条曲线
@@ -306,7 +463,7 @@ public class Formula {
      * @return {@link double}
      **/
 
-    private static double divideAndConquer(double knode, double minX, double maxX, PolynomialFunction polynomials, float absorbanceGap) {
+    private static double divideAndConquer(double knode, double minX, double maxX, PolynomialFunction polynomials, double absorbanceGap) {
         //没隔 1 为一个区间
         for (double x = minX; x < maxX; x += 1) {
             double x1 = x - knode;
@@ -345,7 +502,7 @@ public class Formula {
 	 * @param xMax
      * @return {@link double}
      **/
-    private static double divideAndConquerRodBard(double a, double b, double c, double d, float absorbanceGap, double xMax) {
+    private static double divideAndConquerRodBard(double a, double b, double c, double d, double absorbanceGap, double xMax) {
         //没隔 1 为一个区间
         for (double x = 0; x <= xMax*2; x += 100) {
             double x1 = x;
@@ -466,14 +623,26 @@ public class Formula {
         return relAndValue;
     }
 
+    /***
+     * @apiNote 三次曲线拟合
+     * @author tzhh 
+     * @date 2021/6/15 10:22
+     * @param x
+	 * @param y
+	 * @param value
+	 * @param calAbs
+	 * @param calDen
+	 * @param relVal
+     * @return 
+     **/
     private static void cubicCurveFitting(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(2);
         double[] p = curveFitter.getParams();
-        double a = Double.parseDouble(IJ.d2s(p[0], 3, 5));
-        double b = Double.parseDouble(IJ.d2s(p[1], 3, 5));
-        double c = Double.parseDouble(IJ.d2s(p[2], 3, 5));
-        double d = Double.parseDouble(IJ.d2s(p[3], 3, 5));
+        double   a = Double.parseDouble(IJ.d2s(p[0], 3, 5));
+        double   b = Double.parseDouble(IJ.d2s(p[1], 3, 5));
+        double   c = Double.parseDouble(IJ.d2s(p[2], 3, 5));
+        double   d = Double.parseDouble(IJ.d2s(p[3], 3, 5));
         double minKey;
         if (x[0] < 0) {
             minKey = x[0];
@@ -496,33 +665,47 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d)));
-            calAbs[k] = v/calAbs[k];
+            setCalAbs(calAbs, k, v);
         }
 
         if (calDen.length == 2 && calAbs.length ==2){
-            double calb = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
-            double calk = (calAbs[0]-calb)/calDen[0];
-            for (int i = 0; i <x.length ; i++) {
-                y[i] = (calk*x[i]+calb)*y[i];
-            }
+            setY(x, y, calAbs, calDen);
 
             curveFitter = new CurveFitter(x, y);
             curveFitter.doFit(2);
-
+            p = curveFitter.getParams();
+            a = Double.parseDouble(IJ.d2s(p[0], 3, 5));
+            b = Double.parseDouble(IJ.d2s(p[1], 3, 5));
+            c = Double.parseDouble(IJ.d2s(p[2], 3, 5));
+            d = Double.parseDouble(IJ.d2s(p[3], 3, 5));
             for (double key = minKey; key <= maxKey; key = key + step) {
                 relVal.add(Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d))));
             }
         }
     }
 
+
+
+    /**
+     * @apiNote logit4p
+     * @author tzhh 
+     * @date 2021/6/15 10:22
+     * @param x
+	 * @param y
+	 * @param value
+	 * @param calAbs
+	 * @param calDen
+	 * @param relVal
+     * @return 
+     **/
     private static void RodBard(double[] x, double[] y, List<Float> value, double[] calAbs, double[] calDen, List<Float> relVal) {
         CurveFitter curveFitter = new CurveFitter(x, y);
         curveFitter.doFit(7);
         double[] p = curveFitter.getParams();
-        double a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
-        double b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
-        double c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
-        double d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+        double   a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+        double   b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+        double   c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+        double   d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
         double minKey;
         if (x[0] < 0) {
             minKey = x[0];
@@ -537,8 +720,40 @@ public class Formula {
         if (maxKey - minKey < 0.1) {
             step = 0.001;
         }
+
+
+
         for (double key = minKey; key <= maxKey; key = key + step) {
             value.add(Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b)))));
+        }
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b))));
+            setCalAbs(calAbs, k, v);
+        }
+
+
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            curveFitter = new CurveFitter(x, y);
+            curveFitter.doFit(7);
+            p = curveFitter.getParams();
+            a = Double.parseDouble(IJ.d2s(p[0], 5, 9));
+            b = Double.parseDouble(IJ.d2s(p[1], 5, 9));
+            c = Double.parseDouble(IJ.d2s(p[2], 5, 9));
+            d = Double.parseDouble(IJ.d2s(p[3], 5, 9));
+        }
+
+        for (double key = minKey; key <= maxKey; key = key + step) {
+            relVal.add(Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b)))));
+        }
+    }
+
+    private static void setY(double[] x, double[] y, double[] calAbs, double[] calDen) {
+        double b = (calDen[0] * calAbs[1] - calDen[1] * calAbs[0]) / (calDen[0] - calDen[1]);
+        double k = (calAbs[0] - b) / calDen[0];
+        for (int i = 0; i < x.length; i++) {
+            y[i] = (k * x[i] + b) * y[i];
         }
     }
 
@@ -580,6 +795,29 @@ public class Formula {
             value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0])));
 
         }
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0]));
+            setCalAbs(calAbs, k, v);
+        }
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            polynomialCurveFitter = PolynomialCurveFitter.create(1);
+            //权重以及坐标点
+            weightedObservedPoints = new ArrayList<>();
+            for (int i = 0; i < x.length; i++) {
+                //遍历xy值，并加入权重坐标点
+                WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
+                weightedObservedPoints.add(weightedObservedPoint);
+            }
+
+            doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+            for (double key = minKey; key <= maxKey; key = key + step) {
+                relVal.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0])));
+            }
+        }
+
     }
 
     /**
@@ -618,6 +856,28 @@ public class Formula {
         }
         for (double key = minKey; key <= maxKey; key = key + step) {
             value.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0])));
+        }
+
+        for (int k = 0; k < calDen.length; k++) {
+            double key =  calDen[k];
+            float v = Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0]));
+            setCalAbs(calAbs, k, v);
+        }
+        if (calDen.length == 2 && calAbs.length ==2){
+            setY(x, y, calAbs, calDen);
+            polynomialCurveFitter = PolynomialCurveFitter.create(2);
+            //权重以及坐标点
+             weightedObservedPoints = new ArrayList<>();
+            for (int i = 0; i < x.length; i++) {
+                //遍历xy值，并加入权重坐标点
+                WeightedObservedPoint weightedObservedPoint = new WeightedObservedPoint(1, x[i], y[i]);
+                weightedObservedPoints.add(weightedObservedPoint);
+            }
+
+            doubles = polynomialCurveFitter.fit(weightedObservedPoints);
+            for (double key = minKey; key <= maxKey; key = key + step) {
+                relVal.add(Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0])));
+            }
         }
     }
 
@@ -659,11 +919,7 @@ public class Formula {
 
         setCalAbs(x, calDen, calAbs, polynomials, knots, maxX);
         if (calDen.length == 2 && calAbs.length ==2){
-            double b = (calDen[0]*calAbs[1] - calDen[1]*calAbs[0])/(calDen[0]-calDen[1]);
-            double k = (calAbs[0]-b)/calDen[0];
-            for (int i = 0; i <x.length ; i++) {
-                y[i] = (k*x[i]+b)*y[i];
-            }
+            setY(x, y, calAbs, calDen);
 
             SplineInterpolator relsp = new SplineInterpolator();
             //插入样条值
@@ -747,11 +1003,13 @@ public class Formula {
             }
 
             float v = Float.parseFloat(new DecimalFormat(yStep).format(polynomials[i].value(key - knots[i])));
-            calAbs[k] = v/calAbs[k];
+            setCalAbs(calAbs, k, v);
 
         }
     }
-
+    private static void setCalAbs(double[] calAbs, int k, float v) {
+        calAbs[k] = calAbs[k] /v;
+    }
 
 }
 

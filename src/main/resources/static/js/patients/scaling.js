@@ -231,7 +231,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                     ctx1.lineWidth = 1;
                     ctx1.strokeStyle = "red";
                     ctx1.beginPath();
-                    for (var j = 0; j < valueList.length; j++) {
+                    for (var j = 0; j < valueList.length-1; j++) {
                         //画曲线
                         ctx1.lineTo(j * 200 / (valueList.length - 3) + 31, canvas.height - valueList[j] - 34);
                         // console.log(j)
@@ -239,14 +239,19 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                     ctx1.stroke();
 
                     var relList = valueList[lenMi+1];
+                    // console.log(relList.length);
                     var ctx5 = canvas.getContext('2d');
                     ctx5.lineWidth = 1;
                     ctx5.strokeStyle = "black";
-                    ctx5.beginPath();
-                    for (var j = 0; j < valueList.length; j++) {
-                        //画曲线
-                        ctx5.lineTo(j * 200 / (relList.length) + 31, canvas.height - relList[j] - 34);
-                        // console.log(j)
+                    if (relList.length > 1){
+
+                        ctx5.beginPath();
+                        for (var j = 0; j < valueList.length; j++) {
+                            //画曲线
+                            ctx5.lineTo(j * 200 / (relList.length) + 31, canvas.height - relList[j] - 34);
+                            // console.log(j)
+                        }
+
                     }
                     ctx5.stroke();
                     var algorithm = valueList[lenMi].algorithm;

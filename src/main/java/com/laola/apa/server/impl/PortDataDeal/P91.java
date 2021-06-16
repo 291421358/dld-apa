@@ -301,14 +301,14 @@ public class P91 implements PortDataDealService<String, Object> {
         }
         //根据项目定标参数  获得项目定标算法
         algorithm = scaling.getAlgorithm();
-        density = Formula.getDensity(absorbanceGap, xX, yY, algorithm, calx, rely);
+            density = Formula.getDensity(absorbanceGap, xX, yY, algorithm, calx, rely);
         if (density == -501) {
             project.setDensity("<0.05");
             projectMapper.updateByPrimaryKeySelective(project);
             return;
         }
         if (density == -502) {
-            project.setDensity("ABS过大");
+            project.setDensity(">="+yY[yY.length-1]);
             projectMapper.updateByPrimaryKeySelective(project);
             return;
         }

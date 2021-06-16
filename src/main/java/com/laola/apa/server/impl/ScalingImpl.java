@@ -206,7 +206,7 @@ public class ScalingImpl implements ScalingIntf {
         DataUtil.setDAndA(projects, den, abs, calDen, relAbs);
         double[] calx = new double[0];
         double[] rely = new double[0];
-        if (null != calDen){
+        if (calDen.length()>0){
              calx = DataUtil.string2Double(calDen.toString());
              rely = DataUtil.string2Double(relAbs.toString());
         }

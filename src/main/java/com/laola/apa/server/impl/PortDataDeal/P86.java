@@ -15,7 +15,7 @@ public class P86 implements PortDataDealService<Object, Object> {
 
     @Autowired
     private EquipmentStateserver equipmentStateSever;
-    private Logger logger = LoggerFactory.getLogger(P90.class);
+    private Logger logger = LoggerFactory.getLogger(P86.class);
 
     /**
      * 处理仪器参数数据

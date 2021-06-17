@@ -192,6 +192,29 @@ public class ProjectParam {
      */
     @Column(name = "preset_density_hight")
     private String preset_density_hight;
+
+    /**
+     * 稀释位置
+     */
+    @Column(name = "diluent_place")
+    private String diluent_place;
+
+    /**
+     * 稀释量
+     */
+    @Column(name = "`diluent_size`")
+    private String diluent_size;
+
+    /**
+     * 稀释样本量
+     */
+    @Column(name = "dilution_sample_size")
+    private String dilution_sample_size;
+
+
+
+
+
     /**
      * 创建时间
      */
@@ -714,6 +737,51 @@ public class ProjectParam {
         this.createtime = createtime;
     }
 
+
+    public String getPreset_density_low() {
+        return preset_density_low;
+    }
+
+    public String getPreset_density_mid() {
+        return preset_density_mid;
+    }
+
+    public String getPreset_density_hight() {
+        return preset_density_hight;
+    }
+
+    public ProjectParam setPreset_density_hight(String preset_density_hight) {
+        this.preset_density_hight = preset_density_hight;
+        return this;
+    }
+
+    public String getDiluent_place() {
+        return diluent_place;
+    }
+
+    public ProjectParam setDiluent_place(String diluent_place) {
+        this.diluent_place = diluent_place;
+        return this;
+    }
+
+    public String getDiluent_size() {
+        return diluent_size;
+    }
+
+    public ProjectParam setDiluent_size(String diluent_size) {
+        this.diluent_size = diluent_size;
+        return this;
+    }
+
+    public String getDilution_sample_size() {
+        return dilution_sample_size;
+    }
+
+    public ProjectParam setDilution_sample_size(String dilution_sample_size) {
+        this.dilution_sample_size = dilution_sample_size;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProjectParam{" +
@@ -748,6 +816,9 @@ public class ProjectParam {
                 ", presetDensityLow='" + preset_density_low + '\'' +
                 ", presetDensityMid='" + preset_density_mid + '\'' +
                 ", presetDensityHight='" + preset_density_hight + '\'' +
+                ", diluentPlace='" + diluent_place + '\'' +
+                ", diluentSize='" + diluent_size + '\'' +
+                ", dilutionSampleSize='" + dilution_sample_size + '\'' +
                 ", createtime=" + createtime +
                 '}';
     }

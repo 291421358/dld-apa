@@ -36,6 +36,9 @@
     <result column="preset_density_low" jdbcType="VARCHAR" property="preset_density_low" />
     <result column="preset_density_mid" jdbcType="VARCHAR" property="preset_density_mid" />
     <result column="preset_density_hight" jdbcType="VARCHAR" property="preset_density_hight" />
+    <result column="diluent_place" jdbcType="VARCHAR" property="diluent_place" />
+    <result column="diluent_size" jdbcType="VARCHAR" property="diluent_size" />
+    <result column="dilution_sample_size" jdbcType="VARCHAR" property="dilution_sample_size" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
     <select id="presetQc" resultType="com.laola.apa.entity.ProjectParam">

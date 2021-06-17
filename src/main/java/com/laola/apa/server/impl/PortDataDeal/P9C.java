@@ -106,7 +106,7 @@ public class P9C implements PortDataDealService<String,Object> {
                 if (strPlaceNo.length() == 1) {
                     strPlaceNo = "0" + strPlaceNo;
                 }
-                commond = TestConstant.TestHead + strPlaceNo + " " + commond + " 00 00";
+                commond = TestConstant.TestHead + strPlaceNo + " " + commond;
                 logger.info("发出的命令；" + commond);
                 OutputStream outputStream = null;
                 try {

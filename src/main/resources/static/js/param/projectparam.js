@@ -114,7 +114,9 @@ function updateProjectParam() {
             otherModifiedFormulaA: $("#otherModifiedFormulaA").val(),
             otherModifiedFormulaB: $("#otherModifiedFormulaB").val(),
             dilutionDelayPeriod: $("#dilutionDelayPeriod").val(),
-
+            diluent_place: $("#diluent_place").val(),
+            diluent_size: $("#diluent_size").val(),
+            dilution_sample_size: $("#dilution_sample_size").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -166,6 +168,9 @@ function  insertProject() {
             otherModifiedFormulaA: $("#otherModifiedFormulaA").val(),
             otherModifiedFormulaB: $("#otherModifiedFormulaB").val(),
             dilutionDelayPeriod: $("#dilutionDelayPeriod").val(),
+            diluent_place: $("#diluent_place").val(),
+            diluent_size: $("#diluent_size").val(),
+            dilution_sample_size: $("#dilution_sample_size").val(),
 
         },
         jsonp: 'jsoncallback',

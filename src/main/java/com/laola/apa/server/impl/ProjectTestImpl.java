@@ -178,7 +178,7 @@ public class ProjectTestImpl implements ProjectTest {
         System.out.println(id);
         List<Map<String, Object>> maps;
             maps = selectDao.selectList(
-                    "SELECT p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length FROM project p \n" +
+                    "SELECT pp.diluent_place pp.diluent_size pp.dilution_sample_size p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length FROM project p \n" +
                             "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
                             "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id  \n" +
                             "WHERE p.id = " + id +
@@ -232,6 +232,9 @@ public class ProjectTestImpl implements ProjectTest {
             String projectNum = String.valueOf(map.get("projectNum"));
             String mainWavelength = String.valueOf(map.get("mainWavelength"));
             String length = String.valueOf(map.get("length"));
+            String diluent_place = String.valueOf(map.get("diluent_place"));
+            String diluent_size = String.valueOf(map.get("diluent_size"));
+            String dilution_sample_size = String.valueOf(map.get("dilution_sample_size"));
             //转换成16进制
             String place1 = DateUtils.DEC2HEX(String.valueOf(2 * Integer.parseInt(place) -1));
             String place2 = DateUtils.DEC2HEX(String.valueOf(2 * Integer.parseInt(place) -1+1));
@@ -242,6 +245,10 @@ public class ProjectTestImpl implements ProjectTest {
             projectNum = DateUtils.DEC2HEX(projectNum);
             mainWavelength = DateUtils.DEC2HEX(mainWavelength);
             length = DateUtils.DEC2HEX(length);
+            diluent_place = DateUtils.DEC2HEX(diluent_place);
+            diluent_size = DateUtils.DEC2HEX(diluent_size);
+            dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
+            String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(dilution_sample_size)+160));
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {
                 reagentQuantityNo1.insert(0, "0");
@@ -250,8 +257,17 @@ public class ProjectTestImpl implements ProjectTest {
             if (i.length() <2){
                 i = "0"+i;
             }
-            //     样品位    试剂1位 	      试剂2位 	       样品量    	     试剂1量H                              试剂1量L                                                      试剂2量                  项目序号              样品量                波长                读数点数      延迟取样周期         取样项目序号
-            String commnd = place1 + " " + place2 + " " + samplesize0 + " " + reagentQuantityNo1.substring(0, 2) + " " + reagentQuantityNo1.substring(2, 4) + " " + reagentQuantityNo2 + " " + projectNum + " " + samplesize1 + " " + mainWavelength + " " + length;
+            //     样品位    试剂1位 	      试剂2位 	       样品量    	     试剂1量H
+            String commnd = place1 + " " + place2 + " " + samplesize0 + " " + reagentQuantityNo1.substring(0, 2) + " " +
+                    // 试剂1量L                                                      试剂2量
+                    reagentQuantityNo1.substring(2, 4) + " " + reagentQuantityNo2 + " " + projectNum + " " +
+                    // 项目序号              样品量                波长
+                    samplesize1 + " " + mainWavelength + " " + length + " "+
+
+                    //读数点数  延迟取样周期     稀释序号               稀释样本量                  稀释液量               稀释液位置
+                    "00 00 " +            Dilution_number   + " " +  dilution_sample_size  +" "+ diluent_size + " " +diluent_place + " "+
+            //        红细胞压积波长            传输                   急诊                   稀释标记      取样项目序号
+                    "00"+    " "+            "00"+ " "+           "00" + " "+             "00"+  " "+      "00";
             commndList.add(commnd);
 //            System.out.println(commnd+"projectTest 256");
         }

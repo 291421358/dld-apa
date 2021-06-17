@@ -167,12 +167,13 @@ function getOneProjectsAllScalingByCon(id, type, time) {
             ctx.clearRect(0, 0, 2000, 2000);
             if (null != valueList && valueList.length > 0) {
                 var mi = 1;
+                var k  =0;
                 $('#scaling_deal tr').each(function (i) {
                     // console.log(i);
                     if (i > 0) {
-                        var projectListI = projectList[i - mi];
+                        var projectListI = projectList[i - mi+k];
                         if (null != projectListI && projectListI.type === 6) {
-                            var k  =0;
+
                             for (let j = i; j <= projectList.length ; j++) {
                                 console.log(j+"len"  +mi);
 
@@ -186,6 +187,7 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                                 k++;
                                 // mi--;
                             }
+                            console.log(i - mi +k);
                             projectListI = projectList[i - mi +k];
                         }
                         // console.log(projectListI);
@@ -222,10 +224,10 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                 });
 
                 var lenMi = valueList.length - 2;
-                var step = valueList[lenMi].step;
-                if (step == null) {
+                if (valueList[lenMi] ==undefined) {
 
                 } else {
+                    var step = valueList[lenMi].step;
                     // console.log(projectList);
                     var ctx1 = canvas.getContext('2d');
                     ctx1.lineWidth = 1;
@@ -377,6 +379,34 @@ function saveProject(id, type, absorbance, factor, density, place_no, rack_no) {
         url: urlhead + '/productTest/saveProject',
         async: true,
         data: {
+            // starttime: $("#scaling_time .checkedColor").html(),
+            density: density,
+            projectParamId: id,
+            type: type,
+            placeNo: place_no,
+            rackNo: rack_no,
+            factor: factor,
+            absorbance: absorbance
+        },
+        jsonp: 'jsoncallback',
+        success: function () {
+            console.log("保存成功")
+        },
+        error: function () {
+            console.log("请联系管理员")
+        }
+    });
+}
+/**
+ * 保存校准项目 saveProject
+ */
+function saveCalProject(id, type, absorbance, factor, density, place_no, rack_no) {
+    console.log(place_no);
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/productTest/saveProject',
+        async: true,
+        data: {
             starttime: $("#scaling_time .checkedColor").html(),
             density: density,
             projectParamId: id,
@@ -395,7 +425,6 @@ function saveProject(id, type, absorbance, factor, density, place_no, rack_no) {
         }
     });
 }
-
 
 /**
  * 添加定标项目计算方法
@@ -467,7 +496,7 @@ function saveCalList() {
             ;
 
 
-            timeout = setTimeout(saveProject, i * 150, paramid, 6, absorbance, factor, density, place_no, rack_no)
+            timeout = setTimeout(saveCalProject, i * 150, paramid, 6, absorbance, factor, density, place_no, rack_no)
         }
     });
 }
@@ -810,6 +839,52 @@ $(document).ready(function () {
                 updateProject(id, absorbance, factor, density, rackNo, placeNo);
             }
         })
+
+        $("#cal tr").each(function (i) {
+            if ($(this).find("td")[0].innerHTML === "" || $(this).find("td")[0].innerHTML === "-") {
+                // console.log("1");
+                return;
+            }
+            if (i > 0) {
+                var id = 0;
+                var absorbance = 0;
+                var factor = 0;
+                var density = 0;
+                var rackNo = 0;
+                var placeNo = 0;
+                $(this).find("td").each(function (j) {
+                    switch (j) {
+                        case 0:
+                            id = $(this).find("input")[0].value;
+                            break;
+                        case 1:
+                            absorbance = $(this)[0].innerHTML;
+                            break;
+                        case 2:
+                            factor = $(this)[0].innerHTML;
+                            break;
+                        case 3:
+                            density = $(this)[0].innerHTML;
+                            break;
+                        case 4:
+                            rackNo = $(this)[0].innerHTML;
+                            break;
+                        case 5:
+                            placeNo = $(this)[0].innerHTML;
+                            break;
+                        case 6:
+                    }
+                });
+                updateProject(id, absorbance, factor, density, rackNo, placeNo);
+            }
+        })
+        setTimeout(getOneProjectsScalingTime, 1050, paramid);
+
+        // setTimeout(function () {
+        //     args = $("#scaling_time input")[0].id;
+        //     console.log(args);
+        //     setTimeout(updateProjectsScaling, 100, paramid, args);
+        // }, 1200);
     });
     $("#scaling_time").on("click", 'input', function () {
         //

@@ -178,7 +178,7 @@ public class ProjectTestImpl implements ProjectTest {
         System.out.println(id);
         List<Map<String, Object>> maps;
             maps = selectDao.selectList(
-                    "SELECT pp.diluent_place pp.diluent_size pp.dilution_sample_size p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length FROM project p \n" +
+                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length FROM project p \n" +
                             "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
                             "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id  \n" +
                             "WHERE p.id = " + id +

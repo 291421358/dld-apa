@@ -117,13 +117,15 @@ public class ParamImpl implements ParamIntf {
 
         p.setId(id);
         p = projectParamMapper.selectOne(p);
+        String param = p.toLitString();
         carryDigit(p,"P");
+
 
         Code code = this.code.queryNextCode();
         StringBuilder text =  new StringBuilder(code.getCode());
         text = text.append(",").append(total).append(",").append(id).append(",");
 
-
+        text = text.append(param);
         text = new StringBuilder(DateUtils.unicodeEncodeOnlyCN(text.toString()));
 
         Scaling scaling = scalingMapper.queryById(p.getFactor());
@@ -141,6 +143,7 @@ public class ParamImpl implements ParamIntf {
         criteria.andBetween("starttime", p.getFactor(), preDate);
 
         List<Project> projects = projectMapper.selectByExample(example);
+
 
         for (Project project : projects) {
             text.append(project.getDensity()).append(",").append(project.getAbsorbance()).append(",");
@@ -161,6 +164,7 @@ public class ParamImpl implements ParamIntf {
         System.out.println(encode);
 
         Process process = null;//Process代表一个进程对象
+        //打开二维码
         QRCodeUtils.openQRCode(encode, process);
         return null;
     }

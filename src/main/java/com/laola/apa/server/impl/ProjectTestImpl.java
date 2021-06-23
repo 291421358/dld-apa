@@ -98,30 +98,30 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public List<Map<String, Object>> selectNeverDo() {
-        return selectDao.selectList("SELECT\n" +
-                "\tp.id id,\n" +
-                "\tp.project_num,\n" +
-                "\tmain_indication_end length,\n" +
-                "\tplace_no placeNo,\n" +
-                "\track_no rackNo,\n" +
-                "\ttype,\n" +
-                "\tdensity,\n" +
-                "\tproject_param_id ppi,\n" +
-                "\thuman_code \n" +
-                "FROM\n" +
-                "\tproject p\n" +
-                "\tLEFT JOIN project_param pp ON pp.id = p.project_param_id \n" +
-                "\tLEFT JOIN project_curve pc on pc.project_id = p.id\n" +
-                "WHERE\n" +
-                "\t\n" +
-                "\t(" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\")\n" +
+        return selectDao.selectList("SELECT " +
+                " p.id id, " +
+                " p.project_num, " +
+                " main_indication_end length, " +
+                " place_no placeNo, " +
+                " rack_no rackNo, " +
+                " type, " +
+                " density, " +
+                " project_param_id ppi, " +
+                " human_code  " +
+                "FROM " +
+                " project p " +
+                " LEFT JOIN project_param pp ON pp.id = p.project_param_id  " +
+                " LEFT JOIN project_curve pc on pc.project_id = p.id " +
+                "WHERE " +
+                "  " +
+                " (" +
+                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\") " +
                 "      or" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY)\n" +
-                "      ) \n" +
-                "\tAND ISNULL( endtime )\n" +
-                "\tand ISNULL(pc.id)" +
-                "\torder by p.id;");
+                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY) " +
+                "      )  " +
+                " AND ISNULL( endtime ) " +
+                " and ISNULL(pc.id)" +
+                " order by p.id limit 80;");
     }
 
     /**
@@ -290,7 +290,7 @@ public class ProjectTestImpl implements ProjectTest {
         List<Map<String, Object>> mapList = selectDao.selectList(sql);
         //取出项目参数名字和id键值对
         List<ProjectParam> projectParams = paramMapper.selectAll();
-        String params[] = new String[20];
+        String params[] = new String[1280];
         //取出项目参数名字和id键值对
         for (ProjectParam param : projectParams) {
             params[param.getId()] = param.getName();
@@ -323,7 +323,7 @@ public class ProjectTestImpl implements ProjectTest {
         List<Map<String, Object>> mapList = selectDao.selectList(sql);
         //取出项目参数名字和id键值对
         List<ProjectParam> projectParams = paramMapper.selectAll();
-        String params[] = new String[20];
+        String params[] = new String[1280];
         //取出项目参数名字和id键值对
         for (ProjectParam param : projectParams) {
             params[param.getId()] = param.getName();

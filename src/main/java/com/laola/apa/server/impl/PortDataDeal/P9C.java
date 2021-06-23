@@ -51,10 +51,16 @@ public class P9C implements PortDataDealService<String,Object> {
         //
         EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
         equipmentStateSever.update(equipmentState);
-
+        int projectDoing = projectTest.isProjectDoing();
         //查询有效的项目
         List<Map<String, Object>> ableList = projectTest.selectNeverDo();
+        int i = 0;
         for (Map<String, Object> ablemap : ableList) {
+            if (i+projectDoing >= 80){
+                break;
+            }else {
+                i++;
+            }
             //循环有效项目
             if ((null != ablemap.get("rackNo") && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo &&
                     rackNo == Integer.parseInt(String.valueOf(ablemap.get("rackNo")))) && !"2".equals(String.valueOf(ablemap.get("type")))) {

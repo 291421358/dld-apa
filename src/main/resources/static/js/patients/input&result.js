@@ -411,6 +411,7 @@ function saveProjectList(projectList) {
         jsonp: 'jsoncallback',
         success: function (event) {
             console.log("保存成功");
+            refush();
             if (event == -2) {
                 alert("请检查试剂位置是否选择!");
             }
@@ -523,7 +524,7 @@ function pjsaveList() {
     // console.log(projectList);
     saveProjectList(projectList);
     setTimeout(getProjectListByDate, 500);
-    setTimeout(refush, 500);
+    // setTimeout(refush, 500);
 }
 
 

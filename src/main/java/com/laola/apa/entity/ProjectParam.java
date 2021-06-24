@@ -822,4 +822,81 @@ public class ProjectParam {
                 ", createtime=" + createtime +
                 '}';
     }
+
+    public String toLitString() {
+        return  id +
+                "-" + name +
+                "-" + chineseName +
+                "-" + computeMethod +
+                "-" + sampleSize +
+                "-" + sampleType +
+                "-" + reagentQuantityNo1 +
+                "-" + reagentQuantityNo2 +
+                "-" + mainWavelength +
+                "-" + auxiliaryWavelength +
+                "-" + decimalDigit +
+                "-" + meterageUnit +
+                "-" + minAbsorbance +
+                "-" + maxAbsorbance +
+                "-" + dilutionMultiple +
+                "-" + dilutionPosition +
+                "-" + mainIndicationBegin +
+                "-" + mainIndicationEnd +
+                "-" + auxiliaryIndicationBegin +
+                "-" + auxiliaryIndicationEnd +
+                "-" + normalLow +
+                "-" + normalHigh +
+                "-" + modifiedFormulaA +
+                "-" + modifiedFormulaB +
+                "-" + otherModifiedFormulaA +
+                "-" + otherModifiedFormulaB +
+                "-" + dilutionDelayPeriod +
+                "-" + factor +
+                "-" + preset_density_low +
+                "-" + preset_density_mid +
+                "-" + preset_density_hight +
+                "-" + diluent_place +
+                "-" + diluent_size +
+                "-" + dilution_sample_size ;
+    }
+
+    public ProjectParam() {
+    }
+
+    public ProjectParam(String param[]) {
+        this.id = Integer.valueOf(param[0]);
+        this.name = param[1];
+        this.chineseName = param[2];
+        this.computeMethod = param[3];
+        this.sampleSize = param[4];
+        this.sampleType = param[5];
+        this.reagentQuantityNo1 = param[6];
+        this.reagentQuantityNo2 = param[7];
+        this.mainWavelength = param[8];
+        this.auxiliaryWavelength = param[9];
+        this.decimalDigit = param[10];
+        this.meterageUnit = param[11];
+        this.minAbsorbance = param[12];
+        this.maxAbsorbance = param[13];
+        this.dilutionMultiple = param[14];
+        this.dilutionPosition = param[15];
+        this.mainIndicationBegin = param[16];
+        this.mainIndicationEnd = param[17];
+        this.auxiliaryIndicationBegin = param[18];
+        this.auxiliaryIndicationEnd = param[19];
+        this.normalLow = param[20];
+        this.normalHigh = param[21];
+        this.modifiedFormulaA = param[22];
+        this.modifiedFormulaB = param[23];
+        this.otherModifiedFormulaA = param[24];
+        this.otherModifiedFormulaB = param[25];
+        this.dilutionDelayPeriod = param[26];
+        this.factor = param[27];
+        this.preset_density_low = param[28];
+        this.preset_density_mid = param[29];
+        this.preset_density_hight = param[30];
+        this.diluent_place = param[31];
+        this.diluent_size = param[32];
+        this.dilution_sample_size = param[33];
+    }
 }

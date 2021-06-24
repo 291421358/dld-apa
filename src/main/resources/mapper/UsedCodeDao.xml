@@ -7,14 +7,14 @@
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="count" column="count" jdbcType="INTEGER"/>
         <result property="total" column="total" jdbcType="VARCHAR"/>
-        <result property="count1" column="count_1" jdbcType="VARCHAR"/>
+        <result property="count2" column="count_2" jdbcType="VARCHAR"/>
         <result property="total2" column="total_2" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UsedCodeMap">
         select
-          id, code, count, total, count_1, total_2
+          id, code, count, total, count_2, total_2
         from laola.used_code
         where id = #{id}
     </select>
@@ -22,7 +22,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UsedCodeMap">
         select
-          id, code, count, total, count_1, total_2
+          id, code, count, total, count_2, total_2
         from laola.used_code
         limit #{offset}, #{limit}
     </select>
@@ -30,7 +30,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UsedCodeMap">
         select
-        id, code, count, total, count_1, total_2
+        id, code, count, total, count_2, total_2
         from laola.used_code
         <where>
             <if test="id != null">
@@ -46,7 +46,7 @@
                 and total = #{total}
             </if>
             <if test="count1 != null and count1 != ''">
-                and count_1 = #{count1}
+                and count_2 = #{count2}
             </if>
             <if test="total2 != null and total2 != ''">
                 and total_2 = #{total2}
@@ -78,7 +78,7 @@
                 total = #{total},
             </if>
             <if test="count1 != null and count1 != ''">
-                count_1 = #{count1},
+                count_2 = #{count2},
             </if>
             <if test="total2 != null and total2 != ''">
                 total_2 = #{total2},
@@ -95,12 +95,12 @@
 
     <update id="minusOneCopyReagentR1">
        UPDATE used_code SET count=(count-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
-       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND count>0 ) as p LIMIT 1);
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id})  ) as p LIMIT 1) AND count>0;
     </update>
 
     <update id="minusOneCopyReagentR2">
        UPDATE used_code SET count_2=(count_2-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
-       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND count_2>0 ) as aa LIMIT 1);
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id})  ) as aa LIMIT 1) AND count_2>0;
     </update>
 
     <select id="getCopies" resultType="java.lang.Integer">

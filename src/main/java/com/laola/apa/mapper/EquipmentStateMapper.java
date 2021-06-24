@@ -63,5 +63,5 @@ public interface EquipmentStateMapper {
      */
     int deleteById(Integer id);
 
-    int temperatureControlCalibration(int i);
+    int temperatureControlCalibration(Float i);
 }

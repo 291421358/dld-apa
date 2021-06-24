@@ -47,7 +47,7 @@ public class EquipmentStateController {
     }
 
     @GetMapping("temperatureControlCalibration")
-    public int temperatureControlCalibration(int i){
+    public int temperatureControlCalibration(float i){
         return this.equipmentStateService.temperatureControlCalibration(i);
     }
 

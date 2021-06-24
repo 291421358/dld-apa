@@ -53,5 +53,5 @@ public interface EquipmentStateserver {
      */
     boolean deleteById(Integer id);
 
-    int temperatureControlCalibration(int i);
+    int temperatureControlCalibration(Float i);
 }

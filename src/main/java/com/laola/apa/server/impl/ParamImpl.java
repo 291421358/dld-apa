@@ -118,6 +118,7 @@ public class ParamImpl implements ParamIntf {
         p.setId(id);
         p = projectParamMapper.selectOne(p);
         String param = p.toLitString();
+        param = param.replace("null", "");
         carryDigit(p,"P");
 
 

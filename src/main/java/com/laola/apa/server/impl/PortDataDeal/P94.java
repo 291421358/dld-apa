@@ -50,7 +50,8 @@ public class P94 implements PortDataDealService<String,Object> {
         int total = Integer.parseInt(split[1]);
         //试剂项目
         String paramStr = split[2];
-        String[] param = paramStr.split("-");
+        paramStr = paramStr.replace("null", "");
+        String[] param = paramStr.split("/");
         String paramid = param[0];
         ProjectParam projectParam = new ProjectParam(param);
         int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);

@@ -1,9 +1,11 @@
 package com.laola.apa.server.impl.PortDataDeal;
 
 import com.laola.apa.costant.AlgorithmConstant;
+import com.laola.apa.entity.ProjectParam;
 import com.laola.apa.entity.RegentPlace;
 import com.laola.apa.entity.Scaling;
 import com.laola.apa.entity.UsedCode;
+import com.laola.apa.mapper.ProjectParamMapper;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.String2Hex;
@@ -24,6 +26,8 @@ public class P94 implements PortDataDealService<String,Object> {
     ProjectTest projectTest;
     @Autowired
     ScalingIntf scalingIntf;
+    @Autowired
+    private ProjectParamMapper projectParamMapper;
     private static final Logger logger = LoggerFactory.getLogger(P94.class);
 
     /**
@@ -44,8 +48,16 @@ public class P94 implements PortDataDealService<String,Object> {
         String code = split[0];
         //试剂总量
         int total = Integer.parseInt(split[1]);
-        //试剂项目id
-        String paramid = split[2];
+        //试剂项目
+        String paramStr = split[2];
+        String[] param = paramStr.split("-");
+        String paramid = param[0];
+        ProjectParam projectParam = new ProjectParam(param);
+        int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
+        logger.info("update"+i);
+        if (i == 0){
+            projectParamMapper.insertSelective(projectParam);
+        }
         //试剂位置
         String place = string.substring(4, 6);
         //计算方法

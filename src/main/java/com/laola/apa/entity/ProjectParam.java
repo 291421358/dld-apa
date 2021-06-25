@@ -825,39 +825,39 @@ public class ProjectParam {
 
     public String toLitString() {
         return  id +
-                "-" + name +
-                "-" + chineseName +
-                "-" + computeMethod +
-                "-" + sampleSize +
-                "-" + sampleType +
-                "-" + reagentQuantityNo1 +
-                "-" + reagentQuantityNo2 +
-                "-" + mainWavelength +
-                "-" + auxiliaryWavelength +
-                "-" + decimalDigit +
-                "-" + meterageUnit +
-                "-" + minAbsorbance +
-                "-" + maxAbsorbance +
-                "-" + dilutionMultiple +
-                "-" + dilutionPosition +
-                "-" + mainIndicationBegin +
-                "-" + mainIndicationEnd +
-                "-" + auxiliaryIndicationBegin +
-                "-" + auxiliaryIndicationEnd +
-                "-" + normalLow +
-                "-" + normalHigh +
-                "-" + modifiedFormulaA +
-                "-" + modifiedFormulaB +
-                "-" + otherModifiedFormulaA +
-                "-" + otherModifiedFormulaB +
-                "-" + dilutionDelayPeriod +
-                "-" + factor +
-                "-" + preset_density_low +
-                "-" + preset_density_mid +
-                "-" + preset_density_hight +
-                "-" + diluent_place +
-                "-" + diluent_size +
-                "-" + dilution_sample_size ;
+                "/" + name +
+                "/" + chineseName +
+                "/" + computeMethod +
+                "/" + sampleSize +
+                "/" + sampleType +
+                "/" + reagentQuantityNo1 +
+                "/" + reagentQuantityNo2 +
+                "/" + mainWavelength +
+                "/" + auxiliaryWavelength +
+                "/" + decimalDigit +
+                "/" + meterageUnit +
+                "/" + minAbsorbance +
+                "/" + maxAbsorbance +
+                "/" + dilutionMultiple +
+                "/" + dilutionPosition +
+                "/" + mainIndicationBegin +
+                "/" + mainIndicationEnd +
+                "/" + auxiliaryIndicationBegin +
+                "/" + auxiliaryIndicationEnd +
+                "/" + normalLow +
+                "/" + normalHigh +
+                "/" + modifiedFormulaA +
+                "/" + modifiedFormulaB +
+                "/" + otherModifiedFormulaA +
+                "/" + otherModifiedFormulaB +
+                "/" + dilutionDelayPeriod +
+                "/" + factor +
+                "/" + preset_density_low +
+                "/" + preset_density_mid +
+                "/" + preset_density_hight +
+                "/" + diluent_place +
+                "/" + diluent_size +
+                "/" + dilution_sample_size ;
     }
 
     public ProjectParam() {

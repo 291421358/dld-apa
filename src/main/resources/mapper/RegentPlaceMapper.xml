@@ -6,11 +6,13 @@
           WARNING - @mbg.generated
         -->
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="project_param_id" jdbcType="INTEGER" property="projectParamId"/>
+        <result column="project_param_id" jdbcType="INTEGER" property="project_param_id"/>
         <result column="place" jdbcType="INTEGER" property="place"/>
         <result column="code" jdbcType="INTEGER" property="code"/>
     </resultMap>
-
+    <select id="getAll" resultType="com.laola.apa.entity.RegentPlace">
+        select * from regent_place;
+    </select>
 
 
 </mapper>

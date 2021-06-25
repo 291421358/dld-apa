@@ -28,7 +28,7 @@ public class RegentPlaceController {
      */
     @RequestMapping(value = "updateRegentPlace")
     public int updateRegentPlace(RegentPlace regentPlace){
-        System.out.println(regentPlace.getProjectParamId()+""+regentPlace.getPlace()+regentPlace.getId()+regentPlace.getCode());
+        System.out.println(regentPlace.getProject_param_id()+""+regentPlace.getPlace()+regentPlace.getId()+regentPlace.getCode());
         return regentPlaceIntf.updateRegentPlace(regentPlace);
     }
 }

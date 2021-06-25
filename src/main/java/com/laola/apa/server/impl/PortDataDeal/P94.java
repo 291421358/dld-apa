@@ -130,7 +130,7 @@ public class P94 implements PortDataDealService<String,Object> {
         //设置位置
         regentPlace.setId(Integer.parseInt(place));
         //设置项目id
-        regentPlace.setProjectParamId(Integer.valueOf(paramid));
+        regentPlace.setProject_param_id(Integer.valueOf(paramid));
         regentPlace.setPlace(Integer.parseInt(place));
         //设置试剂code
         regentPlace.setCode(code);

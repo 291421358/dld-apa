@@ -20,7 +20,7 @@ public class RegentPlace implements Serializable {
     /**
      * 项目参数id
      */
-    private Integer projectParamId;
+    private Integer project_param_id;
 
     /**
      * 位置
@@ -41,12 +41,13 @@ public class RegentPlace implements Serializable {
         this.id = id;
     }
 
-    public Integer getProjectParamId() {
-        return projectParamId;
+    public Integer getProject_param_id() {
+        return project_param_id;
     }
 
-    public void setProjectParamId(Integer projectParamId) {
-        this.projectParamId = projectParamId;
+    public RegentPlace setProject_param_id(Integer project_param_id) {
+        this.project_param_id = project_param_id;
+        return this;
     }
 
     public Integer getPlace() {
@@ -69,9 +70,10 @@ public class RegentPlace implements Serializable {
     }
 
     public RegentPlace(Integer id,Integer projectParamId, Integer place, String code) {
-        this.projectParamId = projectParamId;
+        this.project_param_id = projectParamId;
         this.id = id;
         this.place = place;
         this.code = code;
     }
+
 }

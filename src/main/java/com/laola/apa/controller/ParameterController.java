@@ -3,8 +3,11 @@ package com.laola.apa.controller;
 
 import com.laola.apa.entity.ProjectNamePlace;
 import com.laola.apa.entity.ProjectParam;
+import com.laola.apa.entity.RegentPlace;
+import com.laola.apa.mapper.RegentPlaceMapper;
 import com.laola.apa.server.ParamIntf;
 import com.laola.apa.server.ProjectNamePlaceServer;
+import com.laola.apa.server.impl.ReagentPlaceImpl;
 import com.laola.apa.vo.ProjectListVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +25,8 @@ public class ParameterController {
     private ParamIntf paramIntf;
     @Autowired
     private ProjectNamePlaceServer projectNamePlaceServer;
-
+    @Autowired
+    private RegentPlaceMapper reagentPlace;
 
     /***
      * @apiNote 查询质控标准值
@@ -47,10 +51,12 @@ public class ParameterController {
     public Map<String, Object> projectList(){
         List<ProjectListVO> projectList = paramIntf.projectList();
         List<ProjectNamePlace> namePlaceList = projectNamePlaceServer.queryAll(null);
+        List<RegentPlace> reagentPlaceList = reagentPlace.getAll();
+
         Map<String,Object> projectListMap = new HashMap<>();
         projectListMap.put("nameMap",projectList);
         projectListMap.put("namePlaceList",namePlaceList);
-
+        projectListMap.put("reagentPlace",reagentPlaceList);
         return projectListMap;
     }
 

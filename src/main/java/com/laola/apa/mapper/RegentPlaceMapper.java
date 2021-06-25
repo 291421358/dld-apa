@@ -9,6 +9,6 @@ import java.util.List;
 @Service
 public interface RegentPlaceMapper extends MyMapper<RegentPlace> {
 
-    Integer getCopies(int projectId);
+    List<RegentPlace> getAll();
 
 }

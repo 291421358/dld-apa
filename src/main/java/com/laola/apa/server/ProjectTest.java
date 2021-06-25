@@ -25,7 +25,7 @@ public interface ProjectTest {
     List<Map<String, Object>> selectAbleProject();
 
     //查询没做过的项目
-    List<Map<String, Object>> selectNeverDo();
+    List<Map<String, Object>> selectNeverDo(int i);
 
     //查询下一个projectNum
     Integer selectNextProjectNum();

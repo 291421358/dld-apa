@@ -13,16 +13,16 @@ function load() {
             var projectList = data.nameMap;
             var reagentPlace = data.reagentPlace;
             var reagentPlacelist = "<div class='bottom-btn'>";
-            $.each(reagentPlace, function (i, project) {
+            $.each(reagentPlace, function (i, projecti) {
                 var name = '';
                 for (let j = 0; j <projectList.length-1 ; j++) {
-                  if (projectList[i].id = project.project_param_id){
-                      name = projectList[i].name;
+                  if (projectList[j].id == projecti.project_param_id){
+                      name = projectList[j].name;
                   }
                 }
                 reagentPlacelist += "<button class='btn-project' type='button' style='' " +
-                    "paramid='" + project.project_param_id +
-                    "' onclick='onePoject(" + project.project_param_id + ")'>" +
+                    "paramid='" + projecti.project_param_id +
+                    "' onclick='onePoject(" + projecti.project_param_id + ")'>" +
                     name +
                     "</button>";
             });

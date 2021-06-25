@@ -95,9 +95,10 @@ public class ProjectTestImpl implements ProjectTest {
     /**
      * 查询有效未做的项目           （working）
      * @return
+     * @param i
      */
     @Override
-    public List<Map<String, Object>> selectNeverDo() {
+    public List<Map<String, Object>> selectNeverDo(int i) {
         return selectDao.selectList("SELECT " +
                 " p.id id, " +
                 " p.project_num, " +
@@ -121,7 +122,7 @@ public class ProjectTestImpl implements ProjectTest {
                 "      )  " +
                 " AND ISNULL( endtime ) " +
                 " and ISNULL(pc.id)" +
-                " order by p.id limit 80;");
+                " order by p.id limit "+i+";");
     }
 
     /**
@@ -200,7 +201,7 @@ public class ProjectTestImpl implements ProjectTest {
     public int isProjectDoing() {
         List<Map<String, Object>> mapList = selectDao.selectList(
                 "SELECT\n" +
-                "\tCOUNT(*) count\n" +
+                "\tCOUNT(DISTINCT(project_id)) count\n" +
                 "FROM\n" +
                 "\tproject_curve pc\n" +
                 "\tLEFT JOIN project p ON pc.project_id = p.id \n" +

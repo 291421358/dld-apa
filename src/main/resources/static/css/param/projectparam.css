@@ -52,7 +52,7 @@ input{
     }
 
     .layui-col-md3 {
-        width: 25%
+        width: 30.5%
     }
 
     .layui-col-md4 {
@@ -299,7 +299,7 @@ button, input, optgroup, option, select, textarea {
 .bottom-btn {
     width: -webkit-fill-available;
     text-align: center;
-    width: 820px;
+    width: 100px;
 }
 
 .layui-form-label {
@@ -313,7 +313,7 @@ button, input, optgroup, option, select, textarea {
     height: 41px;
 }
 .layui-input-inline {
-    width: 240px;
+    width: 205px;
     /*border-right: 1px solid #c6d5f7;*/
     /*height: 54px;*/
     float: left;

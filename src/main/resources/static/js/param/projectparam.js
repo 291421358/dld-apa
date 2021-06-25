@@ -11,6 +11,23 @@ function load() {
         jsonp: 'jsoncallback',
         success: function (data) {
             var projectList = data.nameMap;
+            var reagentPlace = data.reagentPlace;
+            var reagentPlacelist = "<div class='bottom-btn'>";
+            $.each(reagentPlace, function (i, project) {
+                var name = '';
+                for (let j = 0; j <projectList.length-1 ; j++) {
+                  if (projectList[i].id = project.project_param_id){
+                      name = projectList[i].name;
+                  }
+                }
+                reagentPlacelist += "<button class='btn-project' type='button' style='' " +
+                    "paramid='" + project.project_param_id +
+                    "' onclick='onePoject(" + project.project_param_id + ")'>" +
+                    name +
+                    "</button>";
+            });
+            reagentPlacelist += "</div>";
+            $('#placeList').html(reagentPlacelist);
             var tabStr = "<div class='bottom-btn'>";
             $.each(projectList, function (i, project) {
                 var a = new Map;
@@ -44,6 +61,9 @@ function load() {
  * @param id
  */
 function onePoject(id) {
+    if (id ===0 ){
+        return;
+    }
     $.ajax({
         type: 'get',
         url: urlhead + '/parameter/oneProject',

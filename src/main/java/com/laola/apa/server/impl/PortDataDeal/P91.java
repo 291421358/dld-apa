@@ -71,6 +71,8 @@ public class P91 implements PortDataDealService<String, Object> {
             float density = 0;
             int oldDensity = 0;
             int ppi = 0;
+            int rackNo = 0;
+            int placeNo = 0;
             boolean should = true;
             for (Map<String, Object> ablemap : ableList) {
                 String projectNum = String.valueOf(DateUtils.decodeHEX(result.substring(i * 14, i * 14 + 2)));
@@ -85,6 +87,8 @@ public class P91 implements PortDataDealService<String, Object> {
                     density = ablemap.get("density") == null ? 1 : Float.parseFloat(String.valueOf(ablemap.get("density")));
                     oldDensity = ablemap.get("cup_number") == null ? 1 : Integer.parseInt(String.valueOf(ablemap.get("cup_number")));
                     ppi = ablemap.get("ppi") == null ? 1 : Integer.parseInt(String.valueOf(ablemap.get("ppi")));
+                    rackNo = Integer.parseInt(String.valueOf(ablemap.get("rackNo")));
+                    placeNo = Integer.parseInt(String.valueOf(ablemap.get("placeNo")));
                     //如果该项目存在。不需要再插入项目
                     should = false;
                     break;
@@ -155,6 +159,8 @@ public class P91 implements PortDataDealService<String, Object> {
             projectCurveMapper.insert(projectCurve);
             //数据长度是否等读点数终点 代表最后和一个点读数结束
             if (DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)) == length) {
+                PortDataDealService<String, String> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
+                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d","1");
                 Project project = new Project();
                 //设置结束时间为当前时间
                 project.setEndtime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
@@ -237,6 +243,7 @@ public class P91 implements PortDataDealService<String, Object> {
 
             }
         }
+
         return "";
     }
 

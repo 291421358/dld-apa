@@ -123,9 +123,9 @@ public class ParamImpl implements ParamIntf {
 
         Code code = this.code.queryNextCode();
         StringBuilder text =  new StringBuilder(code.getCode());
-        text = text.append(",").append(total).append(",").append(id).append(",");
+        text = text.append(",").append(total).append(",");
 
-        text = text.append(param);
+        text = text.append(param).append(",");
         text = new StringBuilder(DateUtils.unicodeEncodeOnlyCN(text.toString()));
 
         Scaling scaling = scalingMapper.queryById(p.getFactor());

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class P9C implements PortDataDealService<String,Object> {
     @Override
     public String deal(Object... data) {
         String string = String.valueOf(data[0]);
+
         logger.info("GET PLACE&BAR DATA" + string);
         SerialPort serialPort = (SerialPort) data[1];
         //架号
@@ -51,16 +53,21 @@ public class P9C implements PortDataDealService<String,Object> {
         //
         EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
         equipmentStateSever.update(equipmentState);
-        int projectDoing = projectTest.isProjectDoing();
+        List<Map<String, Object>> ableList = new ArrayList<>();
         //查询有效的项目
-        List<Map<String, Object>> ableList = projectTest.selectNeverDo();
+        if (data.length == 2){
+            logger.info("replace new project PLACE&BAR DATA" + string);
+
+            String sec = String.valueOf(data[1]);
+            if (sec.equals("1")){
+                ableList = projectTest.selectNeverDo(1);
+            }
+        }else {
+
+            ableList = projectTest.selectNeverDo(5);
+        }
         int i = 0;
         for (Map<String, Object> ablemap : ableList) {
-            if (i+projectDoing >= 80){
-                break;
-            }else {
-                i++;
-            }
             //循环有效项目
             if ((null != ablemap.get("rackNo") && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo &&
                     rackNo == Integer.parseInt(String.valueOf(ablemap.get("rackNo")))) && !"2".equals(String.valueOf(ablemap.get("type")))) {

@@ -55,10 +55,10 @@ public class P9C implements PortDataDealService<String,Object> {
         equipmentStateSever.update(equipmentState);
         List<Map<String, Object>> ableList = new ArrayList<>();
         //查询有效的项目
-        if (data.length == 2){
+        if (data.length == 3 ){
             logger.info("replace new project PLACE&BAR DATA" + string);
 
-            String sec = String.valueOf(data[1]);
+            String sec = String.valueOf(data[2]);
             if (sec.equals("1")){
                 ableList = projectTest.selectNeverDo(1);
             }

@@ -51,6 +51,7 @@ public class P94 implements PortDataDealService<String,Object> {
         //试剂项目
         String paramStr = split[2];
         paramStr = paramStr.replace("null", "");
+        paramStr += "/ed";
         String[] param = paramStr.split("/");
         String paramid = param[0];
         ProjectParam projectParam = new ProjectParam(param);

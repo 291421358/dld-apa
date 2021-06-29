@@ -64,7 +64,7 @@ public class P9C implements PortDataDealService<String,Object> {
             }
         }else {
 
-            ableList = projectTest.selectNeverDo(5);
+            ableList = projectTest.selectNeverDo(9);
         }
         int i = 0;
         for (Map<String, Object> ablemap : ableList) {
@@ -94,6 +94,7 @@ public class P9C implements PortDataDealService<String,Object> {
                 }else if (regentPlace<= 5){
                     project.setAbnormal(2);
                 }
+                project.setFactor(" ");
                 projectMapper.updateByPrimaryKeySelective(project);
                 project = null;
                 commond = TestConstant.TestHead + strPlaceNo + " " + commond + " 00 00";

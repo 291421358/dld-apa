@@ -121,7 +121,8 @@ public class ProjectTestImpl implements ProjectTest {
                 "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY) " +
                 "      )  " +
                 " AND ISNULL( endtime ) " +
-                " and ISNULL(pc.id)" +
+                " and ISNULL(pc.id) " +
+                " and ISNULL(p.factor)" +
                 " order by p.id limit "+i+";");
     }
 

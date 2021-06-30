@@ -440,10 +440,19 @@ function getEquipmentState() {
 
 
             var $pureWater = $("#pureWater");
+            // $("#start")
+
 
             var pureWater = data.pureWater;
 
             zaijianshu = data.numUnderTest;
+            if (zaijianshu > 0){
+                $(".start").css("background-image","url(../../css/images/inputAndResult/4.png)");
+                $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-2.png)");
+            }else {
+                $(".start").css("background-image","url(../../css/images/inputAndResult/-e-3.png)");
+                $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-6.png)");
+            }
             if (pureWater === 1) {
                 $pureWater.html("<img src='../../css/images/inputAndResult/chunshui.png' height='59' width='40'>")
             } else {

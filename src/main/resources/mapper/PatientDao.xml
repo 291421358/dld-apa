@@ -72,6 +72,15 @@
         #{inspectionDate}, #{testDoc}, #{testDate}, #{examineDoc}, #{remark} ,#{sampleType})
     </insert>
 
+    <insert id="insertPatientList">
+        insert into
+        patient(id,inspection_date)
+        values
+        <foreach collection="patients" item="patients" index="index" separator=",">
+            (#{patients.id},#{patients.inspectionDate})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update laola.patient
@@ -100,9 +109,9 @@
             <if test="inspectionDoc != null and inspectionDoc != ''">
                 inspection_doc = #{inspectionDoc},
             </if>
-            <if test="inspectionDate != null">
-                inspection_date = #{inspectionDate},
-            </if>
+            <!--<if test="inspectionDate != null">-->
+                <!--inspection_date = #{inspectionDate},-->
+            <!--</if>-->
             <if test="testDoc != null and testDoc != ''">
                 test_doc = #{testDoc},
             </if>

@@ -6,7 +6,7 @@ var code = 0;
 var key = 0;
 var timeout;
 var scrollLength = 0;
-
+var zaijianshu = 0;
 //根据时间获得项目列表
 function getProjectListByDate() {
     // console.log("获取当天所有项目");
@@ -207,8 +207,9 @@ function dealProject(event) {
     // }
     console.log(hangInTheAir + "hangInTheAir" + completed + "completed");
     $("#yijiance_n").html(completed);
-    $("#daijiance_n").html(hangInTheAir);
+    $("#daijiance_n").html(hangInTheAir-zaijianshu);
     $("#zongjiance_n").html(hangInTheAir + completed);
+    $("#zaijiance_n").html(zaijianshu);
     for (let j = 0; j < 30; j++) {
         var jQtr = $('#tab tr:eq(' + l + ')').next();
         if (jQtr.length === 0) {
@@ -278,9 +279,9 @@ function circularReading() {
 
 
 function readDateAndState() {
+    getEquipmentState();
     getRegentPlace();
     getProjectListByDate();
-    getEquipmentState();
     timeout = setTimeout(readDateAndState, 15000);
 }
 
@@ -436,8 +437,13 @@ function getEquipmentState() {
             $("#rackNo").html(data.rackNo);//架号
             $("#placeNo").html(data.placeNo);//位号
             $("#placeNo").html(data.placeNo);//位号
+
+
             var $pureWater = $("#pureWater");
+
             var pureWater = data.pureWater;
+
+            zaijianshu = data.numUnderTest;
             if (pureWater === 1) {
                 $pureWater.html("<img src='../../css/images/inputAndResult/chunshui.png' height='59' width='40'>")
             } else {

@@ -207,12 +207,13 @@ public class Patient implements Serializable {
     public Patient(Integer id, String code) {
         this.id = id;
         this.code = code;
-        this.testDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        this.testDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        this.inspectionDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
     }
 
     public Patient() {
-        this.testDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        this.testDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     public String getSampleType() {

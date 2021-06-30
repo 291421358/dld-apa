@@ -1,6 +1,7 @@
 package com.laola.apa.mapper;
 
 import com.laola.apa.entity.Patient;
+import com.laola.apa.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author tzhh
  * @since 2020-05-06 16:36:23
  */
-public interface PatientMapper {
+public interface PatientMapper extends MyMapper<Patient> {
 
     /**
      * 通过ID查询单条数据
@@ -67,4 +68,12 @@ public interface PatientMapper {
      */
     void deleteProjects();
 
+/**
+ * @apiNote 批量增加病员
+ * @author tzhh
+ * @date 2021/6/30 17:34
+ * @param patients
+ * @return {@link int}
+ **/
+    int insertPatientList(@Param("patients")  List patients);
 }

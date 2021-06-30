@@ -1,10 +1,8 @@
 package com.laola.apa.server.impl;
 
-import com.laola.apa.entity.Project;
-import com.laola.apa.entity.ProjectCurve;
-import com.laola.apa.entity.ProjectParam;
-import com.laola.apa.entity.ProjectQC;
+import com.laola.apa.entity.*;
 import com.laola.apa.mapper.*;
+import com.laola.apa.server.PatientService;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
@@ -26,6 +24,8 @@ public class ProjectTestImpl implements ProjectTest {
     private ProjectParamMapper paramMapper;
     @Resource
     private PatientMapper patientMapper;
+    @Resource
+    private PatientService patientService;
     /**
      * 根据id查曲线
      *
@@ -59,6 +59,18 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public int insertProjectList(List<Map<String, Object>> projectList) {
+        Map<String,String> pMap = new HashMap<>();
+        for (Map<String, Object> map : projectList) {
+//            Patient patient = new Patient(Integer.parseInt(String.valueOf(map.get("humanCode"))), String.valueOf(map.get("")));
+//            patientService.update(patient);
+            pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
+        }
+        List<Patient> pList= new ArrayList<>();
+        for (String value : pMap.values()) {
+            Patient patient = new Patient(Integer.parseInt(value), "");
+            pList.add(patient);
+        }
+        patientMapper.insertPatientList(pList);
          return projectMapper.insertProjectList(projectList);
     }
 

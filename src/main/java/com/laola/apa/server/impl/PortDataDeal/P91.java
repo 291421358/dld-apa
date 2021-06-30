@@ -159,8 +159,8 @@ public class P91 implements PortDataDealService<String, Object> {
             projectCurveMapper.insert(projectCurve);
             //数据长度是否等读点数终点 代表最后和一个点读数结束
             if (DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)) == length) {
-                PortDataDealService<String, String> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
-                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d","1");
+                PortDataDealService<String, Object> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
+                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d",strings[1],"1");
                 Project project = new Project();
                 //设置结束时间为当前时间
                 project.setEndtime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
@@ -174,7 +174,7 @@ public class P91 implements PortDataDealService<String, Object> {
                 if (null == factor || "".equals(factor) || factor.length() < 10) {
                     project.setDensity("无定标");
                     projectMapper.updateByPrimaryKeySelective(project);
-                    return "无定标";
+                    continue;
                 }
                 //取得读数点
                 String mainBegin = projectParam.getMainIndicationBegin();
@@ -240,10 +240,8 @@ public class P91 implements PortDataDealService<String, Object> {
 //                    logger.info(project);
                 }
                 projectMapper.updateByPrimaryKeySelective(project);
-
             }
         }
-
         return "";
     }
 

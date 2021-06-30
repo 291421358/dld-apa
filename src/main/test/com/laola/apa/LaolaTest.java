@@ -32,11 +32,20 @@ public class LaolaTest {
     private ScalingIntf scalingIntf;
 
     @Autowired
-    private ProjectTest projectTest;
+    private ProjectParamMapper projectParamMapper;
     @Test
     public void fTest() {
-        List<ProjectQC> qcLastOneByDataAndType = projectTest.getQcLastOneByDataAndType();
-        return;
+        ProjectParam projectParam = new ProjectParam();
+        projectParam.setId(1);
+        projectParam = projectParamMapper.selectOne(projectParam);
+        String string = projectParam.toLitString();
+        String replace = string.replace("null", "");
+        String[] split = replace.split("-");
+        ProjectParam projectParam1 = new ProjectParam(split);
+        projectParam1.setId(99);
+        int i = projectParamMapper.updateByPrimaryKeySelective(projectParam1);
+        projectParamMapper.insertSelective(projectParam1);
+
     }
 
     @Test

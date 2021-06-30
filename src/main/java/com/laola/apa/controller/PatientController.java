@@ -84,4 +84,16 @@ public class PatientController {
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         return projectTest.getProjectsByCon(starttime, humancode);
     }
+
+    /**
+     * @apiNote 通过日期查询病员列表
+     * @author tzhh
+     * @date 2021/6/30 14:42
+     * @param starttime
+     * @return {@link List< Map< String, Object>>}
+     **/
+    @GetMapping("getPatientListByDate")
+    public List<Patient> getPatientListByDate(String starttime){
+        return patientService.getPatientListByDate(starttime);
+    }
 }

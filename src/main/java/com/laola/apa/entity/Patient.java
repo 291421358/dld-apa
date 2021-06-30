@@ -18,7 +18,7 @@ public class Patient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pid;
+    private Integer p_id;
     /**
      * 当日id
      */
@@ -225,17 +225,17 @@ public class Patient implements Serializable {
     }
 
     public Integer getPid() {
-        return pid;
+        return p_id;
     }
 
     public void setPid(Integer pid) {
-        this.pid = pid;
+        this.p_id = pid;
     }
 
     @Override
     public String toString() {
         return "Patient{" +
-                "pid=" + pid +
+                "pid=" + p_id +
                 ", id=" + id +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +

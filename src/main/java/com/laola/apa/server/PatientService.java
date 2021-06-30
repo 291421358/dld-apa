@@ -3,6 +3,7 @@ package com.laola.apa.server;
 import com.laola.apa.entity.Patient;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Patient)表服务接口
@@ -55,4 +56,12 @@ public interface PatientService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * @apiNote 通过日期查询病员列表
+     * @author tzhh
+     * @date 2021/6/30 14:41
+     * @param starttime
+     * @return {@link List< Map< String, Object>>}
+     **/
+    List<Patient> getPatientListByDate(String starttime);
 }

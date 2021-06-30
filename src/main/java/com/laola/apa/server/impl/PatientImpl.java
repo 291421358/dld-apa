@@ -5,12 +5,14 @@ import com.laola.apa.entity.Project;
 import com.laola.apa.mapper.PatientMapper;
 import com.laola.apa.mapper.ProjectMapper;
 import com.laola.apa.server.PatientService;
+import com.laola.apa.utils.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Patient)表服务实现类
@@ -103,5 +105,25 @@ public class PatientImpl implements PatientService {
         example.createCriteria().andEqualTo("humanCode",humanCode);
         projectMapper.deleteByExample(example);
         return this.patientMapper.deleteById(humanCode) > 0;
+    }
+
+    /**
+     * @apiNote  通过日期查询病员列表
+     * @author tzhh
+     * @date 2021/6/30 14:42
+     * @param starttime
+     * @return {@link List< Map< String, Object>>}
+     **/
+    @Override
+    public List<Patient> getPatientListByDate(String starttime) {
+        starttime = starttime+" 00:00";
+//        Patient patient = new Patient();
+        Example example = new Example(Patient.class);
+        Example.Criteria criteria = example.createCriteria();
+        String preDate = DataUtil.getPreDateByUnit(starttime, 1, 6);
+//                    logger.info("factor:"+factor);
+        criteria.andBetween("inspectionDate", starttime, preDate);
+        List<Patient> patients = patientMapper.selectByExample(example);
+        return patients;
     }
 }

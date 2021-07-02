@@ -46,7 +46,7 @@ public class PatientController {
     @GetMapping("update")
     public int update(Patient patient) {
         System.out.println(patient.toString());
-        return this.patientService.update(patient);
+        return this.patientService.updateById(patient);
     }
 
     /**
@@ -93,7 +93,7 @@ public class PatientController {
      * @return {@link List< Map< String, Object>>}
      **/
     @GetMapping("getPatientListByDate")
-    public List<Patient> getPatientListByDate(String starttime){
-        return patientService.getPatientListByDate(starttime);
+    public List<Patient> getPatientListByDate(String starttime,String code,String name,String id){
+        return patientService.getPatientListByDate(starttime,code,name,id);
     }
 }

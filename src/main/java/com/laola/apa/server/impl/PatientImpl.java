@@ -93,7 +93,17 @@ public class PatientImpl implements PatientService {
         this.patientMapper.update(patient);
         return 1;
     }
+    /**
+     * 修改数据
+     *
+     * @param patient 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public int updateById(Patient patient) {
 
+        return this.patientMapper.updateByPrimaryKeySelective(patient);
+    }
     /**
      * 通过主键删除数据
      * @param humanCode 主键
@@ -112,10 +122,13 @@ public class PatientImpl implements PatientService {
      * @author tzhh
      * @date 2021/6/30 14:42
      * @param starttime
+     * @param code
+     * @param name
+     * @param id
      * @return {@link List< Map< String, Object>>}
      **/
     @Override
-    public List<Patient> getPatientListByDate(String starttime) {
+    public List<Patient> getPatientListByDate(String starttime, String code, String name, String id) {
         starttime = starttime+" 00:00";
 //        Patient patient = new Patient();
         Example example = new Example(Patient.class);
@@ -123,6 +136,15 @@ public class PatientImpl implements PatientService {
         String preDate = DataUtil.getPreDateByUnit(starttime, 1, 6);
 //                    logger.info("factor:"+factor);
         criteria.andBetween("inspectionDate", starttime, preDate);
+        if ( code != null && !code.equals("")){
+            criteria.andEqualTo("code",code);
+        }
+        if ( name != null && !name.equals("")){
+            criteria.andEqualTo("name",name);
+        }
+        if ( id != null && !id.equals("")){
+            criteria.andEqualTo("id",id);
+        }
         List<Patient> patients = patientMapper.selectByExample(example);
         return patients;
     }

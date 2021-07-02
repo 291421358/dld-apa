@@ -3,7 +3,7 @@
 <mapper namespace="com.laola.apa.mapper.PatientMapper">
 
     <resultMap type="com.laola.apa.entity.Patient" id="PatientMap">
-        <result property="pid" column="p_id" jdbcType="INTEGER"/>
+        <result property="p_id" column="p_id" jdbcType="INTEGER"/>
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="code" column="code" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
@@ -38,9 +38,9 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="PatientMap">
+    <select id="queryAll" resultMap="PatientMap"  parameterType="com.laola.apa.entity.Patient">
         select
-        id, code, name,sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc,
+        p_id,id, code, name,sex, Inpatient_area, bed_num, sample_num, Inspection_dept, inspection_doc, inspection_date, test_doc,
         test_date, examine_doc, remark,sample_type
         from laola.patient
         <where>
@@ -48,12 +48,18 @@
             <if test="id != null and id != ''">
                 and id = #{id}
             </if>
+            <if test="pid != null and pid != ''">
+                and p_id = #{pid}
+            </if>
             <if test="code != null and code != ''">
                 and code = #{code}
             </if>
-            <if test="testDate != null and testDate != ''">
-                and  DATE_FORMAT(test_date,"%Y-%m-%d") = #{testDate}
+            <if test="name != null and name != ''">
+                and name = #{name}
             </if>
+            <if test="testDate != null and testDate != ''">
+                and  DATE_FORMAT(inspection_date,"%Y-%m-%d") = #{testDate}
+             </if>
         </where>
               order by p_id desc;
     </select>

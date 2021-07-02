@@ -529,7 +529,7 @@ function saveList() {
                         absorbance = "";// $(this)[0].innerHTML;
                         break;
                     case 2:
-                        factor = "";//$(this)[0].innerHTML;
+                        factor = undefined;//$(this)[0].innerHTML;
                         break;
                     case 3:
                         density = $(this)[0].innerHTML;

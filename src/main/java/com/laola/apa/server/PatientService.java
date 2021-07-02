@@ -48,6 +48,8 @@ public interface PatientService {
      */
     int update(Patient patient);
 
+    int updateById(Patient patient);
+
     /**
      * 通过主键删除数据
      *
@@ -61,7 +63,10 @@ public interface PatientService {
      * @author tzhh
      * @date 2021/6/30 14:41
      * @param starttime
+     * @param code
+     * @param name
+     * @param id
      * @return {@link List< Map< String, Object>>}
      **/
-    List<Patient> getPatientListByDate(String starttime);
+    List<Patient> getPatientListByDate(String starttime, String code, String name, String id);
 }

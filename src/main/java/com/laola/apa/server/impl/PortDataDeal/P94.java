@@ -8,6 +8,7 @@ import com.laola.apa.entity.UsedCode;
 import com.laola.apa.mapper.ProjectParamMapper;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.DataUtil;
+import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.String2Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class P94 implements PortDataDealService<String,Object> {
 
         String string = String.valueOf(data[0]);
         logger.info("PROJECT QR INFORMATION" + string);
-
+        string = DateUtils.unicodeDecode(string);
         String substring6 = string.substring(6);
         String string1 = String2Hex.convertHexToString(substring6);
         String[] split = string1.split(",");

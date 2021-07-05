@@ -84,19 +84,7 @@ public class P9C implements PortDataDealService<String,Object> {
                 if (strPlaceNo.length() == 1) {
                     strPlaceNo = "0" + strPlaceNo;
                 }
-                //
-                Integer regentPlace = usedCodeServer.getCopies(Integer.parseInt(String.valueOf(ablemap.get("id"))));
 
-                Project project = new Project();
-                project.setId(Integer.parseInt(String.valueOf(ablemap.get("id"))));
-                if (regentPlace<=0){
-                    project.setAbnormal(1);
-                }else if (regentPlace<= 5){
-                    project.setAbnormal(2);
-                }
-                project.setFactor(" ");
-                projectMapper.updateByPrimaryKeySelective(project);
-                project = null;
                 commond = TestConstant.TestHead + strPlaceNo + " " + commond + " 00 00";
                 logger.info("发出的命令 123：" + commond);
                 OutputStream outputStream = null;
@@ -120,6 +108,7 @@ public class P9C implements PortDataDealService<String,Object> {
                 if (strPlaceNo.length() == 1) {
                     strPlaceNo = "0" + strPlaceNo;
                 }
+
                 commond = TestConstant.TestHead + strPlaceNo + " " + commond;
                 logger.info("发出的命令；" + commond);
                 OutputStream outputStream = null;
@@ -135,8 +124,19 @@ public class P9C implements PortDataDealService<String,Object> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
+            Integer regentPlace = usedCodeServer.getCopies(Integer.parseInt(String.valueOf(ablemap.get("id"))));
+
+            Project project = new Project();
+            project.setId(Integer.parseInt(String.valueOf(ablemap.get("id"))));
+            if (regentPlace<=0){
+                project.setAbnormal(1);
+            }else if (regentPlace<= 5){
+                project.setAbnormal(2);
+            }
+            //设置factor不为null 使得查询时不将该数据查出来
+            project.setFactor(" ");
+            projectMapper.updateByPrimaryKeySelective(project);
         }
         return "200";
     }

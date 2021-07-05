@@ -52,6 +52,8 @@ public class P91 implements PortDataDealService<String, Object> {
     public String deal(Object... strings) {
         String string = String.valueOf(strings[0]);
         logger.info("GET RESULT DATA" + string);
+        //A15：撞针标志   1/0代表撞针
+        int firingPin = DateUtils.decodeHEX(string.substring(36, 38));
         //判断是结果
         //截取前32 * 2位
         String result = string.substring(64);
@@ -151,8 +153,12 @@ public class P91 implements PortDataDealService<String, Object> {
             if (Float.parseFloat(formatAbs) < Float.parseFloat(minAbsorbance)) {
                 projectSetAbnormal.setAbsorbanceLow(1);
             }
+            if (firingPin == 1){
+                projectSetAbnormal.setAbnormal(9);
+            }
             projectMapper.updateByPrimaryKeySelective(projectSetAbnormal);
             projectSetAbnormal = null;
+
             //吸光度*1000
             projectCurve.setY(String.valueOf(new DecimalFormat("0.0").format(Float.parseFloat(formatAbs) * 1000)));
             //插入曲线上的一个点

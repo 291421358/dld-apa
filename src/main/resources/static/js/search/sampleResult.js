@@ -56,7 +56,8 @@ function getAllDoc() {
             var docLength = (a > b ? a : b) > c ? (a > b ? a : b) : c;
             // console.log(docLength);
             $("#deleteDocBox").height((docLength + 1) * 23 + 30);
-            $(".doc").height(((docLength + 1) * 23) + 5)
+            $(".doc").height(((docLength + 1) * 23) + 5);
+            getPatientListByDate();
         },
         error: function () {
 
@@ -91,15 +92,18 @@ function delDoc(ids) {
  * @param testDate
  * 根据↑  查询项目
  */
-function queryAllPatient(id, code ,testDate) {
+function queryAllPatient(pid, code ,testDate,nam,id) {
+    $("#pid")[0].value = pid;
     $.ajax({
         type: 'get',
         url: urlhead + '/patient/queryAll',
         async: true,
         data: {
-            id: id,
+            pid: pid,
             code: code,
-            testDate: testDate
+            testDate: testDate,
+            name: nam,
+            id: id,
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -112,12 +116,8 @@ function queryAllPatient(id, code ,testDate) {
 
             var datum = data[0];
             // console.log(datum);
+            console.log(datum.inspectionDate, datum.id)
 
-            if (datum == null) {
-                getProjectsByCon(testDate, id);
-                return;
-            }
-            getProjectsByCon(datum.testDate, datum.id);
             $("#bedNum")[0].value = ((datum == null || datum.bedNum == null || datum.bedNum == "") ? "" : datum.bedNum);
             $("#code")[0].value = datum.code;
             $("#examineDoctor option[value='" + datum.examineDoc + "']").attr("selected", "selected");
@@ -132,6 +132,13 @@ function queryAllPatient(id, code ,testDate) {
             // console.log("datum.testDate"+datum.testDate);
             $("#testDate")[0].value = (datum.testDate == null ? "" : datum.testDate.substring(0, 10));
             $("#testDoctor option[value='" + datum.testDoc + "']").attr("selected", "selected");
+
+            if (datum == null) {
+                getProjectsByCon(testDate, id);
+                return;
+            }
+
+            getProjectsByCon(datum.inspectionDate, datum.id);
 
         },
         error: function () {
@@ -335,31 +342,25 @@ function select_inspectionDoc() {
 $(document).ready(function () {
 
     var timeout;
-    $("#query").click(function () {
 
-        $("#id")[0].value = "";
-             $("#code")[0].value= "";
-             $("#name")[0].value= "";
-            $("#sex")[0].value= "";
-             $("#inpatientArea")[0].value= "";
-            $("#bedNum")[0].value= "";
-             $("#sampleNum")[0].value= "";
-             $("#sampleType")[0].value= "";
-             $("#inspectionDept")[0].value= "";
-             $("#inspectionDoc")[0].value= "";
-            $("#testDoctor")[0].value= "";
-             $("#examineDoctor")[0].value= "";
-            $("#remark")[0].value= "";
-        //查询当天所有项目
-        getProjectListByDate();
-        //查询用户
-        showHlist();
-        var id = $("#id")[0].value;
-        var code = $("#code")[0].value;
-        var date = $("#testDate")[0].value;
-        if (   "" === id || "" === code){
-            return;
-        }
+    //查询
+    $("#time").on("change", function () {
+        getPatientListByDate();
+    });
+    $("#no").on("change", function () {
+        getPatientListByDate();
+    });
+    $("#co").on("change", function () {
+        getPatientListByDate();
+    });
+    $("#na").on("change", function () {
+        getPatientListByDate();
+    });
+
+
+    $("#query").click(function () {
+        query()
+
         // queryAllPatient(id, code, date);
     });
     var MM = new Date().getUTCMonth() + 1;
@@ -372,6 +373,7 @@ $(document).ready(function () {
     }
     $("#testDate").attr("value", new Date().getFullYear() + "-" + (MM) + "-" + dd);
     $("#inspectionDate").attr("value", new Date().getFullYear() + "-" + (MM) + "-" + dd);
+    $("#time").attr("value", new Date().getFullYear() + "-" + (MM) + "-" + dd);
 
     $("#deleteDoc").on('click', function () {
         var deleteDocBox = $("#deleteDocBox");
@@ -398,7 +400,7 @@ $(document).ready(function () {
     });
     $("#updatePatient").on('click', function () {
         if ("" === $("#id")[0].value || null == $("#id")[0].value) {
-            alert("请先查询样本信息后再进行修改？？？");
+            alert("请先查询样本信息后再进行修改!");
             return
         }
         $.ajax({
@@ -406,6 +408,7 @@ $(document).ready(function () {
             url: urlhead + '/patient/update',
             async: true,
             data: {
+                pid: $("#pid")[0].value,
                 id: $("#id")[0].value,
                 code: $("#code")[0].value,
                 name: $("#name")[0].value,
@@ -425,7 +428,7 @@ $(document).ready(function () {
             },
             jsonp: 'jsoncallback',
             success: function (data) {
-                queryAllPatient($("#id")[0].value, $("#code")[0].value ,$("#testDate")[0].value);
+                queryAllPatient("", $("#code")[0].value ,$("#time")[0].value,"",$("#id")[0].value);
             },
             error: function () {
 
@@ -577,14 +580,17 @@ $(document).ready(function () {
 });
 
 //根据时间获得项目列表
-function getProjectListByDate() {
+function getPatientListByDate() {
     // console.log("获取当天所有项目");
     $.ajax({
         type: 'get',
-        url: urlhead + '/productTest/getProjectListByData',
+        url: urlhead + '/patient/getPatientListByDate',
         async: true,
         data: {
-            endtime: $("#testDate")[0].value
+            starttime: $("#time")[0].value,
+            code:$("#co")[0].value,
+            name:$("#na")[0].value,
+            id:$("#no")[0].value,
         },
         jsonp: 'jsoncallback',
         success: function (event) {
@@ -598,21 +604,29 @@ function getProjectListByDate() {
 };
 function dealProject(event) {
     var div = "";
-    var jsonArr = JSON.parse(event);
+    // var jsonArr = JSON.parse(event);
     var l = 1;
     var leng = 1;
     //创建一个查找表  函数
-    var maxCode = jsonArr['maxCode'];
-    for (var i = jsonArr['minCode']; i <= maxCode; i++) {
+    // var maxCode = jsonArr['maxCode'];
+    for (var i = 0; i <= event.length; i++) {
 
-        var jsonArrElement = jsonArr[i];
+        var jsonArrElement = event[i];
 
         if (null == jsonArrElement) {
             continue;
         }
-        div += "<div onclick='sss(this);' class='is' data-i="+i+"><label style='line-height: 31px;text-align: center;width: 100px'>样本号：</label>"+i+" </div>";
+        var name = (jsonArrElement.name=="null" || jsonArrElement.name=="" || jsonArrElement.name==null || jsonArrElement.name==undefined )?"":jsonArrElement.name ;
+        var id = jsonArrElement.id;
+        var pid = jsonArrElement.pid;
+        div += "<div onclick='sss(this);' class='is' data-i="+ pid+"><label style='line-height: 31px;text-align: center;width: 115px;cursor: pointer'>样本号："+id+"</label><div style='text-align: center'>姓名："+ name+"</div> </div>";
+
+
     }
-    $("#Hlist").html(div);
+    $("#patientList").html(div);
+    if (event.length > 0) {
+        queryAllPatient(event[0].pid, $("#co")[0].value ,$("#time")[0].value,"" ,"");
+    }
 }
 
 /**
@@ -620,15 +634,37 @@ function dealProject(event) {
  */
 function sss(e){
     var val = e.getAttribute("data-i");
-    console.log(val);
-    queryAllPatient(val, $("#code")[0].value ,$("#testDate")[0].value);
-    var Hlist = $("#Hlist");
-    Hlist.fadeOut("slow");
+    // console.log(val);
+    queryAllPatient(val, $("#co")[0].value ,$("#time")[0].value,"" ,"");
+
+    // var Hlist = $("#Hlist");
+    // Hlist.fadeOut("slow");
 };
-function showHlist(){
-    var Hlist = $("#Hlist");
-    Hlist.find("#updateBox").attr("place", $(this).attr("place"));
-    Hlist.fadeIn("slow");
+
+function query() {
+    $("#id")[0].value = "";
+    $("#code")[0].value= "";
+    $("#name")[0].value= "";
+    $("#sex")[0].value= "";
+    $("#inpatientArea")[0].value= "";
+    $("#bedNum")[0].value= "";
+    $("#sampleNum")[0].value= "";
+    $("#sampleType")[0].value= "";
+    $("#inspectionDept")[0].value= "";
+    $("#inspectionDoc")[0].value= "";
+    $("#testDoctor")[0].value= "";
+    $("#examineDoctor")[0].value= "";
+    $("#remark")[0].value= "";
+    //查询当天所有项目
+    getPatientListByDate();
+    //查询用户
+    // showHlist();
+    var id = $("#id")[0].value;
+    var code = $("#code")[0].value;
+    var date = $("#testDate")[0].value;
+    if (   "" === id || "" === code){
+        return;
+    }
 }
 window.onload = function () {
     getAllDoc();

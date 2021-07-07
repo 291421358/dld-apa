@@ -496,7 +496,7 @@ function saveCalList() {
             ;
 
 
-            timeout = setTimeout(saveCalProject, i * 150, paramid, 6, absorbance, factor, density, place_no, rack_no)
+            timeout = setTimeout(saveCalProject, i * 200, paramid, 6, absorbance, factor, density, place_no, rack_no)
         }
     });
 }
@@ -822,7 +822,7 @@ $(document).ready(function () {
                             absorbance = $(this)[0].innerHTML;
                             break;
                         case 2:
-                            factor = $(this)[0].innerHTML;
+                            factor = $(this)[0].innerHTML===""?undefined:$(this)[0].innerHTML;
                             break;
                         case 3:
                             density = $(this)[0].innerHTML;
@@ -861,7 +861,7 @@ $(document).ready(function () {
                             absorbance = $(this)[0].innerHTML;
                             break;
                         case 2:
-                            factor = $(this)[0].innerHTML;
+                            factor = $(this)[0].innerHTML===""?undefined:$(this)[0].innerHTML;
                             break;
                         case 3:
                             density = $(this)[0].innerHTML;

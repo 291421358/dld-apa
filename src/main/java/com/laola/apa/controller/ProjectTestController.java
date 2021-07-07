@@ -216,7 +216,7 @@ public class ProjectTestController {
 
 
     /**
-     * 获取某一天的数据
+     * 删除某一天的数据
      *
      * @return
      */

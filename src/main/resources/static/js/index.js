@@ -135,6 +135,20 @@ function getEquipmentState(){
         jsonp: 'jsoncallback',
         success: function (data) {
             $("#tem").html("<img style='float: left;margin-left: 0px;margin-top: 2px;height:33px;'  src=\"css/images/temp.png\"> <div style='float: left;margin-top: 10px;margin-left: 10px'>"+data.reactTemp+"°C</div>");
+            if (data.numUnderTest > 0){
+                $("#menu").unbind("click");
+            }else {
+                $("#menu").unbind("click");
+                $("#menu").on("click",'li',function (data) {
+                    var i = data.currentTarget.value;
+                    jumpPage(i);
+                    $("#menu li").each(function () {
+                        $(this).removeAttr("style");
+                    })
+                    $(this).css("background","#3766ed").css("height","30px");
+                });
+            }
+
         },
         error: function () {
             alert("请联系管理员");

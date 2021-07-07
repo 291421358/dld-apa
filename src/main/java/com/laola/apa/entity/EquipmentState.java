@@ -1,5 +1,8 @@
 package com.laola.apa.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -11,6 +14,8 @@ import java.io.Serializable;
 public class EquipmentState implements Serializable {
     private static final long serialVersionUID = 726379449152597495L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
      * 温度

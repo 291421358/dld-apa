@@ -1,6 +1,7 @@
 package com.laola.apa.mapper;
 
 import com.laola.apa.entity.EquipmentState;
+import com.laola.apa.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author tzhh
  * @since 2020-06-01 16:52:05
  */
-public interface EquipmentStateMapper {
+public interface EquipmentStateMapper extends MyMapper<EquipmentState> {
 
     /**
      * 通过ID查询单条数据

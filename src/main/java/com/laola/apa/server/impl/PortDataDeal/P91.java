@@ -314,12 +314,12 @@ public class P91 implements PortDataDealService<String, Object> {
         algorithm = scaling.getAlgorithm();
             density = Formula.getDensity(absorbanceGap, xX, yY, algorithm, calx, rely);
         if (density == -501) {
-            project.setDensity("<0.05");
+            project.setDensity("≤0.5");
             projectMapper.updateByPrimaryKeySelective(project);
             return;
         }
         if (density == -502) {
-            project.setDensity(">="+yY[yY.length-1]);
+            project.setDensity("≥"+xX[xX.length-1]);
             projectMapper.updateByPrimaryKeySelective(project);
             return;
         }

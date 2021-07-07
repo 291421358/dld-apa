@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -26,6 +27,8 @@ public class ProjectTestImpl implements ProjectTest {
     private PatientMapper patientMapper;
     @Resource
     private PatientService patientService;
+    @Resource
+    private EquipmentStateMapper equipmentState;
     /**
      * 根据id查曲线
      *
@@ -59,7 +62,7 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public int insertProjectList(List<Map<String, Object>> projectList) {
-        Map<String,String> pMap = new HashMap<>();
+            Map<String,String> pMap = new HashMap<>();
         for (Map<String, Object> map : projectList) {
 //            Patient patient = new Patient(Integer.parseInt(String.valueOf(map.get("humanCode"))), String.valueOf(map.get("")));
 //            patientService.update(patient);
@@ -135,7 +138,7 @@ public class ProjectTestImpl implements ProjectTest {
                 " AND ISNULL( endtime ) " +
                 " and ISNULL(pc.id) " +
                 " and ISNULL(p.factor)" +
-                " order by p.id limit "+i+";");
+                " order by a desc,p.id limit "+i+";");
     }
 
     /**
@@ -192,7 +195,7 @@ public class ProjectTestImpl implements ProjectTest {
         System.out.println(id);
         List<Map<String, Object>> maps;
             maps = selectDao.selectList(
-                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length FROM project p \n" +
+                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length,p.a FROM project p \n" +
                             "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
                             "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id  \n" +
                             "WHERE p.id = " + id +
@@ -249,6 +252,7 @@ public class ProjectTestImpl implements ProjectTest {
             String diluent_place = String.valueOf(map.get("diluent_place"));
             String diluent_size = String.valueOf(map.get("diluent_size"));
             String dilution_sample_size = String.valueOf(map.get("dilution_sample_size"));
+            String a = String.valueOf(map.get("a"));
             //转换成16进制
             String place1 = DateUtils.DEC2HEX(String.valueOf(2 * Integer.parseInt(place) -1));
             String place2 = DateUtils.DEC2HEX(String.valueOf(2 * Integer.parseInt(place) -1+1));
@@ -263,6 +267,7 @@ public class ProjectTestImpl implements ProjectTest {
             diluent_size = DateUtils.DEC2HEX(diluent_size);
             dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
             String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(dilution_sample_size)+160));
+            a = a.equals("0")?"00":"01";
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {
                 reagentQuantityNo1.insert(0, "0");
@@ -281,8 +286,8 @@ public class ProjectTestImpl implements ProjectTest {
                     //读数点数  延迟取样周期     稀释序号               稀释样本量                  稀释液量               稀释液位置
                     "00 00 " +            Dilution_number   + " " +  dilution_sample_size  +" "+ diluent_size + " " +diluent_place + " "+
             //        红细胞压积波长            传输                   急诊                   稀释标记      取样项目序号
-                    "00"+    " "+            "00"+ " "+           "00" + " "+             "00"+  " "+      "00";
-            commndList.add(commnd);
+                        "00"+    " "+            "00"+ " "+           a + " "+             "00"+  " "+      "00";
+                commndList.add(commnd);
 //            System.out.println(commnd+"projectTest 256");
         }
     }
@@ -386,6 +391,7 @@ public class ProjectTestImpl implements ProjectTest {
             map.put("absorbanceLow",String.valueOf(project0.get("absorbance_low")));
             map.put("absorbanceHeight",String.valueOf(project0.get("absorbance_height")));
             map.put("id",String.valueOf(project0.get("id")));
+            map.put("a",String.valueOf(project0.get("a")));
             ((List)pjtMap.get(humanCode)).add(map);
 
         }
@@ -397,9 +403,10 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         String preDate = DataUtil.getPreDateByDate(starttime, 1);
+        String thisDate = DataUtil.getPreDateByDate(starttime, 0);
         List<Map<String, Object>> mapList = selectDao.selectList(" SELECT p.id,pp.chinese_name,pp.`name`,p.density,pp.meterage_unit,pp.normal_high,pp.normal_low FROM project p \n" +
                 " LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
-                " WHERE type = 1 and human_code = " + humancode + " AND p.starttime BETWEEN '" + starttime + "' and '" + preDate+"' ");
+                " WHERE type = 1 and human_code = " + humancode + " AND p.starttime BETWEEN '" + thisDate + "' and '" + preDate+"' ");
         return mapList;
     }
 
@@ -418,7 +425,7 @@ public class ProjectTestImpl implements ProjectTest {
         for (int i = 0; i < mapList.size(); i++) {
             Map<String, Object> map = mapList.get(i);
             String indate = String.valueOf(map.get("date"));
-            if (!indate.equals(date)){
+            if (!indate.equals(date)    ){
                 date = indate;
                 resultMap.add(map);
             }
@@ -431,6 +438,8 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public void deleteProjects() {
+        EquipmentState t = new EquipmentState(1, 11, null, null, null, null, 0, 0, 0);
+        equipmentState.updateByPrimaryKeySelective(t);
         patientMapper.deleteProjects();
         projectMapper.deleteProjects();
     }

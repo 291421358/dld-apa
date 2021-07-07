@@ -120,6 +120,8 @@ public class Project {
     private Integer absorbanceLow;
 
 
+
+
     /**
      * 浓度 吸光度
      *
@@ -127,6 +129,42 @@ public class Project {
      */
     @Column(name = "absorbance_height")
     private Integer absorbanceHeight;
+
+
+    /**
+     *  a 急诊
+     *
+     * @return
+     */
+    @Column(name = "a")
+    private Integer a;
+
+    /**
+     * b
+     *
+     * @return
+     */
+    @Column(name = "b")
+    private Integer b;
+
+
+    public Integer getA() {
+        return a;
+    }
+
+    public Project setA(Integer a) {
+        this.a = a;
+        return this;
+    }
+
+    public Integer getB() {
+        return b;
+    }
+
+    public Project setB(Integer b) {
+        this.b = b;
+        return this;
+    }
 
     public Integer getAbsorbanceLow() {
         return absorbanceLow;
@@ -276,7 +314,7 @@ public class Project {
                 ", humanCode=" + humanCode +
                 ", placeNo=" + placeNo +
                 ", rackNo=" + rackNo +
-                ", barCode=" + barCode +
+                ", barCode='" + barCode + '\'' +
                 ", type=" + type +
                 ", factor='" + factor + '\'' +
                 ", density='" + density + '\'' +
@@ -284,6 +322,8 @@ public class Project {
                 ", abnormal=" + abnormal +
                 ", absorbanceLow=" + absorbanceLow +
                 ", absorbanceHeight=" + absorbanceHeight +
+                ", a=" + a +
+                ", b=" + b +
                 '}';
     }
 }

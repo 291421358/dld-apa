@@ -90,7 +90,8 @@ function dealProject(event) {
                 //取当前jsonArrElement[k].projectParamId;
                 var paramId = jsonArrElement[k].projectParamId;
                 var projectId = jsonArrElement[k].id;
-
+                var abnormal = jsonArrElement[k].abnormal;
+                var a = jsonArrElement[k].a;
                 var id = $('#tab tr:nth-child(2) td:nth-child(' + (j + 3) + ')')[0].id;
                 // console.log(id, paramId);
                 var pUsed = 0;
@@ -102,29 +103,53 @@ function dealProject(event) {
                         //计数
                         hangInTheAir++;
                         // 带有百分号为正在做的项目，为深蓝色
-                        tr += " style='background:#6bb3b3;color:white' ";//007DDB
+                        if (a == 1){
+                            tr += " style='background:linear-gradient(to right, #6bb3b3 0%,#6bb3b3 90%,red 91%,red 100%); color:white' ";//007DDB
+                        }else {
+                            tr += " style='background:#6bb3b3;color:white' ";//007DDB
+                        }
                     } else {
                         //计数
                         completed++;
                         //已经出结果的项目白色
-                        var abnormal = jsonArrElement[k].abnormal;
+
                         // console.log(abnormal);
                         var title = "";
                         if (abnormal != null && abnormal != "null") {
 
-                            if (abnormal == 1) {
-                                tr += " style='background:rgb(254, 154, 154);' ";
-                                title += "无试剂次数  ";
+                            if (a == 1){
+                                if (abnormal == 1) {
+                                    tr += " style='background:linear-gradient(to right,rgb(254, 154, 154) 0%,rgb(254, 154, 154) 90%,red 91%,red 100%);' ";
+                                    title += "无试剂次数  ";
+                                }
+                                else if (abnormal == 2) {
+                                    tr += " style='background:linear-gradient(to right,#ffff01 0%,#ffff01 90%,red 91%,red 100%);' ";
+                                    title += "缺少试剂次数(≤5)  ";
+                                } else {
+                                    tr += " style='background:linear-gradient(to right,rgb(254, 154, 154) 0%,rgb(254, 154, 154) 90%,red 91%,red 100%);' ";
+                                    title += "其他异常  ";
+                                }
+                            }else {
+                                if (abnormal == 1) {
+                                    tr += " style='background:rgb(254, 154, 154);' ";
+                                    title += "无试剂次数  ";
+                                }
+                                else if (abnormal == 2) {
+                                    tr += " style='background:#ffff01' ";
+                                    title += "缺少试剂次数(≤5)  ";
+                                } else {
+                                    tr += " style='background:rgb(254, 154, 154);' ";
+                                    title += "其他异常  ";
+                                }
                             }
-                            else if (abnormal == 2) {
-                                tr += " style='background:#ffff01' ";
-                                title += "缺少试剂次数(≤5)  ";
-                            } else {
-                                tr += " style='background:rgb(254, 154, 154);' ";
-                                title += "其他异常  ";
-                            }
+
                         } else {
-                            tr += " style='background:white;' ";
+                            if (a == 1){
+                                tr += " style='background:linear-gradient(to right,white 0%,white 90%,red 91%,red 100%);' ";
+                            }else {
+                                tr += " style='background:white;' ";
+                            }
+
                         }
                         if (jsonArrElement[k].absorbanceLow == 1) {
                             title += "吸光度高↑  ";
@@ -135,7 +160,6 @@ function dealProject(event) {
                         if (title != "") {
                             tr += " title ='" + title + "'"
                         }
-
                         markCanBeDelete = 1;
                         if (progress <= 0.5) {
                             progress = "≤0.5";//This inspection reports expression statements which are not assignments or calls. Such statements have no
@@ -180,9 +204,16 @@ function dealProject(event) {
             else
                 tr += "<option> " + (j + 1) + "</option>";
         }
+        console.log(abnormal+"abnormal");
         if (markCanBeDelete === 1 || pUsed === 0) {
             tr += "</select></td>" +
                 "<td style='background-color: #ececec'></td>" +
+                "</tr>";
+            markCanBeDelete = 0;
+            leng++;
+        }else if (abnormal == 9){
+            tr += "</select></td>" +
+                "<td style='background-color: #ececec'>F</td>" +
                 "</tr>";
             markCanBeDelete = 0;
             leng++;
@@ -251,7 +282,7 @@ function dealProject(event) {
                 "<option>4</option>" +
                 "<option>5</option>" +
                 "</select></td>" +
-                "<td></td>" +
+                "<td><input type='checkbox' ></td>" +
                 "</tr>";
             $('#tab tr:eq(' + l + ')').after(tr);
         }
@@ -517,10 +548,14 @@ function pjsaveList() {
                     var projectParamId = $('#tab tr:nth-child(2) td:nth-child(' + (j + 1) + ')')[0].id;
                     // alert(projectNameList[j-2].projectParamId)
                     var humanCode = $('#tab tr:eq(' + i + ') td:nth-child(1)')[0].innerText;
+                    var a = $('#tab tr:eq(' + i + ') td:nth-child(11) input')[0].checked;
+                    console.log('a::::::::::'+a);
                     project.projectParamId = projectParamId;
                     project.placeId = placeId;
                     project.rackId = rackId;
                     project.humanCode = humanCode;
+                    project.a = a;
+
                     projectList.push(project);
                     // saveProject(projectParamId, placeId, rackId,humanCode);
                     // console.log(humanCode);
@@ -666,7 +701,7 @@ $(document).ready(function () {
         var input = '<input my= ' + $(this)[0].innerText + ' type="number" style="width: 42px;border: none;padding: 0;height: 18px;">';
         td.html(input);
         td.find("input")[0].focus();
-    }).on('blur ', 'input', function () {
+    }).on('blur ', 'td:nth-child(1) input', function () {
         //blur 失去焦点
         var message = $(this)[0].value;
         if ($(this)[0].value === "") {

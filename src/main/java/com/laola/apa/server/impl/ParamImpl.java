@@ -130,25 +130,26 @@ public class ParamImpl implements ParamIntf {
         text = new StringBuilder(DateUtils.unicodeEncodeOnlyCN(text.toString()));
 
         Scaling scaling = scalingMapper.queryById(p.getFactor());
-        String algorithm = scaling.getAlgorithm();
-        //根据算法全称获取 算法代码
-        algorithm = AlgorithmConstant.algorithm.get(algorithm);
-        text.append(algorithm).append(",");
-
-        Example example = new Example(Project.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("projectParamId", id);
-        criteria.andEqualTo("type", 2);
-        String preDate = DataUtil.getPreDateByUnit(p.getFactor(), 1, 12);
+        if (null == scaling){
+            String algorithm = scaling.getAlgorithm();
+            //根据算法全称获取 算法代码
+            algorithm = AlgorithmConstant.algorithm.get(algorithm);
+            text.append(algorithm).append(",");
+            Example example = new Example(Project.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("projectParamId", id);
+            criteria.andEqualTo("type", 2);
+            String preDate = DataUtil.getPreDateByUnit(p.getFactor(), 1, 12);
 //                    logger.info("factor:"+factor);
-        criteria.andBetween("starttime", p.getFactor(), preDate);
+            criteria.andBetween("starttime", p.getFactor(), preDate);
 
-        List<Project> projects = projectMapper.selectByExample(example);
+            List<Project> projects = projectMapper.selectByExample(example);
 
-
-        for (Project project : projects) {
-            text.append(project.getDensity()).append(",").append(project.getAbsorbance()).append(",");
+            for (Project project : projects) {
+                text.append(project.getDensity()).append(",").append(project.getAbsorbance()).append(",");
+            }
         }
+
 
 
         text.deleteCharAt(text.lastIndexOf(","));

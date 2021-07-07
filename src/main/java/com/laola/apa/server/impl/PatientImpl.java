@@ -85,11 +85,11 @@ public class PatientImpl implements PatientService {
         if (null == patient.getId() || patient.getId()<0){
             return  2;
         }
-        List<Patient> p = this.queryAll(patient);
-        if (0 == p.size()){
-            this.patientMapper.insert(patient);
-            return 2;
-        }
+//        List<Patient> p = this.queryAll(patient);
+//        if (0 == p.size()){
+//            this.patientMapper.insert(patient);
+//            return 2;
+//        }
         this.patientMapper.update(patient);
         return 1;
     }

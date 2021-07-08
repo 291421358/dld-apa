@@ -41,9 +41,10 @@ public class P94 implements PortDataDealService<String,Object> {
 
         String string = String.valueOf(data[0]);
         logger.info("PROJECT QR INFORMATION" + string);
-        string = DateUtils.unicodeDecode(string);
+
         String substring6 = string.substring(6);
         String string1 = String2Hex.convertHexToString(substring6);
+        string1 = DateUtils.unicodeDecode(string1);
         String[] split = string1.split(",");
         //唯一码
         String code = split[0];
@@ -55,6 +56,7 @@ public class P94 implements PortDataDealService<String,Object> {
         paramStr += "/ed";
         String[] param = paramStr.split("/");
         String paramid = param[0];
+
         ProjectParam projectParam = new ProjectParam(param);
         int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
         logger.info("update"+i);

@@ -145,6 +145,7 @@ public class PatientImpl implements PatientService {
         if ( id != null && !id.equals("")){
             criteria.andEqualTo("id",id);
         }
+        example.setOrderByClause(" id");
         List<Patient> patients = patientMapper.selectByExample(example);
         return patients;
     }

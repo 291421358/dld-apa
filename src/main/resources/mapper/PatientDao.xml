@@ -136,21 +136,19 @@
         </set>
         <where>
                 id = #{id}
-            <if test="code != null and code != ''">
-                and code = #{code}
-            </if>
+
             <if test="testDate != null">
-                and DATE_FORMAT(test_date,"%Y-%m-%d") = #{testDate}
+                and DATE_FORMAT(test_date,"%Y-%m-%d") = DATE_FORMAT(#{testDate},"%Y-%m-%d")
             </if>
         </where>
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from laola.patient where id = #{id} and  DATE_FORMAT(test_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d");
+        delete from laola.patient where id = #{id} and  DATE_FORMAT(inspection_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d");
     </delete>
     <delete id="deleteProjects">
 
-    delete from laola.patient where DATE_FORMAT(test_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d")  and id  in (select human_code FROM laola.project WHERE endtime is null AND type=1);
+    delete from laola.patient where DATE_FORMAT(inspection_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d")  and id  in (select human_code FROM laola.project WHERE endtime is null AND type=1);
     </delete>
 </mapper>

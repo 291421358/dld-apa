@@ -137,7 +137,7 @@ and (min-resolution:.001dpcm) {
 .state{
     padding: 13px 0 0 0px;
     float: left;
-    width: 830px;
+    width: 867px;
 }
 .state_1{
 float: left;
@@ -640,15 +640,15 @@ option{
     float: left;
 }
 
-#zongjiance, #daijiance, #yijiance, #place, #rack {
+#zongjiance, #daijiance, #yijiance, #place, #rack ,#zaijiance {
     float: left;
 }
 
-#zongjiance, #daijiance, #yijiance, #place, #rack, #zhuangshi2 {
+#zongjiance, #daijiance, #yijiance, #place, #rack, #zhuangshi2 ,#zaijiance {
     margin: 1px 0 0 6px;
 }
 
-#zongjiance_n, #yijiance_n, #daijiance_n, #rackNo, #placeNo {
+#zongjiance_n, #yijiance_n, #daijiance_n, #rackNo, #placeNo , #zaijiance_n {
     width: 35px;
     height: 25px;
     opacity: 1;
@@ -660,7 +660,7 @@ option{
     margin: 10px 0 2px 17px;
 }
 
-#zongjiance_t, #yijiance_t, #daijiance_t, #rack_t, #place_t {
+#zongjiance_t, #yijiance_t, #daijiance_t, #rack_t, #place_t , #zaijiance_t {
     width: 72px;
     height: 11px;
     opacity: 1;

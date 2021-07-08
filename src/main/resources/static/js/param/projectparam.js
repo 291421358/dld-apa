@@ -15,7 +15,7 @@ function load() {
             var reagentPlacelist = "<div class='bottom-btn'>";
             $.each(reagentPlace, function (i, projecti) {
                 var name = '';
-                for (let j = 0; j <projectList.length-1 ; j++) {
+                for (let j = 0; j <projectList.length ; j++) {
                   if (projectList[j].id == projecti.project_param_id){
                       name = projectList[j].name;
                   }

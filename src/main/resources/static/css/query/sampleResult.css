@@ -189,7 +189,7 @@ label {
 
 select {
     border: none;
-    width: 220px;
+    width: 205px;
     background: inherit;
     padding-left: 5px;
 }
@@ -240,8 +240,19 @@ button, input, optgroup, option, select, textarea {
     padding: 10px 0 10px 0;
 }
 
+
+.item-top-2 {
+    border-right: 1px solid #c6d5f7;
+    border-top: 1px solid #c6d5f7;
+    border-left: 1px solid #c6d5f7;
+    height: 30px;
+    width: 1213px;
+    font-size: 15px;
+    padding: 10px 0 10px 20px;
+}
+
 .layui-form {
-    margin-top: 44px;
+    margin-top: 10px;
     margin-left: 20px;
 }
 
@@ -404,18 +415,22 @@ input[type=date] {
     z-index: 2;
     display: none;
 }
-#Hlist {
-    position: absolute;
-    right: 33%;
-    top: 25%;
+#patientList {
+    /*position: absolute;*/
+    /*right: 33%;*/
+    /*top: 25%;*/
     background: white;
-    width: 150px;
-    height: 350px;
-    border: 1px solid #444;
-    border-radius: 1px;
-    z-index: 2;
-    display: none;
+    /*width: 150px;*/
+    /*height: 350px;*/
+    /*border: 1px solid #444;*/
+    /*border-radius: 1px;*/
+    /*z-index: 2;*/
+    /*display: none;*/
     overflow-y: scroll;
+    -webkit-scrollbar: 1px;
+}
+#patientList::-webkit-scrollbar {
+    width:5px;
 }
 #Hlist li{
     list-style: none;
@@ -475,4 +490,12 @@ input[type=date] {
     border-color:  #4E5465 #bbc8ee #b6c3ea #4E5465 ;
 
 
+}
+
+.topin{
+    width: 146px;
+    height: 20px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    margin-right: 70px;
 }

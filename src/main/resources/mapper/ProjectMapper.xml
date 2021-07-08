@@ -22,17 +22,20 @@
         <result column="abnormal" jdbcType="INTEGER" property="abnormal"/>
         <result column="absorbance_low" jdbcType="INTEGER" property="absorbanceLow"/>
         <result column="absorbance_height" jdbcType="INTEGER" property="absorbanceHeight"/>
+        <result column="a" jdbcType="INTEGER" property="a"/>
+        <result column="b" jdbcType="INTEGER" property="b"/>
     </resultMap>
     <insert id="insertProjectList">
         insert into
-        project(id,starttime,endtime,cup_number,project_param_id,project_num,human_code,place_no,rack_no,bar_code,type,factor,density,absorbance)
+        project(id,starttime,endtime,cup_number,project_param_id,project_num,human_code,place_no,rack_no,
+        bar_code,type,factor,density,absorbance,a,b)
         values
         <foreach collection="projects" item="projects" index="index" separator=",">
             (#{projects.id}, #{projects.starttime}, #{projects.endtime}, #{projects.cupNumber},
             #{projects.projectParamId}, #{projects.projectNum},
             #{projects.humanCode}, #{projects.placeId}, #{projects.rackId}, #{projects.barCode}, #{projects.type},
             #{projects.factor}, #{projects.density}
-            , #{projects.absorbance})
+            , #{projects.absorbance} , #{projects.a}, #{projects.b})
         </foreach>
     </insert>
     <delete id="deleteProjectByParamId">

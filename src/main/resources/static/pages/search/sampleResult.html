@@ -13,7 +13,7 @@
 <!--<script src="./../../js/highcharts.js"></script>-->
 <!--<script src="./../../js/exporting.js"></script>-->
 <!--<script src="./../../js/annotations.js"></script>-->
-<script src="./../../js/dateTime.min.js"></script>
+<!--<script src="./../../js/dateTime.min.js"></script>-->
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="print">打印</a>
@@ -27,8 +27,23 @@
     <div class="item-top">
         检测报告显示&操作区
     </div>
+    <div class="item-top-2">
+        <label>送检时间
+            <input id="time" class="topin" type="date">
+        </label>
+        <label>样本号
+            <input id="no" class="topin">
+        </label>
+        <label>条码号
+            <input id="co" class="topin">
+        </label>
+        <label>姓名
+            <input id="na" class="topin">
+        </label>
+    </div>
     <div class="layui-row layui-col-md12" id="details">
-        <div style="width: 28.3333333333%;height: 462px;float: left">
+        <div id="patientList" style="width: 10.3333333333%;height: 462px;float: left;"></div>
+        <div style="width: 26.9333333333%;height: 462px;float: left">
             <div class="item-title">
                 <div>样本信息</div>
             </div>
@@ -117,7 +132,7 @@
                 <label for="inspectionDate" class="layui-form-label">送检日期</label>
                 <div class="layui-select-title noBorder-inline">
                     <input id="inspectionDate" title="inspectionDate" type="date"
-                           style="width: 220px;height: 20px;padding-top: 0">
+                           style="width: 205px;height: 20px;padding-top: 0">
                 </div>
             </div>
             <div class="bottom-white-item">
@@ -130,7 +145,7 @@
             <div class="bottom-white-item b8cce4">
                 <label for="testDate" class="layui-form-label">检验日期</label>
                 <div class="layui-select-title noBorder-inline">
-                    <input id="testDate" title="testDate" type="date" style="width: 220px; height: 20px;padding-top: 0">
+                    <input id="testDate" title="testDate" type="date" style="width: 205px; height: 20px;padding-top: 0">
 
                 </div>
             </div>
@@ -149,7 +164,7 @@
                 </div>
             </div>
         </div>
-        <div id="projects" style="width: 71.6666666666%;height: 447px;float: left">
+        <div id="projects" style="width: 62.6666666666%;height: 447px;float: left">
             <div id="item-title" class="item-title">
                 <label class="menu-label">序号</label>
                 <div class="menu-label">项目名称</div>
@@ -308,6 +323,7 @@
 
         </div>
     </div>
+    <input id="pid" hidden>
 </div>
 <div id="canvasDiv" style="width: 421px;height: 250px">
     <canvas id="canvas" width="260" height="250">

@@ -66,7 +66,9 @@ public class ProjectTestImpl implements ProjectTest {
         for (Map<String, Object> map : projectList) {
 //            Patient patient = new Patient(Integer.parseInt(String.valueOf(map.get("humanCode"))), String.valueOf(map.get("")));
 //            patientService.update(patient);
-            pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
+            if (pMap.get(String.valueOf(map.get("humanCode"))) == null){
+                pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
+            }
         }
         List<Patient> pList= new ArrayList<>();
         for (String value : pMap.values()) {

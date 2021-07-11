@@ -66,33 +66,33 @@ public class P94 implements PortDataDealService<String,Object> {
         //试剂位置
         String place = string.substring(4, 6);
         //计算方法
-        String algorithm = split[3];
-        //根据算法代码获得计算方法全称
-        algorithm = AlgorithmConstant.algorithm.get(algorithm);
-        //查询或插入
-        UsedCode b = usedCodeServer.queryOrInsert(code,total);
-        setRegentPlace(code, paramid, place);
-        if(b == null){
-            return "";
-        }
-
-
-        List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(Integer.valueOf(paramid));
-
-        String    thistime = DataUtil.now();;
-        if (latestOne != null && latestOne.size() >0) {
-            Map<String, Object> map = latestOne.get(0);
-            Object starttime = map.get("starttime");
-            long dateGap2Now = DataUtil.getDateGap2Now(String.valueOf(starttime));
-            if (dateGap2Now < 6000){
-                thistime = DataUtil.getPreDateByUnit(String.valueOf(starttime), 1, Calendar.MINUTE);
+        if (split.length >=4){
+            String algorithm = split[3];
+            //根据算法代码获得计算方法全称
+            algorithm = AlgorithmConstant.algorithm.get(algorithm);
+            //查询或插入
+            UsedCode b = usedCodeServer.queryOrInsert(code,total);
+            setRegentPlace(code, paramid, place);
+            if(b == null){
+                return "";
             }
+            List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(Integer.valueOf(paramid));
+            String    thistime = DataUtil.now();
+            if (latestOne != null && latestOne.size() >0) {
+                Map<String, Object> map = latestOne.get(0);
+                Object starttime = map.get("starttime");
+                long dateGap2Now = DataUtil.getDateGap2Now(String.valueOf(starttime));
+                if (dateGap2Now < 6000){
+                    thistime = DataUtil.getPreDateByUnit(String.valueOf(starttime), 1, Calendar.MINUTE);
+                }
+            }
+
+            Scaling scaling = new Scaling(thistime,algorithm);
+            scalingIntf.insertScalingAlgorithm(scaling);
+            //添加定标项目
+            insertScalingProject(split, paramid, thistime);
         }
 
-        Scaling scaling = new Scaling(thistime,algorithm);
-        scalingIntf.insertScalingAlgorithm(scaling);
-        //添加定标项目
-        insertScalingProject(split, paramid, thistime);
         return "";
     }
     /**

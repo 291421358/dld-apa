@@ -130,7 +130,7 @@ public class ParamImpl implements ParamIntf {
         text = new StringBuilder(DateUtils.unicodeEncodeOnlyCN(text.toString()));
 
         Scaling scaling = scalingMapper.queryById(p.getFactor());
-        if (null == scaling){
+        if (null != scaling){
             String algorithm = scaling.getAlgorithm();
             //根据算法全称获取 算法代码
             algorithm = AlgorithmConstant.algorithm.get(algorithm);

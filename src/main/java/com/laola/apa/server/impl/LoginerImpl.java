@@ -73,9 +73,22 @@ public class LoginerImpl implements LoginerService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean delByName(Integer id) {
         return this.loginerMapper.deleteById(id) > 0;
     }
+
+    /**
+     * 通过名字删除数据
+     *
+     * @param loginer 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean delByName(Loginer loginer) {
+        return this.loginerMapper.delByName(loginer);
+    }
+
+
 
     /**
      * 验证

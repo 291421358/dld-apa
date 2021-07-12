@@ -63,4 +63,6 @@ public interface LoginerMapper {
     int deleteById(Integer id);
 
     Object verfication(String u, String p);
+
+    boolean delByName(Loginer loginer);
 }

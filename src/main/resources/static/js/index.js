@@ -1,11 +1,13 @@
 $(document).ready(function () {
     $("#menu").on("click",'li',function (data) {
         var i = data.currentTarget.value;
-        jumpPage(i);
-        $("#menu li").each(function () {
-            $(this).removeAttr("style");
-        })
-        $(this).css("background","#3766ed").css("height","30px");
+        if (i > 0){
+            jumpPage(i);
+            $("#menu li").each(function () {
+                $(this).removeAttr("style");
+            })
+            $(this).css("background","#3766ed").css("height","30px");
+        }
     });
 
     $("#quitBtn").on("click",function () {
@@ -21,9 +23,66 @@ $(document).ready(function () {
         $("#dialog").empty().hide(); // 清除弹出页
     });
     $("#in").on("click",function () {
+
         verification();
     });
+    $("#closeLoginner").on("click",function () {
+        $("#loginer").fadeOut("fast");
+    });
+    $("#add").on("click",function () {
+        var p = $("#addP")[0].value;
+        var legitimate = /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z]{6,}$/.exec(p);
+        console.log(legitimate +"合法嗎");//(?=.*[~!@#$%^&*])[\da-zA-Z~!@#$%^&*]
+        if (legitimate == null){
+            alert("请输入六位以上且包含数字字母的密码！")
+            return;
+        }
+        addLoginner();
+    });
+
+    $("#del").on("click",function () {
+        delLoginer();
+    });
 });
+
+
+function addLoginner() {
+    $.ajax({
+        type : "GET",
+        url : urlhead + "/loginer/insert?u="+$("#addU")[0].value+"&p="+$("#addP")[0].value,
+        async : true,
+        date :{
+            u : $("#addU")[0].value,
+            p : $("#addP")[0].value,
+        },
+        jsonp : "jsoncallback",
+        success : function () {
+
+        },
+        error : function () {
+
+        }
+    })
+}
+function delLoginer() {
+    $.ajax({
+        type : "GET",
+        url : urlhead + "/loginer/del?u="+$("#addU")[0].value+"&p="+$("#addP")[0].value,
+        date :{
+            u : $("#addU")[0].value,
+            p : $("#addP")[0].value,
+        },
+        async : true,
+        jsonp : "jsoncallback",
+        success : function () {
+
+        },
+        error : function () {
+
+        }
+    })
+}
+
 function closeJava() {
     $.ajax({
         type : "GET",
@@ -54,6 +113,7 @@ function jumpPage(i) {
     var url = "";
     console.log(i);
     switch (i) {
+
         case 1:
             url = urls[i-1];
             break;
@@ -76,7 +136,8 @@ function jumpPage(i) {
         case 7:
             suspend();
             return;
-
+        case 9:
+            break;
         default:
             return
     }
@@ -86,7 +147,11 @@ function jumpPage(i) {
 $("#deleteProjectBox").fadeOut("fast");
 $("#mask").css({display: 'none'});
 
-
+function showLoginer() {
+    $("#loginer").fadeIn("slow");
+    // $(".opacity_bg").show(); // 显示背景层,覆盖当前页面内容
+    // $("#dialog").show();
+}
 var urlhead = getPort();
 function suspend() {
     $("#quit").fadeIn("slow");
@@ -181,23 +246,31 @@ function showGif() {
 
 function  verification() {
     console.log($("#username")[0].value);
+    var p = $("#password")[0].value;
+    var legitimate = /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z]{6,}$/.exec(p);
+    console.log(legitimate +"合法嗎");//(?=.*[~!@#$%^&*])[\da-zA-Z~!@#$%^&*]
+    if (legitimate == null){
+        alert("请输入六位以上且包含数字字母的密码！")
+        return;
+    }
     $.ajax({
         type:"GET",
-        url : urlhead + "/loginer/verification?un="+$("#username")[0].value+"&pa="+$("#password")[0].value,
+        url : urlhead + "/loginer/verification?un="+$("#username")[0].value+"&pa="+p,
         async:true,
         date:{
             un : $("#username")[0].value,
-            pa : $("#password")[0].value,
+            pa : p,
         },
         jsonp: 'jsoncallback',
         success:function (e) {
-            var a = "<li class='mli' value='2'>检测界面</li>"
-            var b = "<li class='mli' value='3'>参数设置</li>"
-            var c = "<li class='mli' value='4'>查询打印</li>"
-            var d = "<li class='mli' value='5'>仪器维护</li>"
+            var a = "<li class='mli' value='2'>检测界面</li>";
+            var b = "<li class='mli' value='3'>参数设置</li>";
+            var c = "<li class='mli' value='4'>查询打印</li>";
+            var d = "<li class='mli' value='5'>仪器维护</li>";
+            var g = "<div id='dou' onclick='showLoginer()' style='float: left;margin-top: 10px;margin-left: 10px;color: white;font: bold'>用户操作 </div>";
             var f = "<lr  onclick='' id='tem'> <img style='padding-top: 7px;height: 33px' src='css/images/temp.png'> </lr>"
             if (e == 1){
-                $("#menu").html(a+b+c+d+f);
+                $("#menu").html(a+b+c+d+g+f);
                 $("#show").hide();
             }
             else if (e == 2){
@@ -211,4 +284,5 @@ function  verification() {
 
         }
     })
+
 }

@@ -116,6 +116,19 @@ div {
     display: none;
 }
 
+#loginer{
+    left: 613px;
+    top: 19px;
+    width: 377px;
+    height: 54px;
+    color: white;
+    background-color: white;
+    position: absolute;
+    border-radius: 1px;
+    z-index: 2047;
+    display: none;
+}
+
 #closeBtn,#quitBtn{
     margin-left: 10px;
     margin-right: 10px;

@@ -42,6 +42,17 @@ public class LoginerController {
         return this.loginerService.insert(loginer);
     }
 
+    /**
+     * 删除数据
+     *
+     * @param loginer 对象
+     * @return 对象
+     */
+    @GetMapping("del")
+    public boolean del(Loginer loginer) {
+        return this.loginerService.delByName(loginer);
+    }
+
     @GetMapping("verification")
     public int verification(String un,String pa){
         return this.loginerService.verification(un,pa);

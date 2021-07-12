@@ -70,5 +70,8 @@
     <delete id="deleteById">
         delete from laola.loginer where id = #{id}
     </delete>
+    <delete id="delByName">
+        delete from laola.loginer where u = #{u}
+    </delete>
 
 </mapper>

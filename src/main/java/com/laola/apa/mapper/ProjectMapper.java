@@ -22,4 +22,6 @@ public interface ProjectMapper extends MyMapper<Project> {
     void deleteProjectsByDateIdParamId(String dateId, Integer paramId);
 
     List<ProjectQC> getQcLastOneByDataAndType();
+
+    void addby37();
 }

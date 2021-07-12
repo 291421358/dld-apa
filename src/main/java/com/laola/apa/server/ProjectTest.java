@@ -61,4 +61,6 @@ public interface ProjectTest {
 
     //查询每天最后一个质控
     List<ProjectQC> getQcLastOneByDataAndType();
+
+    void addby37();
 }

@@ -475,6 +475,11 @@ public class ProjectTestImpl implements ProjectTest {
         return projectMapper.getQcLastOneByDataAndType();
     }
 
+    @Override
+    public void addby37() {
+        projectMapper.addby37();
+    }
+
 
 }
 

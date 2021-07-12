@@ -48,8 +48,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into laola.loginer(u, p)
-        values (#{u}, #{p})
+        insert into laola.loginer(u, p,t)
+        values (#{u}, #{p} ,#{t})
     </insert>
 
     <!--通过主键修改数据-->

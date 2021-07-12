@@ -43,13 +43,36 @@ $(document).ready(function () {
     $("#del").on("click",function () {
         delLoginer();
     });
+
+    $("#round").on("click",function () {
+        round();
+    });
 });
+var timeout;
+function round() {
+        upp();
+    timeout = setTimeout(round, 37000);
+}
+function upp() {
+    $.ajax({
+        type : "GET",
+        url : urlhead + "/productTest/addby37",
+        async : true,
+        date :{
+        },
+        jsonp : "jsoncallback",
+        success : function () {
 
+        },
+        error : function () {
 
+        }
+    })
+}
 function addLoginner() {
     $.ajax({
         type : "GET",
-        url : urlhead + "/loginer/insert?u="+$("#addU")[0].value+"&p="+$("#addP")[0].value,
+        url : urlhead + "/loginer/insert?u="+$("#addU")[0].value+"&p="+$("#addP")[0].value+"&t="+$("#t")[0].value,
         async : true,
         date :{
             u : $("#addU")[0].value,
@@ -67,7 +90,7 @@ function addLoginner() {
 function delLoginer() {
     $.ajax({
         type : "GET",
-        url : urlhead + "/loginer/del?u="+$("#addU")[0].value+"&p="+$("#addP")[0].value,
+        url : urlhead + "/loginer/del?u="+$("#addU")[0].value,
         date :{
             u : $("#addU")[0].value,
             p : $("#addP")[0].value,

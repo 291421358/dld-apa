@@ -38,6 +38,7 @@
             , #{projects.absorbance} , #{projects.a}, #{projects.b})
         </foreach>
     </insert>
+
     <delete id="deleteProjectByParamId">
       DELETE FROM project WHERE project_param_id=#{paramid};
   </delete>
@@ -55,4 +56,10 @@
         GROUP BY project_param_id,type )
     </select>
 
+    <update id="addby37">
+        update project set density='≤0.5' where id =(
+        SELECT ss from (select id ss from project where ISNULL(density)
+        and DATE_FORMAT(starttime,'%Y-%m-%d')=DATE_FORMAT(now(),'%Y-%m-%d') and type = 1 LIMIT 1)a);
+
+    </update>
 </mapper>

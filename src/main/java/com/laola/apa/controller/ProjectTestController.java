@@ -225,4 +225,16 @@ public class ProjectTestController {
         projectTest.deleteProjects();
         return "200";
     }
+
+
+    /**
+     * 37添加结果的数据
+     *
+     * @return
+     */
+    @RequestMapping(value = "addby37")
+    public String addby37() {
+        projectTest.addby37();
+        return "200";
+    }
 }

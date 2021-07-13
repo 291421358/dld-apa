@@ -63,4 +63,22 @@ public class FutureTaskable   {
         }
     }
 
+    /**
+     * 停止一个线程
+     */
+    public static void stop(String na){
+        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+        int noThreads = currentGroup.activeCount();
+        Thread[] lstThreads = new Thread[noThreads];
+        currentGroup.enumerate(lstThreads);
+        for (int j = 0; j < noThreads; j++) {
+
+            String nm = lstThreads[j].getName();
+            if (nm.equals(na)) {
+                lstThreads[j].stop();
+                System.out.println("STOP THREAD："+nm);
+            }
+        }
+    }
+
 }

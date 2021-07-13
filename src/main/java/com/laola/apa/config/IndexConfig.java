@@ -36,7 +36,7 @@ public class IndexConfig {
 
     @EventListener({ApplicationReadyEvent.class})
     public void applicationReadyEvent1() {
-        FutureTaskable.main(null);
+//        FutureTaskable.main(null);
         }
 
 }

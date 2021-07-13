@@ -1,3 +1,4 @@
+var timeout;
 $(document).ready(function () {
     $("#menu").on("click",'li',function (data) {
         var i = data.currentTarget.value;
@@ -45,13 +46,17 @@ $(document).ready(function () {
     });
 
     $("#round").on("click",function () {
-        round();
+        if (timeout != null){
+            clearTimeout(timeout);
+        }else {
+            round();
+        }
     });
 });
-var timeout;
+
 function round() {
-        upp();
-    timeout = setTimeout(round, 37000);
+    timeout = setTimeout(round, 10000);
+    upp();
 }
 function upp() {
     $.ajax({

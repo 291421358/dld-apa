@@ -6,6 +6,8 @@ import com.laola.apa.entity.ProjectCurve;
 import com.laola.apa.entity.ProjectQC;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.utils.DataUtil;
+import com.laola.apa.utils.SerialUtil;
+import gnu.io.SerialPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -236,5 +238,13 @@ public class ProjectTestController {
     public String addby37() {
         projectTest.addby37();
         return "200";
+    }
+
+    @RequestMapping(value = "lis")
+    public void lis(){
+        SerialUtil serialUtil = new SerialUtil();
+        serialUtil.init("51 43 52 50 2F 61 61 61 61 61 61 61 60 61 60 60 60 61 61 61 55","COM2");
+
+
     }
 }

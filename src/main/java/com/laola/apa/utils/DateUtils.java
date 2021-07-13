@@ -172,6 +172,23 @@ public class DateUtils {
         return sb.toString();
     }
 
+    public static void main(String[] args) {
+        voidConvertToASCII("[{chinese_name=TP, normal_low=31.0, normal_high=0.0, density=≤0.5, bar_code=11111111, name=TP, id=7552, meterage_unit=}]");
+    }
+    //string 轉ascii 十進制
+    public static String voidConvertToASCII(String string)
+    {
+        StringBuilder sb = new StringBuilder();
+        char[] ch = string.toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+            sb.append(Integer.toHexString(Integer.valueOf(ch[i]).intValue())).append(" ");// 加空格
+            // sb.append(Integer.valueOf(ch[i]).intValue());// 不加空格
+//            System. out.println( sb.toString()) ;
+        }
+
+            return  sb.toString();
+    }
+
     /**
      * @apiNote 取得终点数差
      * @author tzhh
@@ -391,7 +408,7 @@ public class DateUtils {
         return absorbanceGap;
     }
 
-    public   void main(String[] args) {
+    public   void mai1n(String[] args) {
         int[] numbers = { 1, 10, 26, 27, 256, 702, 703 };
         for (int n :numbers) {
             String s = ToNumberSystem26(n);

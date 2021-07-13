@@ -296,4 +296,101 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
 
 
 
+    /**
+     * 发送指令
+     * @return
+     */
+    public String init(String command,String com) {
+//        command = DateUtils.unicodeEncode(command);
+        SerialUtil cRead = new SerialUtil();
+        SerialPort serialPort = cRead.startComPort(com);
+        if (serialPort != null) {
+            // 启动线程来处理收到的数据
+            try {
+                byte[] bytes = DateUtils.hexStrToBinaryStr(command);
+                System.out.println("SEND COUNT：" + command.length());//.getBytes("gbk").length);
+                System.out.println(command);
+                outputStream.write(bytes, 0, bytes.length);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return "200";
+        } else {
+            serialPort.close();
+            return "505";
+        }
+    }
+
+    /**
+     * @apiNote 通过程序打开COM1串口，设置监听器以及相关的参数
+     * @author tzhh
+     * @date 2021/5/27 17:04
+     * @param
+     * @return {@link SerialPort}
+     **/
+    public SerialPort startComPort(String com) {
+        // 通过串口通信管理类获得当前连接上的串口列表
+        portList = CommPortIdentifier.getPortIdentifiers();
+
+        while (portList.hasMoreElements()) {
+
+            // 获取相应串口对象
+            portId = (CommPortIdentifier) portList.nextElement();
+            String currentOwner = portId.getCurrentOwner();
+
+            if (null != serialPort && null != currentOwner && (currentOwner.equals(com))){
+                //如果串口对象不为空且是COM1 则返回该端口对象
+                // 设置当前串口的输入输出流
+                try{
+                    inputStream = serialPort.getInputStream();
+                    outputStream = serialPort.getOutputStream();
+                    // 给当前串口添加一个监听器
+                    serialPort.addEventListener(this);
+                    // 设置监听器生效，即：当有数据时通知
+                    serialPort.notifyOnDataAvailable(true);
+
+                    // 设置串口的一些读写参数
+                    // 比特率、数据位、停止位、奇偶校验位
+                    serialPort.setSerialPortParams(9600,
+                            SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+                            SerialPort.PARITY_NONE);
+                } catch (Exception e) {
+                    return serialPort;
+                }
+                return serialPort;
+            }
+//            System.out.println("设备类型：--->" + portId.getPortType());
+            // 判断端口类型是否为串口
+            if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+                // 判断如果COM4//COME1串口存在，就打开该串口
+                if ( com.equals(portId.getName())) {
+                    System.out.println("EquipmentName：---->" + portId.getName());
+                    try {
+                        // 打开串口名字为COM_4(名字任意),延迟为2毫秒
+                        serialPort = (SerialPort) portId.open(com, 2000);
+                        // 设置当前串口的输入输出流
+                        inputStream = serialPort.getInputStream();
+                        outputStream = serialPort.getOutputStream();
+                        // 给当前串口添加一个监听器
+                        serialPort.addEventListener(this);
+                        // 设置监听器生效，即：当有数据时通知
+                        serialPort.notifyOnDataAvailable(true);
+
+                        // 设置串口的一些读写参数
+                        // 比特率、数据位、停止位、奇偶校验位
+                        serialPort.setSerialPortParams(9600,
+                                SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+                                SerialPort.PARITY_NONE);
+                    } catch (Exception e) {
+                        return serialPort;
+                    }
+                    return serialPort;
+                }
+            }
+        }
+        return serialPort;
+    }
+
 }

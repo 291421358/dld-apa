@@ -406,7 +406,7 @@ public class ProjectTestImpl implements ProjectTest {
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         String preDate = DataUtil.getPreDateByDate(starttime, 1);
         String thisDate = DataUtil.getPreDateByDate(starttime, 0);
-        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT p.id,pp.chinese_name,pp.`name`,p.density,pp.meterage_unit,pp.normal_high,pp.normal_low FROM project p \n" +
+        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT p.id,p.bar_code,pp.chinese_name,pp.`name`,p.density,pp.meterage_unit,pp.normal_high,pp.normal_low FROM project p \n" +
                 " LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
                 " WHERE type = 1 and human_code = " + humancode + " AND p.starttime BETWEEN '" + thisDate + "' and '" + preDate+"' ");
         return mapList;

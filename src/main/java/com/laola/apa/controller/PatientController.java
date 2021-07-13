@@ -3,6 +3,10 @@ package com.laola.apa.controller;
 import com.laola.apa.entity.Patient;
 import com.laola.apa.server.PatientService;
 import com.laola.apa.server.ProjectTest;
+import com.laola.apa.task.FutureTaskable;
+import com.laola.apa.utils.DateUtils;
+import com.laola.apa.utils.SerialUtil;
+import gnu.io.SerialPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +86,19 @@ public class PatientController {
      **/
     @GetMapping("getProjectsByCon")
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
-        return projectTest.getProjectsByCon(starttime, humancode);
+        List<Map<String, Object>> projectsByCon = projectTest.getProjectsByCon(starttime, humancode);
+        String string = projectsByCon.toString();
+        String s = DateUtils.voidConvertToASCII(string);
+        SerialUtil serialUtil = new SerialUtil();
+
+        String com2 = serialUtil.init(s, "COM2");
+//        String name = serialUtil.getName();
+//        com2 = serialUtil.init(s, "COM1");
+//        FutureTaskable.stop(name);
+//        SerialUtil serialUtil1 = new SerialUtil();
+//        SerialPort serialPort = serialUtil1.startComPort();
+//        System.out.println(s);
+        return projectsByCon;
     }
 
     /**

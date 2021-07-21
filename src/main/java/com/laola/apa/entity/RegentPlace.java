@@ -32,6 +32,20 @@ public class RegentPlace implements Serializable {
      */
     private String code;
 
+    /**
+     * a  标记
+     * @return
+     */
+    private Integer a;
+
+    public Integer getA() {
+        return a;
+    }
+
+    public RegentPlace setA(Integer a) {
+        this.a = a;
+        return this;
+    }
 
     public Integer getId() {
         return id;

@@ -72,9 +72,12 @@ public class ProjectTestImpl implements ProjectTest {
         }
         List<Patient> pList= new ArrayList<>();
         for (String value : pMap.values()) {
-            Patient patient = new Patient(Integer.parseInt(value), "");
-            pList.add(patient);
+            if (value != null && !value.equals("null")){
+                Patient patient = new Patient(Integer.parseInt(value), "");
+                pList.add(patient);
+            }
         }
+        if (pList.size()>0)
         patientMapper.insertPatientList(pList);
          return projectMapper.insertProjectList(projectList);
     }
@@ -99,7 +102,8 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public List<Map<String, Object>> selectAbleProject() {
-        return selectDao.selectList("select p.id id,p.project_num,main_indication_end length,place_no placeNo,rack_no rackNo,type,density,project_param_id ppi,human_code,p.cup_number from project p" +
+        return selectDao.selectList("select p.id id,p.project_num,main_indication_end length,place_no placeNo" +
+                ",rack_no rackNo,type,density,project_param_id ppi,human_code,p.cup_number from project p" +
                 "                       LEFT JOIN project_param pp on pp.id = p.project_param_id " +
                 "    where \tISNULL(endtime) and (\n" +
                 "\tDATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\")\n" +
@@ -197,7 +201,10 @@ public class ProjectTestImpl implements ProjectTest {
         System.out.println(id);
         List<Map<String, Object>> maps;
             maps = selectDao.selectList(
-                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place, pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum,pp.main_wavelength mainWavelength,pp.main_indication_end length,p.a FROM project p \n" +
+                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place" +
+                            ", pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1" +
+                            ",pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum" +
+                            ",pp.main_wavelength mainWavelength,pp.main_indication_end length,p.a FROM project p \n" +
                             "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
                             "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id  \n" +
                             "WHERE p.id = " + id +
@@ -268,7 +275,7 @@ public class ProjectTestImpl implements ProjectTest {
             diluent_place = DateUtils.DEC2HEX(diluent_place);
             diluent_size = DateUtils.DEC2HEX(diluent_size);
             dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
-            String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(dilution_sample_size)+160));
+            String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(projectNum)+160));
             a = a.equals("0")?"00":"01";
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {
@@ -278,17 +285,21 @@ public class ProjectTestImpl implements ProjectTest {
             if (i.length() <2){
                 i = "0"+i;
             }
+            String mark = "00";
+//            if (null != dilution_sample_size &&Integer.parseInt(dilution_sample_size,16) > 0){
+//                mark = "01";
+//            }
             //     样品位    试剂1位 	      试剂2位 	       样品量    	     试剂1量H
             String commnd = place1 + " " + place2 + " " + samplesize0 + " " + reagentQuantityNo1.substring(0, 2) + " " +
-                    // 试剂1量L                                                      试剂2量
+                    // 试剂1量L                                                      试剂2量   项目序号
                     reagentQuantityNo1.substring(2, 4) + " " + reagentQuantityNo2 + " " + projectNum + " " +
-                    // 项目序号              样品量                波长
+                    // 样品量                波长             读数点数
                     samplesize1 + " " + mainWavelength + " " + length + " "+
 
-                    //读数点数  延迟取样周期     稀释序号               稀释样本量                  稀释液量               稀释液位置
-                    "00 00 " +            Dilution_number   + " " +  dilution_sample_size  +" "+ diluent_size + " " +diluent_place + " "+
+                    //空    延迟取样周期        空        稀释序号                    稀释样本量                  稀释液量               稀释液位置
+                    "00 "+  "00 "+           "00 " +   Dilution_number   + " " +  dilution_sample_size  +" "+ diluent_size + " " +diluent_place + " "+
             //        红细胞压积波长            传输                   急诊                   稀释标记      取样项目序号
-                        "00"+    " "+            "00"+ " "+           a + " "+             "00"+  " "+      "00";
+                        "00"+    " "+            "00"+ " "+           a + " "+             mark+  " "+      "00";
                 commndList.add(commnd);
 //            System.out.println(commnd+"projectTest 256");
         }
@@ -406,7 +417,8 @@ public class ProjectTestImpl implements ProjectTest {
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         String preDate = DataUtil.getPreDateByDate(starttime, 1);
         String thisDate = DataUtil.getPreDateByDate(starttime, 0);
-        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT p.id,p.bar_code,pp.chinese_name,pp.`name`,p.density,pp.meterage_unit,pp.normal_high,pp.normal_low FROM project p \n" +
+        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT p.id,p.bar_code,pp.chinese_name,pp.`name`" +
+                ",p.density,pp.meterage_unit,pp.normal_high,pp.normal_low FROM project p \n" +
                 " LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
                 " WHERE type = 1 and human_code = " + humancode + " AND p.starttime BETWEEN '" + thisDate + "' and '" + preDate+"' ");
         return mapList;

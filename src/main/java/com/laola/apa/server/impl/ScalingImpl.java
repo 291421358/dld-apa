@@ -284,6 +284,11 @@ public class ScalingImpl implements ScalingIntf {
             //减去最小值算份数
             resultList.add((val - min) / gap);
         }
+        List<Object> relresultList = new ArrayList<>();
+        for (Float val : relList) {
+            //减去最小值算份数
+            relresultList.add((val - min) / gap);
+        }
         float step = 10;
         if (x[x.length - 1] - x[0] < 1) {
             step = 100;
@@ -314,7 +319,7 @@ public class ScalingImpl implements ScalingIntf {
 
         param.put("step", step);
         resultList.add(param);
-        resultList.add(relList);
+        resultList.add(relresultList);
         return resultList;
     }
 

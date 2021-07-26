@@ -87,24 +87,20 @@ public class PatientController {
     @GetMapping("getProjectsByCon")
     public List<Map<String, Object>> getProjectsByCon(String starttime, int humancode){
         List<Map<String, Object>> projectsByCon = projectTest.getProjectsByCon(starttime, humancode);
-        String string = projectsByCon.toString();
-        String s = DateUtils.voidConvertToASCII(string);
-        SerialUtil serialUtil = new SerialUtil();
-
-        String com2 = serialUtil.init(s, "COM2");
-//        String name = serialUtil.getName();
-//        com2 = serialUtil.init(s, "COM1");
-//        FutureTaskable.stop(name);
-//        SerialUtil serialUtil1 = new SerialUtil();
-//        SerialPort serialPort = serialUtil1.startComPort();
-//        System.out.println(s);
+//        String string = projectsByCon.toString();
+//        String s = DateUtils.voidConvertToASCII(string);
+//        SerialUtil serialUtil = new SerialUtil();
+//        SerialUtil.closeSerialP();
+//        String com2 = serialUtil.init(s, "COM3");
+//        SerialUtil.closeSerialP();
         return projectsByCon;
     }
 
     /**
      * @apiNote 通过日期查询病员列表
      * @author tzhh
-     * @date 2021/6/30 14:42
+     * @date 2021/6/30 14:427
+     *
      * @param starttime
      * @return {@link List< Map< String, Object>>}
      **/

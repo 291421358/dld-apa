@@ -164,9 +164,10 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             portId = (CommPortIdentifier) portList.nextElement();
             String currentOwner = portId.getCurrentOwner();
 
-            if (null != serialPort && null != currentOwner && (currentOwner.equals("COM1") || currentOwner.equals("COM4") )){
+            if (null != serialPort && null != currentOwner && currentOwner.equals("COM1") && serialPort.getName().indexOf("COM1")>0){
                 //如果串口对象不为空且是COM1 则返回该端口对象
                 // 设置当前串口的输入输出流
+
                 try{
                 inputStream = serialPort.getInputStream();
                 outputStream = serialPort.getOutputStream();
@@ -181,7 +182,9 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                         SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
                         SerialPort.PARITY_NONE);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     return serialPort;
+
                 }
                 return serialPort;
             }
@@ -208,6 +211,8 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                                 SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
                                 SerialPort.PARITY_NONE);
                     } catch (Exception e) {
+//                        System.err.println("SerialUtil.startComPort"+e);
+                        e.printStackTrace();
                         return serialPort;
                     }
                     return serialPort;
@@ -304,7 +309,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
 //        command = DateUtils.unicodeEncode(command);
         SerialUtil cRead = new SerialUtil();
         SerialPort serialPort = cRead.startComPort(com);
-        if (serialPort != null) {
+        if (serialPort != null && serialPort.getName().indexOf(com) >0) {
             // 启动线程来处理收到的数据
             try {
                 byte[] bytes = DateUtils.hexStrToBinaryStr(command);
@@ -315,16 +320,16 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+           closeSerialP();
             return "200";
         } else {
-            serialPort.close();
+            System.out.println("no com"+com);
             return "505";
         }
     }
 
     /**
-     * @apiNote 通过程序打开COM1串口，设置监听器以及相关的参数
+     * @apiNote 通过程序打开COM串口，设置监听器以及相关的参数
      * @author tzhh
      * @date 2021/5/27 17:04
      * @param
@@ -340,7 +345,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             portId = (CommPortIdentifier) portList.nextElement();
             String currentOwner = portId.getCurrentOwner();
 
-            if (null != serialPort && null != currentOwner && (currentOwner.equals(com))){
+            if (null != serialPort && null != currentOwner && (currentOwner.equals(com) && serialPort.getName().indexOf(com)>0)){
                 //如果串口对象不为空且是COM1 则返回该端口对象
                 // 设置当前串口的输入输出流
                 try{
@@ -392,5 +397,16 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
         }
         return serialPort;
     }
-
+    /**
+     * 关闭串口
+     *
+     */
+    public static void closeSerialP() {
+        if(serialPort != null) {
+            serialPort.removeEventListener();
+            serialPort.close();
+            //System.out.println("关闭了串口："+serialPort.getName());
+            serialPort = null;
+        }
+    }
 }

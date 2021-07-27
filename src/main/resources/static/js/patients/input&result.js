@@ -332,10 +332,16 @@ function getRegentPlace() {
             for (let i = 0; i < 6; i++) {
                 var eventElement = event[i];
                 var name = eventElement.name;
+                var a = eventElement.a;
+                if (a == 1) {
+                    a = "x"
+                }else {
+                    a=""
+                }
                 if (name == null){
                     name ="";
                 }
-                $("#n" + (i + 1)).html(name);
+                $("#n" + (i + 1)).html(name+a);
                 var total = null == eventElement.total ? 1: eventElement.total;
                 var count = null == eventElement.count ? "//": eventElement.count;
                 var total_2 = null == eventElement.total_2 ? 1 : eventElement.total_2;
@@ -514,7 +520,7 @@ $(document).ready(function () {
         if (savec === 1) {
             return
         }
-        savec = 1;
+
         pjsaveList();
     });
 });
@@ -572,8 +578,12 @@ function pjsaveList() {
 
     });
     // console.log(projectList);
-    saveProjectList(projectList);
-    setTimeout(getProjectListByDate, 500);
+    if (projectList.length > 0){
+
+        saveProjectList(projectList);
+        setTimeout(getProjectListByDate, 500);
+        savec = 1;
+    }
     // setTimeout(refush, 500);
 }
 

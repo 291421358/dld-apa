@@ -105,11 +105,8 @@ public class ProjectTestImpl implements ProjectTest {
         return selectDao.selectList("select p.id id,p.project_num,main_indication_end length,place_no placeNo" +
                 ",rack_no rackNo,type,density,project_param_id ppi,human_code,p.cup_number from project p" +
                 "                       LEFT JOIN project_param pp on pp.id = p.project_param_id " +
-                "    where \tISNULL(endtime) and (\n" +
-                "\tDATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\")\n" +
-                "\tor\n" +
-                "\tDATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY)\n" +
-                "\t)  order by p.id;");
+                "    where \tISNULL(endtime) " +
+                "order by p.id;");
     }
 
 
@@ -136,12 +133,7 @@ public class ProjectTestImpl implements ProjectTest {
                 " LEFT JOIN project_curve pc on pc.project_id = p.id " +
                 "WHERE " +
                 "  " +
-                " (" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\") " +
-                "      or" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY) " +
-                "      )  " +
-                " AND ISNULL( endtime ) " +
+                " ISNULL( endtime ) " +
                 " and ISNULL(pc.id) " +
                 " and ISNULL(p.factor)" +
                 " order by a desc,p.id limit "+i+";");
@@ -156,12 +148,7 @@ public class ProjectTestImpl implements ProjectTest {
     public Integer selectNextProjectNum() {
         int project_num;
         List<Map<String, Object>> maps = selectDao.selectList("SELECT project_num FROM project p WHERE " +
-                "\t(" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_FORMAT(NOW(),\"%y-%m-%d\")\n" +
-                "      or" +
-                "      DATE_FORMAT(p.starttime,\"%y-%m-%d\") = DATE_SUB(curdate(),INTERVAL 1 DAY)\n" +
-                "      ) \n" +
-                "  AND ISNULL(endtime) ORDER BY p.id desc LIMIT 1");
+                " ISNULL(endtime) ORDER BY p.id desc LIMIT 1");
         if (maps.size() == 0) {
             project_num = 1;
         } else {
@@ -211,7 +198,11 @@ public class ProjectTestImpl implements ProjectTest {
                             "\n");
         System.out.println(maps);
         List<String> commndList = new ArrayList<>();
-        getCommondList(maps, commndList);
+        try{
+            getCommondList(maps, commndList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         if (commndList.size() >= 1){
             return commndList.get(0);
         }else {
@@ -245,7 +236,7 @@ public class ProjectTestImpl implements ProjectTest {
      * @param maps
      * @param commndList
      */
-    private void getCommondList(List<Map<String, Object>> maps, List<String> commndList) {
+    private void getCommondList(List<Map<String, Object>> maps, List<String> commndList) throws Exception {
         for (Map<String, Object> map : maps) {
 //            String place2 = String.valueOf(map.get("place2"));
             String place = String.valueOf(map.get("place"));
@@ -275,7 +266,7 @@ public class ProjectTestImpl implements ProjectTest {
             diluent_place = DateUtils.DEC2HEX(diluent_place);
             diluent_size = DateUtils.DEC2HEX(diluent_size);
             dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
-            String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(projectNum)+160));
+            String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(projectNum,16)+160));
             a = a.equals("0")?"00":"01";
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {
@@ -315,7 +306,7 @@ public class ProjectTestImpl implements ProjectTest {
         String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress,p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
-                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.test_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
+                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
                 "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" and \"" +DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
                 "GROUP BY project.id order by human_code desc\n" +
                 ";";
@@ -348,7 +339,7 @@ public class ProjectTestImpl implements ProjectTest {
         String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress ,p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
-                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.test_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
+                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
                 "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" and \"" +DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
                 "GROUP BY project.id order by human_code desc  limit 15\n" +
                 ";";

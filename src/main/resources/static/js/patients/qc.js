@@ -190,10 +190,10 @@ function saveQC() {
                         project.cpuNumber = $(this)[0].innerHTML;
                         break;
                     case 1:
-                        project.placeId = $(this)[0].innerHTML;
+                        project.rackId = $(this)[0].innerHTML;
                         break;
                     case 2:
-                        project.rackId = $(this)[0].innerHTML;
+                        project.placeId= $(this)[0].innerHTML;
                         break;
                     case 3:
                         break;
@@ -222,9 +222,32 @@ function saveQC() {
         }
 
     });
-    saveProjectList(projectList);
+    saveqcProjectList(projectList);
 }
-
+/**
+ * 保存项目列表
+ */
+function saveqcProjectList(projectList) {
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/productTest/saveProjectList',
+        async: true,
+        data: {
+            projectListStr: JSON.stringify(projectList),
+        },
+        jsonp: 'jsoncallback',
+        success: function (event) {
+            console.log("保存成功");
+            // refush();
+            if (event == -2) {
+                alert("请检查试剂位置是否选择!");
+            }
+        },
+        error: function () {
+            $('#projectname').html("请联系管理员");
+        }
+    });
+}
 
 /**
  * 修改qc标准值

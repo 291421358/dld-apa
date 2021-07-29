@@ -43,7 +43,7 @@ public class DateUtils {
      * @param hexString
      * @return {@link byte[]}
      **/
-    public static byte[] hexStrToBinaryStr(String hexString) {
+    public static byte[] hexStrToBinaryStr(String hexString) throws Exception{
         if (hexString.equals("")) {
             return null;
         }

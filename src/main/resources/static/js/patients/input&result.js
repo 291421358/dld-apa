@@ -238,7 +238,7 @@ function dealProject(event) {
     // }
     console.log(hangInTheAir + "hangInTheAir" + completed + "completed");
     $("#yijiance_n").html(completed);
-    $("#daijiance_n").html(hangInTheAir-zaijianshu);
+    $("#daijiance_n").html((hangInTheAir-zaijianshu)<0?0:(hangInTheAir-zaijianshu));
     $("#zongjiance_n").html(hangInTheAir + completed);
     $("#zaijiance_n").html(zaijianshu);
     for (let j = 0; j < 30; j++) {
@@ -333,7 +333,7 @@ function getRegentPlace() {
                 var eventElement = event[i];
                 var name = eventElement.name;
                 var a = eventElement.a;
-                if (a == 1) {
+                if (a === 1) {
                     a = "x"
                 }else {
                     a=""
@@ -358,8 +358,12 @@ function getRegentPlace() {
                 //设置标题项目名称
                 var $tab = $("#tab tr:nth-child(2)").find("td:nth-child(" + (i + 3) + ")");// td:nth-child("+2+i+")
                 // console.log($tab);
-                $tab.html(name);
-                $tab.attr("id", eventElement.project_param_id);
+                if (a === "x") {
+                    $tab.html("");
+                }else {
+                    $tab.html(name);
+                    $tab.attr("id", eventElement.project_param_id);
+                }
             }
 
         },
@@ -450,6 +454,7 @@ function saveProjectList(projectList) {
         success: function (event) {
             console.log("保存成功");
             refush();
+            savec = 1;
             if (event == -2) {
                 alert("请检查试剂位置是否选择!");
             }
@@ -582,7 +587,7 @@ function pjsaveList() {
 
         saveProjectList(projectList);
         setTimeout(getProjectListByDate, 500);
-        savec = 1;
+
     }
     // setTimeout(refush, 500);
 }

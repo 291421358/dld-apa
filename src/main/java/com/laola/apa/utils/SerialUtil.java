@@ -286,7 +286,12 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
     public static void sendCommond(String command){
         SerialUtil serialUtil = new SerialUtil();
         SerialPort serialPort = serialUtil.startComPort();
-        byte[] bytes = DateUtils.hexStrToBinaryStr(command);
+        byte[] bytes = new byte[0];
+        try {
+            bytes = DateUtils.hexStrToBinaryStr(command);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(command);
         try {
             outputStream.write(bytes,0,bytes.length);

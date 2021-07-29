@@ -31,7 +31,7 @@ public class AdjustedImpl {
 //            byte[] readBuffer = new byte[read];
 //            inputStream.read(readBuffer);
 //            String hexStr = DateUtils.bytes2hexStr(readBuffer);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

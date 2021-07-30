@@ -6,6 +6,8 @@ import com.laola.apa.server.PatientService;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class ProjectTestImpl implements ProjectTest {
     private PatientService patientService;
     @Resource
     private EquipmentStateMapper equipmentState;
+
+    private Logger logger = LoggerFactory.getLogger(ProjectTest.class);
+
     /**
      * 根据id查曲线
      *
@@ -193,7 +198,7 @@ public class ProjectTestImpl implements ProjectTest {
                             ",pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum" +
                             ",pp.main_wavelength mainWavelength,pp.main_indication_end length,p.a FROM project p \n" +
                             "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
-                            "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id  \n" +
+                            "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id and rp.a = 0\n" +
                             "WHERE p.id = " + id +
                             "\n");
         System.out.println(maps);
@@ -201,6 +206,7 @@ public class ProjectTestImpl implements ProjectTest {
         try{
             getCommondList(maps, commndList);
         }catch (Exception e){
+            logger.info("Exception generating project instruction ：id"+id+"content:"+maps);
             e.printStackTrace();
         }
         if (commndList.size() >= 1){
@@ -267,6 +273,9 @@ public class ProjectTestImpl implements ProjectTest {
             diluent_size = DateUtils.DEC2HEX(diluent_size);
             dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
             String Dilution_number = DateUtils.DEC2HEX(String.valueOf(Integer.parseInt(projectNum,16)+160));
+            if (dilution_sample_size.equals("00")){
+                Dilution_number = "00";
+            }
             a = a.equals("0")?"00":"01";
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {

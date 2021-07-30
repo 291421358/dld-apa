@@ -70,4 +70,6 @@ public interface UsedCodeMapper {
     int minusOneCopyReagentR2(int id);
 
     Integer getCopies(int id);
+
+    void minusOneCopyReagentX(int id);
 }

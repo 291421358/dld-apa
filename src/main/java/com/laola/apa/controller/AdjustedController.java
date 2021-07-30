@@ -42,23 +42,23 @@ public class AdjustedController {
     @RequestMapping(value = "init" , method = RequestMethod.GET)
     public String init(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 82 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 82 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     * 清洗八个 E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00
+     * 清洗八个 E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "cleanEight" , method = RequestMethod.GET)
     public String cleanEight(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
     /**
-     * 注射器吸 E5 90 91 0B 01 01 2C 00 00 00 00 00 00 00 00 00
+     * 注射器吸 E5 90 91 0B 01 01 2C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "syringeAbsorb" , method = RequestMethod.GET)
     public String syringeAbsorb(String volume){
@@ -75,12 +75,12 @@ public class AdjustedController {
             volume = volume.substring(0,2)+" "+volume.substring(2);
         }
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 0B 01 "+volume+" 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 0B 01 "+volume+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
     /**
-     * 注射器吹 E5 90 91 0B 00 01 2C 00 00 00 00 00 00 00 00 00
+     * 注射器吹 E5 90 91 0B 00 01 2C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "syringeBlow" , method = RequestMethod.GET)
     public String syringeBlow(String volume){
@@ -98,55 +98,55 @@ public class AdjustedController {
             volume = volume.substring(0,2)+" "+volume.substring(2);
         }
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 0B 00 "+volume+" 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 0B 00 "+volume+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00
+     * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      * 读透射ad
      */
     @RequestMapping(value = "removeCupReadTransmission" , method = RequestMethod.POST)
     public String removeCupReadTransmission(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 05 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
 
     /**
-     * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00
+     * 移开反应杯子 removeCup E5 90 83 05 6D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      * 读散射ad
      */
     @RequestMapping(value = "removeCupReadScattering" , method = RequestMethod.POST)
     public String removeCupReadScattering(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 05 01 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 05 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     * moveBackCup E5 90 83 06 00 00 00 00 00 00 00 00 00 00 00 00
+     * moveBackCup E5 90 83 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "moveBackCup" , method = RequestMethod.POST)
     public String moveBackCup(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 06 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     *  读取 E5 90 9A 00 64 00 00 00 00 00 00 00 00 00 00 00
+     *  读取 E5 90 9A 00 64 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "readAddress" , method = RequestMethod.GET)
     public String readAddress(String address){
         address = DateUtils.DEC2HEX(address);
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 9A 00 "+address+" 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 9A 00 "+address+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         InputStream inputStream;
         byte[] b = new byte[1];
@@ -162,7 +162,7 @@ public class AdjustedController {
     }
 
     /**
-     *  写入 E5 90 9A 88 64 00 00 00 00 00 00 00 00 00 00 00
+     *  写入 E5 90 9A 88 64 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "writeAddress" , method = RequestMethod.POST)
     public String writeAddress(String address,String value){
@@ -170,52 +170,52 @@ public class AdjustedController {
         address = DateUtils.DEC2HEX(address);
         value = DateUtils.DEC2HEX(value);
 
-        String init = cRead.init("E5 90 9A 88 "+address+" "+value+" 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 9A 88 "+address+" "+value+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
 
     /**
-     *  进水 E5 90 91 10 00 01 00 00 00 00 00 00 00 00 00 00
+     *  进水 E5 90 91 10 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "inlet" , method = RequestMethod.POST)
     public String inlet(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 10 00 01 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 10 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     *  进水停止 E5 90 91 10 00 00 00 00 00 00 00 00 00 00 00 00
+     *  进水停止 E5 90 91 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "inletSto" , method = RequestMethod.POST)
     public String inletSto(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 10 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     *  出水 E5 90 91 10 01 01 00 00 00 00 00 00 00 00 00 00
+     *  出水 E5 90 91 10 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "effluent" , method = RequestMethod.POST)
     public String effluent(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 10 01 01 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 10 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
 
     /**
-     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     *  出水停止 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "effluentSto" , method = RequestMethod.POST)
     public String effluentSto(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
@@ -223,12 +223,12 @@ public class AdjustedController {
 
 
     /**
-     *   试剂仓进入 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     *   试剂仓进入 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "tuijin" , method = RequestMethod.GET)
     public String tuijin(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 C9 01 01 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 C9 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return "1";
     }
@@ -236,51 +236,51 @@ public class AdjustedController {
 
 
     /**
-     *  试剂仓推出 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00
+     *  试剂仓推出 E5 90 91 10 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "tuichu" , method = RequestMethod.GET)
     public String tuichu(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 C9 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 C9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
-        
+
         return "1";
     }
 
 
     /**
-     * 请求发送命令取得温度 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     * 请求发送命令取得温度 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "getTemp" , method = RequestMethod.GET)
     public String getTemp(){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
 
         return "1";
     }
 
     /**
-     * 柱塞泵1 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     * 柱塞泵1 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "plungerPump1" , method = RequestMethod.GET)
     public String plungerPump1(String value){
         value = DateUtils.DEC2HEX4Place(value);
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 13 00 "+value+" 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 13 00 "+value+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
 
         return "1";
     }
 
     /**
-     * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00
+     * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "plungerPump2" , method = RequestMethod.GET)
     public String plungerPump2(String value){
         value = DateUtils.DEC2HEX4Place(value);
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 91 12 00 "+value+" 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 91 12 00 "+value+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
 
         return "1";

@@ -42,8 +42,9 @@
     <delete id="deleteProjectByParamId">
       DELETE FROM project WHERE project_param_id=#{paramid};
   </delete>
+    <!--AND type=1-->
     <delete id="deleteProjects">
-      DELETE FROM project WHERE endtime is null AND type=1;
+      DELETE FROM project WHERE endtime is null;
   </delete>
     <delete id="deleteProjectsByDateIdParamId">
       DELETE FROM project WHERE DATE_FORMAT(starttime,"%Y-%m-%d %H:%i") = #{dateId} and project_param_id = #{paramId} and type = 2;

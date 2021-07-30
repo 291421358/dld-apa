@@ -95,15 +95,38 @@
 
     <update id="minusOneCopyReagentR1">
        UPDATE used_code SET count=(count-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
-       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id})  ) as p LIMIT 1) AND count>0;
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND a=0 ) as p LIMIT 1) AND count>0 ;
     </update>
 
     <update id="minusOneCopyReagentR2">
        UPDATE used_code SET count_2=(count_2-1) WHERE code = (SELECT code FROM (SELECT code FROM regent_place
-       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id})  ) as aa LIMIT 1) AND count_2>0;
+       WHERE project_param_id = (SELECT project_param_id FROM project WHERE id = #{id}) AND a=0 ) as aa LIMIT 1) AND count_2>0 ;
+    </update>
+    <update id="minusOneCopyReagentX">
+    UPDATE used_code
+    SET count = ( count - 1 )
+    WHERE
+        CODE = (
+    SELECT CODE
+    FROM
+        ( SELECT CODE FROM regent_place WHERE project_param_id = ( SELECT project_param_id FROM project WHERE id = #{id} ) AND a = 1 ) AS aa
+        LIMIT 1
+        )
+        AND count > 0;
+    UPDATE used_code
+    SET count_2 = ( count_2 - 1 )
+    WHERE
+        CODE = (
+    SELECT CODE
+    FROM
+        ( SELECT CODE FROM regent_place WHERE project_param_id = ( SELECT project_param_id FROM project WHERE id = #{id} ) AND a = 1 ) AS aa
+        LIMIT 1
+        )
+        AND count_2 > 0;
     </update>
 
     <select id="getCopies" resultType="java.lang.Integer">
-          SELECT SUM(count) FROM used_code WHERE  code = (SELECT code FROM project WHERE id = #{projectId}) AND count>0;
+          SELECT SUM(count) FROM used_code WHERE  code = (SELECT code FROM regent_place WHERE project_param_id = (SELECT project_param_id FROM project WHERE id =#{id}) and a=0 limit 1);
+
     </select>
 </mapper>

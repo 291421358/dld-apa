@@ -138,7 +138,7 @@
                 id = #{id}
 
             <if test="testDate != null">
-                and DATE_FORMAT(test_date,"%Y-%m-%d") = DATE_FORMAT(#{testDate},"%Y-%m-%d")
+                and DATE_FORMAT(inspection_date,"%Y-%m-%d") = DATE_FORMAT(#{testDate},"%Y-%m-%d")
             </if>
         </where>
     </update>
@@ -147,8 +147,9 @@
     <delete id="deleteById">
         delete from laola.patient where id = #{id} and  DATE_FORMAT(inspection_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d");
     </delete>
+    <!--AND type=1-->
     <delete id="deleteProjects">
 
-    delete from laola.patient where DATE_FORMAT(inspection_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d")  and id  in (select human_code FROM laola.project WHERE endtime is null AND type=1);
+    delete from laola.patient where DATE_FORMAT(inspection_date,"%y-%m-%d") = DATE_FORMAT(now(),"%y-%m-%d")  and id  in (select human_code FROM laola.project WHERE endtime is null );
     </delete>
 </mapper>

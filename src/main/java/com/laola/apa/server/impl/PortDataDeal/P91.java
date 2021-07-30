@@ -100,7 +100,7 @@ public class P91 implements PortDataDealService<String, Object> {
             //如果该项目存在。不需要再插入项目
             if (should) {
                 System.err.println("unknown project when the result come out");
-                return "出结果时项目不存在";
+                continue;
             }
             if (DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)) == 1) {
                 //试剂减一
@@ -172,8 +172,6 @@ public class P91 implements PortDataDealService<String, Object> {
                 project.setEndtime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
                 //new Date().getTime() + 6000000
                 project.setId(id);
-                // 取得曲线
-                List<Map<String, Object>> selectOneCurve = scalingIntf.selectOneCurve(id);
                 //取得定标因子
                 String factor = projectParam.getFactor();
 
@@ -182,6 +180,9 @@ public class P91 implements PortDataDealService<String, Object> {
                     projectMapper.updateByPrimaryKeySelective(project);
                     continue;
                 }
+                // 取得曲线
+                List<Map<String, Object>> selectOneCurve = scalingIntf.selectOneCurve(id);
+
                 //取得读数点
                 String mainBegin = projectParam.getMainIndicationBegin();
                 String mainEnd = projectParam.getMainIndicationEnd();
@@ -228,14 +229,14 @@ public class P91 implements PortDataDealService<String, Object> {
                 }
 //                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
 
-                if (type == 2) {
+                if (type == 2 || type == 6) {
                     // 定标项目
                     project.setFactor(String.valueOf(new DecimalFormat("0.00").format(density / (absorbanceGap))));
                     project.setAbsorbance(String.valueOf(absorbanceGap));
                 }
 //                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
 
-                if (type == 1 || type == 3) {
+                if (type == 1 || type == 3 || type == 4 || type == 5) {
                     //普通项目或者质控项目
 
                     setDensity(density, ppi, projectParam, project, factor, absorbanceGap);

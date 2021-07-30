@@ -85,10 +85,15 @@ public class OnMessageServer extends Thread {
 
 //            if (projectDoing <= 0) {
                 //样本数量为零  //需要先进行项目准备
-                String before = "e5 90 82 01 02 30 20 00 00 00 00 00 00 00 00 00";//e5 90 81 01 02 30 20 00 00 00 00 00 00 00 00 00
+                String before = "e5 90 82 01 02 30 20 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";//e5 90 81 01 02 30 20 00 00 00 00 00 00 00 00 00
                 //项目准备指令转换为字节码
-                byte[] beforeByte = DateUtils.hexStrToBinaryStr(before);
-                assert beforeByte != null;
+            byte[] beforeByte = new byte[0];
+            try {
+                beforeByte = DateUtils.hexStrToBinaryStr(before);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            assert beforeByte != null;
                 //发送指令
                 outputStream.write(beforeByte, 0, beforeByte.length);
                 for (int i = 0; i <= 20; ) {
@@ -111,7 +116,12 @@ public class OnMessageServer extends Thread {
             //生成命令处理
             st = dealwithst(st, jsonTo, mes, serialPort);
             //字符串转换成16进制字节码
-            byte[] bytes = DateUtils.hexStrToBinaryStr(st);
+            byte[] bytes = new byte[0];
+            try {
+                bytes = DateUtils.hexStrToBinaryStr(st);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //发送字节码串口通讯业务完成
             //code为5 测试项目 直接结束 在 监听处获得数据
             logger.info("st:Message153  the command " + st);

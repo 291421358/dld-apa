@@ -101,7 +101,13 @@ public class UsedCodeImpl implements UsedCodeServer {
     public int minusOneCopyReagent(int id) {
         usedCodeMapper.minusOneCopyReagentR1(id);
         usedCodeMapper.minusOneCopyReagentR2(id);
-        usedCodeMapper.minusOneCopyReagentX(id);
+        try{
+
+            usedCodeMapper.minusOneCopyReagentX(id);
+            usedCodeMapper.minusOneCopyReagentX2(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return 0;
     }
 

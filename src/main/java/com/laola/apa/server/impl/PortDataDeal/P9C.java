@@ -44,15 +44,17 @@ public class P9C implements PortDataDealService<String,Object> {
 
         logger.info("GET PLACE&BAR DATA" + string);
         SerialPort serialPort = (SerialPort) data[1];
+        if (string.indexOf("-")>0){
+            return null;
+        }
         //架号
         Integer rackNo = DateUtils.decodeHEX(string.substring(4, 6));
         //位号
         Integer placeNo = DateUtils.decodeHEX(string.substring(6, 8));
         //条形码scan_back
         String barCode = DateUtils.hexAscii2Str(string.substring(10, string.indexOf("0d")));
-        //
-        EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
-        equipmentStateSever.update(equipmentState);
+
+
         List<Map<String, Object>> ableList = new ArrayList<>();
         //查询有效的项目
         if (data.length == 3 ){
@@ -63,14 +65,22 @@ public class P9C implements PortDataDealService<String,Object> {
                 ableList = projectTest.selectNeverDo(1);
             }
         }else {
-
-            ableList = projectTest.selectNeverDo(9);
+            //
+            EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
+            equipmentStateSever.update(equipmentState);
+            ableList = projectTest.selectNeverDo(40);
         }
         for (Map<String, Object> ablemap : ableList) {
             int i = 0;
             //循环有效项目
-            if ((null != ablemap.get("rackNo") && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo &&
-                    rackNo == Integer.parseInt(String.valueOf(ablemap.get("rackNo")))) && !"2".equals(String.valueOf(ablemap.get("type")))) {
+            boolean b = (null != ablemap.get("rackNo")
+                    && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo
+                    && Integer.parseInt(String.valueOf(ablemap.get("rackNo"))) == rackNo)
+                    && !"2".equals(String.valueOf(ablemap.get("type")))
+                    && !"6".equals(String.valueOf(ablemap.get("type")));
+            if (    b
+                    || (null !=ablemap.get("bar_code") && ablemap.get("bar_code").equals(barCode))
+            ) {
                 //架号位号相同，进入发送功能，取得命令 根据项目id
                 String commond = projectTest.getIdList(Integer.parseInt(String.valueOf(ablemap.get("id"))));
                 //病员信息
@@ -92,19 +102,17 @@ public class P9C implements PortDataDealService<String,Object> {
                     outputStream = serialPort.getOutputStream();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    continue;
                 }
-                byte[] binaryStr = DateUtils.hexStrToBinaryStr(commond);
-                assert binaryStr != null;
-                try {
-                    outputStream.write(binaryStr, 0, binaryStr.length);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-               i = 1;
+
+                if (send(commond, outputStream)) continue;
+                i = 1;
             }
-            if ("2".equals(String.valueOf(ablemap.get("type"))) && (null != ablemap.get("rackNo") && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo &&
+            if (("2".equals(String.valueOf(ablemap.get("type"))) || "6".equals(String.valueOf(ablemap.get("type"))) )
+                    && (null != ablemap.get("rackNo") && Integer.parseInt(String.valueOf(ablemap.get("placeNo"))) == placeNo &&
                     rackNo == Integer.parseInt(String.valueOf(ablemap.get("rackNo"))))) {
                 String commond = projectTest.getIdList(Integer.parseInt(String.valueOf(ablemap.get("id"))));
+
                 String strPlaceNo = String.valueOf(placeNo);
                 if (strPlaceNo.length() == 1) {
                     strPlaceNo = "0" + strPlaceNo;
@@ -117,19 +125,15 @@ public class P9C implements PortDataDealService<String,Object> {
                     outputStream = serialPort.getOutputStream();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    continue;
                 }
-                byte[] binaryStr = DateUtils.hexStrToBinaryStr(commond);
-                assert binaryStr != null;
-                try {
-                    outputStream.write(binaryStr, 0, binaryStr.length);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                if (send(commond, outputStream)) continue;
                 i = 2;
             }
             if (i > 0){
                 Integer regentPlace = usedCodeServer.getCopies(Integer.parseInt(String.valueOf(ablemap.get("id"))));
-
+                logger.info("reagent count："+regentPlace);
                 Project project = new Project();
                 project.setId(Integer.parseInt(String.valueOf(ablemap.get("id"))));
                 if (regentPlace<=0){
@@ -143,5 +147,17 @@ public class P9C implements PortDataDealService<String,Object> {
             }
         }
         return "200";
+    }
+
+    private boolean send(String commond, OutputStream outputStream) {
+        try {
+            byte[] binaryStr = DateUtils.hexStrToBinaryStr(commond);
+            assert binaryStr != null;
+            outputStream.write(binaryStr, 0, binaryStr.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
+        }
+        return false;
     }
 }

@@ -274,6 +274,11 @@ function dealProject(event) {
                 "<option>3</option>" +
                 "<option>4</option>" +
                 "<option>5</option>" +
+                "<option>6</option>" +
+                "<option>7</option>" +
+                "<option>8</option>" +
+                "<option>9</option>" +
+                "<option>10</option>" +
                 "</select></td>" +
                 "<td><select >" +
                 "<option>1</option>" +
@@ -453,8 +458,8 @@ function saveProjectList(projectList) {
         jsonp: 'jsoncallback',
         success: function (event) {
             console.log("保存成功");
-            refush();
             savec = 1;
+            refush();
             if (event == -2) {
                 alert("请检查试剂位置是否选择!");
             }
@@ -559,12 +564,14 @@ function pjsaveList() {
                     var projectParamId = $('#tab tr:nth-child(2) td:nth-child(' + (j + 1) + ')')[0].id;
                     // alert(projectNameList[j-2].projectParamId)
                     var humanCode = $('#tab tr:eq(' + i + ') td:nth-child(1)')[0].innerText;
+                    var barCode = $('#tab tr:eq(' + i + ') td:nth-child(2)')[0].innerText;
                     var a = $('#tab tr:eq(' + i + ') td:nth-child(11) input')[0].checked;
                     console.log('a::::::::::'+a);
                     project.projectParamId = projectParamId;
                     project.placeId = placeId;
                     project.rackId = rackId;
                     project.humanCode = humanCode;
+                    project.barCode = barCode;
                     project.a = a;
 
                     projectList.push(project);
@@ -701,6 +708,32 @@ $(document).ready(function () {
     var deltr;
     var deltab;
     var deltd1;
+
+    function saveProjectListByCode(message,humanCode,a) {
+        var projectList = [];
+        var indexOf = message.indexOf("p");
+        var s = message.substring(indexOf,message.length);
+        var strings = s.split("p");
+        for (let i = 1; i < strings.length; i++) {
+            var project = {};
+            var string = strings[i];
+            project.projectParamId = string;
+            project.placeId = -1;
+            project.rackId = -1;
+            project.humanCode = humanCode;
+            project.barCode = message;
+            project.a = a;
+
+            projectList.push(project);
+        }
+        if (projectList.length > 0){
+
+            saveProjectList(projectList);
+            setTimeout(getProjectListByDate, 500);
+
+        }
+    }
+
     $("#tab ").on('click', 'td:nth-child(1)', function () {
         // 第一列单击修改样本号事件
         var td = $(this);
@@ -744,6 +777,34 @@ $(document).ready(function () {
             deleteProjectBox.find("#delProjectSure").html("确认删除项目" + deleteHumanCode + '吗？');
             deleteProjectBox.fadeIn("slow");
         }
+    }).on('click', 'td:nth-child(2)', function () {
+        // 第二列单击修改code事件
+        var td = $(this);
+        console.log(td[0].innerHTML);
+        if (0 < td.find("input").length) {
+            var inputText = td.find("input")[0].innerText;
+            if (inputText > 0) {
+                $(this).html(inputText);
+            }
+            return;
+        }
+        if ('测试显示&amp;操作区' === td[0].innerHTML) return;
+        var input = '<input my= "' + $(this)[0].innerText + '" style="width: 80px;border: none;padding: 0;height: 18px;" onfocus=" this.style.imeMode=disabled " >';
+        td.html(input);
+        td.find("input")[0].focus();
+    }).on('blur ', 'td:nth-child(2) input', function () {
+        //blur 失去焦点
+        var message = $(this)[0].value;
+        if ($(this)[0].value === "") {
+            message = $(this).attr("my");
+        }
+        if (message.indexOf("p")>0){
+            var tr = $(this).parent().parent();
+            var ftd = tr[0].firstChild;
+            saveProjectListByCode(message,ftd.innerText,tr[0].lastChild.firstChild.checked)
+        }
+        var fp = $(this).parent();
+        fp.html(message);
     });
     //删除项目
     $("#delProject").on('click', function () {

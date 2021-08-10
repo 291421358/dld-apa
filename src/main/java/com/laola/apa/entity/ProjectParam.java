@@ -864,9 +864,14 @@ public class ProjectParam {
     }
 
     public ProjectParam(String param[]) {
+        for (int i = 0; i < param.length; i++) {
+            if (param[i].equals("")){
+                param[i] = null;
+            }
 
+        }
         if (param.length == 36){
-            this.id = Integer.valueOf(param[0]);
+            this.id = Integer.valueOf(param[0] != null ? param[0] : "-1");
             this.name = param[1];
             this.chineseName = param[2];
             this.computeMethod = param[3];
@@ -936,5 +941,6 @@ public class ProjectParam {
             this.diluent_size = param[32];
             this.dilution_sample_size = param[33];
         }
+
     }
 }

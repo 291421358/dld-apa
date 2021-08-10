@@ -33,8 +33,13 @@ public class LaolaTest {
 
     @Autowired
     private ProjectParamMapper projectParamMapper;
+
+    @Autowired
+    private ProjectTest projectTest;
     @Test
     public void fTest() {
+        projectTest.getIdList(13216);
+        DateUtils.DEC2HEX(String.valueOf(Integer.parseInt("10")+160));
         ProjectParam projectParam = new ProjectParam();
         projectParam.setId(1);
         projectParam = projectParamMapper.selectOne(projectParam);
@@ -50,13 +55,15 @@ public class LaolaTest {
 
     @Test
     public void projectListTest(){
+
+
         UsedCode usedCode = new UsedCode();
         usedCode.setCode("oo");
         usedCode.setCount(80);
         usedCode.setTotal(80);
         usedCode.setCount2(80);
         usedCode.setTotal2(80);
-        usedCodeServer.insert(usedCode);
+        usedCodeServer.getCopies(7673);
 
     }
 

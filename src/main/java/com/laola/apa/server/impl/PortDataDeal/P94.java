@@ -41,7 +41,8 @@ public class P94 implements PortDataDealService<String,Object> {
 
         String string = String.valueOf(data[0]);
         logger.info("PROJECT QR INFORMATION" + string);
-
+        //试剂位置
+        String place = string.substring(4, 6);
         String substring6 = string.substring(6);
         String string1 = String2Hex.convertHexToString(substring6);
         string1 = DateUtils.unicodeDecode(string1);
@@ -58,13 +59,27 @@ public class P94 implements PortDataDealService<String,Object> {
         String paramid = param[0];
 
         ProjectParam projectParam = new ProjectParam(param);
+        String dilution_sample_size = projectParam.getDilution_sample_size();
+        String diluent_size = projectParam.getDiluent_size();
+        if (null !=dilution_sample_size && null != diluent_size && !dilution_sample_size.equals("") && !diluent_size.equals("")){
+            projectParam.setDiluent_place(String.valueOf(Integer.parseInt(place)*2-1));
+        }
+
         int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
         logger.info("update"+i);
         if (i == 0){
             projectParamMapper.insertSelective(projectParam);
         }
-        //试剂位置
-        String place = string.substring(4, 6);
+
+
+        String diluent_place = projectParam.getDiluent_place();
+
+
+        if (null != diluent_place && !diluent_place.equals("")){
+            UsedCode b = usedCodeServer.queryOrInsert(code,total);
+            setRegentPlace(code, paramid, place,1);
+
+        }else
         //计算方法
         if (split.length >=4){
             String algorithm = split[3];
@@ -72,7 +87,7 @@ public class P94 implements PortDataDealService<String,Object> {
             algorithm = AlgorithmConstant.algorithm.get(algorithm);
             //查询或插入
             UsedCode b = usedCodeServer.queryOrInsert(code,total);
-            setRegentPlace(code, paramid, place);
+            setRegentPlace(code, paramid, place,0);
             if(b == null){
                 return "";
             }
@@ -129,7 +144,7 @@ public class P94 implements PortDataDealService<String,Object> {
 	 * @param place
      * @return
      **/
-    private void setRegentPlace(String code, String paramid, String place) {
+    private void setRegentPlace(String code, String paramid, String place ,int a) {
         //设置试剂位置
         RegentPlace regentPlace = new RegentPlace();
         //设置位置
@@ -139,6 +154,7 @@ public class P94 implements PortDataDealService<String,Object> {
         regentPlace.setPlace(Integer.parseInt(place));
         //设置试剂code
         regentPlace.setCode(code);
+        regentPlace.setA(a);
         int i1 = reagentPlaceIntf.updateRegentPlace(regentPlace);
     }
 

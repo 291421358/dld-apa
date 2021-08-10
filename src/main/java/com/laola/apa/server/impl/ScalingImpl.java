@@ -199,9 +199,9 @@ public class ScalingImpl implements ScalingIntf {
         StringBuilder den = new StringBuilder();
         //创建吸光度list
         StringBuilder abs = new StringBuilder();
-          StringBuilder calDen = new StringBuilder();;
-          StringBuilder calAbs = new StringBuilder();;
-          StringBuilder relAbs = new StringBuilder();;
+          StringBuilder calDen = new StringBuilder();
+          StringBuilder calAbs = new StringBuilder();
+          StringBuilder relAbs = new StringBuilder();
         //取出浓度和吸光度
         DataUtil.setDAndA(projects, den, abs, calDen, relAbs);
         double[] calx = new double[0];

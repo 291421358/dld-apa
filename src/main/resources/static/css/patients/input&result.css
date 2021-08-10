@@ -311,7 +311,7 @@ div::-webkit-scrollbar {
     text-align: center;
 }
 #tab  tr td:first-child,#tab  tr td:first-child{width:66px;font-size: 18px}
-#tab  tr td:nth-child(2){width:125px;}
+#tab  tr td:nth-child(2){width:125px;font-size: 10px;font-family: fantasy;}
 #tab  tr td:last-child,#tab  tr td:last-child {width:34px;cursor: pointer;text-align: center;font-size: 13px}
 @supports (-ms-ime-align: auto) {/*针对edge*/
     .regent {

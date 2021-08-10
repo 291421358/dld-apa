@@ -113,6 +113,8 @@
         LIMIT 1
         )
         AND count > 0;
+    </update>
+    <update id="minusOneCopyReagentX2">
     UPDATE used_code
     SET count_2 = ( count_2 - 1 )
     WHERE
@@ -124,7 +126,6 @@
         )
         AND count_2 > 0;
     </update>
-
     <select id="getCopies" resultType="java.lang.Integer">
           SELECT SUM(count) FROM used_code WHERE  code = (SELECT code FROM regent_place WHERE project_param_id = (SELECT project_param_id FROM project WHERE id =#{id}) and a=0 limit 1);
 

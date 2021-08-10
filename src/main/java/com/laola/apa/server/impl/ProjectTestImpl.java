@@ -67,18 +67,21 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public int insertProjectList(List<Map<String, Object>> projectList) {
-            Map<String,String> pMap = new HashMap<>();
+        Map<String,String> pMap = new HashMap<>();
+        Map<String,String> codeMap = new HashMap<>();
         for (Map<String, Object> map : projectList) {
 //            Patient patient = new Patient(Integer.parseInt(String.valueOf(map.get("humanCode"))), String.valueOf(map.get("")));
 //            patientService.update(patient);
             if (pMap.get(String.valueOf(map.get("humanCode"))) == null){
                 pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
+                codeMap.put(String.valueOf(map.get("humanCode")), String.valueOf(map.get("barCode")));
+
             }
         }
         List<Patient> pList= new ArrayList<>();
         for (String value : pMap.values()) {
             if (value != null && !value.equals("null")){
-                Patient patient = new Patient(Integer.parseInt(value), "");
+                Patient patient = new Patient(Integer.parseInt(value), codeMap.get(value));
                 pList.add(patient);
             }
         }
@@ -131,7 +134,8 @@ public class ProjectTestImpl implements ProjectTest {
                 " type, " +
                 " density, " +
                 " project_param_id ppi, " +
-                " human_code  " +
+                " human_code  ," +
+                "bar_code " +
                 "FROM " +
                 " project p " +
                 " LEFT JOIN project_param pp ON pp.id = p.project_param_id  " +
@@ -452,7 +456,7 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public void deleteProjects() {
-        EquipmentState t = new EquipmentState(1, 11, null, null, null, null, 0, 0, 0);
+        EquipmentState t = new EquipmentState(1, 11, null, null, null, null, 0, 0, 0, null);
         equipmentState.updateByPrimaryKeySelective(t);
         patientMapper.deleteProjects();
         projectMapper.deleteProjects();

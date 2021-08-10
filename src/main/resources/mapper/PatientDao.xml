@@ -80,10 +80,10 @@
 
     <insert id="insertPatientList">
         insert into
-        patient(id,inspection_date)
+        patient(id,code,inspection_date)
         values
         <foreach collection="patients" item="patients" index="index" separator=",">
-            (#{patients.id},#{patients.inspectionDate})
+            (#{patients.id},#{patients.code},#{patients.inspectionDate})
         </foreach>
     </insert>
 

@@ -4,6 +4,7 @@ import com.laola.apa.entity.EquipmentState;
 import com.laola.apa.server.EquipmentStateserver;
 import com.laola.apa.server.PortDataDealService;
 import com.laola.apa.utils.DateUtils;
+import com.laola.apa.utils.SerialUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,10 @@ public class P86 implements PortDataDealService<Object, Object> {
     @Override
     public Object deal(Object... data) {
 
+        EquipmentState thisEquipmentState = equipmentStateSever.queryById(1);
 
         String string = String.valueOf(data[0]);
+
         logger.info("GET INSTRUMENT STATE DATA" + string);
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
@@ -46,8 +49,28 @@ public class P86 implements PortDataDealService<Object, Object> {
         int numberUnderTest = DateUtils.decodeHEX(string.substring(60, 62));
         //A28：所有项目数
         int numAll = DateUtils.decodeHEX(string.substring(62, 64));
+
+        //A28：所有项目数
+        int a = DateUtils.decodeHEX(string.substring(4, 6));
 //        logger.info("string==" + string);
-        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll);
+        if (a == 1){
+
+        }
+        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll, a);
+
+        Integer thisA = thisEquipmentState.getA();
+        if (null == thisA){
+            thisA = 80;
+        }
+        if (a-thisA > 1 && a > 1){
+            SerialUtil serialUtil = new SerialUtil();
+            for (int i = 0; i < a-thisA-1; i++) {
+                String no = String.valueOf(thisA + i + 1);
+                no = DateUtils.DEC2HEX(no);
+                String command = "E5 90 C1 " + no +" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+                serialUtil.init(command);
+            }
+        }
 //        logger.info("equipment=" + equipmentState.toString());
          equipmentStateSever.update(equipmentState);
         return null;

@@ -71,6 +71,10 @@ public class ProjectTestController {
             project.put("starttime", DataUtil.now());
             project.put("projectNum", integer);
             project.putIfAbsent("type", 1);
+            Object barCode = project.get("barCode");
+            if (null != barCode && !String.valueOf(barCode).replaceAll(" ","").equals("") && !String.valueOf(barCode).equals(" ")){
+                project.put("rackId","-1");
+            }
             integer++;
             if (integer > 80) {
                 integer = 1;

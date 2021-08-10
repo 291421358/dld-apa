@@ -184,7 +184,7 @@ public class EquipmentState implements Serializable {
         return this;
     }
 
-    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll) {
+    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll, Integer a) {
         this.id = id;
         this.pureWater = pureWater;
         this.wasteWater = wasteWater;
@@ -194,6 +194,7 @@ public class EquipmentState implements Serializable {
         this.numSent = numSent;
         this.numUnderTest = numUnderTest;
         this.numAll = numAll;
+        this.a = a;
     }
 
     public EquipmentState(Integer id, Integer rackNo, Integer placeNo) {

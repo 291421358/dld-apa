@@ -8,7 +8,7 @@ public class BaseCostant {
     public static final String TestHead = "E5 90 7D ";
     public static final String RWHead = "E5 90 9A ";
     public static final String CleanReact = "E5 90 86 ";
-    public static final String last = "00 00 00 00 00 00 00 00 00 00";
+    public static final String last = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
     /**
      *
      * [2020-01-18 10:38:36.137]# RECV HEX>读取

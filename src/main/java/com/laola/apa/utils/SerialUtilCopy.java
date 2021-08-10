@@ -114,8 +114,7 @@ public class SerialUtilCopy implements SerialPortEventListener { // SerialPortEv
             System.out.println("发出：" + command);
             outputStream.write(bytes, 0,
                     bytes.length);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 1;

@@ -6,6 +6,7 @@ import com.laola.apa.server.EquipmentStateserver;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -28,8 +29,12 @@ public class EquipmentStateImpl implements EquipmentStateserver {
     @Override
     public EquipmentState queryById(Integer id) {
         EquipmentState equipmentState = this.equipmentStateMapper.queryById(id);
-             float v = Float.parseFloat(String.valueOf(equipmentState.getTemperatureControlCalibration()/100)) + Float.parseFloat(equipmentState.getReactTemp());
-        equipmentState.setReactTemp(String.valueOf(v));
+        Integer temperatureControlCalibration = equipmentState.getTemperatureControlCalibration();
+        Float v = (float) temperatureControlCalibration /100F+ Float.parseFloat(equipmentState.getReactTemp());
+        DecimalFormat decimalFormat=new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+        String obj = v.toString();
+        String temp=decimalFormat.format(v);//format 返回的是字符串
+        equipmentState.setReactTemp(temp);
         return equipmentState;
     }
 
@@ -65,7 +70,7 @@ public class EquipmentStateImpl implements EquipmentStateserver {
      */
     @Override
     public EquipmentState update(EquipmentState equipmentState) {
-        this.equipmentStateMapper.update(equipmentState);
+        this.equipmentStateMapper.updateByPrimaryKeySelective(equipmentState);
         return this.queryById(equipmentState.getId());
     }
 

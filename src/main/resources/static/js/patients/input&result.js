@@ -187,7 +187,9 @@ function dealProject(event) {
             //1到5架号
             var a = j + 1;
             var b = jsonArrElement[0].rack;
-            if (a == b)
+            if (b == -1)
+                tr += "<option selected> </option>";
+            else if (a == b)
             //相同的架号则选中
                 tr += "<option selected>" + (j + 1) + "</option>";
             else
@@ -198,7 +200,10 @@ function dealProject(event) {
             //1到5位号
             var a = j + 1;
             var b = jsonArrElement[0].place;
-            if (a == b)
+            var c = jsonArrElement[0].rack;
+            if (c == -1)
+                tr += "<option selected> </option>";
+            else if (a == b)
             //相同的位号则选中
                 tr += "<option selected>" + (j + 1) + "</option>";
             else

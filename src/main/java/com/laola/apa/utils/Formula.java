@@ -107,6 +107,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(( a*key*key+b*key+c)));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
         if (calDen.length == 2 && calAbs.length ==2){
@@ -189,6 +194,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format( doubles[0] + doubles[1]*key));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
 
@@ -248,7 +258,7 @@ public class Formula {
 
         double maxX = x[x.length - 1];
         if (calDen.length == 2 && calAbs.length ==2){
-            setCalAbs(x, calDen, calAbs, polynomials, knots, maxX );
+            setCalAbs(x, calDen, calAbs, polynomials, knots, maxX ,y);
             setY(x, y, calAbs, calDen);
             sp = new SplineInterpolator();
             //插入样条值
@@ -275,6 +285,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(polynomials[j].value(key)));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
         if (calDen.length == 2 && calAbs.length ==2){
@@ -327,6 +342,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(logit4p(key, a, b, c, d)));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
         if (calDen.length == 2 && calAbs.length ==2){
@@ -380,6 +400,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d)));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
 
@@ -665,6 +690,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(cubicCurve(key, a, b, c, d)));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
 
@@ -728,8 +758,17 @@ public class Formula {
         }
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
-            float v = Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / (1 + Math.pow((key / c), b))));
-            setCalAbs(calAbs, k, v);
+//            double v1 = 1.0D + Math.pow(key / p[2], p[1]);
+//            float v = Float.parseFloat(new DecimalFormat(yStep).format(p[3] + (p[0] - p[3]) / v1));
+            float f = (float) CurveFitter.f(7,p, key);
+//            double v2 = 1 + Math.pow((key / c), b);
+//            v = Float.parseFloat(new DecimalFormat(yStep).format(d + (a - d) / v2));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    f = (float) y[i];
+                }
+            }
+            setCalAbs(calAbs, k, f);
         }
 
 
@@ -750,8 +789,15 @@ public class Formula {
     }
 
     private static void setY(double[] x, double[] y, double[] calAbs, double[] calDen) {
-        double b = (calDen[0] * calAbs[1] - calDen[1] * calAbs[0]) / (calDen[0] - calDen[1]);
-        double k = (calAbs[0] - b) / calDen[0];
+
+          double k = (calAbs[1]-calAbs[0])/(calDen[1]-calDen[0]);
+          double b = calAbs[0]- k * calDen[0];
+        if (calAbs[0] == calAbs[1] ){
+            k = 0;
+            b = calAbs[0];
+        }
+//        double b = (calDen[0] * calAbs[1] - calDen[1] * calAbs[0]) / (calDen[0] - calDen[1]);
+//        double k = (calAbs[0] - b) / calDen[0];
         for (int i = 0; i < x.length; i++) {
             y[i] = (k * x[i] + b) * y[i];
         }
@@ -799,6 +845,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(doubles[1] * key + doubles[0]));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
         if (calDen.length == 2 && calAbs.length ==2){
@@ -861,6 +912,11 @@ public class Formula {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             float v = Float.parseFloat(new DecimalFormat(yStep).format(doubles[2] * key * key + doubles[1] * key + doubles[0]));
+            for (int i = 0; i < x.length; i++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
         }
         if (calDen.length == 2 && calAbs.length ==2){
@@ -905,7 +961,6 @@ public class Formula {
         }else {
             minKey = x[0]*0.9;
         }
-        ;
         double step = 0.1;
         double maxX = x[x.length - 1];
         if (maxX - minKey < 1) {
@@ -917,7 +972,7 @@ public class Formula {
         double maxKey = ((maxX / (step * 5)) + 1) * (step * 5);
         getValue(x, value, polynomials, knots, minKey, step, maxX, maxKey);
 
-        setCalAbs(x, calDen, calAbs, polynomials, knots, maxX);
+        setCalAbs(x, calDen, calAbs, polynomials, knots, maxX,y);
         if (calDen.length == 2 && calAbs.length ==2){
             setY(x, y, calAbs, calDen);
 
@@ -935,7 +990,6 @@ public class Formula {
             }else {
                 relminKey = x[0]*0.9;
             }
-            ;
             double relstep = 0.1;
             double relmaxX = x[x.length - 1];
             if (relmaxX - relminKey < 1) {
@@ -980,7 +1034,7 @@ public class Formula {
     }
 
 
-    private static void setCalAbs(double[] x, double[] calDen, double[] calAbs, PolynomialFunction[] polynomials, double[] knots, double maxX) {
+    private static void setCalAbs(double[] x, double[] calDen, double[] calAbs, PolynomialFunction[] polynomials, double[] knots, double maxX, double[] y) {
         for (int k = 0; k < calDen.length; k++) {
             double key =  calDen[k];
             int i = Arrays.binarySearch(knots, key);
@@ -1003,6 +1057,11 @@ public class Formula {
             }
 
             float v = Float.parseFloat(new DecimalFormat(yStep).format(polynomials[i].value(key - knots[i])));
+            for (int j = 0; j < x.length; j++) {
+                if (x[i] ==key){
+                    v = (float) y[i];
+                }
+            }
             setCalAbs(calAbs, k, v);
 
         }

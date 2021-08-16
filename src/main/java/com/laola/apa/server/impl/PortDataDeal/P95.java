@@ -53,6 +53,7 @@ public class P95 implements PortDataDealService<String,Object> {
         regentPlace.setPlace(Integer.parseInt(place));
         //设置试剂code
         regentPlace.setCode("0");
+        regentPlace.setA(0);
         int i1 = reagentPlaceIntf.updateRegentPlace(regentPlace);
     }
 

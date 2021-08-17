@@ -222,7 +222,7 @@ public class ProjectTestController {
 
 
     /**
-     * 删除某一天的数据
+     * 删除所有未做的数据
      *
      * @return
      */

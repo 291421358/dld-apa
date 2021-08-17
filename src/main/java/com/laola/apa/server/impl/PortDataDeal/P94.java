@@ -65,15 +65,11 @@ public class P94 implements PortDataDealService<String,Object> {
             projectParam.setDiluent_place(String.valueOf(Integer.parseInt(place)*2-1));
         }
 
-        int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
-        logger.info("update"+i);
-        if (i == 0){
-            projectParamMapper.insertSelective(projectParam);
-        }
 
 
         String diluent_place = projectParam.getDiluent_place();
-
+       //取得当前时间  作为定标时间
+        String   thistime = DataUtil.now();
 
         if (null != diluent_place && !diluent_place.equals("")){
             UsedCode b = usedCodeServer.queryOrInsert(code,total);
@@ -84,6 +80,8 @@ public class P94 implements PortDataDealService<String,Object> {
         if (split.length >=4){
             String algorithm = split[3];
             //根据算法代码获得计算方法全称
+            if (algorithm == null || algorithm.equals("") || algorithm.equals(" "));
+            algorithm = "1";
             algorithm = AlgorithmConstant.algorithm.get(algorithm);
             //查询或插入
             UsedCode b = usedCodeServer.queryOrInsert(code,total);
@@ -92,7 +90,7 @@ public class P94 implements PortDataDealService<String,Object> {
                 return "";
             }
             List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(Integer.valueOf(paramid));
-            String    thistime = DataUtil.now();
+
             if (latestOne != null && latestOne.size() >0) {
                 Map<String, Object> map = latestOne.get(0);
                 Object starttime = map.get("starttime");
@@ -107,7 +105,14 @@ public class P94 implements PortDataDealService<String,Object> {
             //添加定标项目
             insertScalingProject(split, paramid, thistime);
         }
+        thistime = DataUtil.changeType(thistime);
+        projectParam.setFactor(thistime);
 
+        int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
+        logger.info("update"+i);
+        if (i == 0){
+            projectParamMapper.insertSelective(projectParam);
+        }
         return "";
     }
     /**

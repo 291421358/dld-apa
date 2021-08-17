@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class Formula {
     private static Logger logger = Logger.getGlobal();
-    private static String yStep = "0.0";
+    private static String yStep = "0.000";
 
     public static float getDensity(float absorbanceGap, double[] xX, double[] yY, String algorithm, double[] calDen, double[] calAbs) {
 

@@ -49,8 +49,9 @@ function getProjectListByDataTenToEnd() {
         },
         jsonp: 'jsoncallback',
         success: function (event) {
-
             irLoad(event);
+            //然后进入循环 读取数据和仪器状态
+            timeout = setTimeout(readDateAndState, 550);
         },
         error: function () {
             alert("error")
@@ -310,9 +311,9 @@ function circularReading() {
     loadProjectList();
     //z这是第一次进入界面。先获取试剂位置，后续要用。
     getRegentPlace();
+    //第一次先获取最后十条，返回成功后再循环获取全部项目
     getProjectListByDataTenToEnd();
-    //然后进入循环 读取数据和仪器状态
-    timeout = setTimeout(readDateAndState, 250);
+
     setTimeout(function () {
         $("#testAndShow").scrollTop(scrollLength - 90);
     }, 1000);

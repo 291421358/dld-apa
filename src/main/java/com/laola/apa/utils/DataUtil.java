@@ -20,6 +20,23 @@ public class DataUtil {
 
         return new SimpleDateFormat(format).format(new Date());
     }
+    /**
+     * 时间格式转换
+     * @return string  "yy-MM-dd HH:mm:ss"
+     */
+    public static String changeType(String strData){
+        String format = new SimpleDateFormat("yyyy").format(new Date());
+        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yy-MM-dd HH:mm");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(strData);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String format1 = simpleDateFormat.format(date);
+
+        return format.substring(0,2)+format1;
+    }
 
     /**
      * 获得当前时间

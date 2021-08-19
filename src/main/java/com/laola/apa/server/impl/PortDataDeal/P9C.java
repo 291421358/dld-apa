@@ -62,7 +62,7 @@ public class P9C implements PortDataDealService<String,Object> {
 
             String sec = String.valueOf(data[2]);
             if (sec.equals("1")){
-                ableList = projectTest.selectNeverDo(1);
+//                ableList = projectTest.selectNeverDo(1);
             }
         }else {
             //

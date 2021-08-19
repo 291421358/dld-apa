@@ -197,13 +197,15 @@ public class ProjectTestImpl implements ProjectTest {
         System.out.println(id);
         List<Map<String, Object>> maps;
             maps = selectDao.selectList(
-                    "SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place" +
-                            ", pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1" +
-                            ",pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum" +
-                            ",pp.main_wavelength mainWavelength,pp.main_indication_end length,p.a FROM project p \n" +
-                            "LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
-                            "LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id and rp.a = 0\n" +
-                            "WHERE p.id = " + id +
+                    " SELECT pp.diluent_place ,pp.diluent_size ,pp.dilution_sample_size ,p.project_param_id, rp.place place" +
+                            " , pp.samplesize samplesize,pp.reagent_quantity_no1 reagentQuantityNo1" +
+                            " ,pp.reagent_quantity_no2 reagentQuantityNo2,p.project_num projectNum" +
+                            " ,pp.main_wavelength mainWavelength,pp.main_indication_begin r2,pp.main_indication_end length,p.a " +
+                            " ,pp.`dilution_delay_ period` wait,pp.auxiliary_indication_end xLength" +
+                            " FROM project p \n" +
+                            " LEFT JOIN project_param pp on pp.id = p.project_param_id\n" +
+                            " LEFT JOIN regent_place rp on rp.project_param_id = p.project_param_id and rp.a = 0\n" +
+                            " WHERE p.id = " + id +
                             "\n");
         System.out.println(maps);
         List<String> commndList = new ArrayList<>();
@@ -258,6 +260,12 @@ public class ProjectTestImpl implements ProjectTest {
             String reagentQuantityNo2 = String.valueOf(map.get("reagentQuantityNo2"));
             String projectNum = String.valueOf(map.get("projectNum"));
             String mainWavelength = String.valueOf(map.get("mainWavelength"));
+            String r2 = String.valueOf(map.get("r2"));
+            //稀释延迟
+            String wait = String.valueOf(map.get("wait"));
+            //稀释长度
+            String xLength = String.valueOf(map.get("xLength"));
+
             String length = String.valueOf(map.get("length"));
             String diluent_place = String.valueOf(map.get("diluent_place"));
             String diluent_size = String.valueOf(map.get("diluent_size"));
@@ -272,7 +280,12 @@ public class ProjectTestImpl implements ProjectTest {
             reagentQuantityNo2 = DateUtils.DEC2HEX(reagentQuantityNo2);
             projectNum = DateUtils.DEC2HEX(projectNum);
             mainWavelength = DateUtils.DEC2HEX(mainWavelength);
-            length = DateUtils.DEC2HEX(length);
+            r2 = DateUtils.DEC2HEX(r2);
+            wait = DateUtils.DEC2HEX(wait);
+            xLength = DateUtils.DEC2HEX(xLength);
+
+            //时间除10，取退一位
+            length = DateUtils.DEC2HEX(length.substring(0,length.length()-1));
             diluent_place = DateUtils.DEC2HEX(diluent_place);
             diluent_size = DateUtils.DEC2HEX(diluent_size);
             dilution_sample_size = DateUtils.DEC2HEX(dilution_sample_size);
@@ -293,17 +306,21 @@ public class ProjectTestImpl implements ProjectTest {
 //            if (null != dilution_sample_size &&Integer.parseInt(dilution_sample_size,16) > 0){
 //                mark = "01";
 //            }
-            //     样品位    试剂1位 	      试剂2位 	       样品量    	     试剂1量H
-            String commnd = place1 + " " + place2 + " " + samplesize0 + " " + reagentQuantityNo1.substring(0, 2) + " " +
-                    // 试剂1量L                                                      试剂2量   项目序号
+ //样品位     //     [2]试剂1位 	                               试剂2位 	                  样品量    	          试剂1量H
+    String commnd = place1 + " " +                             place2 + " " +             samplesize0 + " " + reagentQuantityNo1.substring(0, 2) + " " +
+             //     [6]试剂1量L                                 试剂2量                     项目序号
                     reagentQuantityNo1.substring(2, 4) + " " + reagentQuantityNo2 + " " + projectNum + " " +
-                    // 样品量                波长             读数点数
-                    samplesize1 + " " + mainWavelength + " " + length + " "+
+             //     [9]样品量                                   波长                        总时长
+                    samplesize1 + " " +                        mainWavelength + " " +     length + " "+
 
-                    //空    延迟取样周期        空        稀释序号                    稀释样本量                  稀释液量               稀释液位置
-                    "00 "+  "00 "+           "00 " +   Dilution_number   + " " +  dilution_sample_size  +" "+ diluent_size + " " +diluent_place + " "+
-            //        红细胞压积波长            传输                   急诊                   稀释标记      取样项目序号
-                        "00"+    " "+            "00"+ " "+           a + " "+             mark+  " "+      "00";
+             //     [12]r2加入时间                              稀释延迟取样时间     空        稀释序号
+                    r2 +        " "+                           wait+" "+         "00 " +   Dilution_number   + " " +
+
+             //    [16]稀释样本量                               稀释液量                      稀释液位置
+                   dilution_sample_size  +" "+                 diluent_size + " " +        diluent_place + " "+
+
+             //    [19]红细胞压积波长              稀释运行时间             急诊                 稀释标记         取样项目序号
+                        "00"+    " "+            xLength+ " "+           a + " "+             mark+  " "+      "00";
                 commndList.add(commnd);
 //            System.out.println(commnd+"projectTest 256");
         }
@@ -312,15 +329,18 @@ public class ProjectTestImpl implements ProjectTest {
     /**
      * 根据时间获得当天的项目
      * @param project
-     * @return
+     * @return Map<String, Object>
      */
     @Override
     public Map<String, Object> getProjectListByData(Project project){
-        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress,p.code  FROM project \n" +
+        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress" +
+                ",p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
-                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
-                "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" and \"" +DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
+                "LEFT JOIN patient p on p.id = project.human_code " +
+                "and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
+                "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" and \"" +
+                DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
                 "GROUP BY project.id order by human_code desc\n" +
                 ";";
         List<Map<String, Object>> mapList = selectDao.selectList(sql);
@@ -345,15 +365,18 @@ public class ProjectTestImpl implements ProjectTest {
     /**
      * 根据时间获得当天的项目 后十个
      * @param project
-     * @return
+     * @return Map<String, Object>
      */
     @Override
     public Map<String, Object> getProjectListByDataTenToEnd(Project project){
-        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress ,p.code  FROM project \n" +
+        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress " +
+                ",p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
-                "LEFT JOIN patient p on p.id = project.human_code and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
-                "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" and \"" +DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
+                "LEFT JOIN patient p on p.id = project.human_code " +
+                "and DATE_FORMAT(p.inspection_date,\"%y-%M-%d\")=DATE_FORMAT(project.starttime,\"%y-%M-%d\") \n" +
+                "WHERE   type=1 AND starttime BETWEEN \""+project.getEndtime()+" 00:00:00\" " +
+                "and \"" +DataUtil.getPreDateByDate(project.getEndtime(),1)+ " 00:00:00\" \n " +
                 "GROUP BY project.id order by human_code desc  limit 15\n" +
                 ";";
         List<Map<String, Object>> mapList = selectDao.selectList(sql);
@@ -435,9 +458,11 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public List<Map<String, Object>> getQcProjects(int projectParamId, String beginDate, String endDate, String type){
         String preDateByDate = DataUtil.getPreDateByDate(endDate, 1);
-        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT DATE_FORMAT(p.starttime,\"%y-%m-%d\") date,p.id,p.density FROM project p \n" +
+        List<Map<String, Object>> mapList = selectDao.selectList(" SELECT DATE_FORMAT(p.starttime,\"%y-%m-%d\") " +
+                "date,p.id,p.density FROM project p \n" +
                 "LEFT JOIN project_param pp on p.project_param_id = pp.id\n" +
-                    "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = "+type+" AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
+                    "WHERE ( starttime between '"+beginDate+"' and '"+preDateByDate+"') AND type = "+
+                type+" AND project_param_id = "+projectParamId+"   ORDER BY id DESC ");
         List<Map<String, Object>> resultMap = new ArrayList<>();
         String date = "";
         for (int i = 0; i < mapList.size(); i++) {
@@ -456,7 +481,8 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public void deleteProjects() {
-        EquipmentState t = new EquipmentState(1, 11, null, null, null, null, 0, 0, 0, null);
+        EquipmentState t = new EquipmentState(1, 11, null, null
+                , null, null, 0, 0, 0, null);
         equipmentState.updateByPrimaryKeySelective(t);
         patientMapper.deleteProjects();
         projectMapper.deleteProjects();

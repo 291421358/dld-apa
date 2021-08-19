@@ -184,7 +184,7 @@ function dealProject(event) {
         }
 
         tr += "<td><select disabled>";
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 10; j++) {
             //1到5架号
             var a = j + 1;
             var b = jsonArrElement[0].rack;

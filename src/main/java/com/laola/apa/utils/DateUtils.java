@@ -220,26 +220,24 @@ public class DateUtils {
      * @param mapList
 	 * @param mainBegin
 	 * @param mainEnd
-	 * @param auxBegin
-	 * @param auxEnd
      * @return {@link float}
      **/
-    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd, String auxBegin, String auxEnd) {
+    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd) {
         float beganSum = 0;
         float endSum = 0;
         int beginTimes = 0;
         int endTimes = 0;
         for (Map<String, Object> map : mapList) {
             //第n个点
-            float xFloat = Float.parseFloat(String.valueOf(map.get("x")));
+            float tFloat = Float.parseFloat(String.valueOf(map.get("t")));
             //第n个点的数据
             float yFloat = Float.parseFloat(String.valueOf(map.get("y")));
             //如果 主/辅终点都为空或者0；只取主/辅始点
-            if ((Float.parseFloat(mainBegin) <= xFloat && xFloat <= Float.parseFloat(auxBegin)) || (Float.parseFloat( auxBegin) <= xFloat && xFloat <= Float.parseFloat(mainBegin))) {
+            if ((Float.parseFloat(mainBegin) <= tFloat  ) || ( tFloat <= Float.parseFloat(mainBegin))) {
                 beganSum += yFloat;
                 beginTimes++;
             }
-            if ((Float.parseFloat(mainEnd) <= xFloat && xFloat <= Float.parseFloat(auxEnd)) || (Float.parseFloat( auxEnd) <= xFloat && xFloat <= Float.parseFloat(mainEnd))) {
+            if ((Float.parseFloat(mainEnd) <= tFloat  ) || ( tFloat <= Float.parseFloat(mainEnd))) {
                 endSum += yFloat;
                 endTimes++;
             }
@@ -278,27 +276,7 @@ public class DateUtils {
 
 
 
-    /**
-     * @apiNote 取得两点数差
-     * @author tzhh
-     * @date 2021/5/27 17:07
-     * @param mapList
-	 * @param mainBegin
-	 * @param mainEnd
-     * @return {@link float}
-     **/
-    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd) {
-        for (Map<String, Object> map :
-                mapList) {
-            if (mainBegin.equals(String.valueOf(map.get("x")))) {
-                mainBegin = String.valueOf(map.get("y"));
-            }
-            if (mainEnd.equals(String.valueOf(map.get("x")))) {
-                mainEnd = String.valueOf(map.get("y"));
-            }
-        }
-        return Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin);
-    }
+
 
     /**
      * @param string
@@ -396,14 +374,14 @@ public class DateUtils {
         return n;
     }
 
-    public static float terminalMethod(List<Map<String, Object>> selectOneCurve, String mainBegin, String mainEnd, String auxBegin, String auxEnd) {
+    public static float terminalMethod(List<Map<String, Object>> selectOneCurve, String mainBegin, String mainEnd) {
         float absorbanceGap = 0;
        //  终点-起点
         if (mainBegin.equals("0")) {
             absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
         }
         if (!mainBegin.equals("0")){
-            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd, auxBegin, auxEnd) / 1000;
+            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
         }
         return absorbanceGap;
     }

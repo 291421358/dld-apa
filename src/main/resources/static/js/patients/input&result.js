@@ -183,12 +183,12 @@ function dealProject(event) {
             progress = "";
         }
 
-        tr += "<td><select disabled>";
+        tr += "<td class='t9'><select disabled>";
         for (let j = 0; j < 10; j++) {
             //1到5架号
             var a = j + 1;
             var b = jsonArrElement[0].rack;
-            if (b == -1)
+            if (b == -1 || b == -2)
                 tr += "<option selected> </option>";
             else if (a == b)
             //相同的架号则选中
@@ -202,7 +202,7 @@ function dealProject(event) {
             var a = j + 1;
             var b = jsonArrElement[0].place;
             var c = jsonArrElement[0].rack;
-            if (c == -1)
+            if (c == -1 || c == -2)
                 tr += "<option selected> </option>";
             else if (a == b)
             //相同的位号则选中
@@ -252,9 +252,13 @@ function dealProject(event) {
         if (jQtr.length === 0) {
             //maxCodeh Checks that jQuery selectors are used in an efficient way. It warns about duplicated selectors which could be cached and optionally
             // about attribute and pseudo-selectors usage.
-            tr = "<tr>" +
+            tr = "<tr id='cr"+j+"'>" +
                 "<td>" + (maxCode++) + "</td>" +
-                "<td> </td>" +
+                "<td> ";
+            if(j === 0){
+                tr += "<input style='width: 50px'>"
+            }
+            tr += "</td>" +
                 "<td>" +
                 "<li>&nbsp</li>" +
                 "</td>" +
@@ -274,25 +278,22 @@ function dealProject(event) {
                 "<li>&nbsp</li>" +
                 "</td>" +
 
-                "<td><select >" +
-                "<option>1</option>" +
-                "<option>2</option>" +
-                "<option>3</option>" +
-                "<option>4</option>" +
-                "<option>5</option>" +
-                "<option>6</option>" +
-                "<option>7</option>" +
-                "<option>8</option>" +
-                "<option>9</option>" +
-                "<option>10</option>" +
-                "</select></td>" +
-                "<td><select >" +
-                "<option>1</option>" +
-                "<option>2</option>" +
-                "<option>3</option>" +
-                "<option>4</option>" +
-                "<option>5</option>" +
-                "</select></td>" +
+                "<td class='t9'><select class='t9'>" ;
+
+            for (let k = 0; k < 10; k++) {
+                var s = ((j)/5>=k)?'selected':"";
+                // console.log(s);
+                tr +="<option "+s+" value="+(k+1)+">"+(k+1)+"</option>" ;
+            }
+
+                tr +="</select></td>" +
+                "<td class='t10'><select class='t10'>" ;
+            for (let k = 0; k < 5; k++) {
+                var o = (j%5===k)?'selected':"";
+                // console.log(o);
+                tr +="<option "+o+" value="+(k+1)+">"+(k+1)+"</option>" ;
+            }
+                tr +="</select></td>" +
                 "<td><input type='checkbox' ></td>" +
                 "</tr>";
             $('#tab tr:eq(' + l + ')').after(tr);
@@ -538,6 +539,81 @@ $(document).ready(function () {
         }
 
         pjsaveList();
+    });
+
+    $('#repeat').click(function () {
+            var lc = "";
+        // var tr1 = $('#tab tr:eq(2)');
+        var tr1 = $('#cr0');
+        var find = tr1.find("td");
+        var ra = 1;
+        var pl = 1;
+        find.each(function (i) {
+                var jQuery = $(this).find("li");
+                if (jQuery.length > 0) {
+
+                    var className = jQuery[0].className;
+                    if (className === "liChance")
+                    lc += i;
+                }
+                if (i === 8){
+                    var jQuery1 = $(this).find("select");
+                    ra = jQuery1.val();
+                    // console.log(jQuery1.val());
+                }
+                if (i === 9){
+                    var jQuery1 = $(this).find("select");
+                    pl = jQuery1.val();
+                    // console.log(jQuery1.val());
+                }
+            });
+            console.log(lc);
+        var nextAll = tr1.nextAll();
+        console.log(nextAll);
+        nextAll.each(function (i) {
+                var val = $("#repeatI")[0].value-1;
+                // console.log(val);
+                if (i < val) {
+                    var tr = $(this).find("td");
+                    // console.log($(this));
+
+                    tr.each(function (j) {
+
+                        if (lc.indexOf(j)<0) {
+                            $(this)[0].className = "";
+                        }else {
+
+                            var jQuery = $(this).find("li");
+                            if (jQuery.length > 0) {
+                                var className = jQuery[0].className= "liChance";
+                            }
+                        }
+
+                        if (j === 8){
+                            var jQuery1 = $(this).find("select");
+                            jQuery1.val(ra);
+                            // console.log(jQuery1.val());
+                        }
+                        if (j === 9){
+                            var jQuery1 = $(this).find("select");
+                            jQuery1.val(pl);
+                            // console.log(jQuery1.val());
+                        }
+                        // console.log($(this));
+                    })
+                }else {
+                    var tr = $(this).find("td");
+                    // console.log($(this));
+
+                    tr.each(function (j) {
+                        var jQuery = $(this).find("li");
+                        if (jQuery.length > 0) {
+                            var className = jQuery[0].className= "";
+                        }
+                    })
+                }
+
+            })
     });
 });
 
@@ -811,6 +887,47 @@ $(document).ready(function () {
         }
         var fp = $(this).parent();
         fp.html(message);
+    }).on('change','select',function () {
+
+        var td = $(this);
+        var va = td[0].value;
+        console.log(va);
+        var fp = $(this).parent();
+        var cln = fp[0].className;
+        var t9;
+        var t10;
+        if (cln ==="t9"){
+            t9 = $(this)
+            t10 = fp.next().find("select");
+            console.log(t10);
+        } else if (cln === "t10"){
+            t9 = fp.prev().find("select");;
+            t10 = $(this)
+        }
+        var t9v = t9[0].value;
+        var t10v = t10[0].value;
+        // fp.html(message);
+        // $(this).attr("my")
+        console.log(fp);
+        // var next = fp.next();
+
+        //将接下来的第一列都修改
+        var sp = fp.parent();
+        var nextAll = sp.nextAll();
+        nextAll.each(function (i) {
+            var itd9 = $(this).find("td:nth-child(9)");
+            var find = itd9.find("select");
+            var number = (i+t10v*1)/5;
+            var value = Math.floor(number+(t9v*1));
+            find.val((value%10===0)?10:(value%10));
+
+            var itd10 = $(this).find("td:nth-child(10)");
+            var find10 = itd10.find("select");
+            var number10 = (t10v*1+i+1);
+            var value10 = Math.floor(number10);
+            find10.val((value10%5===0)?5:(value10%5));
+            // console.log(newVar);
+        });
     });
     //删除项目
     $("#delProject").on('click', function () {
@@ -948,7 +1065,11 @@ $(document).ready(function () {
                         if (i !== data.length-1) {
 
                             var abs = project.abs.toString();
-                            curveDiv += "<div style='border-bottom: black 1px solid;float: left'> <div style='border-right: black 1px solid;width: 25px;float: left'>"+(i+1)+ "</div><div style='padding:0 20px 0 20px;float: left'> "+abs.substring(0,6)+"</div></div>";
+                            var t = project.t.toString();
+                            curveDiv += "<div style='border-bottom: black 1px solid;float: left'> " +
+                                "<div style='border-right: black 1px solid;width: 25px;float: left'>"+(i+1)+ "</div>" +
+                                "<div style='padding:0 20px 0 20px;float: left'> "+abs.substring(0,6)+"</div>" +
+                                "<div style='padding:0 0px 0 0px;float: left'> "+t+"</div></div>";
                         }
                     });
                     var ctx2 = canvas.getContext('2d');

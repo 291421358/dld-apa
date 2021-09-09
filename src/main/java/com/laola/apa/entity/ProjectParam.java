@@ -212,8 +212,49 @@ public class ProjectParam {
     private String dilution_sample_size;
 
 
+    /**
+     * 孵育后读点
+     */
+    @Column(name = "a")
+    private String a;
+    /**
+     *
+     */
+    @Column(name = "b")
+    private String b;
+    /**
+     *
+     */
+    @Column(name = "c")
+    private String c;
 
 
+    public String getA() {
+        return a;
+    }
+
+    public ProjectParam setA(String a) {
+        this.a = a;
+        return this;
+    }
+
+    public String getB() {
+        return b;
+    }
+
+    public ProjectParam setB(String b) {
+        this.b = b;
+        return this;
+    }
+
+    public String getC() {
+        return c;
+    }
+
+    public ProjectParam setC(String c) {
+        this.c = c;
+        return this;
+    }
 
     /**
      * 创建时间
@@ -820,6 +861,9 @@ public class ProjectParam {
                 ", diluentSize='" + diluent_size + '\'' +
                 ", dilutionSampleSize='" + dilution_sample_size + '\'' +
                 ", createtime=" + createtime +
+                ", a=" + a +
+                ", b=" + b +
+                ", c=" + c +
                 '}';
     }
 
@@ -857,7 +901,10 @@ public class ProjectParam {
                 "/" + preset_density_hight +
                 "/" + diluent_place +
                 "/" + diluent_size +
-                "/" + dilution_sample_size ;
+                "/" + dilution_sample_size +
+                "/" + a +
+                "/" + b +
+                "/" + c ;
     }
 
     public ProjectParam() {
@@ -870,7 +917,7 @@ public class ProjectParam {
             }
 
         }
-        if (param.length == 36){
+        if (param.length == 39){
             this.id = Integer.valueOf(param[0] != null ? param[0] : "-1");
             this.name = param[1];
             this.chineseName = param[2];
@@ -905,6 +952,9 @@ public class ProjectParam {
             this.diluent_place = param[32];
             this.diluent_size = param[33];
             this.dilution_sample_size = param[34];
+            this.a = param[35];
+            this.b = "";
+            this.c = "";
         }else {
             this.id = Integer.valueOf(param[0]);
             this.name = param[1];
@@ -940,6 +990,9 @@ public class ProjectParam {
             this.diluent_place = param[31];
             this.diluent_size = param[32];
             this.dilution_sample_size = param[33];
+            this.a = param[34];
+            this.b = "";
+            this.c = "";
         }
 
     }

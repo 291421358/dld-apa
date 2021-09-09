@@ -66,6 +66,29 @@ function showPrint(){
     }
     ctx.strokeStyle="#000";
     ctx1.stroke();
+    var ctx2 = canvas.getContext('2d');
+    ctx2.lineWidth = 1.5;
+    ctx2.strokeStyle = "black";
+    ctx2.beginPath();
+    ctx2.lineTo(0,canvas.height-2.2);
+    ctx2.lineTo(canvas.width,canvas.height-2.2);
+    ctx2.lineTo(canvas.width,canvas.height-27.8);
+    ctx2.lineTo(0,canvas.height-27.8);
+    ctx2.lineTo(0,canvas.height-54.4);
+    ctx2.lineTo(canvas.width,canvas.height-54.4);
+    ctx2.lineTo(canvas.width,canvas.height-77.2);
+    ctx2.lineTo(0,canvas.height-77.2);
+    ctx2.lineTo(0,canvas.height-102.8);
+    ctx2.lineTo(canvas.width,canvas.height-102.8);
+    ctx2.lineTo(canvas.width,canvas.height-127.2);
+    ctx2.lineTo(0,canvas.height-127.2);
+    ctx2.lineTo(0,0);
+    ctx2.lineTo(canvas.width,0);
+    ctx2.lineTo(canvas.width,canvas.height-2.2);
+    ctx2.lineTo(0,canvas.height-2.2);
+    ctx2.lineTo(0,0);
+    ctx2.strokeStyle="#000";
+    ctx2.stroke();
 }
 function printAndClose() {
     window.print(); // 调用打印方法
@@ -75,3 +98,4 @@ function printAndClose() {
 function cancel() {
     // window.close();
 }
+

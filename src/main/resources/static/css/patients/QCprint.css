@@ -61,7 +61,7 @@ span {
 
 
 #qcCanvas {
-    background: url("../images/scaling/coordinate1.png") no-repeat ;
+    /*background: url("../images/scaling/coordinate1.png") no-repeat ;*/
     background-size: 100% 150px;
     margin-top: 5px;
 }

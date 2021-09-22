@@ -1,6 +1,8 @@
 package com.laola.apa.controller;
 
+import com.laola.apa.entity.EquipmentState;
 import com.laola.apa.server.impl.AdjustedImpl;
+import com.laola.apa.server.impl.EquipmentStateImpl;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 @RestController
 @RequestMapping(value = "adjusted")
 public class AdjustedController {
     @Autowired
     AdjustedImpl adjusted;
+    @Autowired
+    EquipmentStateImpl equipmentState;
 
     @RequestMapping(value = "stirSpin" , method ={ RequestMethod.POST,RequestMethod.GET})
     public String stirSpin(String str){
@@ -51,9 +56,9 @@ public class AdjustedController {
      * 清洗八个 E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "cleanEight" , method = RequestMethod.GET)
-    public String cleanEight(){
+    public String cleanEight(String no){
         SerialUtil cRead = new SerialUtil();
-        String init = cRead.init("E5 90 86 01 01 08 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        String init = cRead.init("E5 90 86 01 01 0"+no+" 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
         return init;
     }
@@ -274,6 +279,42 @@ public class AdjustedController {
     }
 
     /**
+     * 停止 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "stop" , method = RequestMethod.GET)
+    public String stop(String value){
+        value = DateUtils.DEC2HEX4Place(value);
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 be 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        EquipmentState t = new EquipmentState(1, 11, null, null
+                , null, null, 0, 0, 0, null,0);
+        equipmentState.update(t);
+        p(init);
+
+        return "1";
+    }
+    /**
+     * 暂停 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "suspend" , method = RequestMethod.GET)
+    public String suspend(String value){
+        value = DateUtils.DEC2HEX4Place(value);
+        SerialUtil cRead = new SerialUtil();
+        EquipmentState t = new EquipmentState(1, 11, null, null
+                , null, null, 0, 0, 0, null,2);
+        equipmentState.update(t);
+        String init = cRead.init("E5 90 bf 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        init = cRead.init("E5 90 D2 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
+        return "1";
+    }
+    /**
      * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "plungerPump2" , method = RequestMethod.GET)
@@ -283,6 +324,17 @@ public class AdjustedController {
         String init = cRead.init("E5 90 91 12 00 "+value+" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
 
+        return "1";
+    }
+
+    /**
+     * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     */
+    @RequestMapping(value = "BuzzerStop" , method = RequestMethod.GET)
+    public String BuzzerStop(){
+        SerialUtil cRead = new SerialUtil();
+        String init = cRead.init("E5 90 D3 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+        p(init);
         return "1";
     }
 

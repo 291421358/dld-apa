@@ -11,12 +11,13 @@
 <script src="./../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
 <script src="./../../js/jquery-ui.min.js"></script>
 <script src="../../js/properties.js"></script>
-<script src="../../js/patients/input&result.js"></script>
+
 <link rel="stylesheet" href="../../css/patients/input&result.css">
 <link rel="stylesheet" href="./../../css/jquery-ui.min.css">
 <script src="../../js/webSocket.js"></script>
 <script src="../../js/patients/scaling.js"></script>
 <script src="../../js/patients/qc.js"></script>
+<!--<script src="../../js/index.js"></script>-->
 <body onload=" circularReading();time() ">
 <style>
 
@@ -30,7 +31,13 @@
         font-family: 宋体;
         text-align: left;
     }
-
+    #repeat {
+        background: #6bb3b3;
+        color: #ffffff;
+        font-size: 22px;
+        padding-top: 5px;
+        margin-left: 20px;
+    }
 </style>
 <form>
     <div id="ceshiqu">
@@ -39,6 +46,7 @@
         <div id="sc" onclick="alertWin(1);">定标</div>
         <div id="qc" onclick="alertWin(2);">质控</div>
         <div id="tips">
+
             <div id="juxing_1"></div>
             <label class="layui-btn" type="button">已选择</label>
             <div id="juxing_2"></div>
@@ -54,6 +62,10 @@
         </div>
         <div id="dealButton">
             <!--<div id="scan" style="float: left">保存</div>-->
+            <!--<div id="stop" style="float: left;background-color: #93D1FF;margin-top: 5px">停止</div>-->
+            <div id="BuzzerStop" style="float: left;margin-left: 10px;background-color: #93D1FF;margin-top: 5px;">静音</div>
+            <input id="repeatI" type="number" style="width: 49px;height:34px;font-size: 21px;margin-left: 15px;float: left" value="10">
+            <div id="repeat" style="float: left">重复</div>
             <div id="save" style="float: left">保存</div>
             <div id="delete" style="float: left" title="删除所有未做的项目">删除</div>
         </div>
@@ -205,10 +217,13 @@
 
     <div class="state-control">
         <div class="start" id="start">
+            <div class="scf">开始</div>
         </div>
         <div class="stop" id="stop">
+            <div class="scf">停止</div>
         </div>
-        <div class="suspend">
+        <div class="suspend" id="suspend" >
+            <div class="scf">暂停</div>
         </div>
         <div id="zhuangshi1">
 
@@ -331,5 +346,6 @@
     <canvas id="canvas" width="260" height="250">
     </canvas>
 </div>
+<script src="../../js/patients/input&result.js"></script>
 </body>
 </html>

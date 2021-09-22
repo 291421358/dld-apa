@@ -63,4 +63,8 @@ public interface ProjectTest {
     List<ProjectQC> getQcLastOneByDataAndType();
 
     void addby37();
+
+    int l(String density);
+
+    int getLastSca();
 }

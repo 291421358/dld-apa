@@ -1,12 +1,10 @@
 package com.laola.apa.server.impl.PortDataDeal;
 
 import com.google.gson.Gson;
-import com.laola.apa.entity.Project;
-import com.laola.apa.entity.ProjectCurve;
-import com.laola.apa.entity.ProjectParam;
-import com.laola.apa.entity.Scaling;
+import com.laola.apa.entity.*;
 import com.laola.apa.mapper.ProjectCurveMapper;
 import com.laola.apa.mapper.ProjectMapper;
+import com.laola.apa.mapper.ProjectNodeMapper;
 import com.laola.apa.mapper.ScalingMapper;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.*;
@@ -39,6 +37,8 @@ public class P91 implements PortDataDealService<String, Object> {
     @Autowired
     ScalingMapper scalingMapper;
     @Autowired
+    ProjectNodeMapper projectNodeMapper;
+    @Autowired
     WebSocket webSocket;
     private static final Logger logger = LoggerFactory.getLogger(P91.class);
 
@@ -54,6 +54,10 @@ public class P91 implements PortDataDealService<String, Object> {
         logger.info("GET RESULT DATA" + string);
         //A15：撞针标志   1/0代表撞针
         int firingPin = DateUtils.decodeHEX(string.substring(36, 38));
+        //A15：撞针标志   1/0代表撞针
+        int behavior = DateUtils.decodeHEX(string.substring(24, 26));
+        //A15：撞针标志   1/0代表撞针
+        int time = DateUtils.decodeHEX(string.substring(26, 30));
         //判断是结果
         //截取前32 * 2位
         String result = string.substring(64);
@@ -76,8 +80,9 @@ public class P91 implements PortDataDealService<String, Object> {
             int rackNo = 0;
             int placeNo = 0;
             boolean should = true;
+            String projectNum = String.valueOf(DateUtils.decodeHEX(result.substring(i * 14, i * 14 + 2)));
+            String num = String.valueOf(DateUtils.decodeHEX(string.substring(58, 60)));
             for (Map<String, Object> ablemap : ableList) {
-                String projectNum = String.valueOf(DateUtils.decodeHEX(result.substring(i * 14, i * 14 + 2)));
                 String projectNum1 = String.valueOf(ablemap.get("project_num"));
                 if (projectNum1.equals(projectNum)) {
                     logger.info(projectNum1 + " project_num & project_num " + projectNum);
@@ -97,6 +102,12 @@ public class P91 implements PortDataDealService<String, Object> {
                 }
 
             }
+            //插入项目节点
+            if (behavior <= 5 && projectNum.equals(num)){
+                ProjectNode projectNode = new ProjectNode(id,behavior,time);
+                projectNode.setCt(new Date());
+                projectNodeMapper.insert(projectNode);
+            }
             //如果该项目存在。不需要再插入项目
             if (should) {
                 System.err.println("unknown project when the result come out");
@@ -113,7 +124,9 @@ public class P91 implements PortDataDealService<String, Object> {
             projectCurve.setProjectId(id);
             //数据号
             projectCurve.setX(DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)));
-            //eb91250000140000000000000000000001000000010000e16d0000000500050518052915bf15bf1a071f151615161c021515d015d01d04108897359813010b17841784
+            //设置曲线参数
+            projectCurve.setT(time);
+            //eb9125
             //辅波高位，辅波低位 //取一组数据，第10-11位 *256 + 12-13位 为ad数值
             int auxiliary = DateUtils.decodeHEX(result.substring(i * 14 + 10, i * 14 + 12)) * 256 + DateUtils.decodeHEX(result.substring(i * 14 + 12, i * 14 + 14));
             //主波高位，主波低位 //取一组数据，第10-11位 *256 + 12-13位 为ad数值
@@ -122,6 +135,9 @@ public class P91 implements PortDataDealService<String, Object> {
 
 //            setBeindState(string);
             ProjectParam projectParam = projectParameters.onePoject(ppi);
+            String ReadBegin = projectParam.getDilutionMultiple();
+            //R2孵育时间
+            String R2Incubation = projectParam.getAuxiliaryIndicationBegin();
             String mainWavelength = projectParam.getMainWavelength();
             if (auxiliary == 0) {
                 auxiliary = 1;
@@ -161,12 +177,22 @@ public class P91 implements PortDataDealService<String, Object> {
 
             //吸光度*1000
             projectCurve.setY(String.valueOf(new DecimalFormat("0.0").format(Float.parseFloat(formatAbs) * 1000)));
+            projectCurve.setCreattime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
             //插入曲线上的一个点
-            projectCurveMapper.insert(projectCurve);
+            int insert = projectCurveMapper.insert(projectCurve);
+
+            Integer st = projectCurveMapper.get1st(id);
+            System.out.println(time);
+            System.out.println(st);
             //数据长度是否等读点数终点 代表最后和一个点读数结束
-            if (DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)) == length) {
-                PortDataDealService<String, Object> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
-                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d",strings[1],"1");
+            if (st == null){
+                System.err.println("没有第一个点");
+                break;
+            }
+            int usedT = time - st;
+            if (usedT >= length) {
+//                PortDataDealService<String, Object> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
+//                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d",strings[1],"1");
                 Project project = new Project();
                 //设置结束时间为当前时间
                 project.setEndtime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
@@ -182,22 +208,24 @@ public class P91 implements PortDataDealService<String, Object> {
                 }
                 // 取得曲线
                 List<Map<String, Object>> selectOneCurve = scalingIntf.selectOneCurve(id);
+                //
+                ProjectNode projectNode = projectNodeMapper.queryByPId(id);
 
+
+
+                int R2t =  0;
+                if (projectNode!= null && projectNode.getT()!=null){
+                    R2t = projectNode.getT();
+
+                }
                 //取得读数点
                 String mainBegin = projectParam.getMainIndicationBegin();
                 String mainEnd = projectParam.getMainIndicationEnd();
+                //孵育后读点
+                String a = projectParam.getA();
 
-                String auxBegin = projectParam.getAuxiliaryIndicationBegin();
-                String auxEnd = projectParam.getAuxiliaryIndicationEnd();
-                auxEnd = auxEnd.equals("") ? "0" : auxEnd;
-                auxBegin = auxBegin.equals("") ? "0" : auxBegin;
+
                 //如果 主/辅终点 为空或者0 这使其赋值为主/辅 始点
-                if ("".equals(auxBegin) || "0".equals(auxBegin)) {
-                    auxBegin = mainBegin;
-                }
-                if ("".equals(auxEnd) || "0".equals(auxEnd)) {
-                    auxEnd = mainEnd;
-                }
                 //取得数差
                 float absorbanceGap = 0;
                 //处理 读点数法
@@ -209,25 +237,38 @@ public class P91 implements PortDataDealService<String, Object> {
                     absorbanceGap = 0.1F;
                 }
 //                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
-                if ("终点法".equals(computeMethod)) {
-                    absorbanceGap = DateUtils.terminalMethod(selectOneCurve, mainBegin, mainEnd, auxBegin, auxEnd);
-                }
                 logger.info("读数法：" + computeMethod);
+                float y1 = 0;
+                for (Map<String, Object> map : selectOneCurve) {
+                    //第n个点
+                    //第n个点
+                    int xThis = Integer.parseInt(String.valueOf(map.get("x")));
+                    //第n个点的数据
+                    float t = Float.parseFloat(String.valueOf(map.get("t")));
+                    if (xThis == 1){
+                        y1 = t;
+                    }
+                }
+                if (R2t >0 ){
+                    mainEnd = String.valueOf(Integer.parseInt(a)+R2t+Integer.parseInt(R2Incubation));
+                    mainEnd = String.valueOf(Float.parseFloat(mainEnd)-y1);
+                }
+                if ("终点法".equals(computeMethod)) {
+                    absorbanceGap = DateUtils.terminalMethod(selectOneCurve, mainBegin, mainEnd,R2t,ReadBegin,R2Incubation);
+                }
                 if ("速率法".equals(computeMethod)) {
                     //速率法 取 absorbanceGap/两数时间差*60
-                    absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
+                    absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, ReadBegin, mainEnd,R2t, R2Incubation) / 1000;
                     logger.info("光准差：" + absorbanceGap);
-                    int begin = (Integer.parseInt(auxBegin) + Integer.parseInt(mainBegin)) / 2;
-                    int end = (Integer.parseInt(auxEnd) + Integer.parseInt(mainEnd)) / 2;
-                    absorbanceGap = absorbanceGap / ((end - begin) * 17) * 60;
+                    absorbanceGap = absorbanceGap / (Float.parseFloat(a) / 60);
                 }
 
                 if ("两点法".equals(computeMethod)) {
                     //两点法
-                    absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd, auxBegin, auxEnd) / 1000;
+                    absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, ReadBegin, mainEnd,R2t, R2Incubation) / 1000;
                     logger.info(String.valueOf(absorbanceGap));
                 }
-//                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
+                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
 
                 if (type == 2 || type == 6) {
                     // 定标项目
@@ -246,6 +287,12 @@ public class P91 implements PortDataDealService<String, Object> {
                     }
 //                    logger.info(project);
                 }
+                project.setB(usedT);
+                projectMapper.updateByPrimaryKeySelective(project);
+            }else {
+                Project project = new Project();
+                project.setId(id);
+                project.setB(usedT);
                 projectMapper.updateByPrimaryKeySelective(project);
             }
         }

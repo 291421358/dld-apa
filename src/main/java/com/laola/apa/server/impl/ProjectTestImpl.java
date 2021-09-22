@@ -3,16 +3,19 @@ package com.laola.apa.server.impl;
 import com.laola.apa.entity.*;
 import com.laola.apa.mapper.*;
 import com.laola.apa.server.PatientService;
+import com.laola.apa.server.PortDataDealService;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
+import com.laola.apa.utils.SerialUtil;
+import com.laola.apa.utils.SpringBeanUtil;
+import gnu.io.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -67,6 +70,7 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public int insertProjectList(List<Map<String, Object>> projectList) {
+        Boolean a = false;
         Map<String,String> pMap = new HashMap<>();
         Map<String,String> codeMap = new HashMap<>();
         for (Map<String, Object> map : projectList) {
@@ -75,8 +79,13 @@ public class ProjectTestImpl implements ProjectTest {
             if (pMap.get(String.valueOf(map.get("humanCode"))) == null){
                 pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
                 codeMap.put(String.valueOf(map.get("humanCode")), String.valueOf(map.get("barCode")));
-
             }
+            if ( String.valueOf(map.get("a")).equals("true")){
+                map.put("rackId","-2");
+                map.put("placeId","-2");
+                a = true;
+            };
+            System.out.println( String.valueOf(map.get("a")));
         }
         List<Patient> pList= new ArrayList<>();
         for (String value : pMap.values()) {
@@ -87,7 +96,15 @@ public class ProjectTestImpl implements ProjectTest {
         }
         if (pList.size()>0)
         patientMapper.insertPatientList(pList);
-         return projectMapper.insertProjectList(projectList);
+        int i = projectMapper.insertProjectList(projectList);
+        // 清空 新增的项目的对应的曲线和病员
+        projectMapper.clean(i);
+        if (a){
+            PortDataDealService<String,Object> beanByName =  SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class,"p9c");
+            SerialPort serialPort = new SerialUtil().startComPort();
+            beanByName.deal("EB9c-2-2-2c90d",serialPort);
+        }
+        return i;
     }
 
     /**
@@ -145,7 +162,7 @@ public class ProjectTestImpl implements ProjectTest {
                 " ISNULL( endtime ) " +
                 " and ISNULL(pc.id) " +
                 " and ISNULL(p.factor)" +
-                " order by a desc,p.id limit "+i+";");
+                " order by p.a desc,p.id limit "+i+";");
     }
 
     /**
@@ -282,7 +299,7 @@ public class ProjectTestImpl implements ProjectTest {
             mainWavelength = DateUtils.DEC2HEX(mainWavelength);
             r2 = DateUtils.DEC2HEX(r2);
             wait = DateUtils.DEC2HEX(wait);
-            xLength = DateUtils.DEC2HEX(xLength);
+            xLength = DateUtils.DEC2HEX(xLength.substring(0,xLength.length()-1));
 
             //时间除10，取退一位
             length = DateUtils.DEC2HEX(length.substring(0,length.length()-1));
@@ -293,7 +310,7 @@ public class ProjectTestImpl implements ProjectTest {
             if (dilution_sample_size.equals("00")){
                 Dilution_number = "00";
             }
-            a = a.equals("0")?"00":"01";
+            a = a.equals("1")?"01":"00";
             //生成指令
             for (int i = 0; i <= 4 - reagentQuantityNo1.length(); i++) {
                 reagentQuantityNo1.insert(0, "0");
@@ -333,7 +350,7 @@ public class ProjectTestImpl implements ProjectTest {
      */
     @Override
     public Map<String, Object> getProjectListByData(Project project){
-        String sql = "SELECT project.*,CONCAT(CONVERT(count(pc.id)/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress" +
+        String sql = "SELECT project.*,CONCAT(CONVERT(project.b/pp.`main_indication_end`*100,decimal(2,0)),\"%\")progress" +
                 ",p.code  FROM project \n" +
                 "LEFT JOIN project_curve  pc ON pc.project_id = project.id \n" +
                 "LEFT JOIN project_param pp on pp.id = project.project_param_id \n" +
@@ -482,7 +499,7 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public void deleteProjects() {
         EquipmentState t = new EquipmentState(1, 11, null, null
-                , null, null, 0, 0, 0, null);
+                , null, null, 0, 0, 0, null,0);
         equipmentState.updateByPrimaryKeySelective(t);
         patientMapper.deleteProjects();
         projectMapper.deleteProjects();
@@ -520,6 +537,22 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public void addby37() {
         projectMapper.addby37();
+    }
+
+    @Override
+    public int l(String density) {
+        String[] split = density.split(",");
+        if (split.length == 2){
+            projectMapper.l(split[0], Integer.valueOf(split[1]));
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int getLastSca() {
+        return projectMapper.getLastSca();
     }
 
 

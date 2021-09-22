@@ -44,9 +44,9 @@ public class P9C implements PortDataDealService<String,Object> {
 
         logger.info("GET PLACE&BAR DATA" + string);
         SerialPort serialPort = (SerialPort) data[1];
-        if (string.indexOf("-")>0){
-            return null;
-        }
+//        if (string.indexOf("-")>0){
+//            return null;
+//        }
         //架号
         Integer rackNo = DateUtils.decodeHEX(string.substring(4, 6));
         //位号
@@ -66,8 +66,10 @@ public class P9C implements PortDataDealService<String,Object> {
             }
         }else {
             //
-            EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
-            equipmentStateSever.update(equipmentState);
+            if(placeNo > 0){
+                EquipmentState equipmentState = new EquipmentState(1, rackNo, placeNo);
+                equipmentStateSever.update(equipmentState);
+            }
             ableList = projectTest.selectNeverDo(40);
         }
         for (Map<String, Object> ablemap : ableList) {
@@ -118,7 +120,7 @@ public class P9C implements PortDataDealService<String,Object> {
                     strPlaceNo = "0" + strPlaceNo;
                 }
 
-                commond = TestConstant.TestHead + strPlaceNo + " " + commond;
+                commond = TestConstant.TestHead + strPlaceNo + " " + commond + " 00 00";
                 logger.info("发出的命令；" + commond);
                 OutputStream outputStream = null;
                 try {
@@ -138,6 +140,17 @@ public class P9C implements PortDataDealService<String,Object> {
                 project.setId(Integer.parseInt(String.valueOf(ablemap.get("id"))));
                 if (regentPlace<=0){
                     project.setAbnormal(1);
+                    OutputStream outputStream = null;
+                    try {
+                        outputStream = serialPort.getOutputStream();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        continue;
+                    }
+                    String commond = "E5 90 D2 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+                    String commond2 = "E5 90 bf 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+                    send(commond,outputStream);
+                    send(commond2,outputStream);
                 }else if (regentPlace<= 5){
                     project.setAbnormal(2);
                 }

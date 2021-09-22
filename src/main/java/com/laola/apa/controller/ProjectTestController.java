@@ -23,6 +23,14 @@ public class ProjectTestController {
     /**
      *
      */
+    @RequestMapping(value = "l")
+    public int l(String density){
+         return projectTest.l(density);
+    }
+
+    /**
+     *
+     */
 @RequestMapping(value = "getQcLastOneByDataAndType")
     public List<ProjectQC> getQcLastOneByDataAndType(){
     List<ProjectQC> qcLastOneByDataAndType = projectTest.getQcLastOneByDataAndType();
@@ -210,6 +218,7 @@ public class ProjectTestController {
             map.put("y", (Float.parseFloat(projectCurve.getY()) - min) / gap);
             map.put("x", (projectCurve.getX() - minX) / gapX);
             map.put("abs", Float.valueOf(projectCurve.getY())/1000);
+            map.put("t",Float.valueOf(projectCurve.getT()));
             resultList.add(map);
         }
         Map<String, Float> maxminMap = new HashMap<>();

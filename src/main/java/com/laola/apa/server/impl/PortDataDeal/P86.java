@@ -49,14 +49,18 @@ public class P86 implements PortDataDealService<Object, Object> {
         int numberUnderTest = DateUtils.decodeHEX(string.substring(60, 62));
         //A28：所有项目数
         int numAll = DateUtils.decodeHEX(string.substring(62, 64));
+        int b = 0;
 
+if (numberUnderTest > 1){
+    b = 1;
+}
         //A28：所有项目数
         int a = DateUtils.decodeHEX(string.substring(4, 6));
 //        logger.info("string==" + string);
         if (a == 1){
 
         }
-        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll, a);
+        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll, a,b);
 
         Integer thisA = thisEquipmentState.getA();
         if (null == thisA){

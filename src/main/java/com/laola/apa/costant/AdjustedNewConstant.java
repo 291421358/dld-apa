@@ -3,7 +3,7 @@ package com.laola.apa.costant;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdjustedNewCostant extends BaseCostant {
+public class AdjustedNewConstant extends BaseCostant {
 
 
     public static final Map<String, String> adjuestNew = new HashMap<String, String>() {
@@ -153,6 +153,8 @@ public class AdjustedNewCostant extends BaseCostant {
             put("RB_FIRST", "47 00 00 ");
 //2号位
             put("RB_SECOND", "48 00 00 ");
+//RB_THIRD
+            put("RB_THIRD", "4D 00 00 ");
 //+100步
             put("RB+100", "49 00 00 ");
 //-100步

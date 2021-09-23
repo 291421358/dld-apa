@@ -826,7 +826,7 @@ $(document).ready(function () {
      * 蜂鸣器停止
      */
     $("#BuzzerStop").on('click', function () {
-        clearTimeout(timeout);
+        // clearTimeout(timeout);
         $.ajax({
             type: 'GET',
             url: urlhead + '/adjusted/BuzzerStop',

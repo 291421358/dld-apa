@@ -1,8 +1,10 @@
 package com.laola.apa.server;
 
 import com.laola.apa.costant.ADCostant;
-import com.laola.apa.costant.AdjustedNewCostant;
+import com.laola.apa.costant.AdjustedNewConstant;
 import com.laola.apa.costant.LightQuasiConstant;
+import com.laola.apa.entity.EquipmentState;
+import com.laola.apa.mapper.EquipmentStateMapper;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
 import com.laola.apa.utils.WebSocket;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,13 +32,16 @@ public class OnMessageServer extends Thread {
     ProjectTest projectTest;
     @Autowired
     GetProjectResult getProjectResult;
-
+    @Autowired
+    EquipmentStateMapper equipmentState;
     private static OnMessageServer onMessageServer;
 
     @PostConstruct
     public void init() {
         onMessageServer = this;
         this.projectTest = onMessageServer.projectTest;
+        this.equipmentState = onMessageServer.equipmentState;
+
     }
     Logger logger = LoggerFactory.getLogger(OnMessageServer.class);
 
@@ -79,6 +85,9 @@ public class OnMessageServer extends Thread {
 //            serialPort.removeEventListener();
             //查询当前有效的样本数量
             int projectDoing = onMessageServer.projectTest.isProjectDoing();
+            EquipmentState t = new EquipmentState(1, 11, null, null
+                    , null, null, 0, 0, 0, null,1);
+            onMessageServer.equipmentState.updateByPrimaryKeySelective(t);
             logger.info("DOING NUMBERS:"+projectDoing);
             //样品 试剂位   试剂量  项目序号 波长
 //            List<String> messageList = onMessageServer.projectTest.get(Integer.parseInt(String.valueOf(jsonTo.get("message"))));
@@ -141,7 +150,7 @@ public class OnMessageServer extends Thread {
     private String dealwithst(String st, JSONObject jsonTo, String mes, SerialPort serialPort) {
         //调校
         if (jsonTo.get("code").equals("2") || jsonTo.get("code").equals(2)) {
-            st = AdjustedNewCostant.head + AdjustedNewCostant.adjuestNew.get(mes) + AdjustedNewCostant.last;
+            st = AdjustedNewConstant.head + AdjustedNewConstant.adjuestNew.get(mes) + AdjustedNewConstant.last;
         }
 //        if (jsonTo.get("code").equals("1") || jsonTo.get("code").equals(1)) {
 //            st = AdjustedCostant.adjustedMap.get(mes);

@@ -147,8 +147,9 @@
                 style="z-index: 1023;"></iframe>
     </div>
 </div>
-<div id="quit">
-    <div style="height: 25px;background: #6d97f7;color: white"><label style="color: #ffe003;font-size: 19px">&#9888;</label>是否退出?</div>
+<div id="quit" style="font-size:30px;text-align: center">
+    <div style="height: 37px;background: #6d97f7;color: white">
+        <label style="color: #ffe003;font-size: 19px">&#9888;</label>是否退出?</div>
     <div> </div>
     <div>
         <div id="quitBtn" style="float: left">确认</div>
@@ -164,21 +165,22 @@
     <input type="button"  value="进入" id="in" style="height: 25px;width: 50px;margin-left: 200px;cursor: grab">
 </div>
 
-<div id="loginer">
+<div id="loginer" style="border-top: #007DDB 20px solid">
     <div style="width: 270px;float: left">
-    <label style="color: black" for="username">用户名</label><input type="text" value="" id="addU" >
+    <div style="color: black;;width: 90px;padding-top: 2px;float: left;" for="username">用户名</div><input style="height: 26px;" type="text" value="" id="addU" >
         <br>
-    <label style="color: black" for="password">密 &nbsp;&nbsp;码</label><input type="text" value="" id="addP" >
+    <div style="color: black;width: 90px;float: left;padding-top: 2px" for="password">密&nbsp;&nbsp;&nbsp;码</div><input style="height: 26px;" type="text" value="" id="addP" >
         <br>
-    <label style="color: black">类 &nbsp;&nbsp;型</label>        <select id="t">
+    <div style=";float: left;;width: 90px;color: black;padding-top: 4px">类 &nbsp;&nbsp;型</div>        <select id="t" style="height: 32px;">
             <option value="1">管理员</option>
             <option value="2">普通用户</option>
         </select>
     </div>
-    <div style="width:106px ;float: left">
-        <div style="width: 5px;height: 20px;color: black;margin-left: 96px;" id="closeLoginner">X</div>
-    <input type="button"  value="删除" id="del" style="height: 25px;width: 50px ;cursor: grab">
-    <input type="button"  value="增加" id="add" style="height: 25px;width: 50px ;cursor: grab">
+    <div style="width:145px ;float: left;margin-left: 36px;font-size: 30px">
+
+    <input type="button"  value="删除" id="del" style="height: 36px;width: 68px ;cursor: grab;    margin-top: 9px;font-size: 21px;">
+    <input type="button"  value="增加" id="add" style="height: 36px;width: 68px ;cursor: grab;    font-size: 21px;">
+    <input type="button"  style="    font-size: 21px;width: 68px;height: 36px;color: black;margin-left: 77px;margin-top: 53px;cursor: pointer;text-align: center" id="closeLoginner" value="取消">
     </div>
 </div>
 </body>

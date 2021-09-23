@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="../../css/patients/QCprint.css">
 <body onload="showPrint();printAndClose()">
 <!--printAndClose()-->
-
+<style type="text/css">
+    @media print {
+        body {-webkit-print-color-adjust: exact;}
+    }
+</style>
 <div style="margin-left: 10px;width:180mm;">
     <div id="title" style="border-bottom: black 1px solid;width: 100%" ><h1>质控报告单</h1></div>
     <div id="patientInfo" style="border-bottom: black 1px solid;width: 100%">

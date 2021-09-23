@@ -220,39 +220,92 @@ public class DateUtils {
      * @param mapList
 	 * @param mainBegin
 	 * @param mainEnd
+     * @param r2Incubation
      * @return {@link float}
      **/
-    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd) {
-        float beganSum = 0;
-        float endSum = 0;
-        int beginTimes = 0;
-        int endTimes = 0;
+    public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainBegin, String mainEnd, int R2t, String r2Incubation) {
+        int R2i = Integer.parseInt(r2Incubation);
+        int R2Read = R2t+R2i;
+
+        float R2ReadBey = 0;
+        float R2ReadEndy = 0;
+        float R2tBey = 0;
+        float R2tEnd = 99999;
+
+        float endy = 0;
+        float bey = 0;
+        float tBey = 0;
+        float tEnd = 99999;
+        float mainEND = Float.parseFloat(mainEnd);
+        float y1 = 0;
+        float y2 = 0;
+        int t1 = 0;
+        for (Map<String, Object> map : mapList) {
+            if (String.valueOf(map.get("x")).equals("1")){
+                t1 = Integer.parseInt(String.valueOf(map.get("t")));
+                break;
+            }
+        }
+//        mainEND = mainEND -t1;
+        System.out.println(mainEND);
         for (Map<String, Object> map : mapList) {
             //第n个点
-            float tFloat = Float.parseFloat(String.valueOf(map.get("t")));
+            int tThis = Integer.parseInt(String.valueOf(map.get("t")));
+            //第n个点
+            int xThis = Integer.parseInt(String.valueOf(map.get("x")));
             //第n个点的数据
             float yFloat = Float.parseFloat(String.valueOf(map.get("y")));
-            //如果 主/辅终点都为空或者0；只取主/辅始点
-            if ((Float.parseFloat(mainBegin) <= tFloat  ) || ( tFloat <= Float.parseFloat(mainBegin))) {
-                beganSum += yFloat;
-                beginTimes++;
+            int tUse = tThis-t1;
+            if (xThis == 1){
+                y1 = yFloat;
             }
-            if ((Float.parseFloat(mainEnd) <= tFloat  ) || ( tFloat <= Float.parseFloat(mainEnd))) {
-                endSum += yFloat;
-                endTimes++;
+            if (xThis == 2){
+                y2 = yFloat;
+            }
+            if (R2Read >= tThis  && tThis >= R2tBey) {
+                R2ReadBey = yFloat;
+                R2tBey = tThis;
+            }
+            if ( R2Read <= tThis  && tThis <= R2tEnd) {
+                R2ReadEndy = yFloat;
+                R2tEnd = tThis;
+            }
+            //找到最接近(mainEnd 且比(mainEnd小的数
+            if (mainEND >= tUse  && tUse >= tBey) {
+                bey = yFloat;
+                tBey = tUse;
+            }
+            //找到最接近(mainEnd 且比(mainEnd大的数
+            if ( mainEND <= tUse  && tUse <= tEnd) {
+                endy = yFloat;
+                tEnd = tUse;
             }
         }
-        System.out.println("beganSum:" + beganSum + "----endSum" + endSum);
-        if (beginTimes == 0 && endTimes == 0) {
-            return 0;
+        float pro = 0;
+        if (tEnd != tBey){
+             pro = (mainEND - tBey) / (tEnd - tBey);
         }
-        if (endTimes == 0) {
-            return beganSum / beginTimes;
+        float R2pro = 0;
+        if (R2tEnd != R2tBey){
+            R2pro = (R2Read - R2tBey) / (R2tEnd - R2tBey);
         }
-        if (beginTimes == 0) {
-            return endSum / endTimes;
+        float R2end = 0;
+        R2end = (R2ReadEndy - R2ReadBey) * R2pro + R2ReadBey;
+        float end = 0;
+        end = (endy - bey) * pro + bey;
+
+        if (R2t == 0){
+            if (mainBegin.equals("1")){
+                R2end = y1;
+            }else if (mainBegin.equals("2")){
+                R2end = (y1+y2)/2;
+            }
         }
-        return endSum /  endTimes-  beganSum / beginTimes;
+        System.out.println("R2ReadBey:" + R2ReadBey + "----R2ReadEndy" + R2ReadEndy);
+
+        System.out.println("R2end:" + R2end + "----end" + end);
+
+        return end  -  R2end ;
     }
 
     /**
@@ -264,14 +317,47 @@ public class DateUtils {
      * @return {@link float}
      **/
     public static float getAbsorbanceGap(List<Map<String, Object>> mapList, String mainEnd) {
-        for (Map<String, Object> map :
-                mapList) {
-            if (mainEnd.equals(String.valueOf(map.get("x")))) {
-                mainEnd = String.valueOf(map.get("y"));
+        float end = 0;
+        float endy = 0;
+        float bey = 0;
+        float tBey = 0;
+        float tEnd = 99999;
+        float mainEND = Float.parseFloat(mainEnd);
+        int t1 = 0;
+        for (Map<String, Object> map : mapList) {
+            if (String.valueOf(map.get("y")).equals("1")){
+                t1 = Integer.parseInt(String.valueOf(map.get("t")));
+                break;
             }
         }
+
+        for (Map<String, Object> map : mapList) {
+            //第n个点
+            int tThis = Integer.parseInt(String.valueOf(map.get("t")));
+            int tUse = tThis-t1;
+            //第n个点的数据
+            float yFloat = Float.parseFloat(String.valueOf(map.get("y")));
+            //如果 主/辅终点都为空或者0；只取主/辅始点
+            //找到最接近(mainEnd 且比(mainEnd小的数
+            if (mainEND >= tUse  && tUse >= tBey) {
+                bey = yFloat;
+                tBey = tUse;
+            }
+            //找到最接近(mainEnd 且比(mainEnd大的数
+            if ( mainEND <= tUse  && tUse <= tEnd) {
+                endy = yFloat;
+                tEnd = tUse;
+            }
+        }
+        float pro = 0;
+        if (tEnd != tBey){
+            pro = (mainEND - tBey) / (tEnd - tBey);
+        }
+        end = (endy - bey) * pro + bey;
+        System.out.println( "----endSum" + end);
+        return end  ;
 //        return Math.abs(Float.parseFloat(mainEnd) - Float.parseFloat(mainBegin));
-        return Float.parseFloat(mainEnd);
+//        return Float.parseFloat(mainEnd);
     }
 
 
@@ -374,15 +460,15 @@ public class DateUtils {
         return n;
     }
 
-    public static float terminalMethod(List<Map<String, Object>> selectOneCurve, String mainBegin, String mainEnd) {
+    public static float terminalMethod(List<Map<String, Object>> selectOneCurve, String mainBegin, String mainEnd, int t, String readBegin, String r2Incubation) {
         float absorbanceGap = 0;
        //  终点-起点
-        if (mainBegin.equals("0")) {
-            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
-        }
-        if (!mainBegin.equals("0")){
-            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainBegin, mainEnd) / 1000;
-        }
+//        if (mainBegin.equals("0")) {
+//            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, mainEnd) / 1000;
+//        }
+//        if (!readBegin.equals("")){
+            absorbanceGap = DateUtils.getAbsorbanceGap(selectOneCurve, readBegin, mainEnd,t,r2Incubation) / 1000;
+//        }
         return absorbanceGap;
     }
 

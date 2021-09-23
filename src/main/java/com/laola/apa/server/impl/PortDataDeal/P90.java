@@ -33,7 +33,7 @@ public class P90 implements PortDataDealService<EquipmentState,Object>{
         // A20：反应盘温度高位（计算方法：高位*256+高位）/1351（测试过程中返回有效）
         //A21：反应盘温度低位（测试过程中返回有效）
         float reactTemp = (Float.parseFloat(String.valueOf(DateUtils.decodeHEX(tHighBefore))) * 256F + Float.parseFloat(String.valueOf(DateUtils.decodeHEX(tHighBehind)))) / 1351F;
-        EquipmentState equipmentState = new EquipmentState(1, null, null, null, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), null, null, null, null,null);
+        EquipmentState equipmentState = new EquipmentState(1, null, null, null, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), null, null, null, null,null,null);
 //        logger.info("equipment=" + equipmentState.toString());
          equipmentStateSever.update(equipmentState);
 

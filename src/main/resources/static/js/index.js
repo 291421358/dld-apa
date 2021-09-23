@@ -52,8 +52,51 @@ $(document).ready(function () {
             round();
         }
     });
-});
 
+//beforeunload1 关闭窗口不弹框 beforeunload 关闭窗口 弹框
+    $(window).on('beforeunload1',function(){
+
+        return'11';
+    });
+    $("#password").on("keyup",function (event) {
+            if (event.keyCode == 13)
+            {
+                event.returnValue=false;
+                event.cancel = true;
+                $("#in")[0].click();
+            }
+    })
+    $("#username").on("keyup",function (event) {
+        if (event.keyCode == 13)
+        {
+            event.returnValue=false;
+            event.cancel = true;
+            $("#in")[0].click();
+        }
+    })
+
+
+});
+window.onunload = function() {
+    if(flag){
+        console.log('关闭操作');
+    }
+    else {
+        console.log('刷新操作');
+    }
+};
+
+window.onbeforeunload = function () {
+    if(!flag){
+        console.log('关闭操作');
+    }
+    else{
+        console.log('刷新操作');
+    }
+};
+function iclose(){
+
+}
 function round() {
     timeout = setTimeout(round, 10000);
     upp();
@@ -202,7 +245,7 @@ function fullScreen(el) {
 function getTem() {
     getEquipmentState();
     setTimeout(getEquipmentState,100);
-    setTimeout(getTem,10000);
+    setTimeout(getTem,1000);
 }
 function init() {
     $.ajax({
@@ -260,16 +303,13 @@ document.onkeypress = function (e) {
 }
 
 
-function iclose(){
-
-}
-
 
 $("html,body").css("overflow","hidden").css("height","100%");
 document.body.addEventListener('touchmove', self.welcomeShowedListener, false);
 
 function showGif() {
     $("#show").show();
+    $("#username")[0].focus()
 }
 
 function  verification() {
@@ -295,7 +335,7 @@ function  verification() {
             var b = "<li class='mli' value='3'>参数设置</li>";
             var c = "<li class='mli' value='4'>查询打印</li>";
             var d = "<li class='mli' value='5'>仪器维护</li>";
-            var g = "<div id='dou' onclick='showLoginer()' style='float: left;margin-top: 10px;margin-left: 10px;color: white;font: bold'>用户操作 </div>";
+            var g = "<div id='dou' onclick='showLoginer()' style='float: left;padding-top: 6px;margin-left: 10px;color: white;font: bold'>用户操作 </div>";
             var f = "<lr  onclick='' id='tem'> <img style='padding-top: 7px;height: 33px' src='css/images/temp.png'> </lr>"
             if (e == 1){
                 $("#menu").html(a+b+c+d+g+f);

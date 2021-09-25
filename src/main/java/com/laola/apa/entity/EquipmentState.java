@@ -67,6 +67,16 @@ public class EquipmentState implements Serializable {
     private Integer temperatureControlCalibration;
 
     private Integer a;
+    private Integer b;
+
+    public Integer getB() {
+        return b;
+    }
+
+    public EquipmentState setB(Integer b) {
+        this.b = b;
+        return this;
+    }
 
     public Integer getId() {
         return id;
@@ -184,7 +194,7 @@ public class EquipmentState implements Serializable {
         return this;
     }
 
-    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll, Integer a) {
+    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll, Integer a,Integer b) {
         this.id = id;
         this.pureWater = pureWater;
         this.wasteWater = wasteWater;
@@ -195,6 +205,7 @@ public class EquipmentState implements Serializable {
         this.numUnderTest = numUnderTest;
         this.numAll = numAll;
         this.a = a;
+        this.b = b;
     }
 
     public EquipmentState(Integer id, Integer rackNo, Integer placeNo) {
@@ -220,6 +231,7 @@ public class EquipmentState implements Serializable {
                 ", numAll=" + numAll +
                 ", temperature_control_calibration=" + temperatureControlCalibration +
                 ", a=" + a +
+                ", b=" + b +
                 '}';
     }
 }

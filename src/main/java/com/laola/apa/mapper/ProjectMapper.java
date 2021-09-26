@@ -24,4 +24,10 @@ public interface ProjectMapper extends MyMapper<Project> {
     List<ProjectQC> getQcLastOneByDataAndType();
 
     void addby37();
+
+    void l(String s, Integer s1);
+
+    void clean(int i);
+
+    int getLastSca();
 }

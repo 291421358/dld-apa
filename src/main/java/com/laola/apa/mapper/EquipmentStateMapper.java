@@ -3,6 +3,7 @@ package com.laola.apa.mapper;
 import com.laola.apa.entity.EquipmentState;
 import com.laola.apa.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author tzhh
  * @since 2020-06-01 16:52:05
  */
+@Service
 public interface EquipmentStateMapper extends MyMapper<EquipmentState> {
 
     /**

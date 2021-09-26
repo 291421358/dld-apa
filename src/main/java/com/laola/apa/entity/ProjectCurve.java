@@ -30,6 +30,52 @@ public class ProjectCurve {
     @Column(name = "y")
     private String y;
 
+    /**
+     * 项目数据
+     */
+    @Column(name = "y_a")
+    private String ya;
+
+    /**
+     * 项目数据
+     */
+    @Column(name = "t")
+    private Integer t;
+
+    /**
+     * 项目数据
+     */
+    @Column(name = "creattime")
+    private String creattime;
+
+
+    public String getYa() {
+        return ya;
+    }
+
+    public ProjectCurve setYa(String ya) {
+        this.ya = ya;
+        return this;
+    }
+
+    public Integer getT() {
+        return t;
+    }
+
+    public ProjectCurve setT(Integer t) {
+        this.t = t;
+        return this;
+    }
+
+    public String getCreattime() {
+        return creattime;
+    }
+
+    public ProjectCurve setCreattime(String creattime) {
+        this.creattime = creattime;
+        return this;
+    }
+
     public Integer getId() {
         return id;
     }

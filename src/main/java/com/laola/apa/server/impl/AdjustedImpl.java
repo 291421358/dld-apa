@@ -1,12 +1,11 @@
 package com.laola.apa.server.impl;
 
 import com.laola.apa.utils.SerialUtil;
-import com.laola.apa.costant.AdjustedNewCostant;
+import com.laola.apa.costant.AdjustedNewConstant;
 import com.laola.apa.utils.DateUtils;
 import gnu.io.SerialPort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 @Service
@@ -18,7 +17,7 @@ public class AdjustedImpl {
             //新建连接串口帮助类对象 SerialTest 连接串口并返回串口对象
             SerialPort serialPort = new SerialUtil().startComPort();
             OutputStream outputStream = serialPort.getOutputStream();
-            str = AdjustedNewCostant.SpinHead + AdjustedNewCostant.adjuestNew.get("STIR+SPIN") + AdjustedNewCostant.last;
+            str = AdjustedNewConstant.SpinHead + AdjustedNewConstant.adjuestNew.get("STIR+SPIN") + AdjustedNewConstant.last;
 //字符串转换成16进制字节码
             byte[] bytes = DateUtils.hexStrToBinaryStr(str);
             //发送字节码串口通讯业务完成

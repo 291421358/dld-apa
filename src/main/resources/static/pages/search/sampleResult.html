@@ -40,6 +40,8 @@
         <label>姓名
             <input id="na" class="topin">
         </label>
+        <input type="button" title="查询条件：样本号+条码号。" id="query" class="layui-btn-primary" style="margin: 0px" value="查询">
+
     </div>
     <div class="layui-row layui-col-md12" id="details">
         <div id="patientList" style="width: 10.3333333333%;height: 462px;float: left;"></div>
@@ -314,7 +316,6 @@
     </div>
     <div class="layui-col-md11">
         <div class="bottom-item">
-            <input type="button" title="查询条件：样本号+条码号。" id="query" class="layui-btn-primary" value="查询">
             <input type="button" id="printf" class="layui-btn-primary" value="打印">
             <input type="button" class="layui-btn-primary" id="deleteDoc" value="删除">
             <input type="button" class="layui-btn-primary" id="updatePatient" value="更新">

@@ -137,6 +137,9 @@ function updateProjectParam() {
             diluent_place: $("#diluent_place").val(),
             diluent_size: $("#diluent_size").val(),
             dilution_sample_size: $("#dilution_sample_size").val(),
+            a: $("#a").val(),
+            b: $("#b").val(),
+            c: $("#c").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -191,7 +194,9 @@ function  insertProject() {
             diluent_place: $("#diluent_place").val(),
             diluent_size: $("#diluent_size").val(),
             dilution_sample_size: $("#dilution_sample_size").val(),
-
+            a: $("#a").val(),
+            b: $("#b").val(),
+            c: $("#c").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {
@@ -242,8 +247,10 @@ function updateProjectQR() {
             modifiedFormulaB: $("#QR_modifiedFormulaB").val(),
             otherModifiedFormulaA: $("#QR_otherModifiedFormulaA").val(),
             otherModifiedFormulaB: $("#QR_otherModifiedFormulaB").val(),
-            dilutionDelayPeriod: $("#QR_dilutionDelayPeriod").val()
-
+            dilutionDelayPeriod: $("#QR_dilutionDelayPeriod").val(),
+            a: $("#a").val(),
+            b: $("#b").val(),
+            c: $("#c").val(),
         },
         jsonp: 'jsoncallback',
         success: function (data) {

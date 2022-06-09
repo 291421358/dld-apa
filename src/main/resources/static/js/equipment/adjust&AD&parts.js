@@ -157,7 +157,7 @@ $(document).ready(function () {
     $("#cleanEight").on('click', function () {
         $.ajax({
             type: 'GET',
-            url: urlhead + '/adjusted/cleanEight',
+            url: urlhead + '/adjusted/cleanEight?no='+parseInt($("#cleanEightNo")[0].value).toString(16),
             async: true,
             jsonp: 'jsoncallback',
             success: function (event) {

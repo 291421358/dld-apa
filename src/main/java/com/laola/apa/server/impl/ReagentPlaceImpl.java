@@ -43,4 +43,12 @@ public class ReagentPlaceImpl implements ReagentPlaceIntf {
         return regentPlaceMapper.updateByPrimaryKeySelective(regentPlace);
     }
 
+    @Override
+    public List<Map<String, Object>> getBoolScal() {
+
+        return selectDao.selectList("SELECT place,project_param_id,dateId  from regent_place rp\n" +
+                "LEFT JOIN project_param pp on pp.id=rp.project_param_id\n" +
+                "LEFT JOIN scaling s on s.dateId=pp.factor;\n");
+    }
+
 }

@@ -328,7 +328,7 @@ public class AdjustedController {
     }
 
     /**
-     * 柱塞泵2 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     * 静音 E5 90 83 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
      */
     @RequestMapping(value = "BuzzerStop" , method = RequestMethod.GET)
     public String BuzzerStop(){

@@ -427,10 +427,23 @@ input[type=date] {
     /*z-index: 2;*/
     /*display: none;*/
     overflow-y: scroll;
-    -webkit-scrollbar: 1px;
 }
 #patientList::-webkit-scrollbar {
-    width:5px;
+    scrollbar-arrow-color:black;
+    scrollbar-face-color: black;
+    width:8px;
+    border-color: black;
+    color: black;
+}
+#patientList::-webkit-scrollbar-thumb  {
+    background-color: #618dde;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0  2px #ffffff;
+}
+
+#patientList::-webkit-scrollbar-button  {
+    background-color: #000000;
+    -webkit-box-shadow: inset 0 0 3px #ffffff;
 }
 #Hlist li{
     list-style: none;

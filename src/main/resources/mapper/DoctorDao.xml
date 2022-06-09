@@ -6,6 +6,9 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="type" column="type" jdbcType="VARCHAR"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="a" column="a" jdbcType="VARCHAR"/>
+        <result property="b" column="b" jdbcType="VARCHAR"/>
+
     </resultMap>
 
     <!--查询单个-->
@@ -27,7 +30,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="DoctorMap">
         select
-        id, type, name
+        id, type, name ,a ,b
         from laola.doctor
         <where>
             <if test="id != null">
@@ -40,6 +43,9 @@
                 and name = #{name}
             </if>
         </where>
+    </select>
+    <select id="lastUP" resultType="com.laola.apa.entity.Doctor">
+        select * from  doctor order by a desc limit 1;
     </select>
 
     <!--新增所有列-->
@@ -60,6 +66,15 @@
             </if>
         </set>
         where id = #{id}
+    </update>
+    <update id="updateByName">
+        update laola.doctor
+        <set>
+            <if test="name != null and name != ''">
+                a = now()
+            </if>
+        </set>
+        where name = #{name}
     </update>
 
     <!--通过主键删除-->

@@ -61,8 +61,10 @@ public class P94 implements PortDataDealService<String,Object> {
         ProjectParam projectParam = new ProjectParam(param);
         String dilution_sample_size = projectParam.getDilution_sample_size();
         String diluent_size = projectParam.getDiluent_size();
-        if (null !=dilution_sample_size && null != diluent_size && !dilution_sample_size.equals("") && !diluent_size.equals("")){
+        if (null !=dilution_sample_size && null != diluent_size && !dilution_sample_size.equals("") && !diluent_size.equals("")&& !dilution_sample_size.equals("0") && !diluent_size.equals("0")){
             projectParam.setDiluent_place(String.valueOf(Integer.parseInt(place)*2-1));
+        }else {
+            projectParam.setDiluent_place(null);
         }
 
 
@@ -83,6 +85,7 @@ public class P94 implements PortDataDealService<String,Object> {
             if (algorithm == null || algorithm.equals("") || algorithm.equals(" "));
             algorithm = "1";
             algorithm = AlgorithmConstant.algorithm.get(algorithm);
+            thistime = DataUtil.changeType(thistime);
             //查询或插入
             UsedCode b = usedCodeServer.queryOrInsert(code,total);
             setRegentPlace(code, paramid, place,0);
@@ -99,16 +102,20 @@ public class P94 implements PortDataDealService<String,Object> {
                     thistime = DataUtil.getPreDateByUnit(String.valueOf(starttime), 1, Calendar.MINUTE);
                 }
             }
-
+            logger.info("thistime="+thistime);
             Scaling scaling = new Scaling(thistime,algorithm);
             scalingIntf.insertScalingAlgorithm(scaling);
             //添加定标项目
-            insertScalingProject(split, paramid, thistime);
+            int i = insertScalingProject(split, paramid, thistime);
+        }else {
+              usedCodeServer.queryOrInsert(code,total);
+            setRegentPlace(code, paramid, place,0);
         }
-        thistime = DataUtil.changeType(thistime);
-        projectParam.setFactor(thistime);
 
+        projectParam.setFactor(thistime);
+        logger.info("thistime="+thistime);
         int i = projectParamMapper.updateByPrimaryKeySelective(projectParam);
+//        scalingIntf.updateProjectsScaling(i,paramid);
         logger.info("update"+i);
         if (i == 0){
             projectParamMapper.insertSelective(projectParam);
@@ -124,7 +131,7 @@ public class P94 implements PortDataDealService<String,Object> {
 	 * @param thistime
      * @return
      **/
-    private void insertScalingProject(String[] split, String paramid, String thistime) {
+    private int insertScalingProject(String[] split, String paramid, String thistime) {
         List<Map<String, Object>> projectList = new ArrayList<>();
         for (int i = 4; i <split.length ; i += 2) {
             Map<String, Object> p = new HashMap<>();
@@ -136,9 +143,10 @@ public class P94 implements PortDataDealService<String,Object> {
             p.put("endtime",thistime);
             Integer integer = projectTest.selectNextProjectNum();
             p.put("projectNum",integer);
-            projectList.add(p);
+            boolean add = projectList.add(p);
         }
-        projectTest.insertProjectList(projectList);
+        int i = projectTest.insertProjectList(projectList);
+        return projectTest.getLastSca();
     }
     /**
      * @apiNote 设置试剂位置

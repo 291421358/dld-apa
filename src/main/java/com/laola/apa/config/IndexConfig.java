@@ -27,19 +27,25 @@ public class IndexConfig {
     private ProjectTest projectTest;
     @EventListener({ApplicationReadyEvent.class})
     public void applicationReadyEvent() {
-
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        logger.info("v1.1");
+        System.out.println();
+        System.out.println();
+        System.out.println();
         logger.info("删除所有未做的项目");
         projectTest.deleteProjects();
 
         logger.info("mini-100准备就绪 ... 启动浏览器");
 //        // 启动后访问地址
-        String cmd = " cmd /c \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"  --app=http://localhost:8081";// "cmd /c start"+path+"/"+filename;
+        String cmd = " cmd /c \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"  --kiosk http://localhost:8081";// "cmd /c start"+path+"/"+filename;
         try {
             Runtime.getRuntime().exec(cmd);
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
-    }
+}
 
     @EventListener({ApplicationReadyEvent.class})
     public void applicationReadyEvent1() {

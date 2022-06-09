@@ -92,11 +92,11 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                 // 时读取数据
                 try {
                     int numBytes = -1;
-                    //无限循环，每隔20毫秒对串口COM21进行一次扫描，检查是否有数据到达
+                    //无限循环，每隔20毫秒对串口COM11进行一次扫描，检查是否有数据到达
 
                     while(true){
 
-                        //获取串口COM21收到的可用字节数
+                        //获取串口COM11收到的可用字节数
                         numBytes = inputStream.available();
 
                         //如果可用字节数大于零则开始循环并获取数据
@@ -172,7 +172,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                 inputStream = serialPort.getInputStream();
                 outputStream = serialPort.getOutputStream();
                 // 给当前串口添加一个监听器
-                serialPort.addEventListener(this);
+//                serialPort.addEventListener(this);
                 // 设置监听器生效，即：当有数据时通知
                 serialPort.notifyOnDataAvailable(true);
 

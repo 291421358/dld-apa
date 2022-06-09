@@ -20,7 +20,33 @@ public class Doctor implements Serializable {
      * 名称
      */
     private String name;
+    /**
+     * 名称
+     */
+    private String a;
 
+    /**
+     * 名称
+     */
+    private String b;
+
+    public String getA() {
+        return a;
+    }
+
+    public Doctor setA(String a) {
+        this.a = a;
+        return this;
+    }
+
+    public String getB() {
+        return b;
+    }
+
+    public Doctor setB(String b) {
+        this.b = b;
+        return this;
+    }
 
     public Integer getId() {
         return id;

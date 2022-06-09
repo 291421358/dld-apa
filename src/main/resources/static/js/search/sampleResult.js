@@ -128,6 +128,7 @@ function queryAllPatient(pid, code ,testDate,nam,id) {
             $("#inspectionDoc option[value='" + datum.inspectionDoc + "']").attr("selected", "selected");
             $("#name")[0].value = datum.name;
             $("#remark")[0].value = datum.remark;
+            $("#sampleType")[0].value = datum.sampleType;
             $("#sampleNum")[0].value = datum.sampleNum;
             // console.log("datum.testDate"+datum.testDate);
             $("#testDate")[0].value = (datum.testDate == null ? "" : datum.testDate.substring(0, 10));
@@ -204,7 +205,7 @@ function getProjectsByCon(starttime, humancode) {
                                 var mark = "";
                                 if (data[i - 1].density > data[i - 1].normal_high / 100)
                                     mark = "↑";
-                                if (data[i - 1].density < data[i - 1].normal_high / 100)
+                                if (data[i - 1].density < data[i - 1].normal_low / 100)
                                     mark = "↓";
                                 $(this).html(mark);
                                 break;
@@ -429,6 +430,7 @@ $(document).ready(function () {
             jsonp: 'jsoncallback',
             success: function (data) {
                 queryAllPatient("", $("#code")[0].value ,$("#time")[0].value,"",$("#id")[0].value);
+                location = location;
             },
             error: function () {
 

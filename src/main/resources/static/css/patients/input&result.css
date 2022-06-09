@@ -99,13 +99,16 @@ and (min-resolution:.001dpcm) {
     float: left;
     margin-left: 14px;
 }
+.scf{
+    margin-top: 93px;
+}
 .start{width: 101px;
     height: 113px;
     opacity: 1;
     float: left;
     background-image: url("../../css/images/inputAndResult/-e-3.png");
     background-size: 101px;
-    margin: 10px 0 0 50px;
+    margin: 10px 0 0 10px;
     cursor: pointer;
 }
 
@@ -116,19 +119,19 @@ and (min-resolution:.001dpcm) {
     background-image: url("../../css/images/inputAndResult/-e-2.png");
     background-size: 101px;
     float: left;
-    margin: 10px 20px 0 49px;
+    margin: 10px 20px 0 10px;
     cursor: pointer;
 
 }
 
 .suspend{
-    width: 0px;
+    width: 105px;
     height: 113px;
     opacity: 1;
     background-image: url("../../css/images/inputAndResult/-e-1.png");
     float: left;
     background-size: 101px;
-    margin: 10px 0 0 19px;
+    margin: 10px 0 0-15px;
     cursor: pointer;
 
 }
@@ -454,7 +457,7 @@ option{
 
 }
 
-#save, #delete {
+#save, #delete ,#repeat{
     width: 83px;
     height: 30px;
     opacity: 1;
@@ -468,6 +471,7 @@ option{
     color: #ffffff;
     font-size: 22px;
     padding-top: 5px;
+    margin-left: 14px;
 }
 
 #delete {
@@ -481,7 +485,7 @@ option{
     float: left;
     margin-top: 17px;
     margin-bottom: 15px;
-    margin-left: 639px;
+    margin-left: 0px;
 }
 
 #shijiqu {
@@ -576,7 +580,7 @@ option{
     float: left;
 }
 
-.cfx {
+.cfx,.cfx1,.cfx2,.cfx3,.cfx4,.cfx5,.cfx6 {
     width: 85px;
     height: 5px;
     opacity: 1;

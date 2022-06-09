@@ -236,7 +236,7 @@ public class DateUtils {
         float bey = 0;
         float tBey = 0;
         float tEnd = 99999;
-        float mainEND = Float.parseFloat(mainEnd);
+        float mainEND = Float.parseFloat(mainEnd); // Integer.parseInt(a)+R2t+Integer.parseInt(R2Incubation) - y1 总时长 孵育时间+r2加入时间+r2反应时间
         float y1 = 0;
         float y2 = 0;
         int t1 = 0;

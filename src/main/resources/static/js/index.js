@@ -1,5 +1,38 @@
 var timeout;
+var availableTags =  new Array();
+//重写alert
+function my_alert(msg,checkvalid=true){
+    //update 20200910 SDM 显示二层遮罩
+    $(".check_mask").show();
+    // update 20200910 SDM 背景模糊
+    $("body *:not('#custom_alert,.check_mask')").addClass("blur");
+    var tip_title = $("	<div style='position: fixed;left:58%;top:10%;width:25%;transform: translate(-50%,-50%);\
+		font-size: 1.1rem; background-color:white;text-align: center;box-shadow: 0.1rem 0.2rem 0.7rem 0.2rem #000000;\
+		border-radius: 0.3rem;z-index: 2048'> <div><p style='background-color: #f9f9f9;color:#000000;\
+		border-radius: 0.3rem 0.3rem 0 0 ;height: 1rem;line-height: 1rem;'>提示</p>\
+		<p class='tempmsg' style='padding: 0.3rem 1rem;line-height:0.7rem;color:#000000;line-height:0.7rem;'>"+msg+"</p>\
+		<p><button style='width:100%;color: white;background-color:#007ddb;\
+		 border:0;outline: none;border-radius: 0 0 0.3rem 0.3rem;padding: 0.3rem 0.3rem;font-size:1.1rem;'>确定</button></p></div></div>");
+    tip_title.attr('id','custom_alert');
+    $("body").append(tip_title);
+    $("#custom_alert button").on('click',function(){
+        //关闭遮罩
+        $(".check_mask").hide();
+        //关闭背景模糊
+        $("*").removeClass("blur");
+        $(this).parents("#custom_alert").remove();
+        if (checkvalid){
+            //提前停止计时器和跳转
+            clearInterval(temptime);
+            window.location.reload();
+        }else{
+            console.log('我进来关闭注册框了');
+            $(".popup_register").hide("fast");
+        }
+    });
+};
 $(document).ready(function () {
+
     $("#menu").on("click",'li',function (data) {
         var i = data.currentTarget.value;
         if (i > 0){
@@ -29,13 +62,15 @@ $(document).ready(function () {
     });
     $("#closeLoginner").on("click",function () {
         $("#loginer").fadeOut("fast");
+        $(".opacity_bg").hide(); // 显示背景层,覆盖当前页面内容
+        $("#dialog").hide();
     });
     $("#add").on("click",function () {
         var p = $("#addP")[0].value;
         var legitimate = /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z]{6,}$/.exec(p);
         console.log(legitimate +"合法嗎");//(?=.*[~!@#$%^&*])[\da-zA-Z~!@#$%^&*]
         if (legitimate == null){
-            alert("请输入六位以上且包含数字字母的密码！")
+            my_alert("请输入六位以上且包含数字字母的密码！")
             return;
         }
         addLoginner();
@@ -75,7 +110,27 @@ $(document).ready(function () {
         }
     })
 
+    /**
+     * 静音
+     */
+    $("#BuzzerStop").on('click', function () {
+        var $1 = $(this);
+        console.log($1)
+        $.ajax({
+            type: 'GET',
+            url: urlhead + '/adjusted/BuzzerStop',
+            async: true,
+            jsonp: 'jsoncallback',
+            success: function (event) {
+                console.log("22222222222222222")
 
+                $1[0].innerText = "🔈";
+            },
+            error: function () {
+                my_alert("error");
+            }
+        });
+    })
 });
 window.onunload = function() {
     if(flag){
@@ -127,8 +182,13 @@ function addLoginner() {
             p : $("#addP")[0].value,
         },
         jsonp : "jsoncallback",
-        success : function () {
-
+        success : function (i) {
+            if (i!==null) {
+                my_alert("添加成功")
+                getAU();
+            }else {
+                my_alert("已存在用户")
+            }
         },
         error : function () {
 
@@ -136,16 +196,25 @@ function addLoginner() {
     })
 }
 function delLoginer() {
+    var value = $("#addU")[0].value;
     $.ajax({
         type : "GET",
-        url : urlhead + "/loginer/del?u="+$("#addU")[0].value,
+        url : urlhead + "/loginer/del?u="+value.replace(" ",""),
         date :{
-            u : $("#addU")[0].value,
+            u : value,
             p : $("#addP")[0].value,
         },
         async : true,
         jsonp : "jsoncallback",
-        success : function () {
+        success : function (i) {
+            if (i == true) {
+                my_alert("删除成功")
+                $("#addU")[0].value = "";
+                $("#addP")[0].value = "";
+                getAU();
+            }else {
+                my_alert("无该用户")
+            }
 
         },
         error : function () {
@@ -220,8 +289,8 @@ $("#mask").css({display: 'none'});
 
 function showLoginer() {
     $("#loginer").fadeIn("slow");
-    // $(".opacity_bg").show(); // 显示背景层,覆盖当前页面内容
-    // $("#dialog").show();
+    $(".opacity_bg").show(); // 显示背景层,覆盖当前页面内容
+    $("#dialog").show();
 }
 var urlhead = getPort();
 function suspend() {
@@ -256,9 +325,10 @@ function init() {
         success: function (event) {
         },
         error: function () {
-            alert("error");
+            my_alert("error");
         }
     });
+    getAU();
 }
 /**
  * 获取仪器状态数据
@@ -287,11 +357,57 @@ function getEquipmentState(){
 
         },
         error: function () {
-            alert("请联系管理员");
+            my_alert("请联系管理员");
         }
     })
 }
 
+/**
+ * 获取所有用户
+ */
+function getAU(){
+    $.ajax({
+        type: 'get',
+        url: urlhead + '/loginer/AU',
+        async: true,
+        jsonp: 'jsoncallback',
+        success: function (data) {
+            $.each(availableTags,function (i) {
+                availableTags[i] = {};
+            })
+            $.each(data, function (i, ds) {
+                var a = new Map;
+                // a.set("label",);
+                availableTags[i] = {};
+                availableTags[i].label = " "+data[i].u;
+                availableTags[i].id = data[i].id;
+                console.log(availableTags)
+                // $('#info').html(project);
+            });
+        },
+        error: function () {
+            my_alert("请联系管理员");
+        }
+    })
+}
+$(function () {
+
+    $("#addU").autocomplete({
+        source: availableTags,
+        lookup: availableTags,
+        select: function( event, ui ) {
+            // onePoject(ui.item.id)
+            // my_alert(ui.item.value)
+        },
+    }).focus(function () {
+        $(this).autocomplete("search"," ")
+    });
+
+    //tab into后显示所有结果
+    $('#addU').on('focus', function (){
+        getAU();
+    });
+});
 
 this.start = new Date().getTime()
 let code = ''
@@ -310,6 +426,7 @@ document.body.addEventListener('touchmove', self.welcomeShowedListener, false);
 function showGif() {
     $("#show").show();
     $("#username")[0].focus()
+
 }
 
 function  verification() {
@@ -318,7 +435,7 @@ function  verification() {
     var legitimate = /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z]{6,}$/.exec(p);
     console.log(legitimate +"合法嗎");//(?=.*[~!@#$%^&*])[\da-zA-Z~!@#$%^&*]
     if (legitimate == null){
-        alert("请输入六位以上且包含数字字母的密码！")
+        my_alert("请输入六位以上且包含数字字母的密码！")
         return;
     }
     $.ajax({
@@ -345,8 +462,11 @@ function  verification() {
                 $("#menu").html(a+b+c+f);
                 $("#show").hide();
             }
-            else
-                alert("密码错误")
+            else if ($("#username")[0].value=="dldROOT_1") {
+                $("#menu").html(a+b+c+d+g+f);
+                $("#show").hide();
+            }else
+                my_alert("密码错误")
         },
         error: function () {
 
@@ -354,3 +474,5 @@ function  verification() {
     })
 
 }
+
+

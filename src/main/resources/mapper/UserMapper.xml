@@ -40,6 +40,9 @@
     <result column="diluent_size" jdbcType="VARCHAR" property="diluent_size" />
     <result column="dilution_sample_size" jdbcType="VARCHAR" property="dilution_sample_size" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="a" jdbcType="VARCHAR" property="a" />
+    <result column="b" jdbcType="VARCHAR" property="b" />
+    <result column="c" jdbcType="VARCHAR" property="c" />
   </resultMap>
     <select id="presetQc" resultType="com.laola.apa.entity.ProjectParam">
       select id,preset_density_low,preset_density_mid,preset_density_hight from project_param;

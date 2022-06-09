@@ -54,10 +54,12 @@ public class P91 implements PortDataDealService<String, Object> {
         logger.info("GET RESULT DATA" + string);
         //A15：撞针标志   1/0代表撞针
         int firingPin = DateUtils.decodeHEX(string.substring(36, 38));
-        //A15：撞针标志   1/0代表撞针
+        //行为
         int behavior = DateUtils.decodeHEX(string.substring(24, 26));
-        //A15：撞针标志   1/0代表撞针
-        int time = DateUtils.decodeHEX(string.substring(26, 30));
+        /*
+         当前时间
+         */
+        int time = DateUtils.decodeHEX(string.substring(26, 30));//1111111
         //判断是结果
         //截取前32 * 2位
         String result = string.substring(64);
@@ -180,16 +182,31 @@ public class P91 implements PortDataDealService<String, Object> {
             projectCurve.setCreattime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
             //插入曲线上的一个点
             int insert = projectCurveMapper.insert(projectCurve);
-
+            //qu取得第一个点时间
             Integer st = projectCurveMapper.get1st(id);
-            System.out.println(time);
-            System.out.println(st);
+            logger.info("当前时间"+time);
+            logger.info("开始时间"+st);
             //数据长度是否等读点数终点 代表最后和一个点读数结束
             if (st == null){
                 System.err.println("没有第一个点");
-                break;
+                continue;
             }
+            //取得r2 加入时间
+            ProjectNode projectNode = projectNodeMapper.queryByPId(id);
+            int R2t =  0;
+            if (projectNode!= null && projectNode.getT()!=null){
+                R2t = projectNode.getT();
+            }
+            //当前时间- 开始时间 = 实际总反应时间--> 当前时间-r2加入时间=r2 已经反应时间
             int usedT = time - st;
+            //int usedR2T = time - st;
+            //孵育时长
+            String a = projectParam.getA();
+            if (R2t >0 ){
+                int length1 = Integer.parseInt(a) + R2t + Integer.parseInt(R2Incubation) - st;
+                length = length1>length?length1:length;
+            }
+            logger.info("总时长"+length);
             if (usedT >= length) {
 //                PortDataDealService<String, Object> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
 //                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d",strings[1],"1");
@@ -208,21 +225,11 @@ public class P91 implements PortDataDealService<String, Object> {
                 }
                 // 取得曲线
                 List<Map<String, Object>> selectOneCurve = scalingIntf.selectOneCurve(id);
-                //
-                ProjectNode projectNode = projectNodeMapper.queryByPId(id);
 
-
-
-                int R2t =  0;
-                if (projectNode!= null && projectNode.getT()!=null){
-                    R2t = projectNode.getT();
-
-                }
                 //取得读数点
                 String mainBegin = projectParam.getMainIndicationBegin();
                 String mainEnd = projectParam.getMainIndicationEnd();
-                //孵育后读点
-                String a = projectParam.getA();
+
 
 
                 //如果 主/辅终点 为空或者0 这使其赋值为主/辅 始点
@@ -271,6 +278,7 @@ public class P91 implements PortDataDealService<String, Object> {
                 logger.info("计算结果得出absorbanceGap"+absorbanceGap);
 
                 if (type == 2 || type == 6) {
+                    logger.info("定标");
                     // 定标项目
                     project.setFactor(String.valueOf(new DecimalFormat("0.00").format(density / (absorbanceGap))));
                     project.setAbsorbance(String.valueOf(absorbanceGap));
@@ -279,6 +287,7 @@ public class P91 implements PortDataDealService<String, Object> {
 
                 if (type == 1 || type == 3 || type == 4 || type == 5) {
                     //普通项目或者质控项目
+                    logger.info("项目");
 
                     setDensity(density, ppi, projectParam, project, factor, absorbanceGap);
                     if (type == 3) {

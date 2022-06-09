@@ -127,7 +127,7 @@ public class ProjectTestController {
 
 
     /**
-     * 获取某一天的结果
+     * 获取某一天的结果x
      *
      * @param project
      * @return
@@ -196,12 +196,12 @@ public class ProjectTestController {
                 min = Float.parseFloat(projectCurve.getY());
             }
             //取最大的x
-            if (projectCurve.getX() > maxX) {
-                maxX = projectCurve.getX();
+            if (projectCurve.getT() > maxX) {
+                maxX = projectCurve.getT();
             }
             //取最小的x
-            if (projectCurve.getX() < minX || minX == 0) {
-                minX = projectCurve.getX();
+            if (projectCurve.getT() < minX || minX == 0) {
+                minX = projectCurve.getT();
             }
         }
         System.out.println(max + "::::::::" + min);
@@ -210,13 +210,17 @@ public class ProjectTestController {
         if ((Float.parseFloat(String.valueOf(max)) - Float.parseFloat(String.valueOf(min))) < 100) {
             y = 50;
         }
+        if ((Float.parseFloat(String.valueOf(max)) - Float.parseFloat(String.valueOf(min))) < 50) {
+            y = 25;
+        }
         float gap = (Float.parseFloat(String.valueOf(max)) - Float.parseFloat(String.valueOf(min))) / y;
         float gapX = (Float.parseFloat(String.valueOf(maxX)) - Float.parseFloat(String.valueOf(minX))) / 180;
         List<Map<String, Float>> resultList = new ArrayList<>();
         for (ProjectCurve projectCurve : projectListList) {
             Map<String, Float> map = new HashMap<>();
             map.put("y", (Float.parseFloat(projectCurve.getY()) - min) / gap);
-            map.put("x", (projectCurve.getX() - minX) / gapX);
+            map.put("xx", Float.valueOf(projectCurve.getX()));
+            map.put("x", (projectCurve.getT() - minX) / gapX);
             map.put("abs", Float.valueOf(projectCurve.getY())/1000);
             map.put("t",Float.valueOf(projectCurve.getT()));
             resultList.add(map);

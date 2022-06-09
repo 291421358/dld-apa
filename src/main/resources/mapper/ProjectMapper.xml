@@ -28,14 +28,14 @@
     <insert id="insertProjectList">
         insert into
         project(id,starttime,endtime,cup_number,project_param_id,project_num,human_code,place_no,rack_no,
-        bar_code,type,factor,density,absorbance,a,b)
+        bar_code,type,factor,density,absorbance,a)
         values
         <foreach collection="projects" item="projects" index="index" separator=",">
             (#{projects.id}, #{projects.starttime}, #{projects.endtime}, #{projects.cupNumber},
             #{projects.projectParamId}, #{projects.projectNum},
             #{projects.humanCode}, #{projects.placeId}, #{projects.rackId}, #{projects.barCode}, #{projects.type},
             #{projects.factor}, #{projects.density}
-            , #{projects.absorbance} , #{projects.a}, #{projects.b})
+            , #{projects.absorbance} , #{projects.a})
         </foreach>
     </insert>
 
@@ -49,6 +49,9 @@
     <delete id="deleteProjectsByDateIdParamId">
       DELETE FROM project WHERE DATE_FORMAT(starttime,"%Y-%m-%d %H:%i") = #{dateId} and project_param_id = #{paramId} and type = 2;
   </delete>
+    <delete id="clean">
+        DELETE FROM project_curve WHERE project_id in (select id from (select id from  project order  by  id desc limit #{i}) as s)
+    </delete>
     <select id="getQcLastOneByDataAndType" resultType="com.laola.apa.entity.ProjectQC">
     SELECT * FROM project WHERE id in(
     SELECT max(id) FROM project
@@ -56,11 +59,18 @@
         and type in(3,4,5)
         GROUP BY project_param_id,type )
     </select>
+    <select id="getLastSca" resultType="java.lang.Integer">
+        select  id from  project where type = 2 order by id desc  limit 1;
+    </select>
 
     <update id="addby37">
         update project set density='≤0.5' where id =(
         SELECT ss from (select id ss from project where ISNULL(density)
         and DATE_FORMAT(starttime,'%Y-%m-%d')=DATE_FORMAT(now(),'%Y-%m-%d') and type = 1 LIMIT 1)a);
 
+    </update>
+    <update id="l">
+        update project set density=#{param1} where id =(SELECT * FROM(
+        SELECT id from project order by id desc limit #{param2},1)as ee)
     </update>
 </mapper>

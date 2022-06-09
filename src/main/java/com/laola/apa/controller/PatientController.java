@@ -1,16 +1,24 @@
 package com.laola.apa.controller;
 
+import com.laola.apa.DO.SerialDO;
+import com.laola.apa.common.Result;
+import com.laola.apa.common.StateCodeEnum;
 import com.laola.apa.entity.Patient;
+import com.laola.apa.serial.SerialController;
 import com.laola.apa.server.PatientService;
 import com.laola.apa.server.ProjectTest;
 import com.laola.apa.task.FutureTaskable;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
 import gnu.io.SerialPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +38,10 @@ public class PatientController {
     private PatientService patientService;
     @Autowired
     private ProjectTest projectTest;
-
+    /**
+     * 日志对象
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientController.class);
     /**
      * 通过主键查询单条数据
      *
@@ -49,7 +60,9 @@ public class PatientController {
      */
     @GetMapping("update")
     public int update(Patient patient) {
-        System.out.println(patient.toString());
+        String x = patient.toString();
+        System.out.println(x);
+
         return this.patientService.updateById(patient);
     }
 

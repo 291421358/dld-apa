@@ -66,6 +66,7 @@ if (numberUnderTest > 1){
         if (null == thisA){
             thisA = 80;
         }
+
         if (a-thisA > 1 && a > 1){
             SerialUtil serialUtil = new SerialUtil();
             for (int i = 0; i < a-thisA-1; i++) {
@@ -74,6 +75,32 @@ if (numberUnderTest > 1){
                 String command = "E5 90 C1 " + no +" 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
                 serialUtil.init(command);
             }
+        }
+        if (thisA == 79 && a == 1){
+            SerialUtil serialUtil = new SerialUtil();
+            for (int i = 0; i < a-thisA-1; i++) {
+                String command = "E5 90 C1 50 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+                serialUtil.init(command);
+            }
+        }
+        if (thisA == 80 && a == 2){
+            SerialUtil serialUtil = new SerialUtil();
+            for (int i = 0; i < a-thisA-1; i++) {
+                String command = "E5 90 C1 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00";
+                serialUtil.init(command);
+            }
+        }
+        //补发 2-79 下位机A小与上位机a。保留上位机a  非开机第一个数状态。得到补发值
+        if (a < thisA && a !=1){
+            equipmentState.setA(thisA);
+        }
+        //补发 1
+        if (a == 1 && thisA == 2){
+            equipmentState.setA(thisA);
+        }
+        //补发 80
+        if (a == 80 && thisA == 1){
+            equipmentState.setA(thisA);
         }
 //        logger.info("equipment=" + equipmentState.toString());
          equipmentStateSever.update(equipmentState);

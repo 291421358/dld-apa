@@ -341,11 +341,15 @@ function getRegentPlace() {
         data: {},
         jsonp: 'jsoncallback',
         success: function (event) {
+            var ev1 = event[0];
+            var ev2 = event[1];
             // console.log(event.length);
             // console.log(event[0]);
             // regentBottleSet();
+            var nocs = "";
             for (let i = 0; i < 6; i++) {
-                var eventElement = event[i];
+                var eventElement = ev2[i];
+                var ev1Element = ev1[i];
                 var name = eventElement.name;
                 var a = eventElement.a;
                 if (a === 1) {
@@ -356,7 +360,13 @@ function getRegentPlace() {
                 if (name == null){
                     name ="";
                 }
+                var dateId = ev1Element.dateId;
+                console.log(dateId+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"");
                 $("#n" + (i + 1)).html(name+a);
+                if (name != ""){
+                    $(".cfx" + (i + 1)).html(dateId==undefined?"<div style='color: red'>无定标</div>":"");
+                    nocs+=dateId==undefined?name+"、":"";
+                }
                 var total = null == eventElement.total ? 1: eventElement.total;
                 var count = null == eventElement.count ? "//": eventElement.count;
                 var total_2 = null == eventElement.total_2 ? 1 : eventElement.total_2;
@@ -380,6 +390,10 @@ function getRegentPlace() {
                     $tab.attr("id", eventElement.project_param_id);
                 }
             }
+            if (nocs != "") {
+                nocs += "没有定标";
+            }
+            $("#nocs").html(nocs);
 
         },
         error: function () {
@@ -788,13 +802,10 @@ $(document).ready(function () {
         sendList();
 
         // setTimeout(refush,500);
-        circularReading();//改刷新时间
+        // circularReading();//改刷新时间
     });
 
     $(".suspend").click(function () {
-        $(".start").css("background-image","url(../../css/images/inputAndResult/-e-3.png)");
-        $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-6.png)");
-        $(".suspend").css("background-image","url(../../css/images/inputAndResult/-e-1.png)");
         console.log("suspend");
         // clearTimeout(timeout);
     });
@@ -804,9 +815,8 @@ $(document).ready(function () {
      */
     $("#stop").on('click', function () {
         console.log("stop");
-        $(".start").css("background-image","url(../../css/images/inputAndResult/4.png)");
-        $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-2.png)");
-        $(".suspend").css("background-image","url(../../css/images/inputAndResult/-e-1.png)");
+        $(".start").css("background-image","url(../../css/images/inputAndResult/-e-3.png)");
+        $(".stop").css("background-image","url(../../css/images/inputAndResult/-e-6.png)");
         clearTimeout(timeout);
         $.ajax({
             type: 'GET',
@@ -820,26 +830,6 @@ $(document).ready(function () {
             }
         });
     });
-
-
-    /**
-     * 蜂鸣器停止
-     */
-    $("#BuzzerStop").on('click', function () {
-        // clearTimeout(timeout);
-        $.ajax({
-            type: 'GET',
-            url: urlhead + '/adjusted/BuzzerStop',
-            async: true,
-            jsonp: 'jsoncallback',
-            success: function (event) {
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    });
-
     var deleteHumanCode;
     var deltd;
     var deltr;
@@ -1151,10 +1141,11 @@ $(document).ready(function () {
                         ctx3.lineWidth = 1;
                         ctx3.lineTo(project.x + 30, 210 - project.y);
                         var number = parseInt((data.length - 1) / 7);
-                        if ((i % number === 0 && i!==0 && data.length-1-i >= number) || i===1 || i===data.length-1) {
+                        if ((i % number === 0 && i!==0 && data.length-1-i >= number) || i===1 || i===data.length-2) {
                             var ctx4 = canvas.getContext('2d');
 
-                            ctx4.strokeText(i, 200 / (data.length - 1) * i+15, 242);
+                            ctx4.strokeText(project.xx, 200 / (data.length - 1) * i+15, 242);
+                            // ctx4.strokeText(i, 200 / (data.length - 1) * i+15, 242);
                         }
                         if (i !== data.length-1) {
 

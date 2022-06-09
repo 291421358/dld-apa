@@ -11,8 +11,11 @@
 
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="./css/jquery-ui.min.css">
 </head>
 <script src="./js/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="./js/jquery2.1.4/jquery.min.js"></script>
+<script src="./js/jquery-ui.min.js"></script>
 <script src="./js/properties.js"></script>
 <script src="./js/index.js"></script>
 <style type="text/css">
@@ -49,7 +52,7 @@
     }
 
     #v {
-        width: 85px;
+        width: 182px;
         height: 12px;
         opacity: 1;
         font-size: 13px;
@@ -77,6 +80,7 @@
         float: left;
         /*padding: 5px 0 0 12px;*/
         margin: 0px 0 0 631px;
+
         line-height: 23px;
 
     }
@@ -107,6 +111,8 @@
         left: 212px;
         z-index: 1025;
     }
+
+
 </style>
 <body onload="showGif();time();getTem();init()" style="z-index: 1022">
 <div class="layui-row layui-form-item" style="height: 689px;width: 1280px;">
@@ -116,10 +122,10 @@
             <li id="m_name">MINI-SP100检测系统</li>
         </div>
         <div style=" float: left">
-            <li id="v">版本：Beat1.1</li>
+            <li id="v">版本：V1.1.01</li>
         </div>
         <div style=" float: left;color: white">
-            <li id="round">11111111</li>
+            <!--<li id="round">11111111</li>-->
         </div>
         <div id="out" onclick="suspend()">
             <!--<img id="out_i" src="css/images/tuichu2.png">-->
@@ -143,8 +149,7 @@
         </ul>
     </div>
     <div id="content">
-        <iframe scrolling='no' src="./pages/patients/input&result.html" height=720 width=1270 frameborder=null
-                style="z-index: 1023;"></iframe>
+        <iframe scrolling='no' src="./pages/patients/input&result.html" height=720 width=1270 frameborder=null style="z-index: 1023;"></iframe>
     </div>
 </div>
 <div id="quit" style="font-size:30px;text-align: center">
@@ -160,18 +165,34 @@
     <div id="donghua">
 
     </div>
-    <label style="color: black" for="username">用户名</label><input type="text" value="" id="username" >
-    <label style="color: black" for="password">密码</label><input type="password" value="" id="password" >
-    <input type="button"  value="进入" id="in" style="height: 25px;width: 50px;margin-left: 200px;cursor: grab">
+    <div id="loginf">
+        <div id="userim">
+
+        </div>
+        <label style="color: #216EB8;width: 57px;height: 15px;font-family:Bold PingFang SC, PingFang SC-Medium;font-size: 16px;line-height: 16px;float: left" for="username">用户名</label>
+        <input type="text" value="" id="username" >
+        <div id="psim"></div>
+        <label style="color: #216EB8;width: 57px;height: 15px;font-family:Bold PingFang SC, PingFang SC-Medium;font-size: 16px;line-height: 16px;float: left"  for="password">密码</label>
+        <input type="password" value="" id="password" >
+        <input type="button"  value="进入" id="in" style="width: 272px;height: 45px;border: 0;font-size: 19px;
+        line-height: 15px;
+        text-align: center;
+color: #ffffff;
+font-family: Source Han Sans CN, Source Han Sans CN-Regular;background-image: url('../css/images/inputAndResult/btn.png');
+background-size: 272px 45px;">
+    </div>
+
 </div>
 
-<div id="loginer" style="border-top: #007DDB 20px solid">
+<div id="loginer" style="border-top: #007DDB 30px solid">
     <div style="width: 270px;float: left">
-    <div style="color: black;;width: 90px;padding-top: 2px;float: left;" for="username">用户名</div><input style="height: 26px;" type="text" value="" id="addU" >
+    <div style="color: black;;width: 90px;padding-top: 2px;float: left;" for="username">用户名</div>
+        <input  style="height: 26px;" type="text" value="" id="addU" >
         <br>
     <div style="color: black;width: 90px;float: left;padding-top: 2px" for="password">密&nbsp;&nbsp;&nbsp;码</div><input style="height: 26px;" type="text" value="" id="addP" >
         <br>
-    <div style=";float: left;;width: 90px;color: black;padding-top: 4px">类 &nbsp;&nbsp;型</div>        <select id="t" style="height: 32px;">
+    <div style=";float: left;;width: 90px;color: black;padding-top: 4px">类 &nbsp;&nbsp;型</div>
+        <select id="t" style="height: 32px;">
             <option value="1">管理员</option>
             <option value="2">普通用户</option>
         </select>
@@ -195,4 +216,9 @@
     <div class="opacity_bg"></div>
     <div id="dialog"></div>
 </div>
+
+<div id="BuzzerStop" style="float: left; background-color: #93D1FF ;width: 31px;font-size: 22px;">🔊</div>
+
+
+
 </html>

@@ -2,6 +2,8 @@ package com.laola.apa.mapper;
 
 import com.laola.apa.entity.Doctor;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
  * @author tzhh
  * @since 2020-05-06 16:42:39
  */
+@Service
 public interface DoctorMapper {
 
     /**
@@ -54,6 +57,14 @@ public interface DoctorMapper {
     int update(Doctor doctor);
 
     /**
+     * 修改数据
+     *
+     * @param doctor 实例对象
+     * @return 影响行数
+     */
+    int updateByName(Doctor doctor);
+
+    /**
      * 通过主键删除数据
      *
      * @param id 主键
@@ -70,4 +81,11 @@ public interface DoctorMapper {
      */
     int deleteByIds(int[] ids);
 
+
+    /**
+     * 最迟的医生
+     *
+     * @return 影响行数
+     */
+    Doctor lastUP();
 }

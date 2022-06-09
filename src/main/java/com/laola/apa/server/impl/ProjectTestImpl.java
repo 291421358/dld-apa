@@ -34,7 +34,8 @@ public class ProjectTestImpl implements ProjectTest {
     private PatientService patientService;
     @Resource
     private EquipmentStateMapper equipmentState;
-
+    @Autowired
+    private DoctorMapper doctorMapper;
     private Logger logger = LoggerFactory.getLogger(ProjectTest.class);
 
     /**
@@ -73,12 +74,26 @@ public class ProjectTestImpl implements ProjectTest {
         Boolean a = false;
         Map<String,String> pMap = new HashMap<>();
         Map<String,String> codeMap = new HashMap<>();
+        Map<String,String> stMap = new HashMap<>();
+        Doctor doctors = doctorMapper.lastUP();
+        String now = DataUtil.now();
+        String substring = now.substring(0, 8);
+        String substring2 = doctors.getA().substring(2, 10);
+        String doct = null;
+        if (substring.equals(substring2)){
+            doct = doctors.getName();
+        }
         for (Map<String, Object> map : projectList) {
 //            Patient patient = new Patient(Integer.parseInt(String.valueOf(map.get("humanCode"))), String.valueOf(map.get("")));
 //            patientService.update(patient);
             if (pMap.get(String.valueOf(map.get("humanCode"))) == null){
                 pMap.put(String.valueOf(map.get("humanCode")),String.valueOf(map.get("humanCode")));
                 codeMap.put(String.valueOf(map.get("humanCode")), String.valueOf(map.get("barCode")));
+                ProjectParam projectParam = new ProjectParam();
+                projectParam.setId(Integer.parseInt(String.valueOf(map.get("projectParamId"))));
+                ProjectParam projectParam1 = paramMapper.selectOne(projectParam);
+
+                stMap.put(String.valueOf(map.get("humanCode")),String.valueOf(projectParam1.getSampleType()));
             }
             if ( String.valueOf(map.get("a")).equals("true")){
                 map.put("rackId","-2");
@@ -91,6 +106,8 @@ public class ProjectTestImpl implements ProjectTest {
         for (String value : pMap.values()) {
             if (value != null && !value.equals("null")){
                 Patient patient = new Patient(Integer.parseInt(value), codeMap.get(value));
+                patient.setSampleType(stMap.get(value));
+                patient.setInspectionDoc(doct);
                 pList.add(patient);
             }
         }

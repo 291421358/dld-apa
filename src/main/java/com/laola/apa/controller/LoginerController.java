@@ -4,6 +4,7 @@ import com.laola.apa.entity.Loginer;
 import com.laola.apa.server.LoginerService;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (Loginer)表控制层
@@ -56,6 +57,18 @@ public class LoginerController {
     @GetMapping("verification")
     public int verification(String un,String pa){
         return this.loginerService.verification(un,pa);
+    }
+
+
+
+    /**
+     * suoyouyonghu
+     *
+     * @return 对象
+     */
+    @GetMapping("AU")
+    public List<Loginer> AU() {
+        return this.loginerService.queryAllByLimit(0,99);
     }
 
 }

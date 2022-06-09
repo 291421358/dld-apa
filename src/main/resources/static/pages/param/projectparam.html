@@ -149,6 +149,14 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"> </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="b" name="b" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholderaaa=" " class="layui-input">
+                </div>
+            </div>
         </div>
         <div class="layui-col-md3">
             <div class="item-title">
@@ -211,22 +219,19 @@
                 </div>
                 <label>(A)</label>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">稀释倍数</label>
-                <div class="layui-select-title layui-input-inline">
-                    <select id="dilutionMultiple" name="dilutionMultiple">
-                        <option style="font-color:gery" value="">- -请选择- -</option>
-                        <option value="0">0</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                        <option value="8">8</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
+                <label class="layui-form-label small-input">稀释总时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="auxiliaryIndicationEnd" name="auxiliaryIndicationEnd" value=""
+                           placeholderaaa="请输入辅读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
                 </div>
             </div>
+
+
             <div class="layui-form-item b8cce4">
                 <label class="layui-form-label">稀释延迟</label>
                 <div class="layui-input-inline">
@@ -234,7 +239,7 @@
                            lay-verify="required|number"
                            autocomplete="on" class="layui-input">
                 </div>
-                <label class="layui-form-mid ">周期</label>
+                <label class="layui-form-mid ">s</label>
             </div>
 
             <div class="layui-form-item  ">
@@ -251,6 +256,14 @@
                 </div>
                 
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"> </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="b" name="b" value=""
+                           lay-verify="required|number"
+                           autocomplete="on" placeholderaaa=" " class="layui-input">
+                </div>
+            </div>
         </div>
         <div class="layui-col-md3">
             <div class="item-title">
@@ -260,8 +273,24 @@
                 </div>
                 
             </div>
-            <div class="layui-form-item  b8cce4">
-                <label class="layui-form-label">主读数始点</label>
+            <div class="layui-form-item b8cce4">
+                <label class="layui-form-label">始点</label>
+                <div class="layui-select-title layui-input-inline">
+                    <select id="dilutionMultiple" name="dilutionMultiple">
+                        <option style="font-color:gery" value="">  </option>
+                        <option value="1">1</option>
+                        <option value="2">(1+2)/2</option>
+                        <!--<option value="4">4</option>-->
+                        <!--<option value="8">8</option>-->
+                        <!--<option value="10">10</option>-->
+                        <!--<option value="20">20</option>-->
+                        <!--<option value="50">50</option>-->
+                        <!--<option value="100">100</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item  ">
+                <label class="layui-form-label">加R2时间</label>
                 <div class="layui-input-inline">
                     <input type="text" id="mainIndicationBegin" name="mainIndicationBegin" value=""
                            placeholderaaa="请输入主读数始点"
@@ -270,18 +299,9 @@
                            class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label small-input">主读数终点</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="mainIndicationEnd" name="mainIndicationEnd" value="" placeholderaaa="请输入主读数终点"
-                           lay-verify="required|number"
-                           autocomplete="on"
-                           class="layui-input">
-                </div>
-            </div>
 
             <div class="layui-form-item  b8cce4">
-                <label class="layui-form-label">辅读数始点</label>
+                <label class="layui-form-label">R2孵育时间</label>
                 <div class="layui-input-inline">
                     <input type="text" id="auxiliaryIndicationBegin" name="auxiliaryIndicationBegin"
                            placeholderaaa="请输入辅读数始点"
@@ -290,17 +310,26 @@
                            class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label small-input">辅读数终点</label>
+
+            <div class="layui-form-item ">
+                <label class="layui-form-label">孵育后读点</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="auxiliaryIndicationEnd" name="auxiliaryIndicationEnd" value=""
-                           placeholderaaa="请输入辅读数终点"
-                           lay-verify="required|number"
+                    <input type="text" id="a" name="a" value="" lay-verify="required|number"
                            autocomplete="on"
                            class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item b8cce4">
+                <label class="layui-form-label small-input">总时长</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="mainIndicationEnd" name="mainIndicationEnd" value="" placeholderaaa="请输入主读数终点"
+                           lay-verify="required|number"
+                           autocomplete="on"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
                 <label class="layui-form-label">正常值高值</label>
                 <div class="layui-input-inline">
                     <input type="text" id="normalHigh" name="normalHigh" value="" lay-verify="required|number"
@@ -309,7 +338,7 @@
                            class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
+            <div class="layui-form-item b8cce4">
                 <label class="layui-form-label">正常值低值</label>
                 <div class="layui-input-inline">
                     <input type="text" id="normalLow" name="normalLow" value="" lay-verify="required|number"
@@ -319,19 +348,19 @@
                 </div>
             </div>
 
-            <div class="layui-form-item b8cce4">
+            <div class="layui-form-item">
                     <label class="layui-form-label">稀释液位</label>
                     <div class="layui-input-inline">
                         <input disabled id="diluent_place" style="width: 100px;float: left;margin-top: 13px;border: none">
                     </div>
             </div>
-            <div class="layui-form-item ">
+            <div class="layui-form-item b8cce4">
                     <label class="layui-form-label">稀释液量</label>
                     <div class="layui-input-inline">
                         <input id="diluent_size" style="width: 100px;float: left;margin-top: 13px;border: none">
                     </div>
             </div>
-            <div class="layui-form-item b8cce4">
+            <div class="layui-form-item ">
                 <label class="layui-form-label" style="font-weight:bold">关键字查询项目</label>
                 <div class="layui-input-inline">
                     <input id="keyword" style="width: 100px;float: left;margin-top: 13px;border: none">
@@ -343,10 +372,10 @@
     </div>
     <div>
         <div class="layui-inline" style="text-align: right">
+            <input type="reset" class="layui-btn layui-btn-primary">
             <input type="button" class="layui-btn-primary" value="添加" onclick="insertProject();" lay-submit>
             <input type="button" class="layui-btn-primary" value="确认修改" onclick="updateProjectParam();" lay-submit>
 
-            <input type="reset" class="layui-btn layui-btn-primary">
             <input type="button" class="layui-btn-primary" id="createQRCode" value="生成二维码" style=" ">
         </div>
         <!--<input class="text" id="text" type="tel"  placeholderaaa="单击此处扫码">-->

@@ -134,6 +134,8 @@ public class AdjustedNewConstant extends BaseCostant {
             put("SAMPLING-BCode", "3C 00 00 ");
 //1号位
             put("SAMPLING_FIRST", "3D 00 00 ");
+//不穿刺位
+            put("NO_THRUST", "50 00 00 ");
 //5号位
             put("SAMPLING_FIFTY", "3E 00 00 ");
 //+100步

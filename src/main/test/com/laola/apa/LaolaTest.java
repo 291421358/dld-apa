@@ -1,9 +1,7 @@
 package com.laola.apa;
 
 import com.laola.apa.entity.*;
-import com.laola.apa.mapper.ProjectParamMapper;
-import com.laola.apa.mapper.RegentPlaceMapper;
-import com.laola.apa.mapper.UsedCodeMapper;
+import com.laola.apa.mapper.*;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
@@ -26,30 +24,26 @@ public class LaolaTest {
     @Autowired
     private ParamIntf paramIntf;
     @Autowired
-    private ReagentPlaceIntf reagentPlaceIntf;
+    private ProjectCurveMapper projectCurve;
 
     @Autowired
-    private ScalingIntf scalingIntf;
+    private ScalingMapper scalingMapper;
 
     @Autowired
-    private ProjectParamMapper projectParamMapper;
+    private ParamIntf projectParameters;
 
     @Autowired
     private ProjectTest projectTest;
     @Test
     public void fTest() {
+        ProjectParam projectParam2 = projectParameters.onePoject(1);
+        String factor = projectParam2.getFactor();
+        Scaling scaling = scalingMapper.queryById(factor);
+        Integer st = projectCurve.get1st(1596);
         projectTest.getIdList(13216);
         DateUtils.DEC2HEX(String.valueOf(Integer.parseInt("10")+160));
         ProjectParam projectParam = new ProjectParam();
         projectParam.setId(1);
-        projectParam = projectParamMapper.selectOne(projectParam);
-        String string = projectParam.toLitString();
-        String replace = string.replace("null", "");
-        String[] split = replace.split("-");
-        ProjectParam projectParam1 = new ProjectParam(split);
-        projectParam1.setId(99);
-        int i = projectParamMapper.updateByPrimaryKeySelective(projectParam1);
-        projectParamMapper.insertSelective(projectParam1);
 
     }
 
@@ -69,9 +63,6 @@ public class LaolaTest {
 
     @Test
     public void onePojectTest() throws Exception {
-        List<Map<String, Object>> latestOne = scalingIntf.getLatestOne(6);
-        Map<String, Object> map = latestOne.get(0);
-        System.out.println(map);
     }
 //    @Test
     public void update(){

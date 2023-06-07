@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('Love And Peace Serial Tool')"/>
+</head>
+<body>
+<div id="app" class="all">
+    <template>
+        <el-row class="row">
+            <el-tooltip class="item" manual v-model="serial_show" effect="dark" placement="right" :hide-after="5000">
+                <el-button icon="el-icon-search" type="success" plain v-on:click="selectSerials">查询</el-button>
+                <div slot="content" v-for="(item, index) in serials" :key="index">
+                    {{item}}<br/>
+                </div>
+            </el-tooltip>
+            <div class="font" v-if="serial_show?false:true"><i class="el-icon-info">查询系统当前正在使用的串口！</i></div>
+        </el-row>
+        <el-row :gutter="20" class="row">
+            <el-col :span="8">
+                <div class="font"><i class="el-icon-info">请输入要打开或者关闭的串口！</i></div>
+                <el-input placeholder="只需输入数字即可，如1、2、3..."
+                          v-model="serial_port"
+                          clearable>
+                    <template slot="prepend">COM</template>
+                </el-input>
+                <br/>
+                <div class="font"><i class="el-icon-info">请输入波特率！</i></div>
+                <el-input
+                        placeholder="如115200、9600"
+                        v-model="serial_baudrate"
+                        clearable>
+                </el-input>
+                <br/>
+                <div class="font"><i class="el-icon-info">请选择数据位！</i></div>
+                <el-select v-model="serial_databits" clearable placeholder="请选择数据位">
+                    <el-option
+                            v-for="item in serial_databits_select"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <br/>
+                <div class="font"><i class="el-icon-info">请选择停止位！</i></div>
+                <el-select v-model="serial_stopbits" clearable placeholder="请选择停止位">
+                    <el-option
+                            v-for="item in serial_stopbits_select"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <br/>
+                <div class="font"><i class="el-icon-info">请选择校验位！</i></div>
+                <el-select v-model="serial_parity" clearable placeholder="请选择校验位">
+                    <el-option
+                            v-for="item in serial_parity_select"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                <br/>
+                <div class="openButton">
+                <span v-show="!serial_state">
+                    <el-button icon="el-icon-circle-check" type="primary" plain
+                               @click="openOrCloseSerial">打开串口</el-button>
+                </span>
+                    <span v-show="serial_state">
+                    <el-button icon="el-icon-circle-close" type="warning" plain
+                               @click="openOrCloseSerial">关闭串口</el-button>
+                    </span>
+                </div>
+            </el-col>
+            <el-col :span="8">
+                <textarea class="grid-content bg-purple-light" v-model="serial_send_content"
+                          placeholder="请输入要发送的内容"></textarea>
+                <el-button type="primary" round @click="serialSend" icon="el-icon-check">发送</el-button>
+            </el-col>
+            <el-col :span="8">
+                <textarea class="grid-content bg-purple-light" v-model="serial_receive_content"
+                          placeholder="接收到的内容为"></textarea>
+            </el-col>
+
+        </el-row>
+
+    </template>
+</div>
+
+<th:block th:include="include :: footer"/>
+<script>
+    var ctx = "localhost:8081/"
+    var prefix = ctx + "serial";
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                serials: [],
+                serial_show: false,
+                serial_state: false,
+                serial_port: '',
+                serial_baudrate: '9600',
+                serial_databits: '8',
+                serial_stopbits: '1',
+                serial_parity: '0',
+                serial_send_content: '',
+                serial_receive_content: '',
+                serial_databits_select: [{
+                    value: '8',
+                    label: '8bit'
+                }, {
+                    value: '7',
+                    label: '7bit'
+                }, {
+                    value: '6',
+                    label: '6bit'
+                }, {
+                    value: '5',
+                    label: '5bit'
+                }],
+                serial_stopbits_select: [{
+                    value: '1',
+                    label: '1bit'
+                }, {
+                    value: '1.5',
+                    label: '1.5bit'
+                }, {
+                    value: '2',
+                    label: '2bit'
+                }],
+                serial_parity_select: [{
+                    value: '0',
+                    label: '不校验'
+                }, {
+                    value: '1',
+                    label: '奇校验'
+                }, {
+                    value: '2',
+                    label: '偶校验'
+                }, {
+                    value: '3',
+                    label: '校验位始终为1'
+                }, {
+                    value: '4',
+                    label: '校验位始终为0'
+                }],
+            }
+        },
+        methods: {
+            /*查询当前系统正在使用的串口*/
+            selectSerials() {
+                var res;
+                $.ajax({
+                    url: prefix + "/listPorts",
+                    type: 'GET',
+                    dataType: "json",
+                    contentType: "application/json",
+                    async: false,
+                    success: function (result) {
+                        res = result.data;
+                        console.log(this.serials);
+                    },
+                    /*complete: function (xmlhttp) {
+                        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                            console.log(xmlhttp.responseText);
+                        }
+                    }*/
+                });
+                this.serials = res;
+                this.serial_show = true;
+                /*var xmlhttp = xmlhttp=new XMLHttpRequest();
+                xmlhttp.open("GET",prefix + "/listPorts",false);
+                xmlhttp.send();
+                this.serials = JSON.parse(xmlhttp.responseText).data;
+                this.serial_show = true;
+                console.log(xmlhttp.responseText);
+                console.log(this.serials );*/
+            },
+
+            /*打开或关闭串口*/
+            openOrCloseSerial() {
+                const h = this.$createElement;
+                if (this.serial_port == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '端口号不能为空！'
+                    });
+                    return;
+                }
+                if (this.serial_baudrate == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '请选择波特率！'
+                    });
+                    return;
+                }
+                if (this.serial_databits == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '请选择数位！'
+                    });
+                    return;
+                }
+                if (this.serial_stopbits == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '请选择停止位！'
+                    });
+                    return;
+                }
+                if (this.serial_parity == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '请选择校验位！'
+                    });
+                    return;
+                }
+                var url;
+                var send_data;
+                if (!this.serial_state) {
+                    url = prefix + '/openPort';
+                    send_data = {
+                        "portName": 'COM' + this.serial_port,
+                        "baudrate": this.serial_baudrate,
+                        "dataBits": this.serial_databits,
+                        "stopBits": this.serial_stopbits,
+                        "parity": this.serial_parity
+                    };
+                } else {
+                    url = prefix + '/closePort';
+                    send_data = {
+                        "portName": 'COM' + this.serial_port
+                    };
+                }
+                console.log(send_data);
+                let that = this;
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: send_data,
+                    async: false,
+                    success: function (result) {
+                        that.startSocket();
+                        if (result != null) {
+                            that.$notify({
+                                title: '温馨提示！',
+                                message: h('i', {style: 'color: teal'}, result.msg)
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        if (err != null) {
+                            that.$notify({
+                                title: '温馨提示！',
+                                message: h('i', {style: 'color: teal'}, JSON.parse(err.responseText).msg)
+                            });
+                        }
+                    }
+                });
+                this.serial_state = !this.serial_state;
+            },
+
+            /*给串口发送消息*/
+            serialSend() {
+                if (this.portName == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '端口号不能为空！'
+                    });
+                    return;
+                }
+                if (this.serial_send_content == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '发送内容不能为空！'
+                    });
+                    return;
+                }
+                let that = this;
+                $.ajax({
+                    url: prefix + '/sendMsgToPort',
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    data: {
+                        "portName": 'COM' + this.serial_port,
+                        "msg": this.serial_send_content
+                    },
+                    success: function (result) {
+                        that.$notify({
+                            title: '温馨提示！',
+                            message: result.msg,
+                            type: 'success'
+                        });
+                        console.log(result);
+                        this.serial_receive_content = result.data;
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        that.$notify({
+                            title: '温馨提示！',
+                            message: err.msg,
+                            type: 'error'
+                        });
+                    },
+                    /*complete() {
+                        that.serialReceive();
+                    }*/
+                });
+            },
+
+            /*从串口接收消息*/
+            serialReceive() {
+                if (this.portName == '') {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '端口号不能为空！'
+                    });
+                    return;
+                }
+                let that = this;
+                $.ajax({
+                    url: prefix + '/readMsgFromPort',
+                    type: 'GET',
+                    dataType: 'json',
+                    async: false,
+                    data: {
+                        "portName": 'COM' + this.serial_port
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        if (result.data != null) {
+                            this.serial_receive_content = result.data;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        that.$notify({
+                            title: '温馨提示！',
+                            message: err.msg,
+                            type: 'error'
+                        });
+                    }
+                });
+            },
+
+            /*建立socket连接*/
+            startSocket() {
+                let that = this;
+                var socket;
+                if (typeof (WebSocket) == "undefined") {
+                    console.log(" 您的浏览器不支持 WebSocket");
+                } else {
+                    socket = new WebSocket("ws://localhost:8887");
+                    socket.onopen = function (event) {
+                        that.$notify({
+                            title: '温馨提示！',
+                            message: "socket已连接！",
+                            type: 'success'
+                        });
+                        socket.send("来自客户端的消息 " + "-" + new Date());
+                        console.log(event);
+                    };
+                    socket.onmessage = function (msg) {
+                        console.log("接收到服务端消息：" + msg.data);
+                    };
+                    socket.onclose = function () {
+                        that.$notify({
+                            title: '温馨提示！',
+                            message: "socket连接已断开！",
+                            type: 'warning'
+                        });
+                    };
+                    socket.onerror = function (event) {
+                        console.log("socket错误：" + event);
+                        that.$notify({
+                            title: '警告！',
+                            message: "socket已断开，请刷新页面！",
+                            type: 'warning'
+                        });
+                    };
+                }
+            }
+        }
+    });
+
+
+</script>
+
+<!--连接socket服务器-->
+<script>
+
+</script>
+</body>
+<style>
+    .all {
+        margin-top: 50px;
+        margin-left: 50px;
+    }
+
+    .row {
+        margin-bottom: 60px;
+    }
+
+    .font {
+        margin-top: 4px;
+        font-size: 2px;
+        color: #C0C4CC;
+    }
+
+    .bg-purple-light {
+        background: #303133;
+    }
+
+    .grid-content {
+        color: white;
+        font-family: "Arial Narrow";
+        font-size: 20px;
+        margin-top: 10px;
+        border-radius: 10px;
+        min-height: 200px;
+        min-width: 378.13px;
+    }
+
+    .openButton {
+        margin-top: 20px;
+    }
+</style>
+</html>

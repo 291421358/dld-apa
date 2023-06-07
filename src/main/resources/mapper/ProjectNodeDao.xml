@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laola.apa.mapper.ProjectNodeMapper">
+
+    <resultMap type="com.laola.apa.entity.ProjectNode" id="ProjectNodeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+        <result property="si" column="si" jdbcType="INTEGER"/>
+        <result property="t" column="t" jdbcType="TIMESTAMP"/>
+        <result property="ct" column="ct" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ProjectNodeMap">
+        select
+          id, project_id, si, t, ct
+        from laola.project_node
+        where id = #{id}
+    </select>
+
+
+    <!--查询单个-->
+    <select id="queryByPId" resultMap="ProjectNodeMap">
+        select
+          id, project_id, si, t, ct
+        from laola.project_node
+        where project_id = #{pId} and si = 4;
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ProjectNodeMap">
+        select
+          id, project_id, si, t, ct
+        from laola.project_node
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ProjectNodeMap">
+        select
+          id, project_id, si, t, ct
+        from laola.project_node
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+            <if test="si != null">
+                and si = #{si}
+            </if>
+            <if test="t != null">
+                and t = #{t}
+            </if>
+            <if test="ct != null">
+                and ct = #{ct}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into laola.project_node(project_id, si, t, ct)
+        values (#{projectId}, #{si}, #{t}, #{ct})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update laola.project_node
+        <set>
+            <if test="projectId != null">
+                project_id = #{projectId},
+            </if>
+            <if test="si != null">
+                si = #{si},
+            </if>
+            <if test="t != null">
+                t = #{t},
+            </if>
+            <if test="ct != null">
+                ct = #{ct},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from laola.project_node where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,14 @@
+<head th:fragment="header(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/element-ui.css}" />
+</head>
+
+<!--公共JS-->
+<div th:fragment="footer">
+    <script th:inline="javascript"> var ctx = [[@{/}]]; var lockscreen = [[${session.lockscreen}]]; if(lockscreen){window.top.location=ctx+"lockscreen";} </script>
+    <script th:src="@{/js/jquery_3.5.1_jquery.js}"></script>
+    <!--必须先引入vue再引入element-ui-->
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/element-ui.js}"></script>
+</div>

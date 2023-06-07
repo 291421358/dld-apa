@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -86,7 +85,7 @@ public class OnMessageServer extends Thread {
             //查询当前有效的样本数量
             int projectDoing = onMessageServer.projectTest.isProjectDoing();
             EquipmentState t = new EquipmentState(1, 11, null, null
-                    , null, null, 0, 0, 0, null,1);
+                    , null, null, 0, 0, 0, null,1, null);
             onMessageServer.equipmentState.updateByPrimaryKeySelective(t);
             logger.info("DOING NUMBERS:"+projectDoing);
             //样品 试剂位   试剂量  项目序号 波长

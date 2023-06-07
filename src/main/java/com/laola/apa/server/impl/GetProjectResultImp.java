@@ -52,7 +52,7 @@ public class GetProjectResultImp implements GetProjectResult {
         for (int i = 0; i < split.length; i++) {
             String s = split[i];
             String s34 = s.substring(2, 4);
-            if (s.length() == 4004){
+            if (s.length() >= 4000){
             s34 = "93";
             }
             logger.info("THE LENGTH OF GET DATA" + s.length());

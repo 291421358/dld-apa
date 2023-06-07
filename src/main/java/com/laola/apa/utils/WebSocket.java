@@ -123,10 +123,15 @@ public class WebSocket {
      * @return
      **/
     public void sendMessageAll(String message) throws IOException {
-        //遍历clients
+
         for (WebSocket item : clients.values()) {
-            item.session.getAsyncRemote().sendText(message);
+            synchronized(item.session){
+                item.session.getBasicRemote().sendText(message);
+            }
+
         }
+        //遍历clients
+
     }
 
     /**

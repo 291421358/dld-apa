@@ -91,6 +91,7 @@ public class DataUtil {
         strData = strData.replace("日"," ");
         strData = strData.replace("时",":");
         strData = strData.replace("分","");
+        //strData = strData.replace("/","-");
         Date date = null;
         try {
             date = simpleDateFormat.parse(strData);

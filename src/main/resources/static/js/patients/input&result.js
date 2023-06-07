@@ -61,7 +61,7 @@ function getProjectListByDataTenToEnd() {
 };
 
 function dealProject(event) {
-    var tr;
+    var tr ;
     var jsonArr = JSON.parse(event);
     var l = 1;
     var leng = 1;
@@ -211,7 +211,7 @@ function dealProject(event) {
                 tr += "<option> " + (j + 1) + "</option>";
         }
         console.log(abnormal+"abnormal");
-        if (markCanBeDelete === 1 || pUsed === 0) {
+        if (markCanBeDelete === 1 && pUsed === 0) {
             tr += "</select></td>" +
                 "<td style='background-color: #ececec'></td>" +
                 "</tr>";
@@ -361,10 +361,10 @@ function getRegentPlace() {
                     name ="";
                 }
                 var dateId = ev1Element.dateId;
-                console.log(dateId+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"");
+                // console.log(dateId+"\"\"\"\"\"\"\"\"\"\"\"\"\"\"");
                 $("#n" + (i + 1)).html(name+a);
                 if (name != ""){
-                    $(".cfx" + (i + 1)).html(dateId==undefined?"<div style='color: red'>无定标</div>":"");
+                    $(".cfx" + (i + 1)).html(dateId==undefined?"<div style='color: red;margin-top: -20px'>无定标</div>":"");
                     nocs+=dateId==undefined?name+"、":"";
                 }
                 var total = null == eventElement.total ? 1: eventElement.total;
@@ -429,7 +429,7 @@ function loadProjectList() {
     $('#tab').html(
         "<tr class='tab-head' style='height: 25px;font-size: 18px'>" +
         "</tr>" +
-        "<tr style=';font-size: 18px;position:fixed;top:63px;left:28px;height: 28px;z-index:2;width: 820px;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
+        "<tr style=';font-size: 18px;position:fixed;top:63px;left:28px;height: 28px;z-index:2;width: 912;opacity: 1;background: #c6d5f7;border: 0px solid #b6c6e9'>" +
         "    <td height='26'>样本号</td>" +
         "    <td width='96'  >条码号</td>" +
         "    <td></td>" +
@@ -760,9 +760,7 @@ function deleteProjects() {
 }
 
 $(document).ready(function () {
-    $('#delete').on('click', function () {
-        deleteProjects();
-    });
+
     $('html').mousedown(function () {
         //鼠标按下
         key = 1;
@@ -903,6 +901,8 @@ $(document).ready(function () {
             var deleteProjectBox = $("#deleteProjectBox");
             deleteProjectBox.find("#delProjectSure").html("确认删除项目" + deleteHumanCode + '吗？');
             deleteProjectBox.fadeIn("slow");
+            $(".opacity_bg").show();
+
         }
     }).on('click', 'td:nth-child(2)', function () {
         // 第二列单击修改code事件
@@ -997,6 +997,28 @@ $(document).ready(function () {
             // console.log(newVar);
         });
     });
+
+
+    $("#delete").on('click',  function () {
+        ///删除
+            var deleteProjectBox = $("#deleteAProjectBox");
+            deleteProjectBox.fadeIn("slow");
+            $(".opacity_bg").show();
+    })
+    $('#delAProject').on('click', function () {
+        deleteProjects();
+    });
+    $("#cancel").hover(function () {
+        $(this).css({color: 'black'})
+    }, function () {
+        $(this).css({color: '#990005'})
+    }).on('click', function () {
+        $("#LoginBox").fadeOut("fast");
+        $("#deleteProjectBox").fadeOut("fast");
+        $("#deleteAProjectBox").fadeOut("fast");
+        $("#mask").css({display: 'none'});
+        $(".opacity_bg").hide();
+    });
     //删除项目
     $("#delProject").on('click', function () {
         var $tab = $("#tab td:nth-child(1)");
@@ -1036,11 +1058,12 @@ $(document).ready(function () {
     $(".close_btn").hover(function () {
         $(this).css({color: 'black'})
     }, function () {
-        $(this).css({color: '#999'})
+        $(this).css({color: '#990005'})
     }).on('click', function () {
         $("#LoginBox").fadeOut("fast");
         $("#deleteProjectBox").fadeOut("fast");
         $("#mask").css({display: 'none'});
+        $(".opacity_bg").hide();
     });
 
     /**
@@ -1109,6 +1132,7 @@ $(document).ready(function () {
             }
         });
     })
+
 
     $("#tab").on("click","td", function () {
 
@@ -1183,6 +1207,9 @@ $(document).ready(function () {
         } else {
         }
     });
+
+
+
 });
 
 function refush() {
@@ -1240,27 +1267,3 @@ function iclose() {
 }
 
 
-/**
- *修改试剂位置
- */
-function updateRegentPlace(id, projectParamId, place, type) {
-    $.ajax({
-        type: 'get',
-        url: urlhead + '/regentPlace/updateRegentPlace',
-        async: true,
-        data: {
-            id: id,
-            projectParamId: projectParamId,
-            place: place,
-            type: type
-        },
-        jsonp: 'jsoncallback',
-        success: function (event) {
-        },
-        error: function () {
-            alert("error")
-        }
-    });
-
-
-}

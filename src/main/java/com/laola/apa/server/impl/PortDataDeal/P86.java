@@ -31,6 +31,7 @@ public class P86 implements PortDataDealService<Object, Object> {
         String string = String.valueOf(data[0]);
 
         logger.info("GET INSTRUMENT STATE DATA" + string);
+        int c = DateUtils.decodeHEX(string.substring(28, 30));
         //A12：进水标志   1/0代表进水
         int pureWater = DateUtils.decodeHEX(string.substring(30, 32));
         //A13：出水标志   1/0代表出水满
@@ -51,6 +52,7 @@ public class P86 implements PortDataDealService<Object, Object> {
         int numAll = DateUtils.decodeHEX(string.substring(62, 64));
         int b = 0;
 
+
 if (numberUnderTest > 1){
     b = 1;
 }
@@ -60,7 +62,7 @@ if (numberUnderTest > 1){
         if (a == 1){
 
         }
-        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll, a,b);
+        EquipmentState equipmentState = new EquipmentState(1, pureWater, wasteWater, firingPin, String.valueOf(new DecimalFormat("0.00").format(reactTemp)), String.valueOf(regentTemp), numSent, numberUnderTest, numAll, a,b ,c);
 
         Integer thisA = thisEquipmentState.getA();
         if (null == thisA){

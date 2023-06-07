@@ -58,7 +58,7 @@ div {
 
 
 #menu{
-    width: 1231px;
+    width: 1325px;
     height: 45px;
     opacity: 1;
     background: #6d97f7;
@@ -105,7 +105,7 @@ div {
 }
 
 #show{
-    width: 1280px;
+    width: 1366px;
     height: 800px;
     color: white;
     /*background-color: white;*/
@@ -174,6 +174,67 @@ div {
     padding-top: 88px;
     padding-left: 43px;
 }
+
+#ok{
+    height: 24px;
+    width: 115px;
+    background-image: url('../css/images/inputAndResult/btn.png');background-size: 24px 115px;
+    cursor: pointer;
+    margin-left: 200px;
+    margin-top: 100px;
+}
+
+#openTest div{
+    margin-bottom: 15px;
+}
+#openTest{
+    color: #0d1534;
+     width: 315px;
+     height: 346.4px;
+     background-color: white;
+     left: 643px;
+     top: 143px;
+     z-index: 2049;
+     position: absolute;
+     border-top-right-radius: 5px;
+     border-bottom-right-radius: 5px;
+    padding-top: 44px;
+    padding-bottom: 44px;
+     padding-left: 0px;
+    text-align: center;
+ }
+
+input[type=checkbox] {
+    cursor: pointer;
+    position: relative;
+    width: 15px;
+    height: 15px;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+input[type=checkbox]::after {
+    position: absolute;
+    top: 0;
+    color: #000;
+    width: 16px;
+    height: 15px;
+    display: inline-block;
+    visibility: visible;
+    padding-left: 0px;
+    text-align: center;
+    content: ' ';
+    border-radius: 3px
+}
+input[type=checkbox]:checked::after {
+    content: "✓";
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #00ff50;
+}
+
+
 #userim{
     width:15px;height: 16px;
     background-image: url('../css/images/inputAndResult/un.png');background-size: 15px 16px;
@@ -218,3 +279,19 @@ float: left;
     top: 37px;
     cursor: pointer ;
 }
+
+#FiringPin{
+    position: absolute;
+    left: 1051px;
+    top: 37px;
+    cursor: pointer ;
+    color: red;
+}
+
+#ALLin{
+     position: absolute;
+     left: 1016px;
+     top: 37px;
+     cursor: pointer ;
+     color: red;
+ }

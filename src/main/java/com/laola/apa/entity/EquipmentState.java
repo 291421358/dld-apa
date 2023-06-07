@@ -69,6 +69,17 @@ public class EquipmentState implements Serializable {
     private Integer a;
     private Integer b;
 
+
+    private Integer c;
+
+    public int getC() {
+        return c;
+    }
+
+    public void setC(Integer c) {
+        this.c = c;
+    }
+
     public Integer getB() {
         return b;
     }
@@ -194,7 +205,7 @@ public class EquipmentState implements Serializable {
         return this;
     }
 
-    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll, Integer a,Integer b) {
+    public EquipmentState(Integer id, Integer pureWater, Integer wasteWater, Integer firingPin, String reactTemp, String regentTemp, Integer numSent, Integer numUnderTest, Integer numAll, Integer a, Integer b, Integer c) {
         this.id = id;
         this.pureWater = pureWater;
         this.wasteWater = wasteWater;
@@ -206,6 +217,7 @@ public class EquipmentState implements Serializable {
         this.numAll = numAll;
         this.a = a;
         this.b = b;
+        this.c = c;
     }
 
     public EquipmentState(Integer id, Integer rackNo, Integer placeNo) {

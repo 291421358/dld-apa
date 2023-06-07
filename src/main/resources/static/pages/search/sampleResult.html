@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>样本结果</title>
     <link rel="stylesheet" href="./../../css/query/sampleResult.css">
+    <!--<script src="./../../layui/css/layui.css"></script>-->
+    <!--<link href="./../../layui/css/layui.css" rel="stylesheet">-->
 </head>
 
 <script src="./../../js/jquery-3.4.1/jquery-3.4.1.js"></script>
 <script src="./../../js/properties.js"></script>
 <script src="./../../js/search/sampleResult.js"></script>
+
 
 <!--<script src="./../../js/highcharts.js"></script>-->
 <!--<script src="./../../js/exporting.js"></script>-->
@@ -22,14 +25,14 @@
 <style>
 
 </style>
-<body onload="getAllDoc();">
+<body onload="getAllDoc();queryAllDay();">
 <div class="layui-form">
     <div class="item-top">
         检测报告显示&操作区
     </div>
     <div class="item-top-2">
         <label>送检时间
-            <input id="time" class="topin" type="date">
+            <input id="time" class="topin" type="text">
         </label>
         <label>样本号
             <input id="no" class="topin">
@@ -72,7 +75,7 @@
             <div class="bottom-white-item">
                 <label class="layui-form-label">性别</label>
                 <div class="noBorder-inline">
-                    <select id="sex" name="inpatientArea">
+                    <select lay-ignore id="sex" name="inpatientArea">
                         <option value=""></option>
                         <option value="男">男</option>
                         <option value="女">女</option>
@@ -98,7 +101,7 @@
             <div class="bottom-white-item b8cce4">
                 <label class="layui-form-label">样本类型</label>
                 <div class="noBorder-inline">
-                    <select id="sampleType" name="inpatientArea">
+                    <select lay-ignore id="sampleType" name="inpatientArea">
                         <option value=""></option>
                         <option class="doc-option" value="血清">血清</option>
                         <option value="全血">全血</option>
@@ -348,4 +351,54 @@
     <!--</div>-->
 <!--</div>-->
 </body>
+<script src="./../../layui/layui.js" src1="./../../layui/laydate.js" charset="utf-8"></script>
+<script>
+
+
+
+
+    var  li = {
+        "2022-05-18": ""
+    };
+
+
+    function queryAllDay() {
+        $.ajax({
+            type: 'get',
+            url: urlhead + '/patient/queryAllDay',
+            async: true,
+            jsonp: 'jsoncallback',
+            success: function (data) {
+                li = data;
+                console.log(li)
+                var laydate = layui.laydate;
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#time' //指定元素
+                    ,format: 'yyyy-MM-dd'
+                    ,mark : li
+                    ,btns: ['now', 'confirm']
+                    ,showBottom: false
+                    ,done: function (value) {
+                        console.log(value);
+                        query(value+" 00:00:00");
+                    }
+                    ,change: function(value){
+                        console.log(value);
+                        query(value+" 00:00:00");
+                    }
+                });
+            },
+            error: function () {
+
+            }
+
+        });
+    }
+
+
+
+
+
+</script>
 </html>

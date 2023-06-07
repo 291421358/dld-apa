@@ -272,7 +272,7 @@ button, input, optgroup, option, select, textarea {
 }
 
 .layui-btn-primary {
-    margin-top: 12px;
+    margin-top: 3px;
     cursor: pointer;
     margin-left: 50px;
     width: 114px;
@@ -313,7 +313,7 @@ button, input, optgroup, option, select, textarea {
     height: 41px;
 }
 .layui-input-inline {
-    width: 205px;
+    width: 234px;
     /*border-right: 1px solid #c6d5f7;*/
     /*height: 54px;*/
     float: left;
@@ -331,7 +331,7 @@ button, input, optgroup, option, select, textarea {
     /*background-color: #fff;*/
     margin-left: 9px;
     margin-top: 20px;
-    height: 69px;
+    height: 55px;
     width: 74px;
 }
 

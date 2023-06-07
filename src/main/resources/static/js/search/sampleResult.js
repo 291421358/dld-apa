@@ -384,7 +384,7 @@ $(document).ready(function () {
     $("#close_btn").hover(function () {
         $(this).css({color: 'black'})
     }, function () {
-        $(this).css({color: '#999'})
+        $(this).css({color: '#990600'})
     }).on('click', function () {
         $("#deleteDocBox").fadeOut("fast");
         $("#mask").css({display: 'none'});
@@ -582,14 +582,14 @@ $(document).ready(function () {
 });
 
 //根据时间获得项目列表
-function getPatientListByDate() {
-    // console.log("获取当天所有项目");
+function getPatientListByDate(value) {
+    console.log(value);
     $.ajax({
         type: 'get',
         url: urlhead + '/patient/getPatientListByDate',
         async: true,
         data: {
-            starttime: $("#time")[0].value,
+            starttime: value==undefined?$("#time")[0].value:value,
             code:$("#co")[0].value,
             name:$("#na")[0].value,
             id:$("#no")[0].value,
@@ -605,6 +605,7 @@ function getPatientListByDate() {
 
 };
 function dealProject(event) {
+
     var div = "";
     // var jsonArr = JSON.parse(event);
     var l = 1;
@@ -643,7 +644,8 @@ function sss(e){
     // Hlist.fadeOut("slow");
 };
 
-function query() {
+function query(value) {
+    console.log(value+"1111111111111");
     $("#id")[0].value = "";
     $("#code")[0].value= "";
     $("#name")[0].value= "";
@@ -658,7 +660,7 @@ function query() {
     $("#examineDoctor")[0].value= "";
     $("#remark")[0].value= "";
     //查询当天所有项目
-    getPatientListByDate();
+        getPatientListByDate(value);
     //查询用户
     // showHlist();
     var id = $("#id")[0].value;

@@ -46,9 +46,10 @@ public class ReagentPlaceImpl implements ReagentPlaceIntf {
     @Override
     public List<Map<String, Object>> getBoolScal() {
 
-        return selectDao.selectList("SELECT place,project_param_id,dateId  from regent_place rp\n" +
+        return selectDao.selectList("SELECT place,   project_param_id ,id as dateId  FROM (SELECT place,  rp.project_param_id ,dateId,p.id  from regent_place rp\n" +
                 "LEFT JOIN project_param pp on pp.id=rp.project_param_id\n" +
-                "LEFT JOIN scaling s on s.dateId=pp.factor;\n");
+                "LEFT JOIN scaling s on s.dateId=pp.factor \n" +
+                "LEFT JOIN project p on DATE_FORMAT( p.starttime, '%y年%m月%d日%H时%i分' ) = DATE_FORMAT( s.dateId, '%y年%m月%d日%H时%i分' )  )as ss GROUP BY  place  ORDER BY place\n");
     }
 
 }

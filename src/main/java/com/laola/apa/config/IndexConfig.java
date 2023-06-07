@@ -1,7 +1,6 @@
 package com.laola.apa.config;
 
 import com.laola.apa.server.ProjectTest;
-import com.laola.apa.task.FutureTaskable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,17 +38,25 @@ public class IndexConfig {
 
         logger.info("mini-100准备就绪 ... 启动浏览器");
 //        // 启动后访问地址
-        String cmd = " cmd /c \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"  --kiosk http://localhost:8081";// "cmd /c start"+path+"/"+filename;
+//        String cmd = " cmd /c \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"  --app=http://localhost:8081";// "cmd /c start"+path+"/"+filename;
+        String closeEDGE = " cmd /c taskkill /F /IM msedge.exe ";// "cmd /c start"+path+"/"+filename;
+        String cmd = " cmd /c   \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"  --kiosk http://localhost:8081";// "cmd /c start"+path+"/"+filename;
         try {
-            Runtime.getRuntime().exec(cmd);
+            Process exec = Runtime.getRuntime().exec(closeEDGE);
+            int i = exec.waitFor();
+            logger.info("edge关闭 ... 启动浏览器");
+            Process exec1 = Runtime.getRuntime().exec(cmd);
+            int i1 = exec1.waitFor();
         } catch(IOException ioe) {
             ioe.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-}
+    }
 
     @EventListener({ApplicationReadyEvent.class})
     public void applicationReadyEvent1() {
 //        FutureTaskable.main(null);
-        }
+    }
 
 }

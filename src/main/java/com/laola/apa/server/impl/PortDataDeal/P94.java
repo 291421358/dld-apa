@@ -1,10 +1,7 @@
 package com.laola.apa.server.impl.PortDataDeal;
 
 import com.laola.apa.costant.AlgorithmConstant;
-import com.laola.apa.entity.ProjectParam;
-import com.laola.apa.entity.RegentPlace;
-import com.laola.apa.entity.Scaling;
-import com.laola.apa.entity.UsedCode;
+import com.laola.apa.entity.*;
 import com.laola.apa.mapper.ProjectParamMapper;
 import com.laola.apa.server.*;
 import com.laola.apa.utils.DataUtil;
@@ -29,6 +26,8 @@ public class P94 implements PortDataDealService<String,Object> {
     ScalingIntf scalingIntf;
     @Autowired
     private ProjectParamMapper projectParamMapper;
+    @Autowired
+    EquipmentStateserver equipmentStateserver;
     private static final Logger logger = LoggerFactory.getLogger(P94.class);
 
     /**
@@ -58,7 +57,12 @@ public class P94 implements PortDataDealService<String,Object> {
         String[] param = paramStr.split("/");
         String paramid = param[0];
 
-        ProjectParam projectParam = new ProjectParam(param);
+        ProjectParam projectParam = null;
+        try {
+            projectParam = new ProjectParam(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String dilution_sample_size = projectParam.getDilution_sample_size();
         String diluent_size = projectParam.getDiluent_size();
         if (null !=dilution_sample_size && null != diluent_size && !dilution_sample_size.equals("") && !diluent_size.equals("")&& !dilution_sample_size.equals("0") && !diluent_size.equals("0")){
@@ -119,6 +123,11 @@ public class P94 implements PortDataDealService<String,Object> {
         logger.info("update"+i);
         if (i == 0){
             projectParamMapper.insertSelective(projectParam);
+        }
+        if (place.equals("6") || place.equals("06")){
+            EquipmentState equipmentState = new EquipmentState();
+            equipmentState.setTemp("1");
+            equipmentStateserver.update(equipmentState);
         }
         return "";
     }

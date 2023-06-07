@@ -18,12 +18,13 @@
         <result property="temperatureControlCalibration" column="temperature_control_calibration" jdbcType="INTEGER"/>
         <result property="a" column="a" jdbcType="INTEGER"/>
         <result property="b" column="b" jdbcType="INTEGER"/>
+        <result property="c" column="c" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="EquipmentStateMap">
         select
-          id, temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all, temperature_control_calibration,a,b
+          id, temp, rack_no, place_no, pure_water, waste_water, firing_pin, react_temp, regent_temp, num_sent, num_under_test, num_all, temperature_control_calibration,a,b,c
         from laola.equipment_state
         where id = #{id}
     </select>

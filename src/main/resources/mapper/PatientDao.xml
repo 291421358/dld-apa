@@ -63,6 +63,9 @@
         </where>
               order by p_id desc;
     </select>
+    <select id="queryAllDay" resultType="java.util.Map">
+        select DISTINCT DATE_FORMAT( starttime, '%Y-%m-%d' ) st from project
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">

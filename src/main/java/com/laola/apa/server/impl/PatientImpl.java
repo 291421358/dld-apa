@@ -216,4 +216,9 @@ public class PatientImpl implements PatientService {
         List<Patient> patients = patientMapper.selectByExample(example);
         return patients;
     }
+
+    @Override
+    public List<Map<String, String>> queryAllDay() {
+        return this.patientMapper.queryAllDay();
+    }
 }

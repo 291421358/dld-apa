@@ -1,9 +1,9 @@
 package com.laola.apa.controller;
 
 import com.laola.apa.entity.EquipmentState;
+import com.laola.apa.server.EquipmentStateserver;
 import com.laola.apa.server.impl.AdjustedImpl;
 import com.laola.apa.server.impl.EquipmentStateImpl;
-import com.laola.apa.utils.DataUtil;
 import com.laola.apa.utils.DateUtils;
 import com.laola.apa.utils.SerialUtil;
 import gnu.io.SerialPort;
@@ -23,7 +23,8 @@ public class AdjustedController {
     AdjustedImpl adjusted;
     @Autowired
     EquipmentStateImpl equipmentState;
-
+    @Autowired
+    EquipmentStateserver equipmentStateserver;
     @RequestMapping(value = "stirSpin" , method ={ RequestMethod.POST,RequestMethod.GET})
     public String stirSpin(String str){
         return adjusted.stirSpin(str);
@@ -248,7 +249,10 @@ public class AdjustedController {
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 C9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);
-
+        EquipmentState equipmentState = new EquipmentState();
+        equipmentState.setId(1);
+        equipmentState.setTemp("0");
+        equipmentStateserver.update(equipmentState);
         return "1";
     }
 
@@ -287,7 +291,7 @@ public class AdjustedController {
         SerialUtil cRead = new SerialUtil();
         String init = cRead.init("E5 90 be 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         EquipmentState t = new EquipmentState(1, 11, null, null
-                , null, null, 0, 0, 0, null,0);
+                , null, null, 0, 0, 0, null,0, null);
         equipmentState.update(t);
         p(init);
 
@@ -301,7 +305,7 @@ public class AdjustedController {
         value = DateUtils.DEC2HEX4Place(value);
         SerialUtil cRead = new SerialUtil();
         EquipmentState t = new EquipmentState(1, 11, null, null
-                , null, null, 0, 0, 0, null,2);
+                , null, null, 0, 0, 0, null,2, null);
         equipmentState.update(t);
         String init = cRead.init("E5 90 bf 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
         p(init);

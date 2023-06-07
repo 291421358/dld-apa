@@ -196,7 +196,7 @@ public class ProjectTestImpl implements ProjectTest {
             project_num = 1;
         } else {
             project_num = Integer.parseInt(String.valueOf(maps.get(0).get("project_num")));
-            if (project_num == 80) {
+            if (project_num == 120) {
                 project_num = 1;
             } else {
                 project_num++;
@@ -516,7 +516,7 @@ public class ProjectTestImpl implements ProjectTest {
     @Override
     public void deleteProjects() {
         EquipmentState t = new EquipmentState(1, 11, null, null
-                , null, null, 0, 0, 0, null,0);
+                , null, null, 0, 0, 0, null,0, null);
         equipmentState.updateByPrimaryKeySelective(t);
         patientMapper.deleteProjects();
         projectMapper.deleteProjects();

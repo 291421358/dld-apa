@@ -112,6 +112,7 @@
     }
 
     #scalingAlgorithm {
+        padding-right: 20px;
         width: 137px;
         height: 30px;
         opacity: 1;
@@ -173,7 +174,7 @@
         margin-top: -2px;
     }
 
-    .sc_save, #clear, .del,.cal_save {
+    .sc_save,  .del,.cal_save {
         width: 67px;
         height: 23px;
         opacity: 1;
@@ -185,7 +186,7 @@
         margin-left: 20px;
     }
 
-    .send, .update {
+    .send,#clear, .update {
         width: 67px;
         height: 23px;
         opacity: 1;
@@ -209,6 +210,9 @@
         margin-top: -1px;
         opacity: 1;
         border: 1px solid #c6d5f7;
+    }
+    .rack,.place{
+        width:  44px;
     }
 </style>
 <body onload="sc_irload();getOneProjectsScalingTime(1);setBEDate()">
@@ -292,7 +296,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="rack"></td>
+                                <td class="rack" style="width: 10px;"></td>
                                 <td class="place"></td>
                             </tr>
                             <tr>
@@ -362,11 +366,11 @@
                 </div>
 
                 <div style="float: right;margin-right: 23px;margin-top: 13px">
-                    <div id="clear" class="clear"> 清空</div>
-                    <div id="update" class="update"> 更新</div>
-                    <div id="sc_save" class="sc_save"> 保存</div>
-                    <div id="send" class="send"> 检测</div>
+                    <div id="clear" class="clear"> 新建空标</div>
+                    <div id="sc_save" class="sc_save"> 添加</div>
+                    <div id="update" class="update"> 修改</div>
                     <div id="del" class="del"> 删除</div>
+                    <div id="send" class="send"> 检测</div>
                 </div>
             </div>
         </div>

@@ -1,24 +1,15 @@
 package com.laola.apa.controller;
 
-import com.laola.apa.DO.SerialDO;
-import com.laola.apa.common.Result;
-import com.laola.apa.common.StateCodeEnum;
 import com.laola.apa.entity.Patient;
-import com.laola.apa.serial.SerialController;
 import com.laola.apa.server.PatientService;
 import com.laola.apa.server.ProjectTest;
-import com.laola.apa.task.FutureTaskable;
-import com.laola.apa.utils.DateUtils;
-import com.laola.apa.utils.SerialUtil;
-import gnu.io.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -120,5 +111,25 @@ public class PatientController {
     @GetMapping("getPatientListByDate")
     public List<Patient> getPatientListByDate(String starttime,String code,String name,String id){
         return patientService.getPatientListByDate(starttime,code,name,id);
+    }
+
+
+    /**
+     * @apiNote 通过日期查询病员列表
+     * @author tzhh
+     * @date 2021/6/30 14:427
+     *
+     * @return {@link List< Map< String, Object>>}
+     **/
+    @GetMapping("queryAllDay")
+    public Map<String, String> queryAllDay(){
+        List<Map<String, String>> list = patientService.queryAllDay();
+        Map<String, String> rMap = new HashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, String> stringStringMap = list.get(i);
+
+            rMap.put(stringStringMap.get("st"),"");
+        }
+        return rMap;
     }
 }

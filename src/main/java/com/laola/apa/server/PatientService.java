@@ -69,4 +69,6 @@ public interface PatientService {
      * @return {@link List< Map< String, Object>>}
      **/
     List<Patient> getPatientListByDate(String starttime, String code, String name, String id);
+
+    List<Map<String, String>> queryAllDay();
 }

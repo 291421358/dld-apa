@@ -38,7 +38,7 @@ body {
 li {
     /*background: whitesmoke;*/
     height: 27px;
-    width:  70px;
+    /*width:  76px;*/
     list-style: none
 }
 
@@ -60,7 +60,7 @@ table {
 }
 .testAndShow{
     /*项目测试 外框线颜色*/
-    height: 440px;
+    height: 418px;
     overflow-x: scroll;
     /*background-color: white;*/
     float: left;
@@ -92,7 +92,7 @@ and (min-resolution:.001dpcm) {
 
 /*机器状态*/
 .state-control{
-    width: 1244px;
+    width: 1335.5px;
     height: 124px;
     opacity: 1;
     background: #ffffff;
@@ -140,7 +140,7 @@ and (min-resolution:.001dpcm) {
 .state{
     padding: 13px 0 0 0px;
     float: left;
-    width: 867px;
+    width: 973px;
 }
 .state_1{
 float: left;
@@ -211,7 +211,7 @@ select {
 }
 
 div::-webkit-scrollbar {
-    width: 1px;
+    width: 0px;
     height: 0;
 }
 
@@ -246,7 +246,7 @@ div::-webkit-scrollbar {
     font-family: arial, serif;
     font-size: 20px;
     font-weight: 700;
-    color: #ffffff;
+    color: #ff0000;
     text-decoration: none;
     padding-left: 35px;
 }
@@ -272,7 +272,7 @@ div::-webkit-scrollbar {
     /*background: url("../../images/inputAndResult/button.png") no-repeat 60px;*/
     border: 1px solid rgb(49,134,155);
     width: max-content;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     margin-left: 80px;
 }
 .row:hover{
@@ -288,33 +288,34 @@ div::-webkit-scrollbar {
     padding-left: 44px;
     opacity: 1;
     background: #6d97f7;
+    margin-bottom: 10px;
 }
 
 .icon-div div:hover {
     cursor: pointer;
 }
 
-#dealButton,#delProject,#closeDPB,.row{
+#dealButton,#delProject,#closeDPB,.row,#delAProject,#cancel{
     cursor: pointer;
 }
-#deleteProjectBox {
+#deleteProjectBox,#deleteAProjectBox {
     position: absolute;
-    right: 400px;
-    top: 100px;
+    right: 462px;
+    top: 192px;
     background: white;
     width: 240px;
-    height: 55px;
-    border-radius: 20px;
-    z-index: 2;
+    height: 70px;
+    /*border-radius: 20px;*/
+    z-index: 1025;
     display: none;
 }
 
 #tab td{
-    width: 70px;
+    width: 74px;
     text-align: center;
 }
 #tab  tr td:first-child,#tab  tr td:first-child{width:66px;font-size: 18px}
-#tab  tr td:nth-child(2){width:125px;font-size: 10px;font-family: fantasy;}
+#tab  tr td:nth-child(2){width:192px;font-size: 10px;font-family: fantasy;}
 #tab  tr td:last-child,#tab  tr td:last-child {width:34px;cursor: pointer;text-align: center;font-size: 13px}
 @supports (-ms-ime-align: auto) {/*针对edge*/
     .regent {
@@ -446,7 +447,7 @@ option{
 #ceshiqu {
     float: left;
     text-align: center;
-    width: 820px;
+    width: 912px;
     margin-left: 14px;
     padding-left: 13px;
     margin-top: 13px;
@@ -471,12 +472,12 @@ option{
     color: #ffffff;
     font-size: 22px;
     padding-top: 5px;
-    margin-left: 14px;
+    margin-left: 50px;
 }
 
 #delete {
     background: #d4d8df;
-    margin-left: 14px;
+    margin-left: 55px;
     font-size: 22px;
     padding-top: 5px;
 }
@@ -540,7 +541,7 @@ option{
 }
 #shiji_1, #shiji_2, #shiji_3, #shiji_4, #shiji_5, #shiji_6 {
     float: left;
-    margin-bottom: 27px;
+    margin-bottom: 25.1px;
 }
 
 #n1, #n2, #n3, #n4, #n5, #n6 {
@@ -649,7 +650,7 @@ option{
 }
 
 #zongjiance, #daijiance, #yijiance, #place, #rack, #zhuangshi2 ,#zaijiance {
-    margin: 1px 0 0 6px;
+    margin: 1px 0 0 20px;
 }
 
 #zongjiance_n, #yijiance_n, #daijiance_n, #rackNo, #placeNo , #zaijiance_n {

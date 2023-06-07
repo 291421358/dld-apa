@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dld-apa.iml" filepath="$PROJECT_DIR$/.idea/dld-apa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dld-apa.iml" filepath="$PROJECT_DIR$/dld-apa.iml" />
     </modules>
   </component>
 </project>

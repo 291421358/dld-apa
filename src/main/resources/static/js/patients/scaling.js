@@ -13,7 +13,7 @@ function sc_irload() {
         async: true,
         jsonp: 'jsoncallback',
         success: function (data) {
-            var projectList = data;
+            var projectList = data[1];
             projectNameList = projectList;
             var tabStr = "";
             $.each(projectList, function (i, project) {
@@ -131,7 +131,7 @@ function getOneProjectsScalingTime(projectParamId) {
                 var ctx = canvas.getContext('2d');
                 ctx.clearRect(0, 0, 2000, 2000);
 
-                alert("该项目暂未选中定标");
+                // alert("该项目暂未选中定标");
             }
             if (choiceTime != "") {
                 getOneProjectsAllScalingByCon(paramid, 2, choiceTime)
@@ -321,8 +321,8 @@ function getOneProjectsAllScalingByCon(id, type, time) {
                         }
                         //画点
                         // console.log("点的位置",projectList[m].absorbance * (200 / (valueList.length - 1) * 10) + 31, density);
-                        console.log("点的位置", (projectList[m].density - minX) * (200 / (maxX - minX)) + 31, density);
-                        ctx3.strokeText('*', (projectList[m].density - minX) * (200 / (maxX - minX)) + 31, 207 - ((density - min) * (200 / (max - min))));
+                        console.log("点的位置", (projectList[m].density - minX) * (200 / (maxX - minX)) + 28, density);
+                        ctx3.strokeText('*', (projectList[m].density - minX) * (200 / (maxX - minX)) + 28, 207 - ((density - min) * (200 / (max - min))));
                     }
                 }
             }
@@ -696,6 +696,9 @@ $(document).ready(function () {
                 })
             }
         })
+        $("#scaling_time li").each(function () {
+            $(this).removeClass("checkedColor");
+        });
     })
 });
 

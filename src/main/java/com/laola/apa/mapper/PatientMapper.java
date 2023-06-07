@@ -4,6 +4,7 @@ import com.laola.apa.entity.Patient;
 import com.laola.apa.utils.MyMapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Patient)表数据库访问层
@@ -76,4 +77,6 @@ public interface PatientMapper extends MyMapper<Patient> {
  * @return {@link int}
  **/
     int insertPatientList(@Param("patients")  List patients);
+
+    List<Map<String, String>> queryAllDay();
 }

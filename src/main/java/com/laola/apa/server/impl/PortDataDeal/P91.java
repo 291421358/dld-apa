@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -115,7 +117,8 @@ public class P91 implements PortDataDealService<String, Object> {
                 System.err.println("unknown project when the result come out");
                 continue;
             }
-            if (DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)) == 1) {
+            int x = DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6));
+            if (x == 1) {
                 //试剂减一
                 logger.info("MINUS ONE REAGENT WHEN GET THE FIRST DATA");
                 int i1 = usedCodeServer.minusOneCopyReagent(Integer.parseInt(String.valueOf(id)));
@@ -125,7 +128,7 @@ public class P91 implements PortDataDealService<String, Object> {
             //设置曲线参数
             projectCurve.setProjectId(id);
             //数据号
-            projectCurve.setX(DateUtils.decodeHEX(result.substring(i * 14 + 4, i * 14 + 6)));
+            projectCurve.setX(x);
             //设置曲线参数
             projectCurve.setT(time);
             //eb9125
@@ -137,6 +140,7 @@ public class P91 implements PortDataDealService<String, Object> {
 
 //            setBeindState(string);
             ProjectParam projectParam = projectParameters.onePoject(ppi);
+            String name = projectParam.getName();
             String ReadBegin = projectParam.getDilutionMultiple();
             //R2孵育时间
             String R2Incubation = projectParam.getAuxiliaryIndicationBegin();
@@ -180,17 +184,18 @@ public class P91 implements PortDataDealService<String, Object> {
             //吸光度*1000
             projectCurve.setY(String.valueOf(new DecimalFormat("0.0").format(Float.parseFloat(formatAbs) * 1000)));
             projectCurve.setCreattime(new SimpleDateFormat("yy-MM-dd HH:mm:ss").format(new Date()));
-            //插入曲线上的一个点
-            int insert = projectCurveMapper.insert(projectCurve);
+
             //qu取得第一个点时间
             Integer st = projectCurveMapper.get1st(id);
             logger.info("当前时间"+time);
             logger.info("开始时间"+st);
             //数据长度是否等读点数终点 代表最后和一个点读数结束
-            if (st == null){
+            if (st == null && x!=1){
                 System.err.println("没有第一个点");
                 continue;
             }
+            //插入曲线上的一个点
+            int insert = projectCurveMapper.insert(projectCurve);
             //取得r2 加入时间
             ProjectNode projectNode = projectNodeMapper.queryByPId(id);
             int R2t =  0;
@@ -208,6 +213,9 @@ public class P91 implements PortDataDealService<String, Object> {
             }
             logger.info("总时长"+length);
             if (usedT >= length) {
+                SerialUtil cRead = new SerialUtil();
+                String init = cRead.init("E5 90 C3 "+DateUtils.DEC2HEX(projectNum)+" 00 00 00 00 00 00 00 00 00 00 00 00");
+                System.out.println("E5 90 C3 "+DateUtils.DEC2HEX(projectNum)+" 00 00 00 00 00 00 00 00 00 00 00 00");
 //                PortDataDealService<String, Object> newName = SpringBeanUtil.getBeanByTypeAndName(PortDataDealService.class, "p9c");
 //                newName.deal("eb9c0"+rackNo+"0"+placeNo+"c90d",strings[1],"1");
                 Project project = new Project();
@@ -283,7 +291,7 @@ public class P91 implements PortDataDealService<String, Object> {
                     project.setFactor(String.valueOf(new DecimalFormat("0.00").format(density / (absorbanceGap))));
                     project.setAbsorbance(String.valueOf(absorbanceGap));
                 }
-//                logger.info("计算结果得出absorbanceGap"+absorbanceGap);
+                logger.info("project==="+project);
 
                 if (type == 1 || type == 3 || type == 4 || type == 5) {
                     //普通项目或者质控项目
@@ -295,6 +303,39 @@ public class P91 implements PortDataDealService<String, Object> {
                         sendQC(oldDensity, density, ppi);
                     }
 //                    logger.info(project);
+                    String serialId =  "";
+                    try {
+                        Process process = Runtime.getRuntime().exec(new String[] { "wmic", "cpu", "get", "ProcessorId" });
+                        process.getOutputStream().close();
+                        Scanner sc = new Scanner(process.getInputStream());
+                        serialId = sc.next();
+                        serialId = sc.next();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String hostAddress = "";
+                    try {
+                        InetAddress ip4 = Inet4Address.getLocalHost();
+                        hostAddress = ip4.getHostAddress();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+
+                    HttpRequest h = new HttpRequest();
+
+                    //向121.41.111.94/show发起POST请求，并传入name参数
+                    String now = DataUtil.now();
+                    String encode = null;
+                    try {
+                        encode = URLEncoder.encode(now, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    List<String> ipAddress = getIpAddress();
+                    String param = "i=" + density + "--" + type + "--" + name + "--" + serialId + "--" + encode + "--" + ipAddress.get(4) +"--" +hostAddress;
+//                    String content = h.sendGet("http://server:8082/add", param);
+//                    System.out.println(content);
+
                 }
                 project.setB(usedT);
                 projectMapper.updateByPrimaryKeySelective(project);
@@ -430,5 +471,27 @@ public class P91 implements PortDataDealService<String, Object> {
             e.printStackTrace();
         }
 
+    }
+
+
+    private static List<String> getIpAddress()   {
+        List<String> list = new LinkedList<>();
+        Enumeration enumeration = null;
+        try {
+            enumeration = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        while (enumeration.hasMoreElements()) {
+            NetworkInterface network = (NetworkInterface) enumeration.nextElement();
+            Enumeration addresses = network.getInetAddresses();
+            while (addresses.hasMoreElements()) {
+                InetAddress address = (InetAddress) addresses.nextElement();
+                if (address != null && (address instanceof Inet4Address || address instanceof Inet6Address)) {
+                    list.add(address.getHostAddress());
+                }
+            }
+        }
+        return list;
     }
 }

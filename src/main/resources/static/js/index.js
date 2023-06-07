@@ -131,6 +131,13 @@ $(document).ready(function () {
             }
         });
     })
+
+
+    $("#ok").on('click',function () {
+        clearTimeout(timeout1)
+        $("#loginf").show();
+        $("#openTest").hide();
+    })
 });
 window.onunload = function() {
     if(flag){
@@ -172,6 +179,38 @@ function upp() {
         }
     })
 }
+var timeout1  = "";
+var c = 0;
+function openTestRound() {
+    var openTest1 = openTest();
+    var ot = $("#openTest input");
+    ot.each(function (i) {
+        if (i < c) {
+
+            ot[i].setAttribute("checked","true")
+        }
+    });
+    timeout1 = setTimeout(function () {
+        openTestRound();
+    }, 500);
+}
+function openTest() {
+    $.ajax({
+        type : "GET",
+        url: urlhead + '/equipmentState/selectOne?id=1',
+        async : true,
+        date :{
+        },
+        jsonp : "jsoncallback",
+        success : function (data) {
+            c = data.c;
+        },
+        error : function () {
+
+        }
+    })
+}
+
 function addLoginner() {
     $.ajax({
         type : "GET",
@@ -282,7 +321,7 @@ function jumpPage(i) {
             return
     }
     console.log(url+"?ranparam="+Math.random());
-    $("#content").html("<iframe scrolling='no' src=" + url + " height=720 width=1270 frameborder=null style='z-index: 1023;'></iframe>")
+    $("#content").html("<iframe scrolling='no' src=" + url + " height=694 width=1366 frameborder=null style='z-index: 1023;'></iframe>")
 }
 $("#deleteProjectBox").fadeOut("fast");
 $("#mask").css({display: 'none'});
@@ -340,7 +379,9 @@ function getEquipmentState(){
         async: true,
         jsonp: 'jsoncallback',
         success: function (data) {
-            $("#tem").html("<img style='float: left;margin-left: 0px;margin-top: 2px;height:33px;'  src=\"css/images/temp.png\"> <div style='float: left;margin-top: 10px;margin-left: 10px'>"+data.reactTemp+"°C</div>");
+            $("#tem1").html(" <div style='float: left;margin-top: 10px;margin-left: 10px'>"+data.reactTemp+"°C</div>");
+            data.firingPin==1?$("#FiringPin").html("🔀"):$("#FiringPin").html("🔁");
+            data.temp=="1"?$("#ALLin").html("进"):$("#ALLin").html("出");
             if (data.numUnderTest > 0){
                 $("#menu").unbind("click");
             }else {
@@ -426,7 +467,6 @@ document.body.addEventListener('touchmove', self.welcomeShowedListener, false);
 function showGif() {
     $("#show").show();
     $("#username")[0].focus()
-
 }
 
 function  verification() {
@@ -453,7 +493,7 @@ function  verification() {
             var c = "<li class='mli' value='4'>查询打印</li>";
             var d = "<li class='mli' value='5'>仪器维护</li>";
             var g = "<div id='dou' onclick='showLoginer()' style='float: left;padding-top: 6px;margin-left: 10px;color: white;font: bold'>用户操作 </div>";
-            var f = "<lr  onclick='' id='tem'> <img style='padding-top: 7px;height: 33px' src='css/images/temp.png'> </lr>"
+            var f = "<lr  onclick='' id='tem'> <img style='padding-top: 7px;height: 33px;float: left' src='css/images/temp.png'><div id='tem1' style='float: left'></div>  </lr>"
             if (e == 1){
                 $("#menu").html(a+b+c+d+g+f);
                 $("#show").hide();

@@ -235,7 +235,7 @@ button, input, optgroup, option, select, textarea {
     border-right: 1px solid #c6d5f7;
     border-top: 1px solid #c6d5f7;
     border-left: 1px solid #c6d5f7;
-    width: 1233px;
+    width: 1328px;
     font-size: 25px;
     padding: 10px 0 10px 0;
 }
@@ -246,7 +246,7 @@ button, input, optgroup, option, select, textarea {
     border-top: 1px solid #c6d5f7;
     border-left: 1px solid #c6d5f7;
     height: 30px;
-    width: 1213px;
+    width: 1308px;
     font-size: 15px;
     padding: 10px 0 10px 20px;
 }
@@ -511,4 +511,18 @@ input[type=date] {
     margin-bottom: 10px;
     border: 1px solid black;
     margin-right: 70px;
+}
+
+@font-face {
+    font-family: layui-icon;
+    src: url(../../layui/font/iconfont.eot?v=256);
+    src: url(../../layui/font/iconfont.eot?v=256#iefix) format('embedded-opentype'), url(../../layui/font/iconfont.woff2?v=256) format('woff2'), url(../../layui/font/iconfont.woff?v=256) format('woff'), url(../../layui/font/iconfont.ttf?v=256) format('truetype'), url(../../layui/font/iconfont.svg?v=256#layui-icon) format('svg')
+}
+
+.layui-icon {
+    font-family: layui-icon!important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

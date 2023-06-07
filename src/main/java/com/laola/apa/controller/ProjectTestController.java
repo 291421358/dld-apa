@@ -81,10 +81,10 @@ public class ProjectTestController {
             project.putIfAbsent("type", 1);
             Object barCode = project.get("barCode");
             if (null != barCode && !String.valueOf(barCode).replaceAll(" ","").equals("") && !String.valueOf(barCode).equals(" ")){
-                project.put("rackId","-1");
+                project.put("rackId", "-1");
             }
             integer++;
-            if (integer > 80) {
+            if (integer >= 120) {
                 integer = 1;
             }
         }

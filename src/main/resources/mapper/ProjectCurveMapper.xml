@@ -11,7 +11,7 @@
     <result column="y" jdbcType="INTEGER" property="y" />
   </resultMap>
   <select id="get1st" resultType="java.lang.Integer">
-      select  t from project_curve where  x=1 and project_id =#{pid};
+      select  distinct(t) t from project_curve where  x=1 and project_id =#{pid};
   </select>
   <select id="getAddR2" resultType="java.lang.Float">
     select y from  project_curve where project_id=#{pid} and t=(select t from project_node where project_id=#{pid} and si = 4)

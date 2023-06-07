@@ -43,6 +43,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
     private BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>();
     private SerialPortEventListener thisObj = this;
 
+    String com = "COM1";
     public Object getThisObj() {
         return thisObj;
     }
@@ -100,18 +101,19 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
                         numBytes = inputStream.available();
 
                         //如果可用字节数大于零则开始循环并获取数据
-                        while(numBytes >  1){
+                        while(numBytes >=  1){
 
-                            System.out.println(numBytes);
-                            //循环10秒，如果下一次的长度与上一次相同，便取走串口中的数据
-                            int i = 100;
+                            System.out.println("字节数大于零:"+numBytes);
+                            //循环2 s，如果下一次的长度与上一次相同，便取走串口中的数据
+                            int i = 80;
                             for (int j = 0; j < i; j++) {
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep(30);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                                 int innerIfNumBytes = inputStream.available();
+                                System.out.println("下一次的长度:"+innerIfNumBytes);
                                 if(innerIfNumBytes == numBytes){
                                     break;
                                 }else {
@@ -164,7 +166,7 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             portId = (CommPortIdentifier) portList.nextElement();
             String currentOwner = portId.getCurrentOwner();
 
-            if (null != serialPort && null != currentOwner && currentOwner.equals("COM1") && serialPort.getName().indexOf("COM1")>0){
+            if (null != serialPort && null != currentOwner && currentOwner.equals(com) && serialPort.getName().indexOf(com)>0){
                 //如果串口对象不为空且是COM1 则返回该端口对象
                 // 设置当前串口的输入输出流
 
@@ -192,11 +194,11 @@ public class SerialUtil extends Thread implements SerialPortEventListener { // S
             // 判断端口类型是否为串口
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                 // 判断如果COM4//COME1串口存在，就打开该串口
-                if ( "COM1".equals(portId.getName())) {
+                if ( com.equals(portId.getName())) {
                     System.out.println("EquipmentName：---->" + portId.getName());
                     try {
                         // 打开串口名字为COM_4(名字任意),延迟为2毫秒
-                        serialPort = (SerialPort) portId.open("COM1", 2000);
+                        serialPort = (SerialPort) portId.open(com, 2000);
                     // 设置当前串口的输入输出流
                         inputStream = serialPort.getInputStream();
                         outputStream = serialPort.getOutputStream();

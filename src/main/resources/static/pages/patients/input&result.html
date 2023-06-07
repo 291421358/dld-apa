@@ -38,6 +38,19 @@
         padding-top: 5px;
         margin-left: 20px;
     }
+    #delAProject,#cancel{
+        height: 27px;
+        font-family: 华文楷体;
+        font-size: 20px;
+        color: #007DDB;
+        font: bold;
+        /*background: url("../../images/inputAndResult/button.png") no-repeat 60px;*/
+        border: 1px solid rgb(49,134,155);
+        width: max-content;
+        margin-right: 26px;
+        margin-left: 29px;
+        /*border-radius: 5px;*/
+    }
 </style>
 <form>
     <div id="ceshiqu">
@@ -63,7 +76,7 @@
         <div id="dealButton">
             <!--<div id="scan" style="float: left">保存</div>-->
             <!--<div id="stop" style="float: left;background-color: #93D1FF;margin-top: 5px">停止</div>-->
-            <div id="nocs" style="color: red;float: left;width: 459px;text-align: left"></div>
+            <div id="nocs" style="color: red;float: left;width: 380px;text-align: left"></div>
             <input id="repeatI" type="number" style="width: 49px;height:34px;font-size: 21px;margin-left: 15px;float: left" value="10">
             <div id="repeat" style="float: left">重复</div>
             <div id="save" style="float: left">保存</div>
@@ -331,11 +344,22 @@
     <div class="row1">
         <div id="delProjectSure" style="float: left">
         </div>
-        <a title="关闭窗口" class="close_btn" id="closeDPB">×</a>
+        <a title="关闭窗口" class="close_btn" id="closeDPB">X</a>
     </div>
 
     <div class="row">
         <a id="delProject">确认删除</a>
+    </div>
+</div>
+
+<div id="deleteAProjectBox">
+    <div class="row1" style="padding: 0">
+        删除所有无结果项目
+    </div>
+
+    <div style="text-align: left">
+        <a id="delAProject">确认删除</a>
+        <a id="cancel">取消</a>
     </div>
 </div>
 <div>
